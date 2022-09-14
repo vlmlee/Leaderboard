@@ -2,8 +2,7 @@ import React from "react";
 import {useState} from "react";
 
 export default function Leaderboard() {
-    const [state, setState] = useState([]);
-
+    const [leaderboardState, setleaderboardState] = useState([]);
 
     return <div>
 
