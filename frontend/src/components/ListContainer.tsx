@@ -87,32 +87,15 @@ export default function ListContainer() {
         }
     ];
 
-    const generateBoxes = (numOfBoxes: number) => {
-        const boxes: any = [];
-        for (let i = 0; i < numOfBoxes; i++) {
-            boxes.push(<div className={"box-push-left"}></div>);
-        }
-        return boxes;
-    }
-
     const generateList = () => {
-        const rankingsChunk = chunk(rankings, 4);
         const arr: any = [];
-        rankingsChunk.forEach((group: Array<Ranking>, i: number) => {
-            arr.push(
-                <div key={i} className={"group-container"}>
-                    <>
-                        {group.map((ranking: Ranking, j: number) =>
-                            <List key={j}
-                                  rank={ranking.rank}
-                                  name={ranking.name}
-                                  netWorth={ranking.netWorth}
-                                  country={ranking.country}
-                                  imgUrl={ranking.imgUrl}/>)}
-                        {group.length < 4 ? generateBoxes(4 - group.length) : null}
-                    </>
-                </div>);
-
+        rankings.forEach((ranking: Ranking, i: number) => {
+            arr.push(<List key={i}
+                          rank={ranking.rank}
+                          name={ranking.name}
+                          netWorth={ranking.netWorth}
+                          country={ranking.country}
+                          imgUrl={ranking.imgUrl}/>);
         });
         return arr;
     }

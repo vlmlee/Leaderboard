@@ -1,6 +1,19 @@
 .list-element {
-  height: 120px;
-  width: 120px;
+  display: flex;
+  flex-direction: row;
   background-color: #ddd;
-  margin: 45px;
+  justify-content: space-around;
+
+  height: 90px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  overflow: hidden;
+
+  div {
+    text-align: left;
+    flex-basis: 20%;
+    font-size: 14px;
+    line-height: 90px;
+    padding: 0 100px;
+  }
 }

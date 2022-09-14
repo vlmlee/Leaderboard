@@ -1,0 +1,18 @@
+.card-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  justify-content: space-evenly;
+}
+
+.box-push-left {
+  height: 120px;
+  width: 120px;
+  margin: 45px;
+}
