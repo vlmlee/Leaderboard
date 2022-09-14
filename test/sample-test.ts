@@ -1,3 +1,4 @@
+// @ts-ignore
 import { ethers } from "hardhat";
 import { Signer } from "ethers";
 import { assert } from "chai";

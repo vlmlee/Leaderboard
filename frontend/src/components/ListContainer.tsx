@@ -1,7 +1,124 @@
 import React from "react";
+import List from "./List";
+import "./ListContainer.scss";
+import {chunk} from "lodash";
+
+export type Ranking = {
+    rank: number;
+    name: string;
+    netWorth: string;
+    country: string;
+    imgUrl: string;
+};
 
 export default function ListContainer() {
-    return <div>
+    // const rankings = getRankings();
 
+    const rankings: Array<Ranking> = [
+        {
+            rank: 1,
+            name: "Elon Musk",
+            netWorth: "$219 B",
+            country: "USA",
+            imgUrl: ""
+        },
+        {
+            rank: 2,
+            name: "Jeff Bezos",
+            netWorth: "$171 B",
+            country: "USA",
+            imgUrl: ""
+        },
+        {
+            rank: 3,
+            name: "Bernard Arnault",
+            netWorth: "$151 B",
+            country: "France",
+            imgUrl: ""
+        },
+        {
+            rank: 4,
+            name: "Bill Gates",
+            netWorth: "$129 B",
+            country: "USA",
+            imgUrl: ""
+        },
+        {
+            rank: 5,
+            name: "Warren Buffet",
+            netWorth: "$118 B",
+            country: "USA",
+            imgUrl: ""
+        },
+        {
+            rank: 6,
+            name: "Larry Page",
+            netWorth: "$111 B",
+            country: "USA",
+            imgUrl: ""
+        },
+        {
+            rank: 7,
+            name: "Sergey Brin",
+            netWorth: "$107 B",
+            country: "USA",
+            imgUrl: ""
+        },
+        {
+            rank: 8,
+            name: "Larry Ellison",
+            netWorth: "$106 B",
+            country: "USA",
+            imgUrl: ""
+        },
+        {
+            rank: 9,
+            name: "Steve Ballmer",
+            netWorth: "$91.4 B",
+            country: "USA",
+            imgUrl: ""
+        },
+        {
+            rank: 10,
+            name: "Mukesh Ambani",
+            netWorth: "$90.7 B",
+            country: "India",
+            imgUrl: ""
+        }
+    ];
+
+    const generateBoxes = (numOfBoxes: number) => {
+        const boxes: any = [];
+        for (let i = 0; i < numOfBoxes; i++) {
+            boxes.push(<div className={"box-push-left"}></div>);
+        }
+        return boxes;
+    }
+
+    const generateList = () => {
+        const rankingsChunk = chunk(rankings, 4);
+        const arr: any = [];
+        rankingsChunk.forEach((group: Array<Ranking>, i: number) => {
+            arr.push(
+                <div key={i} className={"group-container"}>
+                    <>
+                        {group.map((ranking: Ranking, j: number) =>
+                            <List key={j}
+                                  rank={ranking.rank}
+                                  name={ranking.name}
+                                  netWorth={ranking.netWorth}
+                                  country={ranking.country}
+                                  imgUrl={ranking.imgUrl}/>)}
+                        {group.length < 4 ? generateBoxes(4 - group.length) : null}
+                    </>
+                </div>);
+
+        });
+        return arr;
+    }
+
+    return <div className={"list-container"}>
+        Compact
+        {generateList()}
     </div>;
 }
