@@ -3,6 +3,7 @@ import Card from "./Card";
 import "./CardsContainer.scss";
 import {chunk} from "lodash";
 import {Ranking} from "./ListContainer";
+import SearchBar from "./SearchBar";
 
 export default function CardsContainer() {
     const rankings: Array<Ranking> = [
@@ -108,7 +109,14 @@ export default function CardsContainer() {
         return arr;
     }
 
+    const filterResults = (searchTerm: string) => {
+
+    };
+
     return <div className={"card-container"}>
+        <div className={"search-bar-container"}>
+            <SearchBar filterResults={filterResults} />
+        </div>
         {generateCards()}
     </div>;
 }
