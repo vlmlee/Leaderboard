@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Luxora-Grotesk-Regular";
-  src: url("./stylesheets/fonts/LuxoraGrotesk-Regular.woff") format("woff");
+  src: url("fonts/LuxoraGrotesk-Regular.woff") format("woff");
 }
 
 .App {
@@ -9,6 +9,12 @@
   color: #333;
   letter-spacing: 1px;
   background-color: #fafafa;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow-y: scroll;
 
   h1 {
     font-size: 48px;

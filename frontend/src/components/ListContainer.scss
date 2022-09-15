@@ -9,6 +9,7 @@
   .list {
     border-radius: 0 0 10px 10px;
     border: 1px solid #eee;
+    background-color: white;
 
     .header {
       display: flex;
@@ -31,5 +32,11 @@
         left: 45px;
       }
     }
+  }
+
+  .search-bar {
+    border-top: 1px solid #eee;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
   }
 }

@@ -7,6 +7,10 @@
   border-bottom: 1px solid #eee;
   overflow: hidden;
 
+  &:hover {
+    background-color: #fafafa;
+  }
+
   div {
     display: inline-block;
     position: relative;
@@ -18,7 +22,7 @@
 
   .rank span {
     position: absolute;
-    left: 57px;
+    left: 58px;
   }
 }
 

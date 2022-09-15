@@ -1,25 +1,41 @@
 import React from 'react';
 import {useState} from "react";
-import './App.scss';
-import {Link, Outlet} from "react-router-dom";
+import './stylesheets/App.scss';
+import {Link, Outlet, NavLink} from "react-router-dom";
 
 function App() {
+    const activeStyle = {
+        textDecoration: "underline",
+    };
+
     return (
         <div className="App">
             <header className="App-header">
                 <nav>
                     <ul>
                         <li>
-                            <Link to={"/compact"}>Compact</Link>
+                            <NavLink to={"/compact"}
+                                     style={({isActive}) =>
+                                         isActive ? activeStyle : undefined
+                                     }>Compact</NavLink>
                         </li>
                         <li>
-                            <Link to={"/expanded"}>Expanded</Link>
+                            <NavLink to={"/expanded"}
+                                     style={({isActive}) =>
+                                         isActive ? activeStyle : undefined
+                                     }>Expanded</NavLink>
                         </li>
                         <li>
-                            <Link to={"/charts"}>Charts</Link>
+                            <NavLink to={"/charts"}
+                                     style={({isActive}) =>
+                                         isActive ? activeStyle : undefined
+                                     }>Charts</NavLink>
                         </li>
                         <li>
-                            <Link to={"/about"}>About</Link>
+                            <NavLink to={"/about"}
+                                     style={({isActive}) =>
+                                         isActive ? activeStyle : undefined
+                                     }>About</NavLink>
                         </li>
                     </ul>
                 </nav>

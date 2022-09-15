@@ -1,12 +1,12 @@
 import React from 'react';
-import './index.css';
+import './stylesheets/index.css';
+import './stylesheets/normalize.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {createRoot} from 'react-dom/client';
 import {
     createBrowserRouter,
     RouterProvider,
-    Route
 } from "react-router-dom";
 import ListContainer from "./components/ListContainer";
 import ChartContainer from "./components/Charts/ChartContainer";
@@ -19,8 +19,13 @@ const router = createBrowserRouter([
         element: <App />,
         children: [
             {
+                path: "/",
+                element: <ListContainer />,
+                index: true
+            },
+            {
                 path: "/compact",
-                element: <ListContainer />
+                element: <ListContainer />,
             },
             {
                 path: "/expanded",
