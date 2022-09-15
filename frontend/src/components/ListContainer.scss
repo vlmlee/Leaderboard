@@ -1,4 +1,34 @@
 .list-container {
   display: flex;
   flex-direction: column;
+
+  width: 80%;
+  margin: 45px auto;
+
+  .list {
+    border-radius: 0 0 10px 10px;
+    border: 1px solid #eee;
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      border-bottom: 1px solid #eee;
+      overflow: hidden;
+      padding: 15px 0;
+
+      div {
+        display: inline-block;
+        position: relative;
+        text-align: left;
+        flex-basis: 20%;
+        font-size: 14px;
+      }
+
+      .rank span {
+        position: absolute;
+        left: 45px;
+      }
+    }
+  }
 }

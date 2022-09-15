@@ -1,19 +1,27 @@
 .list-element {
   display: flex;
   flex-direction: row;
-  background-color: #ddd;
   justify-content: space-around;
 
   height: 90px;
-  border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   overflow: hidden;
 
   div {
+    display: inline-block;
+    position: relative;
     text-align: left;
     flex-basis: 20%;
     font-size: 14px;
     line-height: 90px;
-    padding: 0 100px;
   }
+
+  .rank span {
+    position: absolute;
+    left: 57px;
+  }
+}
+
+.list-element:last-of-type {
+  border-bottom: none;
 }

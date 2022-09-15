@@ -4,9 +4,9 @@ import "./List.scss";
 
 export default function List({rank, name, netWorth, country, imgUrl}: Ranking) {
     return <div className={"list-element"}>
-        <div>{rank}</div>
+        <div className={"rank"}><span>{rank}</span></div>
         <div>{name}</div>
-        <div>{netWorth}</div>
+        <div style={{color: '#52b788'}}>{netWorth}</div>
         <div>{country}</div>
         <img src={imgUrl} />
         <div>stake</div>
