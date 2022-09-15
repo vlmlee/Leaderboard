@@ -1,7 +1,7 @@
 import React from "react";
 
-export default function SearchBar() {
+export default function About() {
     return <div>
-        <input />
+
     </div>;
 }

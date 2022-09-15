@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState} from "react";
-import './App.css';
+import './App.scss';
 import {Link, Outlet} from "react-router-dom";
 
 function App() {
@@ -18,9 +18,14 @@ function App() {
                         <li>
                             <Link to={"/charts"}>Charts</Link>
                         </li>
+                        <li>
+                            <Link to={"/about"}>About</Link>
+                        </li>
                     </ul>
                 </nav>
             </header>
+            <h1>World's Richest People</h1>
+            <h2>by Forbes</h2>
             <Outlet/>
         </div>
     );

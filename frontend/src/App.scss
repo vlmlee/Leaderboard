@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "Luxora-Grotesk-Regular";
+  src: url("./stylesheets/fonts/LuxoraGrotesk-Regular.woff") format("woff");
+}
+
+.App {
+  text-align: center;
+  font-family: "Luxora-Grotesk-Regular";
+  color: #434343;
+  letter-spacing: 1px;
+
+  h1 {
+    font-size: 48px;
+    margin: 40px auto 5px;
+  }
+
+  h2 {
+    color: #555;
+    margin: 0;
+  }
+}
+
+.App-header {
+  padding: 15px 0;
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    justify-content: flex-end;
+
+    li {
+      margin-right: 60px;
+
+      a {
+        text-decoration: none;
+        color: #434343;
+      }
+    }
+  }
+}

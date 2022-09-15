@@ -365,7 +365,7 @@ export const MyToken: React.FC<Props> = () => {
 ```typescript
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import { BuidlerContext } from "./buidler/BuidlerContext";
 import { Greeter } from './components/Greeter';
 import { MyToken } from './components/MyToken'; // ADD THIS LINE

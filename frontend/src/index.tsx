@@ -11,6 +11,7 @@ import {
 import ListContainer from "./components/ListContainer";
 import ChartContainer from "./components/Charts/ChartContainer";
 import CardsContainer from "./components/CardsContainer";
+import About from "./components/About";
 
 const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
             {
                 path: "/charts",
                 element: <ChartContainer />
+            },
+            {
+                path: "/about",
+                element: <About />
             }
         ]
     },

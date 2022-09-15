@@ -2,6 +2,7 @@ import React from "react";
 import List from "./List";
 import "./ListContainer.scss";
 import {chunk} from "lodash";
+import SearchBar from "./SearchBar";
 
 export type Ranking = {
     rank: number;
@@ -100,8 +101,12 @@ export default function ListContainer() {
         return arr;
     }
 
+    const filterResults = () => {
+
+    };
+
     return <div className={"list-container"}>
-        Compact
+        <SearchBar />
         {generateList()}
     </div>;
 }

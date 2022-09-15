@@ -3,7 +3,6 @@ import Chart from "./Chart";
 
 export default function ChartContainer() {
     return <div>
-        Charts
         <Chart />
     </div>;
 }
