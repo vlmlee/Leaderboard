@@ -1,9 +1,8 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import List from "./List";
 import "./ListContainer.scss";
-import {chunk} from "lodash";
 import SearchBar from "./SearchBar";
-import {useState} from "react";
+import PaginationButtons from "./PaginationButtons";
 
 export type Ranking = {
     rank: number;
@@ -89,17 +88,18 @@ const defaultRankings: Array<Ranking> = [
 export default function ListContainer() {
     // const rankings = getRankings();
 
-    const [rankings, setRankings] = useState(defaultRankings)
+    const [rankings, setRankings] = useState(defaultRankings);
+    const [currentPage, setCurrentPage] = useState(0);
 
     const generateList = () => {
         const arr: any = [];
-        rankings.forEach((ranking: Ranking, i: number) => {
+        rankings.slice(currentPage*5, currentPage*5 + 5).forEach((ranking: Ranking, i: number) => {
             arr.push(<List key={i}
-                          rank={ranking.rank}
-                          name={ranking.name}
-                          netWorth={ranking.netWorth}
-                          country={ranking.country}
-                          imgUrl={ranking.imgUrl}/>);
+                           rank={ranking.rank}
+                           name={ranking.name}
+                           netWorth={ranking.netWorth}
+                           country={ranking.country}
+                           imgUrl={ranking.imgUrl}/>);
         });
         return arr;
     }
@@ -110,9 +110,12 @@ export default function ListContainer() {
         });
     };
 
-    useEffect(() => {
+    const paginate = (page: number) => {
+        setCurrentPage(page);
+    };
 
-    }, [rankings]);
+    useEffect(() => {
+    }, [rankings, currentPage]);
 
     return <div className={"list-container"}>
         <SearchBar filterResults={filterResults}/>
@@ -126,5 +129,8 @@ export default function ListContainer() {
             </div>
             {generateList()}
         </div>
+        <PaginationButtons paginate={paginate}
+                           currentPage={currentPage}
+                           resultsLength={rankings.length}/>
     </div>;
 }

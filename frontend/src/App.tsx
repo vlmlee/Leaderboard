@@ -1,11 +1,11 @@
 import React from 'react';
-import {useState} from "react";
 import './stylesheets/App.scss';
-import {Link, Outlet, NavLink} from "react-router-dom";
+import {NavLink, Outlet} from "react-router-dom";
 
 function App() {
     const activeStyle = {
         textDecoration: "underline",
+        fontWeight: 600
     };
 
     return (

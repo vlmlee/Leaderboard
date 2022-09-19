@@ -5,11 +5,14 @@
 - [ethers.js v5](https://github.com/ethers-io/ethers.js#readme)
 - [web3modal](https://github.com/Web3Modal/web3modal#web3modal)
 
-😩 Deployment and testing could be sooo tedious before. With these tools, we get Ethereum-projects which are easy to develop, manage, and maintain.
+😩 Deployment and testing could be sooo tedious before. With these tools, we get Ethereum-projects which are easy to
+develop, manage, and maintain.
 
-🤔 It's still kind of tedious, though. We have to find where every contract is deployed and connect them to the correct Typescript class before exporting it.
+🤔 It's still kind of tedious, though. We have to find where every contract is deployed and connect them to the correct
+Typescript class before exporting it.
 
-🤩 What if we wired all of this together and automatically generated the Typescript files, completely instantialized based on your smart contracts? What if all of these tools worked together in harmony?
+🤩 What if we wired all of this together and automatically generated the Typescript files, completely instantialized
+based on your smart contracts? What if all of these tools worked together in harmony?
 
 ### Enter our submission to the EthOnline 2020 hackathon!
 
@@ -17,7 +20,8 @@
 
 > The tooling aggregator that makes your development process purr 😻
 
-We wish to improve the output of Buidler(, and include Textile). You, as a developer, drop in your solidity code, and we generate a React app with:
+We wish to improve the output of Buidler(, and include Textile). You, as a developer, drop in your solidity code, and we
+generate a React app with:
 
 - pluggable react context with contract loading
 - web3modal
@@ -31,17 +35,20 @@ We wish to improve the output of Buidler(, and include Textile). You, as a devel
 
 ### Team
 
-[🇳🇴 Robin Pedersen](https://github.com/RobertoSnap), [🇳🇴 Jon Ramvi](https://github.com/ramvi/) and [ 🇩🇪 Hendrik Bilges](https://github.com/elektronaut0815)
+[🇳🇴 Robin Pedersen](https://github.com/RobertoSnap), [🇳🇴 Jon Ramvi](https://github.com/ramvi/)
+and [ 🇩🇪 Hendrik Bilges](https://github.com/elektronaut0815)
 
 ## Getting started with Symfoni
 
-This tutorial will get you up and running with the Greeter contract from the Buidler sample project. When you've done this once, you should have a feel for how to make your Đapps easily.
+This tutorial will get you up and running with the Greeter contract from the Buidler sample project. When you've done
+this once, you should have a feel for how to make your Đapps easily.
 
 ### OS Support
 
 - MacOS
 - Linux
-- _The project has only been tested on MacOS and Linux. It should, in theory, work on Windows too. Don't hesitate to reach out if you experience problems._
+- _The project has only been tested on MacOS and Linux. It should, in theory, work on Windows too. Don't hesitate to
+  reach out if you experience problems._
 
 ## ⚙️ Setup new project
 
@@ -53,9 +60,11 @@ This tutorial will get you up and running with the Greeter contract from the Bui
 
 `npx @nomiclabs/buidler`
 
-- If you want to test Symfoni, select the `Create a sample project`. This will give you a sample smart contract to play with. **Note that you must choose this if you wish to follow this tutorial all the way through.**
+- If you want to test Symfoni, select the `Create a sample project`. This will give you a sample smart contract to play
+  with. **Note that you must choose this if you wish to follow this tutorial all the way through.**
 
-- If you do have project files to include, choose `Create an empty buidler.config.js` and copy/paste those solidity files into /contracts folder.
+- If you do have project files to include, choose `Create an empty buidler.config.js` and copy/paste those solidity
+  files into /contracts folder.
 
 - Add Chai for testing in the dev environment:
 
@@ -65,7 +74,9 @@ This tutorial will get you up and running with the Greeter contract from the Bui
 
 `mkdir deploy`
 
-- And [create a deployment file for each of your smart contracts](https://buidler.dev/plugins/buidler-deploy.html#deploy-scripts). If you chose to make a sample project in the first step, we have created a simple deploy script that you can use:
+-
+And [create a deployment file for each of your smart contracts](https://buidler.dev/plugins/buidler-deploy.html#deploy-scripts)
+. If you chose to make a sample project in the first step, we have created a simple deploy script that you can use:
 
 ```bash
 echo 'import {
@@ -86,7 +97,8 @@ export default func;' > deploy/Greeter.ts
 
 ### Now let's add the Symfoni magic ✨
 
-- Up until now, this is all just a regular Buidler project. Now run this command to add our packages, including dependencies:
+- Up until now, this is all just a regular Buidler project. Now run this command to add our packages, including
+  dependencies:
 
 ```bash
 npm add @nomiclabs/buidler @symfoni/buidler-react @symfoni/buidler-typechain @typechain/ethers-v5 buidler-deploy@next buidler-ethers-v5 ethers ts-generator ts-node typechain typescript
@@ -108,7 +120,8 @@ cp node_modules/@symfoni/buidler-react/defaults/tsconfig.default.json tsconfig.j
 
 Let's start by setting up Metamask with our test network and wallet. First, we need to give ourself some test-eth.
 
-- Open the Buidler config file `buidler.config.ts` and add the test network beneath the solc version. The complete file should look like this:
+- Open the Buidler config file `buidler.config.ts` and add the test network beneath the solc version. The complete file
+  should look like this:
 
 ```typescript=
 import { BuidlerConfig, usePlugin } from "@nomiclabs/buidler/config";
@@ -154,10 +167,10 @@ shrug antique orange tragic direct drop abstract ring carry price anchor train
 
 - Now run the "back-end" by executing `npx buidler node --watch --reset`. This will
 
-  - start a development chain
-  - compile and deploy the contracts
-  - generate the type interfaces for the contracts, and
-  - generate a React context
+    - start a development chain
+    - compile and deploy the contracts
+    - generate the type interfaces for the contracts, and
+    - generate a React context
 
 - Next, open a new terminal window and go into the front-end folder:
 
@@ -165,7 +178,8 @@ shrug antique orange tragic direct drop abstract ring carry price anchor train
 
 - Here we need to add some dependencies:
 
-> Note that the "Create React app" comes with an old version of Typescript, which is not compatible with Typechain, so let's also ensure Typescript is fixed at v3.9.7. Please note that v4 does not work.
+> Note that the "Create React app" comes with an old version of Typescript, which is not compatible with Typechain, so
+> let's also ensure Typescript is fixed at v3.9.7. Please note that v4 does not work.
 
 `npm add web3modal ethers typescript@^3.9.7`
 
@@ -181,13 +195,15 @@ shrug antique orange tragic direct drop abstract ring carry price anchor train
 
 - Now, let's add the Buidler context to the front-end. Open `/frontend/src/App.tsx` in your preferred code editor.
 
-- Add the React context generated by Symfoni to the imports on the top of the file. If you're using the Sample Project, it should be under `import './App.css';`
+- Add the React context generated by Symfoni to the imports on the top of the file. If you're using the Sample Project,
+  it should be under `import './App.css';`
 
 ```typescript
-import { BuidlerContext } from "./buidler/BuidlerContext";
+import {BuidlerContext} from "./buidler/BuidlerContext";
 ```
 
-- Wrap your app in this context to have it available to use in any children: `<BuidlerContext></BuidlerContext>`. In the Sample project, it should look like this:
+- Wrap your app in this context to have it available to use in any children: `<BuidlerContext></BuidlerContext>`. In the
+  Sample project, it should look like this:
 
 ```typescript=
 <header className="App-header">
@@ -197,7 +213,9 @@ import { BuidlerContext } from "./buidler/BuidlerContext";
 
 - Please accept the connection request in the Metamask pop-up
 
-- Let's now create a component that consumes a smart contract and gives us some results. From the Buidler sample project, we have a smart contract called `Greeter.sol`. Open up a third terminal window, create a directory for components, and create a `tsx` file for the view of the smart contract:
+- Let's now create a component that consumes a smart contract and gives us some results. From the Buidler sample
+  project, we have a smart contract called `Greeter.sol`. Open up a third terminal window, create a directory for
+  components, and create a `tsx` file for the view of the smart contract:
 
 `mkdir src/components && touch src/components/Greeter.tsx`
 
@@ -274,17 +292,21 @@ function App() {
 export default App;
 ```
 
-> The buidler context will now ask `web3modal` for an injected provider. If it finds a provider, you should see the Greeting from the smart contract in the browser and the address the contract is deployed at in the console.
+> The buidler context will now ask `web3modal` for an injected provider. If it finds a provider, you should see the
+> Greeting from the smart contract in the browser and the address the contract is deployed at in the console.
 
 [📚 You can see a full working example of the Greeter sample here.](https://github.com/symfoni/buidler-react-boilerplate)
 
 **Thanks for completing our tutorial! 🥳**
 
-We hope you can use this to write Ethereum applications more efficiently 📈 . If you have any feedback, good or bad, please don't hesitate to ping us at [@\_robertosnap](https://twitter.com/_robertosnap/)🐦 or with an Issue here on Github.
+We hope you can use this to write Ethereum applications more efficiently 📈 . If you have any feedback, good or bad,
+please don't hesitate to ping us at [@\_robertosnap](https://twitter.com/_robertosnap/)🐦 or with an Issue here on
+Github.
 
 # Tutorial 2: Create an ERC20 token with Symfoni
 
-This tutorial aims to create a view where the user can create new ERC20 tokens using a web app and how easy it is to do with Symfoni 🎻.
+This tutorial aims to create a view where the user can create new ERC20 tokens using a web app and how easy it is to do
+with Symfoni 🎻.
 
 - In your third terminal window from the tutorial above, go back to the project root directory
 
@@ -295,9 +317,9 @@ This tutorial aims to create a view where the user can create new ERC20 tokens u
 `npm i --save @openzeppelin/contracts`
 
 - Now, we create our own ERC20, which inherits its code from OpenZeppelin. Our ERC20 token takes the following inputs
-  - Name of the new token
-  - Symbol, i.e., a shorthand for the token name, and
-  - Amount; the number of tokens to mint and return to the token creator
+    - Name of the new token
+    - Symbol, i.e., a shorthand for the token name, and
+    - Amount; the number of tokens to mint and return to the token creator
 
 ```bash
 echo '//SPDX-License-Identifier: Unlicense
@@ -316,13 +338,16 @@ contract Token is ERC20 {
 }' > contracts/Token.sol
 ```
 
-> Note that since the user will deploy the new tokens, we do not need Buidler to deploy anything. Hence we don't need a `deploy/Token.ts` file, like we did with the greeter.
+> Note that since the user will deploy the new tokens, we do not need Buidler to deploy anything. Hence we don't need
+> a `deploy/Token.ts` file, like we did with the greeter.
 
-- Restart Buidler to have Symfoni generate the typed React context for the contract. In your first terminal window, from the tutorial above, hit `Ctrl+c`, `arrow up`, and hit `enter`.
+- Restart Buidler to have Symfoni generate the typed React context for the contract. In your first terminal window, from
+  the tutorial above, hit `Ctrl+c`, `arrow up`, and hit `enter`.
 
-- Let's create a simple view for creating new tokens with only a text field and a submit button. In this component, we import
-  - our TokenContext where we will use its factory to deploy it
-  - the signer context to get access to the user's wallet
+- Let's create a simple view for creating new tokens with only a text field and a submit button. In this component, we
+  import
+    - our TokenContext where we will use its factory to deploy it
+    - the signer context to get access to the user's wallet
 
 ```bash
 echo '
@@ -366,33 +391,37 @@ export const MyToken: React.FC<Props> = () => {
 import React from 'react';
 import logo from './logo.svg';
 import './App.scss';
-import { BuidlerContext } from "./buidler/BuidlerContext";
-import { Greeter } from './components/Greeter';
-import { MyToken } from './components/MyToken'; // ADD THIS LINE
+import {BuidlerContext} from "./buidler/BuidlerContext";
+import {Greeter} from './components/Greeter';
+import {MyToken} from './components/MyToken'; // ADD THIS LINE
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
+    return (
+        <div className = "App" >
+        <header className = "App-header" >
         <BuidlerContext>
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <Greeter></Greeter>
-          <MyToken></MyToken>  <!-- ADD THIS LINE -->
-        </BuidlerContext>
-      </header>
-    </div>
-  );
+            <img src = {logo}
+    className = "App-logo"
+    alt = "logo" / >
+        <p>
+            Edit < code > src / App.tsx < /code> and save to reload.
+        < /p>
+        < a
+    className = "App-link"
+    href = "https://reactjs.org"
+    target = "_blank"
+    rel = "noopener noreferrer"
+        >
+        Learn
+    React
+    < /a>
+    < Greeter > </Greeter>
+    < MyToken > </MyToken>  <!-- ADD THIS LINE -->
+    < /BuidlerContext>
+    < /header>
+    < /div>
+)
+    ;
 }
 
 export default App;
@@ -404,9 +433,11 @@ In `frontend/src/components/MyToken.tsx` the smart contract is available like an
 
 ![](https://i.imgur.com/HIceyBc.gif)
 
-We check our balance through the myToken.balanceOf() function. We see that the return value is a BigNumber, so before outputting it to console, we format it with ethers utils.
+We check our balance through the myToken.balanceOf() function. We see that the return value is a BigNumber, so before
+outputting it to console, we format it with ethers utils.
 
-Let's name our contract and deploy it. Our wallet provider should pop up with confirmations to deploy and transfer this new token.
+Let's name our contract and deploy it. Our wallet provider should pop up with confirmations to deploy and transfer this
+new token.
 
 ![](https://i.imgur.com/Ne7DMQx.gif)
 
@@ -419,7 +450,7 @@ Thanks again for completing our two tutorials and checking out our submission to
 # Troubleshooting
 
 - Some problem?
-  - Try running `npm cache verify` and start again from the top
+    - Try running `npm cache verify` and start again from the top
 
 # Where to go from here
 

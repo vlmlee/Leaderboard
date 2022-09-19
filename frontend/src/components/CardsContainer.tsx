@@ -115,7 +115,7 @@ export default function CardsContainer() {
 
     return <div className={"card-container"}>
         <div className={"search-bar-container"}>
-            <SearchBar filterResults={filterResults} />
+            <SearchBar filterResults={filterResults}/>
         </div>
         {generateCards()}
     </div>;

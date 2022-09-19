@@ -3,6 +3,6 @@ import Chart from "./Chart";
 
 export default function ChartContainer() {
     return <div>
-        <Chart />
+        <Chart/>
     </div>;
 }

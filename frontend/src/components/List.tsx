@@ -1,5 +1,5 @@
 import React from "react";
-import { Ranking } from "./ListContainer";
+import {Ranking} from "./ListContainer";
 import "./List.scss";
 
 export default function List({rank, name, netWorth, country, imgUrl}: Ranking) {
@@ -8,7 +8,7 @@ export default function List({rank, name, netWorth, country, imgUrl}: Ranking) {
         <div>{name}</div>
         <div style={{color: '#52b788'}}>{netWorth}</div>
         <div>{country}</div>
-        <img src={imgUrl} />
+        <img src={imgUrl}/>
         <div>stake</div>
     </div>;
 }
