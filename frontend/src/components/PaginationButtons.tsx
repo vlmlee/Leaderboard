@@ -12,7 +12,7 @@ export default function PaginationButtons({
 }) {
     return <div className={"pagination-button"}>
         <div className={"index-of"}>
-            <span>{currentPage*5 + 1}-{(resultsLength > (currentPage*5 + 5) ? currentPage*5 + 5 : resultsLength)} of {resultsLength}</span>
+            <span>{resultsLength ? currentPage*5 + 1 : 0}-{(resultsLength > (currentPage*5 + 5) ? currentPage*5 + 5 : resultsLength)} of {resultsLength}</span>
         </div>
         <div className={"buttons"}>
             <div className={currentPage > 0 ? "active" : "disabled"} onClick={() => currentPage > 0 ? paginate(currentPage - 1) : null}>← Previous</div>

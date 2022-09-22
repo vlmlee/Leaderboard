@@ -4,29 +4,31 @@ import "./CardsContainer.scss";
 import {chunk} from "lodash";
 import {Ranking} from "./ListContainer";
 import SearchBar from "./SearchBar";
+import {useState, useEffect} from "react";
+import getPhoto from "../getPhoto";
 
 export default function CardsContainer() {
-    const rankings: Array<Ranking> = [
+    let initialRankings: Array<Ranking> = [
         {
             rank: 1,
-            name: "Elon Musk",
+            name: "Elon_Musk",
             netWorth: "$219 B",
             country: "USA",
-            imgUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Elon_Musk_Royal_Society_%28crop2%29.jpg/220px-Elon_Musk_Royal_Society_%28crop2%29.jpg"
+            imgUrl: ""
         },
         {
             rank: 2,
             name: "Jeff Bezos",
             netWorth: "$171 B",
             country: "USA",
-            imgUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Jeff_Bezos_at_Amazon_Spheres_Grand_Opening_in_Seattle_-_2018_%2839074799225%29_%28cropped%29.jpg/220px-Jeff_Bezos_at_Amazon_Spheres_Grand_Opening_in_Seattle_-_2018_%2839074799225%29_%28cropped%29.jpg"
+            imgUrl: ""
         },
         {
             rank: 3,
             name: "Bernard Arnault",
             netWorth: "$151 B",
             country: "France",
-            imgUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Bernard_Arnault_%283%29_-_2017_%28cropped%29.jpg/220px-Bernard_Arnault_%283%29_-_2017_%28cropped%29.jpg"
+            imgUrl: ""
         },
         {
             rank: 4,
@@ -79,6 +81,19 @@ export default function CardsContainer() {
         }
     ];
 
+    const [rankings, setRankings]: any = useState(initialRankings);
+
+    useEffect(() => {
+        Promise.all(initialRankings.map(r => getPhoto(r.name))).then(res => {
+            setRankings(initialRankings.map((s, index) => {
+                return {
+                    ...s,
+                    imgUrl: res[index]
+                };
+            }));
+        });
+    }, []);
+
     const generateBoxes = (numOfBoxes: number) => {
         const boxes: any = [];
         for (let i = 0; i < numOfBoxes; i++) {
@@ -90,6 +105,7 @@ export default function CardsContainer() {
     const generateCards = () => {
         const rankingsChunk = chunk(rankings, 4);
         const arr: any = [];
+        // @ts-ignore
         rankingsChunk.forEach((group: Array<Ranking>, i: number) => {
             arr.push(
                 <div key={i} className={"group-container"}>
@@ -110,8 +126,18 @@ export default function CardsContainer() {
     }
 
     const filterResults = (searchTerm: string) => {
-
+        if (searchTerm != "") {
+            setRankings((state: any) => {
+                return initialRankings.filter((ranking: Ranking) => ranking.name.toLowerCase().includes(searchTerm));
+            });
+        } else {
+            setRankings((state: any) => initialRankings);
+        }
     };
+
+    useEffect(() => {
+
+    }, [rankings]);
 
     return <div className={"card-container"}>
         <div className={"search-bar-container"}>
