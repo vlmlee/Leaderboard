@@ -7,6 +7,7 @@ import "hardhat/console.sol";
 contract Leaderboard is ReentrancyGuard {
     address public facilitator;
     bytes32 public name;
+    LeaderboardType public leaderboardType;
     uint32 public endTime;
     uint256 public rewardPool;
     uint8 public rankingsSize = 0;
@@ -29,13 +30,17 @@ contract Leaderboard is ReentrancyGuard {
     }
     mapping(address => Stake) public UserStakes;
 
+    enum LeaderboardType { FIRST_PAST_THE_POST, RANK_CHOICE, RANK_CHANGED }
+
     error UserAlreadyStaked();
     error OnlyFacilitator();
     error ContractEnded();
+    error UnableToWithdrawStake();
 
-    constructor(bytes32 memory _name, uint32 _endTime) {
+    constructor(bytes32 memory _name, LeaderboardType _leaderboardType, uint32 _endTime) {
         facilitator = msg.sender;
         name = _name;
+        leaderboardType = _leaderboardType;
         endTime = _endTime;
     }
 
@@ -67,8 +72,13 @@ contract Leaderboard is ReentrancyGuard {
 
     function withdrawStake() external nonReentrant {
         uint256 userStakedAmount = UserStakes[msg.sender].liquidity;
+        (bool success, ) = payable(msg.sender).call.value(userStakedAmount)();
 
-        payable(msg.sender).transfer(userStakedAmount);
+        if (success) {
+            delete UserStakes[msg.sender];
+        } else {
+            revert UnableToWithdrawStake();
+        }
     }
 
     // Internal functions
@@ -81,8 +91,25 @@ contract Leaderboard is ReentrancyGuard {
 
     }
 
-    function calculateRewardForAddress(address user) returns (uint256) {
+    function calculateRewardForAddress(address user) internal returns (uint256) {
+        // Contract type:
+        // 1. First past the post
+        // 2. Rank choice
+        // 3. Rank changed
+
         return;
+    }
+
+    function allocateFirstPastThePostReward() internal {
+        // winner takes all
+    }
+
+    function allocateRankChoiceReward() internal {
+        // reward is proportional to the ranking achieved by an option
+    }
+
+    function allocateRankChangedReward() internal {
+        // reward is proportional to the ranking changed
     }
 
     function destroyContract() internal {

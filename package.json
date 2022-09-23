@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/symfoni/hardhat-react-boilerplate#readme",
   "dependencies": {
+    "@chainlink/contracts": "^0.4.1",
     "lodash": "^4.17.21",
     "sass": "^1.54.9"
   }
