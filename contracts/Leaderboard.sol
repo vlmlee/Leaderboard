@@ -37,11 +37,16 @@ contract Leaderboard is ReentrancyGuard {
     error ContractEnded();
     error UnableToWithdrawStake();
 
-    constructor(bytes32 memory _name, LeaderboardType _leaderboardType, uint32 _endTime) {
+    constructor(bytes32 memory _name, uint8 leaderboardTypeInt, uint32 _endTime) {
         facilitator = msg.sender;
         name = _name;
-        leaderboardType = _leaderboardType;
         endTime = _endTime;
+        setLeaderboardType(leaderboardTypeInt);
+    }
+
+    function setLeaderboardType(uint8 leaderboardTypeInt) internal {
+        require(leaderboardTypeInt <= uint(LeaderboardType.RANK_CHANGED));
+        leaderboardType = LeaderboardType(leaderboardTypeInt);
     }
 
     function getRanking(uint8 rank) public view returns (Ranking memory) {
@@ -72,7 +77,7 @@ contract Leaderboard is ReentrancyGuard {
 
     function withdrawStake() external nonReentrant {
         uint256 userStakedAmount = UserStakes[msg.sender].liquidity;
-        (bool success, ) = payable(msg.sender).call.value(userStakedAmount)();
+        (bool success, ) = payable(msg.sender).call.value(userStakedAmount)("");
 
         if (success) {
             delete UserStakes[msg.sender];
