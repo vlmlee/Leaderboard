@@ -1,41 +1,101 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity 0.8.9;
 
-contract Leaderboard {
-    mapping(address => boolean) public Stakeholders;
-    mapping(bytes32 => uint256) public Candidates;
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "hardhat/console.sol";
 
-    event VoteAdded(uint256 indexed user, bytes32 competitor);
+contract Leaderboard is ReentrancyGuard {
+    address public facilitator;
+    bytes32 public name;
+    uint32 public endTime;
+    uint256 public rewardPool;
+    uint8 public rankingsSize;
 
-    error UserAlreadyVoted();
+    event UserStakeAdded(address indexed user, Stake stake);
 
-    constructor(bytes32 name) {
+    struct Ranking {
+        uint32 id; // Id to make sure that name is unique
+        bytes32 name;
+        uint8 rank;
+        bytes[] data; // arbitrary criteria for ranking
+    }
+    mapping(uint8 => Ranking) public Rankings; // Index starts at 0
+
+    struct Stake {
+        address user;
+        uint32 id;
+        bytes32 name;
+        uint256 liquidity; // a user's stake
+    }
+    mapping(address => Stake) public UserStakes;
+
+    error UserAlreadyStaked();
+    error OnlyFacilitator();
+
+    constructor(bytes32 memory _name) {
+        facilitator = msg.sender;
+        name = _name;
+    }
+
+    function getRanking(uint8 rank) public view returns (Ranking memory) {
+        return Rankings[rank];
+    }
+
+    function getRewardPool() public view returns (uint256) {
+        return rewardPool;
+    }
+
+    function getEndTime() public view returns (uint32) {
+        return endTime;
+    }
+
+    function addRanking() external {
+        rankingsSize++;
+    }
+
+    function addStake() external payable {
 
     }
 
-    function addVote(bytes32 competitor) payable external {
-        if (Stakeholders[msg].sender) revert UserAlreadyVoted();
+    function withdrawStake() external {
+        uint256 userStakedAmount = UserStakes[msg.sender].liquidity;
 
-        Stakeholders[msg.sender] = 1;
+        payable(msg.sender).transfer(userStakedAmount);
+    }
 
-        if (Candidates[competitor]) {
-            Candidates[competitor]++;
-        } else {
-            Candidates[competitor] = 1;
+    // Internal functions
+
+    function removeRanking() internal {
+
+    }
+
+    function allocateRewards() internal returns () {
+
+    }
+
+    function calculateRewardForAddress(address user) returns (uint256) {
+        return;
+    }
+
+    function destroyContract() internal  {
+        if (msg.sender != facilitator) revert OnlyFacilitator();
+
+        // return funds to addresses
+        for (uint i = 0; i < rankingsSize; i++) {
+            withdrawStake(UserStakes[i].user);
         }
 
-        emit VoteAdded(msg.sender, competitor);
+        // self destruct, all remaining ETH goes to facilitator
+        selfdestruct(facilitator);
     }
 
-    function withdrawVote() external {
-
+    function addToRewardPool(uint256 liquidity) internal returns (uint256 memory) {
+        rewardPool += liquidity;
+        return rewardPool;
     }
 
-    function slashVote() external {
-
-    }
-
-    function addCompetitor() external {
-
+    function removeFromRewardPool(uint256 liquidity) internal returns (uint256 memory) {
+        rewardPool -= liquidity;
+        return rewardPool;
     }
 }

@@ -6,6 +6,7 @@ import {Ranking} from "./ListContainer";
 import SearchBar from "./SearchBar";
 import {useState, useEffect} from "react";
 import getPhoto from "../getPhoto";
+import PageIndices from "./PageIndices";
 
 export default function CardsContainer() {
     let initialRankings: Array<Ranking> = [
@@ -143,6 +144,7 @@ export default function CardsContainer() {
         <div className={"search-bar-container"}>
             <SearchBar filterResults={filterResults}/>
         </div>
+        <PageIndices pages={Math.ceil((rankings.length / 20))} />
         {generateCards()}
     </div>;
 }

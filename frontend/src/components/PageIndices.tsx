@@ -1,4 +1,5 @@
 import React from "react";
+import "./PageIndices.scss";
 
 interface PageIndices {
     pages: number;
@@ -6,7 +7,7 @@ interface PageIndices {
 
 export default function PageIndices({pages = 10}: PageIndices) {
 
-    return <div>
-        { Array.from({length: pages}, (_, index) => <a>{index}</a>) }
+    return <div className={"page-indices"}>
+        { Array.from({length: pages}, (_, index) => <a className={"page"}>{index + 1}</a>) }
     </div>;
 }
