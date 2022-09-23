@@ -10,6 +10,7 @@ contract Leaderboard is ReentrancyGuard {
     LeaderboardType public leaderboardType;
     uint32 public endTime;
     uint256 public rewardPool;
+    uint8 public rankingId = 1;
     uint8 public rankingsSize = 0;
 
     event UserStakeAdded(address indexed user, Stake stake);
@@ -20,7 +21,7 @@ contract Leaderboard is ReentrancyGuard {
         uint8 rank;
         bytes[] data; // arbitrary criteria for ranking
     }
-    mapping(uint8 => Ranking) public Rankings; // Index starts at 0
+    mapping(uint8 => Ranking) public Rankings; // Index starts at 1
 
     struct Stake {
         address user;
@@ -36,6 +37,7 @@ contract Leaderboard is ReentrancyGuard {
     error OnlyFacilitator();
     error ContractEnded();
     error UnableToWithdrawStake();
+    error RankingDoesNotExist();
 
     constructor(bytes32 memory _name, uint8 leaderboardTypeInt, uint32 _endTime) {
         facilitator = msg.sender;
@@ -61,7 +63,16 @@ contract Leaderboard is ReentrancyGuard {
         return endTime;
     }
 
-    function addRanking() external {
+    function addRanking(bytes32 name, uint8 rank, bytes[] data) external {
+        require(msg.sender == facilitator);
+
+        Ranking memory ranking = Rankings[rank];
+        ranking.id = rankingId;
+        ranking.name = name;
+        ranking.rank = rank;
+        ranking.data = data;
+
+        rankingId++;
         rankingsSize++;
     }
 
@@ -88,8 +99,26 @@ contract Leaderboard is ReentrancyGuard {
 
     // Internal functions
 
-    function removeRanking() internal {
+    function removeRanking(uint8 id, uint8 rank, bytes32 name) internal {
+        require(msg.sender == facilitator);
 
+        if (Rankings[rank]) {
+            Ranking memory ranking = Rankings[rank];
+            require(ranking.id == id && ranking.name == name);
+            delete Rankings[rank];
+        } else {
+            revert RankingDoesNotExist();
+        }
+    }
+
+    function addToRewardPool(uint256 liquidity) internal returns (uint256 memory) {
+        rewardPool += liquidity;
+        return rewardPool;
+    }
+
+    function removeFromRewardPool(uint256 liquidity) internal returns (uint256 memory) {
+        rewardPool -= liquidity;
+        return rewardPool;
     }
 
     function allocateRewards() internal returns () {
@@ -127,15 +156,5 @@ contract Leaderboard is ReentrancyGuard {
 
         // self destruct, all remaining ETH goes to facilitator
         selfdestruct(facilitator);
-    }
-
-    function addToRewardPool(uint256 liquidity) internal returns (uint256 memory) {
-        rewardPool += liquidity;
-        return rewardPool;
-    }
-
-    function removeFromRewardPool(uint256 liquidity) internal returns (uint256 memory) {
-        rewardPool -= liquidity;
-        return rewardPool;
     }
 }
