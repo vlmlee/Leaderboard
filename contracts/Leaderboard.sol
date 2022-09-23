@@ -19,7 +19,7 @@ contract Leaderboard is ReentrancyGuard {
         uint32 id; // Id to make sure that name is unique
         bytes32 name;
         uint8 rank;
-        bytes[] data; // arbitrary criteria for ranking
+        bytes data; // arbitrary criteria for ranking
     }
     mapping(uint8 => Ranking) public Rankings; // Index starts at 1
 
@@ -63,7 +63,7 @@ contract Leaderboard is ReentrancyGuard {
         return endTime;
     }
 
-    function addRanking(bytes32 name, uint8 rank, bytes[] data) external {
+    function addRanking(bytes32 name, uint8 rank, bytes data) external {
         require(msg.sender == facilitator);
 
         Ranking memory ranking = Rankings[rank];

@@ -10,6 +10,7 @@ contract ForbesLeaderboard is Leaderboard("Forbes",
 , block.timestamp + 1 years), ChainlinkClient {
 
     function getForbes100RichestPeople() {
+        // get rankings: name, rank, net worth (convert to bytes)
         addRanking();
     }
 
