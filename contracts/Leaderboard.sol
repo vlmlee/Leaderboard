@@ -9,7 +9,7 @@ contract Leaderboard is ReentrancyGuard {
     bytes32 public name;
     uint32 public endTime;
     uint256 public rewardPool;
-    uint8 public rankingsSize;
+    uint8 public rankingsSize = 0;
 
     event UserStakeAdded(address indexed user, Stake stake);
 
@@ -31,10 +31,12 @@ contract Leaderboard is ReentrancyGuard {
 
     error UserAlreadyStaked();
     error OnlyFacilitator();
+    error ContractEnded();
 
-    constructor(bytes32 memory _name) {
+    constructor(bytes32 memory _name, uint32 _endTime) {
         facilitator = msg.sender;
         name = _name;
+        endTime = _endTime;
     }
 
     function getRanking(uint8 rank) public view returns (Ranking memory) {
@@ -53,11 +55,17 @@ contract Leaderboard is ReentrancyGuard {
         rankingsSize++;
     }
 
-    function addStake() external payable {
+    function addStake(uint32 id, bytes32 name) external payable {
+        if (block.timestamp > endTime) revert ContractEnded();
 
+        Stake memory stake = UserStakes[msg.sender];
+        stake.user = msg.sender;
+        stake.liquidity = msg.value;
+        stake.id = id;
+        stake.name = name;
     }
 
-    function withdrawStake() external {
+    function withdrawStake() external nonReentrant {
         uint256 userStakedAmount = UserStakes[msg.sender].liquidity;
 
         payable(msg.sender).transfer(userStakedAmount);
@@ -77,7 +85,7 @@ contract Leaderboard is ReentrancyGuard {
         return;
     }
 
-    function destroyContract() internal  {
+    function destroyContract() internal {
         if (msg.sender != facilitator) revert OnlyFacilitator();
 
         // return funds to addresses
