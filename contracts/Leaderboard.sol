@@ -46,11 +46,6 @@ contract Leaderboard is ReentrancyGuard {
         setLeaderboardType(leaderboardTypeInt);
     }
 
-    function setLeaderboardType(uint8 leaderboardTypeInt) internal {
-        require(leaderboardTypeInt <= uint(LeaderboardType.RANK_CHANGED));
-        leaderboardType = LeaderboardType(leaderboardTypeInt);
-    }
-
     function getRanking(uint8 rank) public view returns (Ranking memory) {
         return Rankings[rank];
     }
@@ -98,6 +93,11 @@ contract Leaderboard is ReentrancyGuard {
     }
 
     // Internal functions
+
+    function setLeaderboardType(uint8 leaderboardTypeInt) internal {
+        require(leaderboardTypeInt <= uint(LeaderboardType.RANK_CHANGED));
+        leaderboardType = LeaderboardType(leaderboardTypeInt);
+    }
 
     function removeRanking(uint8 id, uint8 rank, bytes32 name) internal {
         require(msg.sender == facilitator);
@@ -150,7 +150,7 @@ contract Leaderboard is ReentrancyGuard {
         if (msg.sender != facilitator) revert OnlyFacilitator();
 
         // return funds to addresses
-        for (uint i = 0; i < rankingsSize; i++) {
+        for (uint8 i = 0; i < rankingsSize; i++) {
             withdrawStake(UserStakes[i].user);
         }
 
