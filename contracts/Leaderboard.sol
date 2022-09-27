@@ -34,6 +34,7 @@ contract Leaderboard is ReentrancyGuard {
     enum LeaderboardType { FIRST_PAST_THE_POST, RANK_CHOICE, RANK_CHANGED }
 
     error UserAlreadyStaked();
+    error UserHasNotStakedYet();
     error OnlyFacilitator();
     error ContractEnded();
     error UnableToWithdrawStake();
@@ -48,14 +49,6 @@ contract Leaderboard is ReentrancyGuard {
 
     function getRanking(uint8 rank) public view returns (Ranking memory) {
         return Rankings[rank];
-    }
-
-    function getRewardPool() public view returns (uint256) {
-        return rewardPool;
-    }
-
-    function getEndTime() public view returns (uint32) {
-        return endTime;
     }
 
     function addRanking(bytes32 name, uint8 rank, bytes data) external {
@@ -82,6 +75,10 @@ contract Leaderboard is ReentrancyGuard {
     }
 
     function withdrawStake() external nonReentrant {
+        if (!UserStakes[msg.sender]) {
+            revert UserHasNotStakedYet();
+        }
+
         uint256 userStakedAmount = UserStakes[msg.sender].liquidity;
         (bool success, ) = payable(msg.sender).call.value(userStakedAmount)("");
 
