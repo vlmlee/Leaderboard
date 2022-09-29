@@ -3,6 +3,9 @@ import './stylesheets/App.scss';
 import {NavLink, Outlet} from "react-router-dom";
 import { ethers } from "ethers";
 
+import LeaderboardAddress from "../contractsData/Leaderboard-address.json";
+import LeaderboardAbi from "../contractsData/Leaderboard.json";
+
 function App() {
     const activeStyle = {
         textDecoration: "underline",
@@ -23,8 +26,8 @@ function App() {
     };
 
     const loadContract = async (signer: any) => {
-        // const _contract = new ethers.Contract("address", "abi", signer);
-        // setContract(_contract);
+        const _contract = new ethers.Contract(LeaderboardAddress.address, LeaderboardAbi.abi, signer);
+        setContract(_contract);
     };
 
     return (
