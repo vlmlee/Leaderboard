@@ -12,7 +12,7 @@ export default function CardsContainer() {
     let initialRankings: Array<Ranking> = [
         {
             rank: 1,
-            name: "Elon_Musk",
+            name: "Elon Musk",
             netWorth: "$219 B",
             country: "USA",
             imgUrl: ""
@@ -135,10 +135,6 @@ export default function CardsContainer() {
             setRankings((state: any) => initialRankings);
         }
     };
-
-    useEffect(() => {
-
-    }, [rankings]);
 
     return <div className={"card-container"}>
         <div className={"search-bar-container"}>

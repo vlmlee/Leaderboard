@@ -114,9 +114,6 @@ export default function ListContainer() {
         setCurrentPage(page);
     };
 
-    useEffect(() => {
-    }, [rankings, currentPage]);
-
     return <div className={"list-container"}>
         <SearchBar filterResults={filterResults}/>
         <div className={"list"}>
