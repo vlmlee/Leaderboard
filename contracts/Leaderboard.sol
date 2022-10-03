@@ -127,7 +127,7 @@ contract Leaderboard {
         return rankings.ranks[_id];
     }
 
-    function addStake(uint8 _id, bytes32 _name) public payable {
+    function addStake(uint8 _id, bytes32 _name) public virtual payable {
         if (block.timestamp > endTime) revert ContractEnded(endTime, block.timestamp);
         require(_id < rankings.currentId, "Ranking choice does not exist.");
 
@@ -159,7 +159,7 @@ contract Leaderboard {
         emit UserStakeAdded(msg.sender, stake);
     }
 
-    function withdrawStake(address _user, uint8 _id) public {
+    function withdrawStake(address _user, uint8 _id) public virtual {
         require(msg.sender == _user || msg.sender == facilitator, "Transaction sender is neither the owner of the stake or the facilitator.");
         require(userStakes.stakes[_id].length > 0, "There are no stakes for this choice yet.");
         
