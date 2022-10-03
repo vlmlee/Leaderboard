@@ -101,7 +101,9 @@ contract Leaderboard {
             Ranking memory ranking = rankings.ranks[_id];
             require(ranking.rank == _rank && ranking.name == _name, "Ranking choice does not exist.");
 
-            returnStakes(_id);
+            if (userStakes.size > 0) {
+                returnStakes(_id);
+            }
             delete rankings.ranks[_id];
             rankings.size--;
             emit RankingRemoved(ranking);
