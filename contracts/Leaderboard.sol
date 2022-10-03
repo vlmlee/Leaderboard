@@ -44,7 +44,7 @@ contract Leaderboard {
     UserStakes public userStakes;
 
     modifier OnlyFacilitator() {
-        require(msg.sender == facilitator);
+        require(msg.sender == facilitator, "User is not the facilitator.");
         _;
     }
 
@@ -55,7 +55,6 @@ contract Leaderboard {
 
     error UserAlreadyStaked(string _errorMessage);
     error UserHasNotStakedYet(address _user);
-    error UserIsNotFacilitator();
     error ContractEnded(uint256 _endTime, uint256 currentTime);
     error UnableToWithdrawStake(address _user);
     error RankingDoesNotExist(uint8 _id, uint8 rank, bytes32 _name);
