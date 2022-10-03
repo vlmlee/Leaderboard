@@ -1,8 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity 0.8.9;
-
-//import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "hardhat/console.sol";
+pragma solidity ^0.8.0;
 
 contract Leaderboard {
     address public facilitator;
