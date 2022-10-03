@@ -13,6 +13,16 @@ contract Leaderboard {
     event UserStakeAdded(address indexed _user, Stake _stake);
     event UserStakeWithdrawn(address indexed _user, Stake _stake);
 
+     modifier OnlyFacilitator() {
+        require(msg.sender == facilitator, "User is not the facilitator.");
+        _;
+    }
+
+    modifier NonZeroRank(uint8 _rank) {
+        require(_rank > 0, "Rank has to be greater than 1.");
+        _;
+    }
+
     struct Ranking {
         uint8 id; // ID to make sure that the choice is unique.
         bytes32 name;
@@ -40,16 +50,6 @@ contract Leaderboard {
     }
     UserStakes public userStakes;
 
-    modifier OnlyFacilitator() {
-        require(msg.sender == facilitator, "User is not the facilitator.");
-        _;
-    }
-
-    modifier NonZeroRank(uint8 _rank) {
-        require(_rank > 0, "Rank has to be greater than 1.");
-        _;
-    }
-
     error UserAlreadyStaked(string _errorMessage);
     error UserHasNotStakedYet(address _user);
     error ContractEnded(uint256 _endTime, uint256 currentTime);
@@ -61,6 +61,8 @@ contract Leaderboard {
         leaderboardName = _leaderboardName;
         endTime = _endTime;
     }
+
+    receive() external payable {}
 
     function getRanking(uint8 _rank) public view NonZeroRank(_rank) returns (Ranking memory) {
         Ranking memory ranking;
