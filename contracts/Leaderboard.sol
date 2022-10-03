@@ -6,152 +6,266 @@ import "hardhat/console.sol";
 
 contract Leaderboard {
     address public facilitator;
-    bytes32 public name;
-    LeaderboardType public leaderboardType;
+    bytes32 public leaderboardName;
     uint256 public endTime;
     uint256 public rewardPool;
-    uint8 public rankingId = 1;
-    uint8 public rankingsSize = 0;
 
-    event UserStakeAdded(address indexed user, Stake stake);
+    event RankingAdded(Ranking _ranking);
+    event RankingRemoved(Ranking _ranking);
+    event RankingUpdated(Ranking _ranking);
+    event UserStakeAdded(address indexed _user, Stake _stake);
+    event UserStakeWithdrawn(address indexed _user, Stake _stake);
 
     struct Ranking {
-        uint32 id; // Id to make sure that name is unique
+        uint8 id; // ID to make sure that the choice is unique.
         bytes32 name;
         uint8 rank;
         bytes data; // arbitrary criteria for ranking
     }
-    mapping(uint8 => Ranking) public Rankings; // Index starts at 1
+
+    struct Rankings {
+        mapping(uint8 => Ranking) ranks; // id -> Ranking
+        uint8 currentId;
+        uint8 size;
+    }
+    Rankings public rankings;
 
     struct Stake {
-        address user;
-        uint32 id;
+        address addr;
+        uint8 id;
         bytes32 name;
         uint256 liquidity; // a user's stake
     }
-    mapping(address => Stake) public UserStakes;
 
-    enum LeaderboardType { FIRST_PAST_THE_POST, RANK_CHOICE, RANK_CHANGED }
-
-    error UserAlreadyStaked();
-    error UserHasNotStakedYet();
-    error OnlyFacilitator();
-    error ContractEnded();
-    error UnableToWithdrawStake();
-    error RankingDoesNotExist();
-
-    constructor(bytes32 _name, uint8 leaderboardTypeInt, uint256 _endTime) {
-        facilitator = msg.sender;
-        name = _name;
-        endTime = _endTime;
-        setLeaderboardType(leaderboardTypeInt);
+    struct UserStakes {
+        mapping(uint8 => Stake[]) stakes;
+        uint256 size;
     }
+    UserStakes public userStakes;
 
-    function getRanking(uint8 rank) public view returns (Ranking memory) {
-        return Rankings[rank];
-    }
-
-    function addRanking(bytes32 _name, uint8 rank, bytes calldata data) external {
+    modifier OnlyFacilitator() {
         require(msg.sender == facilitator);
-
-        Ranking memory ranking = Rankings[rank];
-        ranking.id = rankingId;
-        ranking.name = _name;
-        ranking.rank = rank;
-        ranking.data = data;
-
-        rankingId++;
-        rankingsSize++;
+        _;
     }
 
-    function addStake(uint32 id, bytes32 _name) external payable {
-        if (block.timestamp > endTime) revert ContractEnded();
-
-        Stake memory stake = UserStakes[msg.sender];
-        stake.user = msg.sender;
-        stake.liquidity = msg.value;
-        stake.id = id;
-        stake.name = _name;
+    modifier NonZeroRank(uint8 _rank) {
+        require(_rank > 0, "Rank has to be greater than 1.");
+        _;
     }
 
-    function withdrawStake() public {
-        if (UserStakes[msg.sender].id == 0) {
-            revert UserHasNotStakedYet();
+    error UserAlreadyStaked(string _errorMessage);
+    error UserHasNotStakedYet(address _user);
+    error UserIsNotFacilitator();
+    error ContractEnded(uint256 _endTime, uint256 currentTime);
+    error UnableToWithdrawStake(address _user);
+    error RankingDoesNotExist(uint8 _id, uint8 rank, bytes32 _name);
+
+    constructor(bytes32 _leaderboardName, uint256 _endTime) {
+        facilitator = msg.sender;
+        leaderboardName = _leaderboardName;
+        endTime = _endTime;
+    }
+
+    function getRanking(uint8 _rank) public view NonZeroRank(_rank) returns (Ranking memory) {
+        Ranking memory ranking;
+
+        for (uint8 i = 0; i < rankings.size; i++) {
+            if (rankings.ranks[i].rank == _rank) {
+                ranking = rankings.ranks[i];
+            }
         }
 
-        uint256 userStakedAmount = UserStakes[msg.sender].liquidity;
-        (bool success, ) = payable(msg.sender).call{ value: userStakedAmount }("");
+        if (ranking.rank == 0) {
+            revert RankingDoesNotExist(0, _rank, bytes32(0));
+        }
+
+        return ranking;
+    }
+
+    function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public OnlyFacilitator NonZeroRank(_rank) {
+        require(_name != 0, "A name has to be used to be added to the rankings.");
+
+        Ranking storage ranking = rankings.ranks[rankings.currentId];
+        ranking.id = rankings.currentId;
+        ranking.name = _name;
+        ranking.rank = _rank;
+        ranking.data = _data;
+
+        rankings.currentId++;
+        rankings.size++;
+
+        emit RankingAdded(ranking);
+    }
+
+    function removeRanking(uint8 _id, uint8 _rank, bytes32 _name) public OnlyFacilitator NonZeroRank(_rank) {
+        if (rankings.ranks[_id].id != 0) {
+            Ranking memory ranking = rankings.ranks[_id];
+            require(ranking.rank == _rank && ranking.name == _name, "Ranking choice does not exist.");
+
+            returnStakes(_id);
+            delete rankings.ranks[_id];
+            emit RankingRemoved(ranking);
+        } else {
+            revert RankingDoesNotExist(_id, _rank, _name);
+        }
+    }
+
+    function updateRanking(uint8 _id, uint8 _rank, bytes32 _name) public OnlyFacilitator NonZeroRank(_rank) returns (Ranking memory) {
+        Ranking storage ranking = rankings.ranks[_id];
+
+        if (ranking.id != _id) {
+            revert RankingDoesNotExist(0, _rank, bytes32(0));
+        }
+
+        ranking.rank = _rank;
+
+        if (_name != 0) {
+            ranking.name = _name;
+        }
+
+        emit RankingUpdated(ranking);
+        return rankings.ranks[_id];
+    }
+
+    function addStake(uint8 _id, bytes32 _name) public payable {
+        if (block.timestamp > endTime) revert ContractEnded(endTime, block.timestamp);
+        require(_id < rankings.currentId, "Ranking choice does not exist.");
+
+        Ranking memory ranking = rankings.ranks[_id];
+        require(_name == ranking.name, "Name does not match.");
+        require(msg.value > 0, "Stake has to be a non-zero amount");
+
+        Stake[] storage stakes = userStakes.stakes[_id];
+
+        for (uint256 i = 0; i < stakes.length; i++) {
+            if (stakes[i].addr == msg.sender) {
+                revert UserAlreadyStaked("User has already staked for this choice. Withdraw your initial stake first if you want to change your stake.");
+            }
+        }
+
+        Stake memory stake = Stake({
+            addr: msg.sender,
+            liquidity: msg.value,
+            id: _id,
+            name: _name
+        });
+
+        stakes.push(stake);
+
+        addToRewardPool(stake.liquidity);
+        assert(rewardPool >= stake.liquidity);
+        userStakes.size++;
+
+        emit UserStakeAdded(msg.sender, stake);
+    }
+
+    function withdrawStake(address _user, uint8 _id) public {
+        require(msg.sender == _user || msg.sender == facilitator, "Transaction sender is neither the owner of the stake or the facilitator.");
+        require(userStakes.stakes[_id].length > 0, "There are no stakes for this choice yet.");
+        
+        Stake[] storage stakes = userStakes.stakes[_id];
+        Stake memory stake;
+        uint256 indexToRemove;
+
+        for (uint256 i = 0; i < stakes.length; i++) {
+            if (stakes[i].addr == _user) {
+                stake = stakes[i];
+                indexToRemove = i;
+                break;
+            }
+        }
+
+        if (stake.addr == address(0)) {
+            revert UserHasNotStakedYet(_user);
+        }
+
+        uint256 userStakedAmount = stake.liquidity;
+        assert(userStakedAmount > 0);
+        (bool success, ) = payable(_user).call{ value: userStakedAmount }("");
 
         if (success) {
-            delete UserStakes[msg.sender];
+            uint256 rewardPoolPrev = rewardPool;
+            removeFromRewardPool(userStakedAmount);
+            assert(rewardPool < rewardPoolPrev);
+            
+            // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
+            delete stakes[indexToRemove];
+            stakes[indexToRemove] = stakes[stakes.length - 1]; // Copy the last element to the removed element's index.
+            stakes.pop();
+
+            if (userStakes.size > 0) {
+                userStakes.size--;
+            }
+
+            emit UserStakeWithdrawn(_user, stake);
         } else {
-            revert UnableToWithdrawStake();
+            revert UnableToWithdrawStake(_user);
         }
     }
 
-    // Internal functions
-
-    function setLeaderboardType(uint8 leaderboardTypeInt) internal {
-        require(leaderboardTypeInt <= uint(LeaderboardType.RANK_CHANGED));
-        leaderboardType = LeaderboardType(leaderboardTypeInt);
-    }
-
-    function removeRanking(uint8 id, uint8 rank, bytes32 _name) internal {
-        require(msg.sender == facilitator);
-
-        if (Rankings[rank].id != 0) {
-            Ranking memory ranking = Rankings[rank];
-            require(ranking.id == id && ranking.name == _name);
-            delete Rankings[rank];
-        } else {
-            revert RankingDoesNotExist();
-        }
-    }
-
-    function addToRewardPool(uint256 liquidity) internal returns (uint256) {
-        rewardPool += liquidity;
-        return rewardPool;
-    }
-
-    function removeFromRewardPool(uint256 liquidity) internal returns (uint256) {
-        rewardPool -= liquidity;
-        return rewardPool;
-    }
-
-    function allocateReward() internal {
+    /**
+     * Allocation depends on what type of contract the owner wants to implement.
+     * Examples:
+     *  Contract types:
+     *  1. First past the post: winner takes all.
+     *  2. Rank choice: reward is proportional to the ranking achieved.
+     *  3. Rank changed: reward is proportional to the ranking net change.
+     */
+    function allocateReward() external virtual OnlyFacilitator {
 
     }
 
-//    function calculateRewardForAddress(address user) internal returns (uint256) {
-//        // Contract type:
-//        // 1. First past the post
-//        // 2. Rank choice
-//        // 3. Rank changed
-//
-//        return;
-//    }
-//
-//    function allocateFirstPastThePostReward() internal {
-//        // winner takes all
-//    }
-//
-//    function allocateRankChoiceReward() internal {
-//        // reward is proportional to the ranking achieved by an option
-//    }
-//
-//    function allocateRankChangedReward() internal {
-//        // reward is proportional to the ranking changed
-//    }
+    function destroyContract() external OnlyFacilitator {
+        uint8 i = 0;
 
-    function destroyContract() internal {
-        if (msg.sender != facilitator) revert OnlyFacilitator();
-
-        // return funds to addresses
-        for (uint8 i = 0; i < rankingsSize; i++) {
-//            withdrawStake(UserStakes[i].user);
+        while (userStakes.size > 0 && i < rankings.currentId) {
+            returnStakes(i);
+            i++;
         }
 
         // self destruct, all remaining ETH goes to facilitator
         selfdestruct(payable(facilitator));
+    }
+
+    // Internal functions
+
+    function returnStakes(uint8 _id) internal OnlyFacilitator {
+        require(userStakes.size > 0, "There are currently no stakes to return.");
+
+        Stake[] memory stakes = userStakes.stakes[_id];
+
+        for (uint256 i = 0; i < stakes.length; i++) {
+            Stake memory stake = stakes[i];
+
+            require(stake.id == _id, "ID does not match.");
+
+            uint256 userStakedAmount = stake.liquidity;
+            assert(userStakedAmount > 0);
+            (bool success, ) = payable(stake.addr).call{ value: userStakedAmount }("");
+
+            if (success) {
+                uint256 rewardPoolPrev = rewardPool;
+                removeFromRewardPool(userStakedAmount);
+                assert(rewardPool < rewardPoolPrev);
+                
+                if (userStakes.size > 0) {
+                    userStakes.size--;
+                }
+            } else {
+                revert UnableToWithdrawStake(stake.addr);
+            }
+        }
+
+        delete userStakes.stakes[_id];
+    }
+
+    function addToRewardPool(uint256 _liquidity) internal returns (uint256) {
+        rewardPool += _liquidity;
+        return rewardPool;
+    }
+
+    function removeFromRewardPool(uint256 _liquidity) internal returns (uint256) {
+        rewardPool -= _liquidity;
+        return rewardPool;
     }
 }
