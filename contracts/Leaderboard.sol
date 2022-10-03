@@ -217,7 +217,7 @@ contract Leaderboard {
     function destroyContract() external OnlyFacilitator {
         uint8 i = 0;
 
-        while (userStakes.size > 0 && i < rankings.currentId) {
+        while (userStakes.size > 0 && i <= rankings.currentId) {
             returnStakes(i);
             i++;
         }
