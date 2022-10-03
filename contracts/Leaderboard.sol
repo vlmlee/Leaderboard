@@ -103,6 +103,7 @@ contract Leaderboard {
 
             returnStakes(_id);
             delete rankings.ranks[_id];
+            rankings.size--;
             emit RankingRemoved(ranking);
         } else {
             revert RankingDoesNotExist(_id, _rank, _name);
