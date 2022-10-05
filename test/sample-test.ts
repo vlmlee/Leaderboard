@@ -11,6 +11,10 @@ describe("Token", function () {
     });
 
     it("should have accounts", async function () {
-        assert(accounts.length > 0, "Account legth should be more then zero");
+        assert(accounts.length > 0, "Account length should be more then zero");
     });
+});
+
+describe("Leaderboard", function () {
+
 });

@@ -1,5 +1,5 @@
 {
-  "name": "hardhat-project",
+  "name": "Leaderboard",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
     "@nomiclabs/hardhat-waffle": "^2.0.0",
@@ -30,14 +30,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/symfoni/hardhat-react-boilerplate.git"
+    "url": "git+https://github.com/vlmlee/Leaderboard"
   },
-  "author": "Robertosnap",
+  "author": "Michael Lee",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/symfoni/hardhat-react-boilerplate/issues"
-  },
-  "homepage": "https://github.com/symfoni/hardhat-react-boilerplate#readme",
   "dependencies": {
     "@chainlink/contracts": "^0.4.1",
     "lodash": "^4.17.21",
