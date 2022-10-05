@@ -17,7 +17,7 @@ async function main() {
     
     // We get the contract to deploy
     const Leaderboard = await hre.ethers.getContractFactory("Leaderboard");
-    const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("test"), 1, new Date("12/12/2056").getTime());
+    const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime());
     
     await leaderboard.deployed();
     
