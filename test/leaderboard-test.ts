@@ -4,18 +4,6 @@ import {Signer} from "ethers";
 import {assert, expect} from "chai";
 const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 
-describe("Token", function () {
-    let accounts: Signer[];
-
-    beforeEach(async function () {
-        accounts = await ethers.getSigners();
-    });
-
-    it("should have accounts", async function () {
-        assert(accounts.length > 0, "Account length should be more then zero");
-    });
-});
-
 describe("Leaderboard", function () {
     async function deployFixture() {
         const Leaderboard = await ethers.getContractFactory("Leaderboard");
