@@ -10,6 +10,7 @@ import ChartContainer from "./components/Charts/ChartContainer";
 import CardsContainer from "./components/CardsContainer";
 import About from "./components/About";
 
+
 const router = createBrowserRouter([
     {
         path: "/",

@@ -5,7 +5,7 @@ import {chunk} from "lodash";
 import {Ranking} from "./ListContainer";
 import SearchBar from "./SearchBar";
 import {useState, useEffect} from "react";
-import getPhoto from "../getPhoto";
+import getPhoto from "../helpers/getPhoto";
 import PageIndices from "./PageIndices";
 
 export default function CardsContainer() {
