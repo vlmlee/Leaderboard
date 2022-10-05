@@ -45,6 +45,7 @@
   "devDependencies": {
     "@ethersproject/contracts": "^5.4.1",
     "@ethersproject/providers": "^5.4.3",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.6",
     "@types/lodash": "^4.14.185",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6"

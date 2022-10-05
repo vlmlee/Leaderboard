@@ -2,14 +2,14 @@
 import {ethers} from "hardhat";
 import {Signer} from "ethers";
 import {assert, expect} from "chai";
-const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
+import {loadFixture} from "ethereum-waffle";
 
 describe("Leaderboard", function () {
     async function deployFixture() {
         const Leaderboard = await ethers.getContractFactory("Leaderboard");
         const [facilitator, addr1, addr2] = await ethers.getSigners();
 
-        const leaderboard = await Leaderboard.deploy("Leaderboard", new Date("12/12/2022").getTime());
+        const leaderboard = await Leaderboard.deploy( ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime());
         await leaderboard.deployed();
 
         await leaderboard.addRanking(1, ethers.utils.formatBytes32String( "Elon Musk"), []);
@@ -19,9 +19,11 @@ describe("Leaderboard", function () {
     }
 
     describe("Deployment", async function () {
-        const {leaderboard, facilitator} = await loadFixture(deployFixture);
 
-        expect(await leaderboard.facilitator()).to.equal(facilitator);
+        it("should set the facilitator correctly", async function () {
+            const {leaderboard, facilitator} = await loadFixture(deployFixture);
+            expect(await leaderboard.facilitator()).to.equal(facilitator.address);
+        });
     });
 
     describe("Get rankings", async function () {
@@ -81,7 +83,6 @@ describe("Leaderboard", function () {
     });
 
     describe("Add stakes", async function() {
-
         it("should increase the reward pool when a new stake is added", async function () {
 
         });
