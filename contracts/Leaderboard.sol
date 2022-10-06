@@ -58,15 +58,16 @@ contract Leaderboard {
     error RankNeedsToBeGreaterThanOne();
     error UserAlreadyStaked(string _errorMessage);
     error UserHasNotStakedYet(address _user);
-    error ContractEnded(uint256 _endTime, uint256 currentTime);
+    error ContractEnded(uint256 _endTime, uint256 _currentTime);
     error UnableToWithdrawStake(address _user);
-    error RankingDoesNotExist(uint8 _id, uint8 rank, bytes32 _name);
-    error RankingAlreadyExists(uint8 rank);
+    error RankingDoesNotExist(uint8 _id, uint8 _rank, bytes32 _name);
+    error RankingAlreadyExists(uint8 _rank);
     error RankingUpdateArgsAreInvalid();
     error RankingNameCannotBeEmpty();
     error RankingNameSuppliedIsTheSame();
     error RankingDataArgCannotBeEmpty();
     error RankingDataSuppliedIsTheSame();
+    error NoStakesAddedForRankingYet(uint8 _id);
 
     constructor(bytes32 _leaderboardName, uint256 _endTime) {
         facilitator = msg.sender;
@@ -208,7 +209,7 @@ contract Leaderboard {
 
     function withdrawStake(address _user, uint8 _id) public virtual HasContractEnded(endTime) {
         require(msg.sender == _user || msg.sender == facilitator, "Transaction sender is neither the owner of the stake or the facilitator.");
-        require(userStakes[_id].length > 0, "There are no stakes for this choice yet.");
+        if (userStakes[_id].length == 0) revert NoStakesAddedForRankingYet(_id);
         
         Stake[] storage stakes = userStakes[_id];
         Stake memory stake;

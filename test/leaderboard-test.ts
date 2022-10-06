@@ -654,7 +654,9 @@ describe("Leaderboard", function () {
     });
 
     describe("Withdraw stakes", async function () {
+        it("should withdraw stake for a user if it exists for a ranking", async function () {
 
+        });
     });
 
     describe("Allocate rewards", async function () {
@@ -668,13 +670,23 @@ describe("Leaderboard", function () {
             const testRanking = {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
-                rank: 3,
-                data: [...Buffer.from("differentsetofdata")]
             };
 
             await ethers.provider.send("evm_setNextBlockTimestamp", [new Date("12/12/2023").getTime()]);
 
             await expect(leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther("1")}))
+                .to.be.revertedWith("ContractEnded");
+        });
+
+        it("should revert withdrawing stakes if the contract has already ended", async function () {
+            const {leaderboard, addr1} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+            };
+
+            await expect(leaderboard.connect(addr1).withdrawStake(addr1.address, testRanking.id))
                 .to.be.revertedWith("ContractEnded");
         });
     });
