@@ -3,8 +3,8 @@ import './stylesheets/App.scss';
 import {NavLink, Outlet} from "react-router-dom";
 import { ethers } from "ethers";
 
-import LeaderboardAddress from "../contractsData/Leaderboard-address.json";
-import LeaderboardAbi from "../contractsData/Leaderboard.json";
+import LeaderboardAddress from "./contractsData/Leaderboard-address.json";
+import LeaderboardAbi from "./contractsData/Leaderboard.json";
 
 function App() {
     const activeStyle = {
