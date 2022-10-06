@@ -9,8 +9,11 @@ contract Leaderboard {
 
     event RankingAdded(Ranking _ranking);
     event RankingRemoved(Ranking _ranking);
+    event RankingUpdated(Ranking _ranking);
+    // These two events are to indicate swapped data between two rankings
     event RankingUpdatedFrom(Ranking _ranking);
     event RankingUpdatedTo(Ranking _ranking);
+    //
     event UserStakeAdded(address indexed _user, Stake _stake);
     event UserStakeWithdrawn(address indexed _user, Stake _stake);
 
@@ -56,6 +59,8 @@ contract Leaderboard {
     error RankingUpdateArgsAreInvalid();
     error RankingNameCannotBeEmpty();
     error RankingNameSuppliedIsTheSame();
+    error RankingDataArgCannotBeEmpty();
+    error RankingDataSuppliedIsTheSame();
 
     constructor(bytes32 _leaderboardName, uint256 _endTime) {
         facilitator = msg.sender;
@@ -147,6 +152,20 @@ contract Leaderboard {
         if (_name == ranking.name) revert RankingNameSuppliedIsTheSame();
 
         ranking.name = _name;
+
+        emit RankingUpdated(ranking);
+    }
+
+    function updateData(uint8 _id, bytes calldata _data) public OnlyFacilitator {
+        Ranking storage ranking = rankings[_id];
+
+        if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
+        if (_data.length == 0) revert RankingDataArgCannotBeEmpty();
+        if (keccak256(abi.encodePacked(_data)) == keccak256(abi.encodePacked(ranking.data))) revert RankingDataSuppliedIsTheSame();
+
+        ranking.data = _data;
+
+        emit RankingUpdated(ranking);
     }
 
     function addStake(uint8 _id, bytes32 _name) public virtual payable {

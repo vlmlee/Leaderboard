@@ -1,32 +1,32 @@
 // @ts-ignore
 import {ethers} from "hardhat";
-import {Signer} from "ethers";
-import {assert, expect} from "chai";
+import {expect} from "chai";
 import {loadFixture} from "ethereum-waffle";
 
 describe("Leaderboard", function () {
     // Test variables
-    const EMPTY_BYTES32 = "0x";
+    const EMPTY_BYTES = "0x";
+    const EMPTY_STRING = ethers.utils.formatBytes32String("");
 
 
     async function deployFixture() {
         const Leaderboard = await ethers.getContractFactory("Leaderboard");
         const [facilitator, addr1, addr2] = await ethers.getSigners();
 
-        const leaderboard = await Leaderboard.deploy( ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime());
+        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime());
         await leaderboard.deployed();
 
         const testRankings = [
             {
                 id: 0,
                 rank: 1,
-                name: ethers.utils.formatBytes32String( "Elon Musk"),
+                name: ethers.utils.formatBytes32String("Elon Musk"),
                 data: [...Buffer.from("networth:232.4b")]
             },
             {
                 id: 1,
                 rank: 2,
-                name:  ethers.utils.formatBytes32String( "Jeff Bezos"),
+                name: ethers.utils.formatBytes32String("Jeff Bezos"),
                 data: [...Buffer.from("networth:144.5b")]
             }
         ];
@@ -36,7 +36,7 @@ describe("Leaderboard", function () {
         const addRankingTx2 = await leaderboard.addRanking(testRankings[1].rank, testRankings[1].name, testRankings[1].data);
         await addRankingTx2.wait();
 
-        return { Leaderboard, leaderboard, facilitator, addr1, addr2 };
+        return {Leaderboard, leaderboard, facilitator, addr1, addr2};
     }
 
     describe("Deployment", async function () {
@@ -52,14 +52,14 @@ describe("Leaderboard", function () {
 
             const elonTestRanking = {
                 id: 0,
-                name: ethers.utils.formatBytes32String( "Elon Musk"),
+                name: ethers.utils.formatBytes32String("Elon Musk"),
                 rank: 1,
                 data: [...Buffer.from("networth:232.4b")]
             };
 
             const jeffTestRanking = {
                 id: 1,
-                name:  ethers.utils.formatBytes32String( "Jeff Bezos"),
+                name: ethers.utils.formatBytes32String("Jeff Bezos"),
                 rank: 2,
                 data: [...Buffer.from("networth:144.5b")]
             };
@@ -90,7 +90,7 @@ describe("Leaderboard", function () {
 
             const testRanking = {
                 id: 2,
-                name:  ethers.utils.formatBytes32String("Someone"),
+                name: ethers.utils.formatBytes32String("Someone"),
                 rank: 3,
                 data: []
             };
@@ -103,8 +103,8 @@ describe("Leaderboard", function () {
             expect(await leaderboard.rankingsSize(), "Size did not match").to.equal(3);
             expect(ranking.id, "ID did not match test ID").to.equal(testRanking.id);
             expect(ranking.name, "Name did not match test name").to.equal(testRanking.name);
-            expect(ranking.rank,"Rank did not match test rank").to.equal(testRanking.rank, );
-            expect(ranking.data, "Data did not match test data").to.equal(EMPTY_BYTES32);
+            expect(ranking.rank, "Rank did not match test rank").to.equal(testRanking.rank,);
+            expect(ranking.data, "Data did not match test data").to.equal(EMPTY_BYTES);
         });
 
         it("should emit RankingAdded event when a new ranking is created", async function () {
@@ -112,14 +112,14 @@ describe("Leaderboard", function () {
 
             const testRanking = {
                 id: 3,
-                name:  ethers.utils.formatBytes32String("Someone"),
+                name: ethers.utils.formatBytes32String("Someone"),
                 rank: 4,
                 data: []
             };
 
             await expect(leaderboard.addRanking(testRanking.rank, testRanking.name, testRanking.data))
                 .to.emit(leaderboard, "RankingAdded")
-                .withArgs([testRanking.id, testRanking.name, testRanking.rank, EMPTY_BYTES32]); // structs are returned as an array
+                .withArgs([testRanking.id, testRanking.name, testRanking.rank, EMPTY_BYTES]); // structs are returned as an array
         });
 
         it("should revert if a name is not provided when adding a new ranking", async function () {
@@ -128,7 +128,7 @@ describe("Leaderboard", function () {
             // Error rankings should never be added
             const errorRanking = {
                 id: 4,
-                name:  ethers.utils.formatBytes32String(""),
+                name: EMPTY_STRING,
                 rank: 5,
                 data: []
             };
@@ -142,7 +142,7 @@ describe("Leaderboard", function () {
 
             const errorRanking = {
                 id: 4,
-                name:  ethers.utils.formatBytes32String("A name"),
+                name: ethers.utils.formatBytes32String("A name"),
                 rank: 0,
                 data: []
             };
@@ -156,7 +156,7 @@ describe("Leaderboard", function () {
 
             const errorRanking = {
                 id: 4,
-                name:  ethers.utils.formatBytes32String("A name"),
+                name: ethers.utils.formatBytes32String("A name"),
                 rank: 5,
                 data: []
             };
@@ -170,13 +170,13 @@ describe("Leaderboard", function () {
 
             const errorRanking = {
                 id: 4,
-                name:  ethers.utils.formatBytes32String("A name"),
+                name: ethers.utils.formatBytes32String("A name"),
                 rank: 4,
                 data: []
             };
 
             await expect(leaderboard.addRanking(errorRanking.rank, errorRanking.name, errorRanking.data))
-               .to.be.revertedWith("RankingAlreadyExists");
+                .to.be.revertedWith("RankingAlreadyExists");
         });
 
         it("should allow arbitrary data in the data field", async function () {
@@ -184,7 +184,7 @@ describe("Leaderboard", function () {
 
             const testRanking = {
                 id: 4,
-                name:  ethers.utils.formatBytes32String("A name"),
+                name: ethers.utils.formatBytes32String("A name"),
                 rank: 5,
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
@@ -201,7 +201,7 @@ describe("Leaderboard", function () {
 
             const elonTestRanking = {
                 id: 0,
-                name: ethers.utils.formatBytes32String( "Elon Musk"),
+                name: ethers.utils.formatBytes32String("Elon Musk"),
                 rank: 1,
                 data: [...Buffer.from("networth:232.4b")]
             };
@@ -217,7 +217,7 @@ describe("Leaderboard", function () {
 
             const jeffTestRanking = {
                 id: 1,
-                name:  ethers.utils.formatBytes32String( "Jeff Bezos"),
+                name: ethers.utils.formatBytes32String("Jeff Bezos"),
                 rank: 2,
                 data: [...Buffer.from("networth:144.5b")]
             };
@@ -231,7 +231,7 @@ describe("Leaderboard", function () {
 
             const jeffTestRanking = {
                 id: 1,
-                name:  ethers.utils.formatBytes32String( "Jeff Bezos"),
+                name: ethers.utils.formatBytes32String("Jeff Bezos"),
                 rank: 2,
                 data: [...Buffer.from("networth:144.5b")]
             };
@@ -260,7 +260,7 @@ describe("Leaderboard", function () {
             const toRanking = {
                 id: 4,
                 rank: 5,
-                name:  ethers.utils.formatBytes32String("A name"),
+                name: ethers.utils.formatBytes32String("A name"),
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
@@ -274,7 +274,7 @@ describe("Leaderboard", function () {
             // Only the rank changed
             expect(postFromRanking.id, "From ranking id changed").to.equal(fromRanking.id);
             expect(postFromRanking.name, "From ranking name changed").to.equal(fromRanking.name);
-            expect(postFromRanking.data, "To ranking data changed").to.equal(EMPTY_BYTES32);
+            expect(postFromRanking.data, "To ranking data changed").to.equal(EMPTY_BYTES);
 
             expect(postToRanking.rank, "To ranking did not change").to.equal(fromRanking.rank);
             // Only the rank changed
@@ -296,14 +296,14 @@ describe("Leaderboard", function () {
             const toRanking = {
                 id: 4,
                 rank: 4,
-                name:  ethers.utils.formatBytes32String("A name"),
+                name: ethers.utils.formatBytes32String("A name"),
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
             await expect(leaderboard.updateRank(fromRanking.id, fromRanking.rank, toRanking.id, 0))
-                .to.revertedWith("RankNeedsToBeGreaterThanOne");
+                .to.be.revertedWith("RankNeedsToBeGreaterThanOne");
             await expect(leaderboard.updateRank(fromRanking.id, 0, toRanking.id, toRanking.rank))
-                .to.revertedWith("RankNeedsToBeGreaterThanOne");
+                .to.be.revertedWith("RankNeedsToBeGreaterThanOne");
         });
 
         it("should not be able to update a ranking to or from a nonexistent ranking", async function () {
@@ -317,9 +317,9 @@ describe("Leaderboard", function () {
             };
 
             await expect(leaderboard.updateRank(fromRanking.id, fromRanking.rank, 20, 16))
-                .to.revertedWith("RankingDoesNotExist");
+                .to.be.revertedWith("RankingDoesNotExist");
             await expect(leaderboard.updateRank(20, 16, fromRanking.id, fromRanking.rank))
-                .to.revertedWith("RankingDoesNotExist");
+                .to.be.revertedWith("RankingDoesNotExist");
         });
 
         it("should emit RankingUpdated event when a ranking is updated", async function () {
@@ -335,7 +335,7 @@ describe("Leaderboard", function () {
             const toRanking = {
                 id: 4,
                 rank: 4,
-                name:  ethers.utils.formatBytes32String("A name"),
+                name: ethers.utils.formatBytes32String("A name"),
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
@@ -359,30 +359,195 @@ describe("Leaderboard", function () {
             const toRanking = {
                 id: 4,
                 rank: 4,
-                name:  ethers.utils.formatBytes32String("A name"),
+                name: ethers.utils.formatBytes32String("A name"),
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
             await expect(leaderboard.updateRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank))
-                .to.revertedWith("RankingUpdateArgsAreInvalid");
+                .to.be.revertedWith("RankingUpdateArgsAreInvalid");
+        });
+
+        it("should be able to update a ranking name", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 3,
+                data: []
+            };
+
+            const newName = ethers.utils.formatBytes32String("Bernard Arnault");
+
+            const updateNameTx = await leaderboard.updateName(testRanking.id, newName);
+            await updateNameTx.wait();
+
+            const ranking = await leaderboard.getRanking(testRanking.rank);
+
+            expect(ranking.name, "Name did not change").to.equal(newName);
+            expect(ranking.id, "Id changed").to.equal(testRanking.id);
+            expect(ranking.rank, "Rank changed").to.equal(testRanking.rank);
+        });
+
+        it("should revert if updating the name of a nonexistent ranking", async function() {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 23,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: []
+            };
+
+            await expect(leaderboard.updateName(testRanking.id, EMPTY_STRING))
+                .to.be.revertedWith("RankingDoesNotExist");
+        });
+
+        it("should revert if updating a ranking name to an empty string", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: []
+            };
+
+            await expect(leaderboard.updateName(testRanking.id, EMPTY_STRING))
+                .to.be.revertedWith("RankingNameCannotBeEmpty");
+        });
+
+        it("should revert if updating a ranking name with the same existing name", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: []
+            };
+
+            await expect(leaderboard.updateName(testRanking.id, testRanking.name))
+                .to.be.revertedWith("RankingNameSuppliedIsTheSame");
+        });
+
+        it("should emit RankingUpdated when ranking name changed", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: []
+            };
+
+            const newName = ethers.utils.formatBytes32String("Someone");
+
+            await expect(leaderboard.updateName(testRanking.id, newName))
+                .to.emit(leaderboard, "RankingUpdated")
+                .withArgs([testRanking.id, newName, testRanking.rank, ethers.utils.hexlify(testRanking.data)])
+
+            await expect(leaderboard.updateName(testRanking.id, testRanking.name))
+                .to.emit(leaderboard, "RankingUpdated")
+                .withArgs([testRanking.id, testRanking.name, testRanking.rank, ethers.utils.hexlify(testRanking.data)])
+        });
+
+        it("should be able to update ranking data", async function() {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: []
+            };
+
+            const newData = [...Buffer.from("networth:151b;country:France")]
+
+            const updateDataTx = await leaderboard.updateData(testRanking.id, newData);
+            await updateDataTx.wait();
+
+            const ranking = await leaderboard.getRanking(testRanking.rank);
+
+            expect(ranking.data, "Data did not change").to.equal(ethers.utils.hexlify(newData));
+            expect(ranking.id, "Id changed").to.equal(testRanking.id);
+            expect(ranking.rank, "Rank changed").to.equal(testRanking.rank);
+            expect(ranking.name, "Name changed").to.equal(testRanking.name);
+        });
+
+        it("should revert if updating the data of a nonexistent ranking", async function() {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 23,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: []
+            };
+
+            await expect(leaderboard.updateData(testRanking.id, testRanking.data))
+                .to.be.revertedWith("RankingDoesNotExist");
+        });
+
+        it("should revert if updating the data with empty data", async function() {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: []
+            };
+
+            await expect(leaderboard.updateData(testRanking.id, testRanking.data))
+                .to.be.revertedWith("RankingDataArgCannotBeEmpty");
+        });
+
+        it("should revert if updating data with the same data", async function() {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: [...Buffer.from("networth:151b;country:France")]
+            };
+
+            await expect(leaderboard.updateData(testRanking.id, testRanking.data))
+                .to.be.revertedWith("RankingDataSuppliedIsTheSame");
+        });
+
+        it("should emit RankingUpdated when ranking data changed", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: [...Buffer.from("differentsetofdata")]
+            };
+
+            await expect(leaderboard.updateData(testRanking.id, testRanking.data))
+                .to.emit(leaderboard, "RankingUpdated")
+                .withArgs([testRanking.id, testRanking.name, testRanking.rank, ethers.utils.hexlify(testRanking.data)])
         });
     });
 
-    describe("Add stakes", async function() {
+    describe("Add stakes", async function () {
         it("should increase the reward pool when a new stake is added", async function () {
 
         });
     });
 
-    describe("Withdraw stakes", async function() {
+    describe("Withdraw stakes", async function () {
 
     });
 
-    describe("Allocate rewards", async function() {
+    describe("Allocate rewards", async function () {
 
     });
 
-    describe("Destroy contract", async function() {
+    describe("Destroy contract", async function () {
         it("should return all stakes to their respective addresses", async function () {
 
         });
