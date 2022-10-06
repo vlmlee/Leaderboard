@@ -94,16 +94,19 @@ contract Leaderboard {
     }
 
     function removeRanking(uint8 _id, uint8 _rank, bytes32 _name) public OnlyFacilitator NonZeroRank(_rank) {
-        if (rankings[_id].id != 0) {
-            Ranking memory ranking = rankings[_id];
+        Ranking storage ranking = rankings[_id];
+
+        // Since rank can't be zero, if ranking.rank = 0, it means the ranking doesn't exist.
+        if (ranking.rank != 0) {
             require(ranking.rank == _rank && ranking.name == _name, "Ranking choice does not exist.");
 
             if (userStakesSize > 0) {
                 returnStakes(_id);
             }
+            emit RankingRemoved(ranking);
+
             delete rankings[_id];
             rankingsSize--;
-            emit RankingRemoved(ranking);
         } else {
             revert RankingDoesNotExist(_id, _rank, _name);
         }

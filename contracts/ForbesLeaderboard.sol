@@ -6,7 +6,7 @@ import '@chainlink/contracts/src/v0.8/ChainlinkClient.sol';
 
 contract ForbesLeaderboard is Leaderboard, ChainlinkClient {
 
-    constructor( uint256 _endTime) Leaderboard("Forbes Leaderboard", _endTime) {
+    constructor( uint256 _endTime) Leaderboard(bytes32("Forbes Leaderboard"), _endTime) {
         facilitator = msg.sender;
     }
 

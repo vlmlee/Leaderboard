@@ -72,6 +72,12 @@ describe("Leaderboard", function () {
             expect(jeffRanking.rank, "Jeff's rank did not match test rank").to.equal(jeffTestRanking.rank);
             expect(jeffRanking.data, "Jeff's data did not match test data").to.equal(ethers.utils.hexlify(jeffTestRanking.data));
         });
+
+        it("should revert with an error if a ranking does not exist", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            await expect(leaderboard.getRanking(10)).to.be.revertedWith("RankingDoesNotExist");
+        });
     });
 
     describe("Add rankings", async function () {
@@ -108,7 +114,8 @@ describe("Leaderboard", function () {
             };
 
             await expect(leaderboard.addRanking(testRanking.rank, testRanking.name, testRanking.data))
-                .to.emit(leaderboard, "RankingAdded").withArgs([testRanking.id, testRanking.name, testRanking.rank, "0x"]); // structs are returned as an array
+                .to.emit(leaderboard, "RankingAdded")
+                .withArgs([testRanking.id, testRanking.name, testRanking.rank, "0x"]); // structs are returned as an array
         });
 
         it("should revert if a name is not provided when adding a new ranking", async function () {
@@ -179,17 +186,55 @@ describe("Leaderboard", function () {
             };
 
             await expect(leaderboard.addRanking(testRanking.rank, testRanking.name, testRanking.data))
-                .to.emit(leaderboard, "RankingAdded").withArgs([testRanking.id, testRanking.name, testRanking.rank, ethers.utils.hexlify(testRanking.data)]); // structs are returned as an array
+                .to.emit(leaderboard, "RankingAdded")
+                .withArgs([testRanking.id, testRanking.name, testRanking.rank, ethers.utils.hexlify(testRanking.data)]); // structs are returned as an array
         });
     });
 
-    describe("Delete rankings", async function () {
-        it("should delete a ranking", async function () {
+    describe("Remove rankings", async function () {
+        it("should remove a ranking", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
 
+            const elonTestRanking = {
+                id: 0,
+                name: ethers.utils.formatBytes32String( "Elon Musk"),
+                rank: 1,
+                data: [...Buffer.from("networth:232.4b")]
+            };
+
+            const removeRankingTx = await leaderboard.removeRanking(elonTestRanking.id, elonTestRanking.rank, elonTestRanking.name);
+            await removeRankingTx.wait();
+
+            await expect(leaderboard.getRanking(elonTestRanking.rank)).to.be.revertedWith("RankingDoesNotExist");
+        });
+
+        it("should not be able to remove a ranking if the user is not the facilitator", async function () {
+            const {leaderboard, addr1} = await loadFixture(deployFixture);
+
+            const jeffTestRanking = {
+                id: 1,
+                name:  ethers.utils.formatBytes32String( "Jeff Bezos"),
+                rank: 2,
+                data: [...Buffer.from("networth:144.5b")]
+            };
+
+            await expect(leaderboard.connect(addr1).removeRanking(jeffTestRanking.id, jeffTestRanking.rank, jeffTestRanking.name))
+                .to.be.revertedWith("User is not the facilitator.");
         });
 
         it("should emit RankingRemoved event when a ranking is deleted", async function () {
+            const {leaderboard, addr1} = await loadFixture(deployFixture);
 
+            const jeffTestRanking = {
+                id: 1,
+                name:  ethers.utils.formatBytes32String( "Jeff Bezos"),
+                rank: 2,
+                data: [...Buffer.from("networth:144.5b")]
+            };
+
+            await expect(leaderboard.removeRanking(jeffTestRanking.id, jeffTestRanking.rank, jeffTestRanking.name))
+                .to.emit(leaderboard, "RankingRemoved")
+                .withArgs([jeffTestRanking.id, jeffTestRanking.name, jeffTestRanking.rank, ethers.utils.hexlify(jeffTestRanking.data)]);
         });
 
         it("should return stakes if there are any for the removed ranking", async function () {
@@ -201,7 +246,6 @@ describe("Leaderboard", function () {
         it("should modify a ranking", async function () {
 
         });
-
     });
 
     describe("Add stakes", async function() {
