@@ -11,7 +11,7 @@ describe("Leaderboard", function () {
 
     async function deployFixture() {
         const Leaderboard = await ethers.getContractFactory("Leaderboard");
-        const [facilitator, addr1, addr2] = await ethers.getSigners();
+        const [facilitator, addr1, addr2, addr3] = await ethers.getSigners();
 
         const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime());
         await leaderboard.deployed();
@@ -36,7 +36,7 @@ describe("Leaderboard", function () {
         const addRankingTx2 = await leaderboard.addRanking(testRankings[1].rank, testRankings[1].name, testRankings[1].data);
         await addRankingTx2.wait();
 
-        return {Leaderboard, leaderboard, facilitator, addr1, addr2};
+        return {Leaderboard, leaderboard, facilitator, addr1, addr2, addr3};
     }
 
     describe("Deployment", async function () {
@@ -242,7 +242,7 @@ describe("Leaderboard", function () {
         });
 
         it("should return stakes if there are any for the removed ranking", async function () {
-
+            // TODO:
         });
     });
 
@@ -544,8 +544,6 @@ describe("Leaderboard", function () {
             const testRanking = {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
-                rank: 3,
-                data: [...Buffer.from("differentsetofdata")]
             };
 
             const stakeAmount = "1.0";
@@ -575,8 +573,6 @@ describe("Leaderboard", function () {
             const testRanking = {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
-                rank: 3,
-                data: [...Buffer.from("differentsetofdata")]
             };
 
             const stakeAmount = "1.0";
@@ -592,9 +588,6 @@ describe("Leaderboard", function () {
 
             const testRanking = {
                 id: 2,
-                name: ethers.utils.formatBytes32String("Bernard Arnault"),
-                rank: 3,
-                data: [...Buffer.from("differentsetofdata")]
             };
 
             const stakeAmount = "1.0";
@@ -609,8 +602,6 @@ describe("Leaderboard", function () {
             const testRanking = {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
-                rank: 3,
-                data: [...Buffer.from("differentsetofdata")]
             };
 
             const stakeAmount = "0.0";
@@ -625,8 +616,6 @@ describe("Leaderboard", function () {
             const testRanking = {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
-                rank: 3,
-                data: [...Buffer.from("differentsetofdata")]
             };
 
             const stakeAmount = "1.0";
@@ -641,8 +630,6 @@ describe("Leaderboard", function () {
             const testRanking = {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
-                rank: 3,
-                data: [...Buffer.from("differentsetofdata")]
             };
 
             const stakeAmount = "1.0";
@@ -650,6 +637,8 @@ describe("Leaderboard", function () {
             await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
                 .to.emit(leaderboard, "UserStakeAdded")
                 .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
+            expect(await leaderboard.userStakesSize(), "User stake size is not 2").to.equal(2);
+            expect(await leaderboard.rewardPool(), "Reward pool did not update").to.equal(ethers.utils.parseEther("2.0")); // reward pool return value in wei
         });
     });
 
