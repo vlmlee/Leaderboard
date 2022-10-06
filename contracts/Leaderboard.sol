@@ -30,12 +30,9 @@ contract Leaderboard {
         bytes data; // arbitrary criteria for ranking
     }
 
-    struct Rankings {
-        mapping(uint8 => Ranking) ranks; // id -> Ranking
-        uint8 currentId;
-        uint8 size;
-    }
-    Rankings public rankings;
+    mapping(uint8 => Ranking) public rankings;
+    uint8 public rankingsCurrentId;
+    uint8 public rankingsSize;
 
     struct Stake {
         address addr;
@@ -44,17 +41,15 @@ contract Leaderboard {
         uint256 liquidity; // a user's stake
     }
 
-    struct UserStakes {
-        mapping(uint8 => Stake[]) stakes;
-        uint256 size;
-    }
-    UserStakes public userStakes;
+    mapping(uint8 => Stake[]) public userStakes;
+    uint256 public userStakesSize;
 
     error UserAlreadyStaked(string _errorMessage);
     error UserHasNotStakedYet(address _user);
     error ContractEnded(uint256 _endTime, uint256 currentTime);
     error UnableToWithdrawStake(address _user);
     error RankingDoesNotExist(uint8 _id, uint8 rank, bytes32 _name);
+    error RankingAlreadyExists(uint8 rank);
 
     constructor(bytes32 _leaderboardName, uint256 _endTime) {
         facilitator = msg.sender;
@@ -67,9 +62,9 @@ contract Leaderboard {
     function getRanking(uint8 _rank) public view NonZeroRank(_rank) returns (Ranking memory) {
         Ranking memory ranking;
 
-        for (uint8 i = 0; i < rankings.size; i++) {
-            if (rankings.ranks[i].rank == _rank) {
-                ranking = rankings.ranks[i];
+        for (uint8 i = 0; i < rankingsCurrentId; i++) {
+            if (rankings[i].rank == _rank) {
+                ranking = rankings[i];
             }
         }
 
@@ -83,28 +78,35 @@ contract Leaderboard {
     function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public OnlyFacilitator NonZeroRank(_rank) {
         require(_name != 0, "A name has to be used to be added to the rankings.");
 
-        Ranking storage ranking = rankings.ranks[rankings.currentId];
-        ranking.id = rankings.currentId;
+        Ranking storage ranking = rankings[rankingsCurrentId];
+
+        for (uint8 i = 0; i < rankingsCurrentId; i++) {
+            if (rankings[i].rank == _rank) {
+                revert RankingAlreadyExists(_rank);
+            }
+        }
+
+        ranking.id = rankingsCurrentId;
         ranking.name = _name;
         ranking.rank = _rank;
         ranking.data = _data;
 
-        rankings.currentId++;
-        rankings.size++;
+        rankingsCurrentId++;
+        rankingsSize++;
 
         emit RankingAdded(ranking);
     }
 
     function removeRanking(uint8 _id, uint8 _rank, bytes32 _name) public OnlyFacilitator NonZeroRank(_rank) {
-        if (rankings.ranks[_id].id != 0) {
-            Ranking memory ranking = rankings.ranks[_id];
+        if (rankings[_id].id != 0) {
+            Ranking memory ranking = rankings[_id];
             require(ranking.rank == _rank && ranking.name == _name, "Ranking choice does not exist.");
 
-            if (userStakes.size > 0) {
+            if (userStakesSize > 0) {
                 returnStakes(_id);
             }
-            delete rankings.ranks[_id];
-            rankings.size--;
+            delete rankings[_id];
+            rankingsSize--;
             emit RankingRemoved(ranking);
         } else {
             revert RankingDoesNotExist(_id, _rank, _name);
@@ -112,7 +114,7 @@ contract Leaderboard {
     }
 
     function updateRanking(uint8 _id, uint8 _rank, bytes32 _name) public OnlyFacilitator NonZeroRank(_rank) returns (Ranking memory) {
-        Ranking storage ranking = rankings.ranks[_id];
+        Ranking storage ranking = rankings[_id];
 
         if (ranking.id != _id) {
             revert RankingDoesNotExist(0, _rank, bytes32(0));
@@ -125,18 +127,18 @@ contract Leaderboard {
         }
 
         emit RankingUpdated(ranking);
-        return rankings.ranks[_id];
+        return rankings[_id];
     }
 
     function addStake(uint8 _id, bytes32 _name) public virtual payable {
         if (block.timestamp > endTime) revert ContractEnded(endTime, block.timestamp);
-        require(_id < rankings.currentId, "Ranking choice does not exist.");
+        require(_id < rankingsCurrentId, "Ranking choice does not exist.");
 
-        Ranking memory ranking = rankings.ranks[_id];
+        Ranking memory ranking = rankings[_id];
         require(_name == ranking.name, "Name does not match.");
         require(msg.value > 0, "Stake has to be a non-zero amount");
 
-        Stake[] storage stakes = userStakes.stakes[_id];
+        Stake[] storage stakes = userStakes[_id];
 
         for (uint256 i = 0; i < stakes.length; i++) {
             if (stakes[i].addr == msg.sender) {
@@ -155,16 +157,16 @@ contract Leaderboard {
 
         addToRewardPool(stake.liquidity);
         assert(rewardPool >= stake.liquidity);
-        userStakes.size++;
+        userStakesSize++;
 
         emit UserStakeAdded(msg.sender, stake);
     }
 
     function withdrawStake(address _user, uint8 _id) public virtual {
         require(msg.sender == _user || msg.sender == facilitator, "Transaction sender is neither the owner of the stake or the facilitator.");
-        require(userStakes.stakes[_id].length > 0, "There are no stakes for this choice yet.");
+        require(userStakes[_id].length > 0, "There are no stakes for this choice yet.");
         
-        Stake[] storage stakes = userStakes.stakes[_id];
+        Stake[] storage stakes = userStakes[_id];
         Stake memory stake;
         uint256 indexToRemove;
 
@@ -194,8 +196,8 @@ contract Leaderboard {
             stakes[indexToRemove] = stakes[stakes.length - 1]; // Copy the last element to the removed element's index.
             stakes.pop();
 
-            if (userStakes.size > 0) {
-                userStakes.size--;
+            if (userStakesSize > 0) {
+                userStakesSize--;
             }
 
             emit UserStakeWithdrawn(_user, stake);
@@ -219,7 +221,7 @@ contract Leaderboard {
     function destroyContract() external OnlyFacilitator {
         uint8 i = 0;
 
-        while (userStakes.size > 0 && i <= rankings.currentId) {
+        while (userStakesSize > 0 && i <= rankingsCurrentId) {
             returnStakes(i);
             i++;
         }
@@ -231,9 +233,9 @@ contract Leaderboard {
     // Internal functions
 
     function returnStakes(uint8 _id) internal OnlyFacilitator {
-        require(userStakes.size > 0, "There are currently no stakes to return.");
+        require(userStakesSize > 0, "There are currently no stakes to return.");
 
-        Stake[] memory stakes = userStakes.stakes[_id];
+        Stake[] memory stakes = userStakes[_id];
 
         for (uint256 i = 0; i < stakes.length; i++) {
             Stake memory stake = stakes[i];
@@ -249,15 +251,15 @@ contract Leaderboard {
                 removeFromRewardPool(userStakedAmount);
                 assert(rewardPool < rewardPoolPrev);
                 
-                if (userStakes.size > 0) {
-                    userStakes.size--;
+                if (userStakesSize > 0) {
+                    userStakesSize--;
                 }
             } else {
                 revert UnableToWithdrawStake(stake.addr);
             }
         }
 
-        delete userStakes.stakes[_id];
+        delete userStakes[_id];
     }
 
     function addToRewardPool(uint256 _liquidity) internal returns (uint256) {
