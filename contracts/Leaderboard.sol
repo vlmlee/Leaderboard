@@ -69,8 +69,6 @@ contract Leaderboard {
         if (ranking.rank == 0) {
             revert RankingDoesNotExist(0, _rank, bytes32(0));
         }
-
-        return ranking;
     }
 
     function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public OnlyFacilitator NonZeroRank(_rank) {
@@ -125,7 +123,6 @@ contract Leaderboard {
         }
 
         emit RankingUpdated(ranking);
-        return ranking;
     }
 
     function addStake(uint8 _id, bytes32 _name) public virtual payable {
@@ -153,8 +150,8 @@ contract Leaderboard {
 
         stakes.push(stake);
 
-        addToRewardPool(stake.liquidity);
-        assert(rewardPool >= stake.liquidity);
+        uint256 rewardPoolAfter = addToRewardPool(stake.liquidity);
+        assert(rewardPoolAfter >= stake.liquidity);
         userStakesSize++;
 
         emit UserStakeAdded(msg.sender, stake);
@@ -186,8 +183,8 @@ contract Leaderboard {
 
         if (success) {
             uint256 rewardPoolPrev = rewardPool;
-            removeFromRewardPool(userStakedAmount);
-            assert(rewardPool < rewardPoolPrev);
+            uint256 rewardPoolAfter = removeFromRewardPool(userStakedAmount);
+            assert(rewardPoolAfter < rewardPoolPrev);
             
             // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
             delete stakes[indexToRemove];
@@ -246,8 +243,8 @@ contract Leaderboard {
 
             if (success) {
                 uint256 rewardPoolPrev = rewardPool;
-                removeFromRewardPool(userStakedAmount);
-                assert(rewardPool < rewardPoolPrev);
+                uint256 rewardPoolAfter = removeFromRewardPool(userStakedAmount);
+                assert(rewardPoolAfter < rewardPoolPrev);
                 
                 if (userStakesSize > 0) {
                     userStakesSize--;
