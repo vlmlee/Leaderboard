@@ -389,7 +389,7 @@ describe("Leaderboard", function () {
             expect(ranking.rank, "Rank changed").to.equal(testRanking.rank);
         });
 
-        it("should revert if updating the name of a nonexistent ranking", async function() {
+        it("should revert if updating the name of a nonexistent ranking", async function () {
             const {leaderboard} = await loadFixture(deployFixture);
 
             const testRanking = {
@@ -452,7 +452,7 @@ describe("Leaderboard", function () {
                 .withArgs([testRanking.id, testRanking.name, testRanking.rank, ethers.utils.hexlify(testRanking.data)])
         });
 
-        it("should be able to update ranking data", async function() {
+        it("should be able to update ranking data", async function () {
             const {leaderboard} = await loadFixture(deployFixture);
 
             const testRanking = {
@@ -475,7 +475,7 @@ describe("Leaderboard", function () {
             expect(ranking.name, "Name changed").to.equal(testRanking.name);
         });
 
-        it("should revert if updating the data of a nonexistent ranking", async function() {
+        it("should revert if updating the data of a nonexistent ranking", async function () {
             const {leaderboard} = await loadFixture(deployFixture);
 
             const testRanking = {
@@ -489,7 +489,7 @@ describe("Leaderboard", function () {
                 .to.be.revertedWith("RankingDoesNotExist");
         });
 
-        it("should revert if updating the data with empty data", async function() {
+        it("should revert if updating the data with empty data", async function () {
             const {leaderboard} = await loadFixture(deployFixture);
 
             const testRanking = {
@@ -503,7 +503,7 @@ describe("Leaderboard", function () {
                 .to.be.revertedWith("RankingDataArgCannotBeEmpty");
         });
 
-        it("should revert if updating data with the same data", async function() {
+        it("should revert if updating data with the same data", async function () {
             const {leaderboard} = await loadFixture(deployFixture);
 
             const testRanking = {
@@ -534,7 +534,7 @@ describe("Leaderboard", function () {
     });
 
     describe("Add stakes", async function () {
-        it("should allow a user to add a stake and increase the reward pool when a new stake is added", async function() {
+        it("should allow a user to add a stake and increase the reward pool when a new stake is added", async function () {
             const {leaderboard, addr1} = await loadFixture(deployFixture);
 
             const provider = waffle.provider;
@@ -550,7 +550,7 @@ describe("Leaderboard", function () {
 
             const stakeAmount = "1.0";
 
-            const stakeTx = await leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, { value: ethers.utils.parseEther(stakeAmount)});
+            const stakeTx = await leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)});
             await stakeTx.wait();
 
             const stake = await leaderboard.userStakes(testRanking.id, 0);
@@ -569,15 +569,15 @@ describe("Leaderboard", function () {
             expect(ethers.utils.formatEther(stake.liquidity), "Stake has incorrect liquidity").to.equal(stakeAmount); // liquidity staked should format to "1.0"
         });
 
-        it("should revert if a user is trying to stake onto an invalid id", async function() {
+        it("should revert if a user is trying to stake onto an invalid id", async function () {
 
         });
 
-        it("should revert if a user is trying to stake onto a ranking passing in the incorrect name", async function() {
+        it("should revert if a user is trying to stake onto a ranking passing in the incorrect name", async function () {
 
         });
 
-        it("should emit a UserStakeAdded event", async function() {
+        it("should emit a UserStakeAdded event", async function () {
 
         });
     });
@@ -590,8 +590,8 @@ describe("Leaderboard", function () {
 
     });
 
-    describe("Contract ended", async function() {
-        it("should revert adding stakes if the contract has already ended", async function() {
+    describe("Contract ended", async function () {
+        it("should revert adding stakes if the contract has already ended", async function () {
             const {leaderboard, addr1} = await loadFixture(deployFixture);
 
             const testRanking = {
@@ -603,7 +603,7 @@ describe("Leaderboard", function () {
 
             await ethers.provider.send("evm_setNextBlockTimestamp", [new Date("12/12/2023").getTime()]);
 
-            await expect(leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, { value: ethers.utils.parseEther("1")}))
+            await expect(leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther("1")}))
                 .to.be.revertedWith("ContractEnded");
         });
     });
