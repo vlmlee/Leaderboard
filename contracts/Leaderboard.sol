@@ -59,9 +59,7 @@ contract Leaderboard {
 
     receive() external payable {}
 
-    function getRanking(uint8 _rank) public view NonZeroRank(_rank) returns (Ranking memory) {
-        Ranking memory ranking;
-
+    function getRanking(uint8 _rank) public view NonZeroRank(_rank) returns (Ranking memory ranking) {
         for (uint8 i = 0; i < rankingsCurrentId; i++) {
             if (rankings[i].rank == _rank) {
                 ranking = rankings[i];
@@ -113,8 +111,8 @@ contract Leaderboard {
         }
     }
 
-    function updateRanking(uint8 _id, uint8 _rank, bytes32 _name) public OnlyFacilitator NonZeroRank(_rank) returns (Ranking memory) {
-        Ranking storage ranking = rankings[_id];
+    function updateRanking(uint8 _id, uint8 _rank, bytes32 _name) public OnlyFacilitator NonZeroRank(_rank) returns (Ranking memory ranking) {
+        ranking = rankings[_id];
 
         if (ranking.id != _id) {
             revert RankingDoesNotExist(0, _rank, bytes32(0));
@@ -127,7 +125,7 @@ contract Leaderboard {
         }
 
         emit RankingUpdated(ranking);
-        return rankings[_id];
+        return ranking;
     }
 
     function addStake(uint8 _id, bytes32 _name) public virtual payable {
