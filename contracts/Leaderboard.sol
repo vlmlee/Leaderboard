@@ -121,7 +121,7 @@ contract Leaderboard {
         }
     }
 
-    function updateRank(uint8 idFrom, uint8 rankFrom, uint8 idTo, uint8 rankTo) public
+    function swapRank(uint8 idFrom, uint8 rankFrom, uint8 idTo, uint8 rankTo) public
         OnlyFacilitator
         GreaterThanOneRank(rankFrom)
         GreaterThanOneRank(rankTo)

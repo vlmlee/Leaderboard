@@ -264,7 +264,7 @@ describe("Leaderboard", function () {
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
-            const updateRankingTx = await leaderboard.updateRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank);
+            const updateRankingTx = await leaderboard.swapRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank);
             await updateRankingTx.wait();
 
             const postFromRanking = await leaderboard.getRanking(toRanking.rank);
@@ -300,9 +300,9 @@ describe("Leaderboard", function () {
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
-            await expect(leaderboard.updateRank(fromRanking.id, fromRanking.rank, toRanking.id, 0))
+            await expect(leaderboard.swapRank(fromRanking.id, fromRanking.rank, toRanking.id, 0))
                 .to.be.revertedWith("RankNeedsToBeGreaterThanOne");
-            await expect(leaderboard.updateRank(fromRanking.id, 0, toRanking.id, toRanking.rank))
+            await expect(leaderboard.swapRank(fromRanking.id, 0, toRanking.id, toRanking.rank))
                 .to.be.revertedWith("RankNeedsToBeGreaterThanOne");
         });
 
@@ -316,9 +316,9 @@ describe("Leaderboard", function () {
                 data: []
             };
 
-            await expect(leaderboard.updateRank(fromRanking.id, fromRanking.rank, 20, 16))
+            await expect(leaderboard.swapRank(fromRanking.id, fromRanking.rank, 20, 16))
                 .to.be.revertedWith("RankingDoesNotExist");
-            await expect(leaderboard.updateRank(20, 16, fromRanking.id, fromRanking.rank))
+            await expect(leaderboard.swapRank(20, 16, fromRanking.id, fromRanking.rank))
                 .to.be.revertedWith("RankingDoesNotExist");
         });
 
@@ -339,7 +339,7 @@ describe("Leaderboard", function () {
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
-            await expect(leaderboard.updateRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank))
+            await expect(leaderboard.swapRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank))
                 .to.emit(leaderboard, "RankingUpdatedFrom")
                 .withArgs([fromRanking.id, fromRanking.name, toRanking.rank, ethers.utils.hexlify(fromRanking.data)])
                 .to.emit(leaderboard, "RankingUpdatedTo")
@@ -363,7 +363,7 @@ describe("Leaderboard", function () {
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
-            await expect(leaderboard.updateRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank))
+            await expect(leaderboard.swapRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank))
                 .to.be.revertedWith("RankingUpdateArgsAreInvalid");
         });
 
