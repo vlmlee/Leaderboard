@@ -16,6 +16,7 @@ contract Leaderboard {
     //
     event UserStakeAdded(address indexed _user, Stake _stake);
     event UserStakeWithdrawn(address indexed _user, Stake _stake);
+    event ContractDestroyed();
 
      modifier OnlyFacilitator() {
         if (msg.sender != facilitator) revert UserIsNotFacilitator();
@@ -24,6 +25,11 @@ contract Leaderboard {
 
     modifier GreaterThanOneRank(uint8 _rank) {
         if (_rank < 1) revert RankNeedsToBeGreaterThanOne();
+        _;
+    }
+
+    modifier HasContractEnded(uint256 _endTime) {
+        if (block.timestamp > endTime) revert ContractEnded(endTime, block.timestamp);
         _;
     }
 
@@ -168,8 +174,7 @@ contract Leaderboard {
         emit RankingUpdated(ranking);
     }
 
-    function addStake(uint8 _id, bytes32 _name) public virtual payable {
-        if (block.timestamp > endTime) revert ContractEnded(endTime, block.timestamp);
+    function addStake(uint8 _id, bytes32 _name) public virtual HasContractEnded(endTime) payable {
         if (_id >= rankingsCurrentId) revert RankingDoesNotExist(_id, 0, bytes32(0));
 
         Ranking memory ranking = rankings[_id];
@@ -200,7 +205,7 @@ contract Leaderboard {
         emit UserStakeAdded(msg.sender, stake);
     }
 
-    function withdrawStake(address _user, uint8 _id) public virtual {
+    function withdrawStake(address _user, uint8 _id) public virtual HasContractEnded(endTime) {
         require(msg.sender == _user || msg.sender == facilitator, "Transaction sender is neither the owner of the stake or the facilitator.");
         require(userStakes[_id].length > 0, "There are no stakes for this choice yet.");
         
@@ -252,7 +257,7 @@ contract Leaderboard {
      *  2. Rank choice: reward is proportional to the ranking achieved.
      *  3. Rank changed: reward is proportional to the ranking net change.
      */
-    function allocateReward() external virtual OnlyFacilitator {
+    function allocateReward() external virtual OnlyFacilitator HasContractEnded(endTime) {
 
     }
 
@@ -264,6 +269,7 @@ contract Leaderboard {
             i++;
         }
 
+        emit ContractDestroyed();
         // self destruct, all remaining ETH goes to facilitator
         selfdestruct(payable(facilitator));
     }

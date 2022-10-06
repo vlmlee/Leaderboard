@@ -1,5 +1,5 @@
 // @ts-ignore
-import {ethers} from "hardhat";
+import {ethers, waffle} from "hardhat";
 import {expect} from "chai";
 import {loadFixture} from "ethereum-waffle";
 
@@ -534,7 +534,50 @@ describe("Leaderboard", function () {
     });
 
     describe("Add stakes", async function () {
-        it("should increase the reward pool when a new stake is added", async function () {
+        it("should allow a user to add a stake and increase the reward pool when a new stake is added", async function() {
+            const {leaderboard, addr1} = await loadFixture(deployFixture);
+
+            const provider = waffle.provider;
+            const initialLeaderboardBalance = await provider.getBalance(leaderboard.address);
+            const initialAddrBalance = await addr1.getBalance();
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: [...Buffer.from("differentsetofdata")]
+            };
+
+            const stakeAmount = "1.0";
+
+            const stakeTx = await leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, { value: ethers.utils.parseEther(stakeAmount)});
+            await stakeTx.wait();
+
+            const stake = await leaderboard.userStakes(testRanking.id, 0);
+
+            expect(+ethers.utils.formatEther(await addr1.getBalance()), "Addr1 balance is not less than before")
+                .to.be.lessThan(+ethers.utils.formatEther(initialAddrBalance));
+            expect(+ethers.utils.formatEther(await provider.getBalance(leaderboard.address)), "Leaderboard contract balance is not greater than before")
+                .to.greaterThan(+ethers.utils.formatEther(initialLeaderboardBalance));
+            expect(await leaderboard.userStakesSize(), "User stake size is not 1").to.equal(1);
+            expect(await leaderboard.rewardPool(), "Reward pool did not update").to.equal(ethers.utils.parseEther(stakeAmount)); // reward pool return value in wei
+
+            // Checking the stake added by the user
+            expect(stake.addr, "Stake has incorrect address").to.equal(addr1.address);
+            expect(stake.id, "Stake has incorrect id").to.equal(testRanking.id);
+            expect(stake.name, "Stake has incorrect name").to.equal(testRanking.name);
+            expect(ethers.utils.formatEther(stake.liquidity), "Stake has incorrect liquidity").to.equal(stakeAmount); // liquidity staked should format to "1.0"
+        });
+
+        it("should revert if a user is trying to stake onto an invalid id", async function() {
+
+        });
+
+        it("should revert if a user is trying to stake onto a ranking passing in the incorrect name", async function() {
+
+        });
+
+        it("should emit a UserStakeAdded event", async function() {
 
         });
     });
@@ -547,8 +590,26 @@ describe("Leaderboard", function () {
 
     });
 
+    describe("Contract ended", async function() {
+        it("should revert adding stakes if the contract has already ended", async function() {
+            const {leaderboard, addr1} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: [...Buffer.from("differentsetofdata")]
+            };
+
+            await ethers.provider.send("evm_setNextBlockTimestamp", [new Date("12/12/2023").getTime()]);
+
+            await expect(leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, { value: ethers.utils.parseEther("1")}))
+                .to.be.revertedWith("ContractEnded");
+        });
+    });
+
     describe("Destroy contract", async function () {
-        it("should return all stakes to their respective addresses", async function () {
+        it("should return all stakes to their respective addresses and emit a ContractDestroyed event", async function () {
 
         });
     });
