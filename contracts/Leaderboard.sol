@@ -178,8 +178,9 @@ contract Leaderboard {
         if (_id >= rankingsCurrentId) revert RankingDoesNotExist(_id, 0, bytes32(0));
 
         Ranking memory ranking = rankings[_id];
-        require(_name == ranking.name, "Name does not match.");
-        require(msg.value > 0, "Stake has to be a non-zero amount");
+        if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
+        if (_name != ranking.name) revert RankingDoesNotExist(_id, ranking.rank, bytes32(0));
+        require(msg.value > 0, "Stake has to be a non-zero amount.");
 
         Stake[] storage stakes = userStakes[_id];
 

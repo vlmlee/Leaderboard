@@ -570,15 +570,86 @@ describe("Leaderboard", function () {
         });
 
         it("should revert if a user is trying to stake onto an invalid id", async function () {
+            const {leaderboard, addr2} = await loadFixture(deployFixture);
 
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: [...Buffer.from("differentsetofdata")]
+            };
+
+            const stakeAmount = "1.0";
+
+            await expect(leaderboard.connect(addr2).addStake(20, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+                .to.be.revertedWith("RankingDoesNotExist");
+            await expect(leaderboard.connect(addr2).addStake(3, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+                .to.be.revertedWith("RankingDoesNotExist");
         });
 
         it("should revert if a user is trying to stake onto a ranking passing in the incorrect name", async function () {
+            const {leaderboard, addr2} = await loadFixture(deployFixture);
 
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: [...Buffer.from("differentsetofdata")]
+            };
+
+            const stakeAmount = "1.0";
+
+            await expect(leaderboard.connect(addr2).addStake(testRanking.id, ethers.utils.formatBytes32String("Someone"), {value: ethers.utils.parseEther(stakeAmount)}))
+                .to.be.revertedWith("RankingDoesNotExist");
+        });
+
+        it("should revert if a user is trying to stake with zero ether", async function () {
+            const {leaderboard, addr2} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: [...Buffer.from("differentsetofdata")]
+            };
+
+            const stakeAmount = "0.0";
+
+            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+                .to.be.revertedWith("Stake has to be a non-zero amount.");
+        });
+
+        it("should revert if a user has already staked for this ranking", async function () {
+            const {leaderboard, addr1} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: [...Buffer.from("differentsetofdata")]
+            };
+
+            const stakeAmount = "1.0";
+
+            await expect(leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+                .to.be.revertedWith("UserAlreadyStaked");
         });
 
         it("should emit a UserStakeAdded event", async function () {
+            const {leaderboard, addr2} = await loadFixture(deployFixture);
 
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: [...Buffer.from("differentsetofdata")]
+            };
+
+            const stakeAmount = "1.0";
+
+            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+                .to.emit(leaderboard, "UserStakeAdded")
+                .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
         });
     });
 
