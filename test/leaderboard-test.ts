@@ -5,6 +5,10 @@ import {assert, expect} from "chai";
 import {loadFixture} from "ethereum-waffle";
 
 describe("Leaderboard", function () {
+    // Test variables
+    const EMPTY_BYTES32 = "0x";
+
+
     async function deployFixture() {
         const Leaderboard = await ethers.getContractFactory("Leaderboard");
         const [facilitator, addr1, addr2] = await ethers.getSigners();
@@ -100,7 +104,7 @@ describe("Leaderboard", function () {
             expect(ranking.id, "ID did not match test ID").to.equal(testRanking.id);
             expect(ranking.name, "Name did not match test name").to.equal(testRanking.name);
             expect(ranking.rank,"Rank did not match test rank").to.equal(testRanking.rank, );
-            expect(ranking.data, "Data did not match test data").to.equal("0x");
+            expect(ranking.data, "Data did not match test data").to.equal(EMPTY_BYTES32);
         });
 
         it("should emit RankingAdded event when a new ranking is created", async function () {
@@ -115,7 +119,7 @@ describe("Leaderboard", function () {
 
             await expect(leaderboard.addRanking(testRanking.rank, testRanking.name, testRanking.data))
                 .to.emit(leaderboard, "RankingAdded")
-                .withArgs([testRanking.id, testRanking.name, testRanking.rank, "0x"]); // structs are returned as an array
+                .withArgs([testRanking.id, testRanking.name, testRanking.rank, EMPTY_BYTES32]); // structs are returned as an array
         });
 
         it("should revert if a name is not provided when adding a new ranking", async function () {
@@ -138,13 +142,13 @@ describe("Leaderboard", function () {
 
             const errorRanking = {
                 id: 4,
-                rank: 0,
                 name:  ethers.utils.formatBytes32String("A name"),
+                rank: 0,
                 data: []
             };
 
             await expect(leaderboard.addRanking(errorRanking.rank, errorRanking.name, errorRanking.data))
-                .to.be.revertedWith("Rank has to be greater than 1.");
+                .to.be.revertedWith("RankNeedsToBeGreaterThanOne");
         });
 
         it("should not allow any address other than the facilitator to add a new ranking", async function () {
@@ -152,13 +156,13 @@ describe("Leaderboard", function () {
 
             const errorRanking = {
                 id: 4,
-                rank: 5,
                 name:  ethers.utils.formatBytes32String("A name"),
+                rank: 5,
                 data: []
             };
 
             await expect(leaderboard.connect(addr1).addRanking(errorRanking.rank, errorRanking.name, errorRanking.data))
-                .to.be.revertedWith("User is not the facilitator.");
+                .to.be.revertedWith("UserIsNotFacilitator");
         });
 
         it("should not allow adding a rank that already exists", async function () {
@@ -166,8 +170,8 @@ describe("Leaderboard", function () {
 
             const errorRanking = {
                 id: 4,
-                rank: 4,
                 name:  ethers.utils.formatBytes32String("A name"),
+                rank: 4,
                 data: []
             };
 
@@ -180,8 +184,8 @@ describe("Leaderboard", function () {
 
             const testRanking = {
                 id: 4,
-                rank: 5,
                 name:  ethers.utils.formatBytes32String("A name"),
+                rank: 5,
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
@@ -219,7 +223,7 @@ describe("Leaderboard", function () {
             };
 
             await expect(leaderboard.connect(addr1).removeRanking(jeffTestRanking.id, jeffTestRanking.rank, jeffTestRanking.name))
-                .to.be.revertedWith("User is not the facilitator.");
+                .to.be.revertedWith("UserIsNotFacilitator");
         });
 
         it("should emit RankingRemoved event when a ranking is deleted", async function () {
@@ -243,8 +247,124 @@ describe("Leaderboard", function () {
     });
 
     describe("Update rankings", async function () {
-        it("should modify a ranking", async function () {
+        it("should be able update a ranking", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
 
+            const fromRanking = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 4,
+                data: []
+            };
+
+            const toRanking = {
+                id: 4,
+                rank: 5,
+                name:  ethers.utils.formatBytes32String("A name"),
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const updateRankingTx = await leaderboard.updateRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank);
+            await updateRankingTx.wait();
+
+            const postFromRanking = await leaderboard.getRanking(toRanking.rank);
+            const postToRanking = await leaderboard.getRanking(fromRanking.rank);
+
+            expect(postFromRanking.rank, "From ranking did not change").to.equal(toRanking.rank);
+            // Only the rank changed
+            expect(postFromRanking.id, "From ranking id changed").to.equal(fromRanking.id);
+            expect(postFromRanking.name, "From ranking name changed").to.equal(fromRanking.name);
+            expect(postFromRanking.data, "To ranking data changed").to.equal(EMPTY_BYTES32);
+
+            expect(postToRanking.rank, "To ranking did not change").to.equal(fromRanking.rank);
+            // Only the rank changed
+            expect(postToRanking.id, "To ranking id changed").to.equal(toRanking.id);
+            expect(postToRanking.name, "To ranking name changed").to.equal(toRanking.name);
+            expect(postToRanking.data, "To ranking data changed").to.equal(ethers.utils.hexlify(toRanking.data));
+        });
+
+        it("should not be able to update a ranking to a zero ranking", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const fromRanking = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 5,
+                data: []
+            };
+
+            const toRanking = {
+                id: 4,
+                rank: 4,
+                name:  ethers.utils.formatBytes32String("A name"),
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            await expect(leaderboard.updateRank(fromRanking.id, fromRanking.rank, toRanking.id, 0))
+                .to.revertedWith("RankNeedsToBeGreaterThanOne");
+            await expect(leaderboard.updateRank(fromRanking.id, 0, toRanking.id, toRanking.rank))
+                .to.revertedWith("RankNeedsToBeGreaterThanOne");
+        });
+
+        it("should not be able to update a ranking to or from a nonexistent ranking", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const fromRanking = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 5,
+                data: []
+            };
+
+            await expect(leaderboard.updateRank(fromRanking.id, fromRanking.rank, 20, 16))
+                .to.revertedWith("RankingDoesNotExist");
+            await expect(leaderboard.updateRank(20, 16, fromRanking.id, fromRanking.rank))
+                .to.revertedWith("RankingDoesNotExist");
+        });
+
+        it("should emit RankingUpdated event when a ranking is updated", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const fromRanking = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 5,
+                data: []
+            };
+
+            const toRanking = {
+                id: 4,
+                rank: 4,
+                name:  ethers.utils.formatBytes32String("A name"),
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            await expect(leaderboard.updateRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank))
+                .to.emit(leaderboard, "RankingUpdatedFrom")
+                .withArgs([fromRanking.id, fromRanking.name, toRanking.rank, ethers.utils.hexlify(fromRanking.data)])
+                .to.emit(leaderboard, "RankingUpdatedTo")
+                .withArgs([toRanking.id, toRanking.name, fromRanking.rank, ethers.utils.hexlify(toRanking.data)])
+        });
+
+        it("should revert if the id and rankings are invalid", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const fromRanking = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 5,
+                data: []
+            };
+
+            const toRanking = {
+                id: 4,
+                rank: 4,
+                name:  ethers.utils.formatBytes32String("A name"),
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            await expect(leaderboard.updateRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank))
+                .to.revertedWith("RankingUpdateArgsAreInvalid");
         });
     });
 

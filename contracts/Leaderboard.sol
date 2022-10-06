@@ -9,17 +9,18 @@ contract Leaderboard {
 
     event RankingAdded(Ranking _ranking);
     event RankingRemoved(Ranking _ranking);
-    event RankingUpdated(Ranking _ranking);
+    event RankingUpdatedFrom(Ranking _ranking);
+    event RankingUpdatedTo(Ranking _ranking);
     event UserStakeAdded(address indexed _user, Stake _stake);
     event UserStakeWithdrawn(address indexed _user, Stake _stake);
 
      modifier OnlyFacilitator() {
-        require(msg.sender == facilitator, "User is not the facilitator.");
+        if (msg.sender != facilitator) revert UserIsNotFacilitator();
         _;
     }
 
-    modifier NonZeroRank(uint8 _rank) {
-        require(_rank > 0, "Rank has to be greater than 1.");
+    modifier GreaterThanOneRank(uint8 _rank) {
+        if (_rank < 1) revert RankNeedsToBeGreaterThanOne();
         _;
     }
 
@@ -44,12 +45,17 @@ contract Leaderboard {
     mapping(uint8 => Stake[]) public userStakes;
     uint256 public userStakesSize;
 
+    error UserIsNotFacilitator();
+    error RankNeedsToBeGreaterThanOne();
     error UserAlreadyStaked(string _errorMessage);
     error UserHasNotStakedYet(address _user);
     error ContractEnded(uint256 _endTime, uint256 currentTime);
     error UnableToWithdrawStake(address _user);
     error RankingDoesNotExist(uint8 _id, uint8 rank, bytes32 _name);
     error RankingAlreadyExists(uint8 rank);
+    error RankingUpdateArgsAreInvalid();
+    error RankingNameCannotBeEmpty();
+    error RankingNameSuppliedIsTheSame();
 
     constructor(bytes32 _leaderboardName, uint256 _endTime) {
         facilitator = msg.sender;
@@ -59,19 +65,17 @@ contract Leaderboard {
 
     receive() external payable {}
 
-    function getRanking(uint8 _rank) public view NonZeroRank(_rank) returns (Ranking memory ranking) {
+    function getRanking(uint8 _rank) public view GreaterThanOneRank(_rank) returns (Ranking memory ranking) {
         for (uint8 i = 0; i < rankingsCurrentId; i++) {
             if (rankings[i].rank == _rank) {
                 ranking = rankings[i];
             }
         }
 
-        if (ranking.rank == 0) {
-            revert RankingDoesNotExist(0, _rank, bytes32(0));
-        }
+        if (ranking.rank == 0) revert RankingDoesNotExist(0, _rank, bytes32(0));
     }
 
-    function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public OnlyFacilitator NonZeroRank(_rank) {
+    function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public OnlyFacilitator GreaterThanOneRank(_rank) {
         require(_name != 0, "A name has to be used to be added to the rankings.");
 
         Ranking storage ranking = rankings[rankingsCurrentId];
@@ -93,7 +97,7 @@ contract Leaderboard {
         emit RankingAdded(ranking);
     }
 
-    function removeRanking(uint8 _id, uint8 _rank, bytes32 _name) public OnlyFacilitator NonZeroRank(_rank) {
+    function removeRanking(uint8 _id, uint8 _rank, bytes32 _name) public OnlyFacilitator GreaterThanOneRank(_rank) {
         Ranking storage ranking = rankings[_id];
 
         // Since rank can't be zero, if ranking.rank = 0, it means the ranking doesn't exist.
@@ -112,25 +116,42 @@ contract Leaderboard {
         }
     }
 
-    function updateRanking(uint8 _id, uint8 _rank, bytes32 _name) public OnlyFacilitator NonZeroRank(_rank) returns (Ranking memory ranking) {
-        ranking = rankings[_id];
+    function updateRank(uint8 idFrom, uint8 rankFrom, uint8 idTo, uint8 rankTo) public
+        OnlyFacilitator
+        GreaterThanOneRank(rankFrom)
+        GreaterThanOneRank(rankTo)
+    {
+        Ranking storage rankingFrom = rankings[idFrom];
+        Ranking storage rankingTo = rankings[idTo];
 
-        if (ranking.id != _id) {
-            revert RankingDoesNotExist(0, _rank, bytes32(0));
+        if (rankingFrom.rank == 0) revert RankingDoesNotExist(0, rankFrom, bytes32(0));
+        if (rankingTo.rank == 0) revert RankingDoesNotExist(0, rankTo, bytes32(0));
+
+        // Only swap ranks if both queries match existing ranks.
+        if (rankingFrom.rank == rankFrom && rankingTo.rank == rankTo) {
+            rankingFrom.rank = rankTo;
+            rankingTo.rank = rankFrom;
+
+            emit RankingUpdatedFrom(rankingFrom);
+            emit RankingUpdatedTo(rankingTo);
+        } else {
+            revert RankingUpdateArgsAreInvalid();
         }
+    }
 
-        ranking.rank = _rank;
+    function updateName(uint8 _id, bytes32 _name) public OnlyFacilitator {
+        Ranking storage ranking = rankings[_id];
 
-        if (_name != 0) {
-            ranking.name = _name;
-        }
+        if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
+        if (_name == bytes32(0)) revert RankingNameCannotBeEmpty();
+        if (_name == ranking.name) revert RankingNameSuppliedIsTheSame();
 
-        emit RankingUpdated(ranking);
+        ranking.name = _name;
     }
 
     function addStake(uint8 _id, bytes32 _name) public virtual payable {
         if (block.timestamp > endTime) revert ContractEnded(endTime, block.timestamp);
-        require(_id < rankingsCurrentId, "Ranking choice does not exist.");
+        if (_id >= rankingsCurrentId) revert RankingDoesNotExist(_id, 0, bytes32(0));
 
         Ranking memory ranking = rankings[_id];
         require(_name == ranking.name, "Name does not match.");
