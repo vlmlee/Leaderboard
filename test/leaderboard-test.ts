@@ -240,10 +240,6 @@ describe("Leaderboard", function () {
                 .to.emit(leaderboard, "RankingRemoved")
                 .withArgs([jeffTestRanking.id, jeffTestRanking.name, jeffTestRanking.rank, ethers.utils.hexlify(jeffTestRanking.data)]);
         });
-
-        it("should return stakes if there are any for the removed ranking", async function () {
-            // TODO:
-        });
     });
 
     describe("Update rankings", async function () {
@@ -644,6 +640,55 @@ describe("Leaderboard", function () {
 
     describe("Withdraw stakes", async function () {
         it("should withdraw stake for a user if it exists for a ranking", async function () {
+            const {leaderboard, addr2} = await loadFixture(deployFixture);
+
+            const provider = waffle.provider;
+            const initialLeaderboardBalance = await provider.getBalance(leaderboard.address);
+            const initialAddrBalance = await addr2.getBalance();
+
+            const testRanking = {
+                id: 2,
+            };
+
+            const stakeTx = await leaderboard.connect(addr2).withdrawStake(addr2.address, testRanking.id);
+            await stakeTx.wait();
+
+            expect(+ethers.utils.formatEther(await addr2.getBalance()), "Addr1 balance is not greater than before")
+                .to.be.greaterThan(+ethers.utils.formatEther(initialAddrBalance));
+            expect(+ethers.utils.formatEther(await provider.getBalance(leaderboard.address)), "Leaderboard contract balance is not less than before")
+                .to.lessThan(+ethers.utils.formatEther(initialLeaderboardBalance));
+
+            expect(await leaderboard.userStakesSize(), "User stake size is not 1").to.equal(1);
+            expect(await leaderboard.rewardPool(), "Reward pool did not update").to.equal(ethers.utils.parseEther("1.0")); // reward pool return value in wei
+
+            await expect(leaderboard.userStakes(testRanking.id, 1)).to.be.revertedWith(""); // Non-named reversion can pass in an empty string
+        });
+
+        it("should revert if a user tries withdrawing a stake he doesn't have", async function () {
+
+        });
+
+        it("should revert if a user tries withdrawing another address's stake", async function () {
+
+        });
+
+        it("should allow the facilitator to withdraw a user's stake for them", async function () {
+
+        });
+
+        it("should revert entirely if there are no stakes in the contract", async function () {
+
+        });
+
+        it("should emit UserStakeWithdraw event when successfully withdraw a stake", async function () {
+
+        });
+    });
+
+    describe("Return stakes", async function () {
+        it("should return stakes if there are any for a removed ranking", async function () {
+            // TODO:
+
 
         });
     });

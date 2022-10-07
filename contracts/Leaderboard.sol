@@ -229,17 +229,21 @@ contract Leaderboard {
 
         uint256 userStakedAmount = stake.liquidity;
         assert(userStakedAmount > 0);
+        assert(rewardPool > 0);
+        assert(payable(address(this)).balance > 0);
         (bool success, ) = payable(_user).call{ value: userStakedAmount }("");
 
         if (success) {
             uint256 rewardPoolPrev = rewardPool;
             uint256 rewardPoolAfter = removeFromRewardPool(userStakedAmount);
             assert(rewardPoolAfter < rewardPoolPrev);
-            
-            // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
-            delete stakes[indexToRemove];
-            stakes[indexToRemove] = stakes[stakes.length - 1]; // Copy the last element to the removed element's index.
-            stakes.pop();
+
+            if (indexToRemove != 0) {
+                // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
+                delete stakes[indexToRemove];
+                stakes[indexToRemove] = stakes[stakes.length - 1]; // Copy the last element to the removed element's index.
+                stakes.pop();
+            }
 
             if (userStakesSize > 0) {
                 userStakesSize--;
