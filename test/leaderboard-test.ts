@@ -665,23 +665,83 @@ describe("Leaderboard", function () {
         });
 
         it("should revert if a user tries withdrawing a stake he doesn't have", async function () {
+            const {leaderboard, addr2} = await loadFixture(deployFixture);
 
+            const testRanking = {
+                id: 2,
+            };
+
+            await expect(leaderboard.connect(addr2).withdrawStake(addr2.address, testRanking.id))
+                .to.be.revertedWith("UserHasNotStakedYet");
         });
 
         it("should revert if a user tries withdrawing another address's stake", async function () {
+            const {leaderboard, addr1, addr2} = await loadFixture(deployFixture);
 
+            const testRanking = {
+                id: 2,
+            };
+
+            await expect(leaderboard.connect(addr2).withdrawStake(addr1.address, testRanking.id))
+                .to.be.revertedWith("Transaction sender is neither the owner of the stake or the facilitator.");
         });
 
         it("should allow the facilitator to withdraw a user's stake for them", async function () {
+            const {leaderboard, addr2} = await loadFixture(deployFixture);
 
+            const initialAddrBalance = await addr2.getBalance();
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+            };
+
+            const stakeAmount = "1.0";
+
+            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+                .to.emit(leaderboard, "UserStakeAdded")
+                .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
+
+            expect(+ethers.utils.formatEther(await addr2.getBalance()), "Addr1 balance is not less than before")
+                .to.be.lessThan(+ethers.utils.formatEther(initialAddrBalance));
+
+            const afterBalance = await addr2.getBalance();
+
+            await expect(leaderboard.withdrawStake(addr2.address, testRanking.id))
+                .to.emit(leaderboard, "UserStakeWithdrawn")
+                .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
+
+            expect(+ethers.utils.formatEther(await addr2.getBalance()), "Addr1 balance is not greater than before")
+                .to.be.greaterThan(+ethers.utils.formatEther(afterBalance));
+        });
+
+        it("should emit UserStakeWithdraw event when a user successfully withdraw a stake", async function () {
+            const {leaderboard, addr1} = await loadFixture(deployFixture);
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+            };
+
+            const stakeAmount = "1.0";
+
+            await expect(leaderboard.connect(addr1).withdrawStake(addr1.address, testRanking.id))
+                .to.emit(leaderboard, "UserStakeWithdrawn")
+                .withArgs(addr1.address, [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
         });
 
         it("should revert entirely if there are no stakes in the contract", async function () {
+            const {leaderboard, addr1, addr2} = await loadFixture(deployFixture);
 
-        });
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+            };
 
-        it("should emit UserStakeWithdraw event when successfully withdraw a stake", async function () {
-
+            await expect(leaderboard.connect(addr1).withdrawStake(addr1.address, testRanking.id))
+                .to.be.revertedWith("NoStakesAddedForRankingYet");
+            await expect(leaderboard.connect(addr2).withdrawStake(addr2.address, testRanking.id))
+                .to.be.revertedWith("NoStakesAddedForRankingYet");
         });
     });
 
