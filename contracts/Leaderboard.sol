@@ -113,19 +113,18 @@ contract Leaderboard {
         Ranking storage ranking = rankings[_id];
 
         // Since rank can't be zero, if ranking.rank = 0, it means the ranking doesn't exist.
-        if (ranking.rank != 0) {
-            require(ranking.rank == _rank && ranking.name == _name, "Ranking choice does not exist.");
+        if (ranking.rank == 0) revert RankingDoesNotExist(_id, _rank, _name);
 
-            if (userStakesSize > 0) {
-                returnStakes(_id);
-            }
-            emit RankingRemoved(ranking);
+        require(ranking.rank == _rank && ranking.name == _name, "Ranking choice does not exist.");
 
-            delete rankings[_id];
-            rankingsSize--;
-        } else {
-            revert RankingDoesNotExist(_id, _rank, _name);
+        if (userStakesSize > 0) {
+            returnStakes(_id);
         }
+
+        emit RankingRemoved(ranking);
+
+        delete rankings[_id];
+        rankingsSize--;
     }
 
     function swapRank(uint8 idFrom, uint8 rankFrom, uint8 idTo, uint8 rankTo) public
@@ -281,24 +280,26 @@ contract Leaderboard {
     // Internal functions
 
     function returnStakes(uint8 _id) internal OnlyFacilitator {
-        require(userStakesSize > 0, "There are currently no stakes to return.");
-
-        Stake[] memory stakes = userStakes[_id];
+        Stake[] storage stakes = userStakes[_id];
 
         for (uint256 i = 0; i < stakes.length; i++) {
-            Stake memory stake = stakes[i];
+            Stake storage stake = stakes[i];
 
             require(stake.id == _id, "ID does not match.");
 
             uint256 userStakedAmount = stake.liquidity;
             assert(userStakedAmount > 0);
+            assert(rewardPool > 0);
+            assert(payable(address(this)).balance > 0);
             (bool success, ) = payable(stake.addr).call{ value: userStakedAmount }("");
+
+            emit UserStakeWithdrawn(stake.addr, stake);
 
             if (success) {
                 uint256 rewardPoolPrev = rewardPool;
                 uint256 rewardPoolAfter = removeFromRewardPool(userStakedAmount);
                 assert(rewardPoolAfter < rewardPoolPrev);
-                
+
                 if (userStakesSize > 0) {
                     userStakesSize--;
                 }

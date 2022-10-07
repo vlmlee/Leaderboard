@@ -2,6 +2,7 @@
 import {ethers, waffle} from "hardhat";
 import {expect} from "chai";
 import {loadFixture} from "ethereum-waffle";
+import {BigNumber} from "ethers";
 
 describe("Leaderboard", function () {
     // Test variables
@@ -746,9 +747,74 @@ describe("Leaderboard", function () {
     });
 
     describe("Return stakes", async function () {
-        it("should return stakes if there are any for a removed ranking", async function () {
-            // TODO:
+        it("should return stakes when a ranking is removed if there are any", async function () {
+            const {leaderboard, addr1, addr2} = await loadFixture(deployFixture);
 
+            const initialAddr1Balance = await addr1.getBalance();
+            const initialAddr2Balance = await addr2.getBalance();
+
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+                rank: 3,
+                data: [...Buffer.from("differentsetofdata")]
+            };
+
+            const stakeAmount = "1.0";
+            const rankingsSizePrev = await leaderboard.rankingsSize();
+
+            await expect(leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+                .to.emit(leaderboard, "UserStakeAdded")
+                .withArgs(addr1.address, [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
+
+            expect(+ethers.utils.formatEther(await addr1.getBalance()), "Addr1 balance is not less than before")
+                .to.be.lessThan(+ethers.utils.formatEther(initialAddr1Balance));
+
+            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+                .to.emit(leaderboard, "UserStakeAdded")
+                .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
+
+            expect(+ethers.utils.formatEther(await addr2.getBalance()), "Addr2 balance is not less than before")
+                .to.be.lessThan(+ethers.utils.formatEther(initialAddr2Balance));
+
+            const rewardPoolSize = await leaderboard.rewardPool();
+
+            const beforeRankingRemovedBalance1 = await addr1.getBalance();
+            const beforeRankingRemovedBalance2 = await addr2.getBalance();
+
+           await expect(leaderboard.removeRanking(testRanking.id, testRanking.rank, testRanking.name))
+               .to.emit(leaderboard, "RankingRemoved")
+               .withArgs([testRanking.id, testRanking.name, testRanking.rank, ethers.utils.hexlify(testRanking.data)])
+               .to.emit(leaderboard, "UserStakeWithdrawn")
+               .withArgs(addr1.address, [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)])
+               .to.emit(leaderboard, "UserStakeWithdrawn")
+               .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
+
+            const afterRankingRemovedBalance1 = await addr1.getBalance();
+            const afterRankingRemovedBalance2 = await addr2.getBalance();
+
+            expect(await leaderboard.rankingsSize()).to.equal(rankingsSizePrev - 1);
+            expect(await leaderboard.rewardPool()).to.be.equal(BigNumber.from(rewardPoolSize).sub(ethers.utils.parseEther("2.0")));
+
+            expect(+ethers.utils.formatEther(afterRankingRemovedBalance1), "Addr1 balance is not greater than before")
+                .to.be.greaterThan(+ethers.utils.formatEther(beforeRankingRemovedBalance1));
+            expect(+ethers.utils.formatEther(afterRankingRemovedBalance1), "Addr1 balance is greater than initial value")
+                .to.not.be.greaterThan(+ethers.utils.formatEther(initialAddr1Balance));
+
+            expect(+ethers.utils.formatEther(afterRankingRemovedBalance2), "Addr2 balance is not greater than before")
+                .to.be.greaterThan(+ethers.utils.formatEther(beforeRankingRemovedBalance2));
+            expect(+ethers.utils.formatEther(afterRankingRemovedBalance2), "Addr2 balance is greater than initial value")
+                .to.not.be.greaterThan(+ethers.utils.formatEther(initialAddr2Balance));
+        });
+
+        it("should not return any stakes if none exist", async function () {
+
+            // expect balance to be the same
+            // expect reward pool to be the same
+
+        });
+
+        it("", async function () {
 
         });
     });
