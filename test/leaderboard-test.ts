@@ -890,6 +890,10 @@ describe("Destroy contract", async function () {
         const Leaderboard = await ethers.getContractFactory("Leaderboard");
         const [facilitator, addr1, addr2, addr3] = await ethers.getSigners();
 
+        const initialAddr1Balance = await addr1.getBalance();
+        const initialAddr2Balance = await addr2.getBalance();
+        const initialAddr3Balance = await addr3.getBalance();
+
         const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2025").getTime());
         await leaderboard.deployed();
 
@@ -939,6 +943,17 @@ describe("Destroy contract", async function () {
 
         expect(+(await leaderboard.userStakesSize())).to.be.greaterThan(1);
 
+        const beforeDestroyContractAddr1Balance = await addr1.getBalance();
+        const beforeDestroyContractAddr2Balance = await addr2.getBalance();
+        const beforeDestroyContractAddr3Balance = await addr3.getBalance();
+
+        expect(+ethers.utils.formatEther(beforeDestroyContractAddr1Balance), "Addr1 balance is not less than before the contract is destroyed")
+            .to.be.lessThan(+ethers.utils.formatEther(initialAddr1Balance));
+        expect(+ethers.utils.formatEther(beforeDestroyContractAddr2Balance), "Addr2 balance is not less than before the contract is destroyed")
+            .to.be.lessThan(+ethers.utils.formatEther(initialAddr2Balance));
+        expect(+ethers.utils.formatEther(beforeDestroyContractAddr3Balance), "Addr3 balance is not less than before the contract is destroyed")
+            .to.be.lessThan(+ethers.utils.formatEther(initialAddr3Balance));
+
         await expect(leaderboard.destroyContract())
             .to.emit(leaderboard, "UserStakeWithdrawn")
             .withArgs(addr1.address, [addr1.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)])
@@ -951,5 +966,12 @@ describe("Destroy contract", async function () {
             .to.emit(leaderboard, "UserStakeWithdrawn")
             .withArgs(addr3.address, [addr3.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)])
             .to.emit(leaderboard, "ContractDestroyed");
+
+        expect(+ethers.utils.formatEther(await addr1.getBalance()), "Addr1 balance is not greater than after the contract is destroyed")
+            .to.be.greaterThan(+ethers.utils.formatEther(beforeDestroyContractAddr1Balance));
+        expect(+ethers.utils.formatEther(await addr2.getBalance()), "Addr2 balance is not greater than after the contract is destroyed")
+            .to.be.greaterThan(+ethers.utils.formatEther(beforeDestroyContractAddr2Balance));
+        expect(+ethers.utils.formatEther(await addr3.getBalance()), "Addr3 balance is not greater than after the contract is destroyed")
+            .to.be.greaterThan(+ethers.utils.formatEther(beforeDestroyContractAddr3Balance));
     });
 });
