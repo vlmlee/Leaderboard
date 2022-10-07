@@ -817,15 +817,35 @@ describe("Leaderboard", function () {
                 .to.be.revertedWith("");
         });
 
-        it("should not return any stakes if none exist", async function () {
+        it("should not return any stakes if none exist for the ranking", async function () {
+            const {leaderboard, addr1} = await loadFixture(deployFixture);
 
-            // expect balance to be the same
-            // expect reward pool to be the same
+            const testRanking1 = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 4,
+                data: []
+            };
 
-        });
+            const testRanking2 = {
+                id: 4,
+                name: ethers.utils.formatBytes32String("A name"),
+                rank: 5,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
 
-        it("", async function () {
+            const stakeAmount = "1.0";
 
+            await expect(leaderboard.connect(addr1).addStake(testRanking1.id, testRanking1.name, {value: ethers.utils.parseEther(stakeAmount)}))
+                .to.emit(leaderboard, "UserStakeAdded")
+                .withArgs(addr1.address, [addr1.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)]);
+
+            expect(+(await leaderboard.userStakesSize())).to.be.greaterThan(0);
+
+            await expect(leaderboard.removeRanking(testRanking2.id, testRanking2.rank, testRanking2.name))
+                .to.emit(leaderboard, "RankingRemoved")
+                .withArgs([testRanking2.id, testRanking2.name, testRanking2.rank, ethers.utils.hexlify(testRanking2.data)])
+                .to.not.emit(leaderboard, "UserStakeWithdrawn");
         });
     });
 
