@@ -630,12 +630,13 @@ describe("Leaderboard", function () {
             };
 
             const stakeAmount = "1.0";
+            const rewardPool = await leaderboard.rewardPool();
 
             await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
                 .to.emit(leaderboard, "UserStakeAdded")
                 .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
             expect(await leaderboard.userStakesSize(), "User stake size is not 2").to.equal(2);
-            expect(await leaderboard.rewardPool(), "Reward pool did not update").to.equal(ethers.utils.parseEther("2.0")); // reward pool return value in wei
+            expect(await leaderboard.rewardPool(), "Reward pool did not update").to.equal(BigNumber.from(rewardPool).add(ethers.utils.parseEther(stakeAmount))); // reward pool return value in wei
         });
     });
 
@@ -651,6 +652,10 @@ describe("Leaderboard", function () {
                 id: 2,
             };
 
+            const rewardPool = await leaderboard.rewardPool();
+
+            const stakeAmount = "1.0";
+
             const stakeTx = await leaderboard.connect(addr2).withdrawStake(addr2.address, testRanking.id);
             await stakeTx.wait();
 
@@ -660,7 +665,7 @@ describe("Leaderboard", function () {
                 .to.lessThan(+ethers.utils.formatEther(initialLeaderboardBalance));
 
             expect(await leaderboard.userStakesSize(), "User stake size is not 1").to.equal(1);
-            expect(await leaderboard.rewardPool(), "Reward pool did not update").to.equal(ethers.utils.parseEther("1.0")); // reward pool return value in wei
+            expect(await leaderboard.rewardPool(), "Reward pool did not update").to.equal(BigNumber.from(rewardPool).sub(ethers.utils.parseEther(stakeAmount))); // reward pool return values in wei
 
             await expect(leaderboard.userStakes(testRanking.id, 1)).to.be.revertedWith(""); // Non-named reversion can pass in an empty string
         });
@@ -777,7 +782,7 @@ describe("Leaderboard", function () {
             expect(+ethers.utils.formatEther(await addr2.getBalance()), "Addr2 balance is not less than before")
                 .to.be.lessThan(+ethers.utils.formatEther(initialAddr2Balance));
 
-            const rewardPoolSize = await leaderboard.rewardPool();
+            const rewardPool = await leaderboard.rewardPool();
 
             const beforeRankingRemovedBalance1 = await addr1.getBalance();
             const beforeRankingRemovedBalance2 = await addr2.getBalance();
@@ -793,8 +798,10 @@ describe("Leaderboard", function () {
             const afterRankingRemovedBalance1 = await addr1.getBalance();
             const afterRankingRemovedBalance2 = await addr2.getBalance();
 
-            expect(await leaderboard.rankingsSize()).to.equal(rankingsSizePrev - 1);
-            expect(await leaderboard.rewardPool()).to.be.equal(BigNumber.from(rewardPoolSize).sub(ethers.utils.parseEther("2.0")));
+            expect(await leaderboard.rankingsSize(), "Ranking size did not decrease by 1").to.equal(rankingsSizePrev - 1);
+            expect(await leaderboard.rewardPool(), "Reward pool did not decrease by the amount of stakes removed").to.be.equal(
+                BigNumber.from(rewardPool).sub(ethers.utils.parseEther(stakeAmount)).sub(ethers.utils.parseEther(stakeAmount))
+            );
 
             expect(+ethers.utils.formatEther(afterRankingRemovedBalance1), "Addr1 balance is not greater than before")
                 .to.be.greaterThan(+ethers.utils.formatEther(beforeRankingRemovedBalance1));
