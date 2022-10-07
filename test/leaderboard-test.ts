@@ -812,6 +812,9 @@ describe("Leaderboard", function () {
                 .to.be.greaterThan(+ethers.utils.formatEther(beforeRankingRemovedBalance2));
             expect(+ethers.utils.formatEther(afterRankingRemovedBalance2), "Addr2 balance is greater than initial value")
                 .to.not.be.greaterThan(+ethers.utils.formatEther(initialAddr2Balance));
+
+            await expect(leaderboard.userStakes(testRanking.id, 0)) // array should no longer exist
+                .to.be.revertedWith("");
         });
 
         it("should not return any stakes if none exist", async function () {
