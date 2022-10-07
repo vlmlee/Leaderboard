@@ -239,7 +239,7 @@ contract Leaderboard {
             assert(rewardPoolAfter < rewardPoolPrev);
 
             delete stakes[indexToRemove];
-            if (stakes.length > 0) {
+            if (stakes.length > 1) {
                 // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
                 stakes[indexToRemove] = stakes[stakes.length - 1]; // Copy the last element to the removed element's index.
                 stakes.pop();
