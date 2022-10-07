@@ -9,7 +9,6 @@ describe("Leaderboard", function () {
     const EMPTY_BYTES = "0x";
     const EMPTY_STRING = ethers.utils.formatBytes32String("");
 
-
     async function deployFixture() {
         const Leaderboard = await ethers.getContractFactory("Leaderboard");
         const [facilitator, addr1, addr2, addr3] = await ethers.getSigners();
@@ -884,10 +883,73 @@ describe("Leaderboard", function () {
                 .to.be.revertedWith("ContractEnded");
         });
     });
+});
 
-    describe("Destroy contract", async function () {
-        it("should return all stakes to their respective addresses and emit a ContractDestroyed event", async function () {
+describe("Destroy contract", async function () {
+    it("should return all stakes to their respective addresses and emit a ContractDestroyed event", async function () {
+        const Leaderboard = await ethers.getContractFactory("Leaderboard");
+        const [facilitator, addr1, addr2, addr3] = await ethers.getSigners();
 
-        });
+        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2025").getTime());
+        await leaderboard.deployed();
+
+        const testRanking1 = {
+            id: 0,
+            rank: 1,
+            name: ethers.utils.formatBytes32String("Elon Musk"),
+            data: [...Buffer.from("networth:232.4b")]
+        };
+
+        const testRanking2 = {
+            id: 1,
+            rank: 2,
+            name: ethers.utils.formatBytes32String("Jeff Bezos"),
+            data: [...Buffer.from("networth:144.5b")]
+        };
+
+        const addRankingTx1 = await leaderboard.addRanking(testRanking1.rank, testRanking1.name, testRanking1.data);
+        await addRankingTx1.wait();
+
+        const addRankingTx2 = await leaderboard.addRanking(testRanking2.rank, testRanking2.name, testRanking2.data);
+        await addRankingTx2.wait();
+
+        const stakeAmount = "1.0";
+
+        expect(+(await leaderboard.userStakesSize())).to.equal(0);
+
+        await expect(leaderboard.connect(addr1).addStake(testRanking1.id, testRanking1.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            .to.emit(leaderboard, "UserStakeAdded")
+            .withArgs(addr1.address, [addr1.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)]);
+
+        await expect(leaderboard.connect(addr1).addStake(testRanking2.id, testRanking2.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            .to.emit(leaderboard, "UserStakeAdded")
+            .withArgs(addr1.address, [addr1.address, testRanking2.id, testRanking2.name, ethers.utils.parseEther(stakeAmount)]);
+
+        await expect(leaderboard.connect(addr2).addStake(testRanking1.id, testRanking1.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            .to.emit(leaderboard, "UserStakeAdded")
+            .withArgs(addr2.address, [addr2.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)]);
+
+        await expect(leaderboard.connect(addr2).addStake(testRanking2.id, testRanking2.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            .to.emit(leaderboard, "UserStakeAdded")
+            .withArgs(addr2.address, [addr2.address, testRanking2.id, testRanking2.name, ethers.utils.parseEther(stakeAmount)]);
+
+        await expect(leaderboard.connect(addr3).addStake(testRanking1.id, testRanking1.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            .to.emit(leaderboard, "UserStakeAdded")
+            .withArgs(addr3.address, [addr3.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)]);
+
+        expect(+(await leaderboard.userStakesSize())).to.be.greaterThan(1);
+
+        await expect(leaderboard.destroyContract())
+            .to.emit(leaderboard, "UserStakeWithdrawn")
+            .withArgs(addr1.address, [addr1.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)])
+            .to.emit(leaderboard, "UserStakeWithdrawn")
+            .withArgs(addr1.address, [addr1.address, testRanking2.id, testRanking2.name, ethers.utils.parseEther(stakeAmount)])
+            .to.emit(leaderboard, "UserStakeWithdrawn")
+            .withArgs(addr2.address, [addr2.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)])
+            .to.emit(leaderboard, "UserStakeWithdrawn")
+            .withArgs(addr2.address, [addr2.address, testRanking2.id, testRanking2.name, ethers.utils.parseEther(stakeAmount)])
+            .to.emit(leaderboard, "UserStakeWithdrawn")
+            .withArgs(addr3.address, [addr3.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)])
+            .to.emit(leaderboard, "ContractDestroyed");
     });
 });
