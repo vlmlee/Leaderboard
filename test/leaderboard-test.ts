@@ -836,6 +836,8 @@ describe("Leaderboard", function () {
 
             const stakeAmount = "1.0";
 
+            expect(+(await leaderboard.userStakesSize())).to.equal(0);
+
             await expect(leaderboard.connect(addr1).addStake(testRanking1.id, testRanking1.name, {value: ethers.utils.parseEther(stakeAmount)}))
                 .to.emit(leaderboard, "UserStakeAdded")
                 .withArgs(addr1.address, [addr1.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)]);
@@ -846,6 +848,8 @@ describe("Leaderboard", function () {
                 .to.emit(leaderboard, "RankingRemoved")
                 .withArgs([testRanking2.id, testRanking2.name, testRanking2.rank, ethers.utils.hexlify(testRanking2.data)])
                 .to.not.emit(leaderboard, "UserStakeWithdrawn");
+
+            expect(+(await leaderboard.userStakesSize())).to.be.greaterThan(0);
         });
     });
 
