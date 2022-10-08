@@ -312,7 +312,7 @@ contract Leaderboard {
 
                 Ranking memory _rank = getRankingFromId(stakes[j].id);
 
-                if ((_rank.startingRank - _rank.rank) > 0) {
+                if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) {
                     initialFundingRewardsToCalculate.push();
                 }
             }
