@@ -639,6 +639,7 @@ describe("Leaderboard", function () {
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
             };
 
+            const initialFundingAmount = "2.0";
             const stakeAmount = "1.0";
 
             const stakeTx = await leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)});
@@ -651,7 +652,7 @@ describe("Leaderboard", function () {
             expect(+ethers.utils.formatEther(await provider.getBalance(leaderboard.address)), "Leaderboard contract balance is not greater than before")
                 .to.greaterThan(+ethers.utils.formatEther(initialLeaderboardBalance));
             expect(await leaderboard.userStakesSize(), "User stake size is not 1").to.equal(1);
-            expect(await leaderboard.rewardPool(), "Reward pool did not update").to.equal(ethers.utils.parseEther(stakeAmount)); // reward pool return value in wei
+            expect(await leaderboard.rewardPool(), "Reward pool did not update").to.equal(BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(ethers.utils.parseEther(initialFundingAmount))); // reward pool return value in wei
 
             // Checking the stake added by the user
             expect(stake.addr, "Stake has incorrect address").to.equal(addr1.address);
@@ -858,6 +859,7 @@ describe("Leaderboard", function () {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
                 rank: 3,
+                startingRank: 3,
                 data: [...Buffer.from("differentsetofdata")]
             };
 
@@ -885,7 +887,7 @@ describe("Leaderboard", function () {
 
            await expect(leaderboard.removeRanking(testRanking.id, testRanking.rank, testRanking.name))
                .to.emit(leaderboard, "RankingRemoved")
-               .withArgs([testRanking.id, testRanking.name, testRanking.rank, ethers.utils.hexlify(testRanking.data)])
+               .withArgs([testRanking.id, testRanking.name, testRanking.rank, testRanking.startingRank, ethers.utils.hexlify(testRanking.data)])
                .to.emit(leaderboard, "UserStakeWithdrawn")
                .withArgs(addr1.address, [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)])
                .to.emit(leaderboard, "UserStakeWithdrawn")
@@ -920,6 +922,7 @@ describe("Leaderboard", function () {
                 id: 3,
                 name: ethers.utils.formatBytes32String("Someone"),
                 rank: 4,
+                startingRank: 4,
                 data: []
             };
 
@@ -927,6 +930,7 @@ describe("Leaderboard", function () {
                 id: 4,
                 name: ethers.utils.formatBytes32String("A name"),
                 rank: 5,
+                startingRank: 5,
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
@@ -942,7 +946,7 @@ describe("Leaderboard", function () {
 
             await expect(leaderboard.removeRanking(testRanking2.id, testRanking2.rank, testRanking2.name))
                 .to.emit(leaderboard, "RankingRemoved")
-                .withArgs([testRanking2.id, testRanking2.name, testRanking2.rank, ethers.utils.hexlify(testRanking2.data)])
+                .withArgs([testRanking2.id, testRanking2.name, testRanking2.rank, testRanking2.startingRank, ethers.utils.hexlify(testRanking2.data)])
                 .to.not.emit(leaderboard, "UserStakeWithdrawn");
 
             expect(+(await leaderboard.userStakesSize())).to.be.greaterThan(0);
@@ -985,7 +989,7 @@ describe("Leaderboard", function () {
 describe("Destroy contract", async function () {
     it("should return all stakes to their respective addresses and emit a ContractDestroyed event", async function () {
         const Leaderboard = await ethers.getContractFactory("Leaderboard");
-        const [facilitator, addr1, addr2, addr3] = await ethers.getSigners();
+        const [addr1, addr2, addr3] = await ethers.getSigners();
 
         const initialAddr1Balance = await addr1.getBalance();
         const initialAddr2Balance = await addr2.getBalance();
