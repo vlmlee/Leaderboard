@@ -13,7 +13,10 @@ describe("Leaderboard", function () {
         const Leaderboard = await ethers.getContractFactory("Leaderboard");
         const [facilitator, addr1, addr2, addr3] = await ethers.getSigners();
 
-        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime(), { value: ethers.utils.parseEther("2.0") });
+        const commissionFee = ethers.utils.parseEther("0.0025");
+        const initialFunding = ethers.utils.parseEther("2.0");
+
+        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime(), commissionFee, {value: initialFunding});
         await leaderboard.deployed();
 
         const testRankings = [
@@ -48,22 +51,24 @@ describe("Leaderboard", function () {
         it("should not deploy the contract if it isn't funded", async function () {
             const Leaderboard = await ethers.getContractFactory("Leaderboard");
 
-            await expect(Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime(), { value: ethers.utils.parseEther("0.0") }))
+            const commissionFee = ethers.utils.parseEther("0.0025");
+
+            await expect(Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime(), commissionFee, {value: ethers.utils.parseEther("0.0")}))
                 .to.be.revertedWith("ContractNotFunded");
         });
     });
 
     describe("Initial balance", async function () {
-       it("should be funded with an initial balance for the reward pool", async function () {
-           const {leaderboard} = await loadFixture(deployFixture);
-           const provider = waffle.provider;
+        it("should be funded with an initial balance for the reward pool", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+            const provider = waffle.provider;
 
-           const initialFunding = ethers.utils.parseEther("2.0");
+            const initialFunding = ethers.utils.parseEther("2.0");
 
-           expect(await provider.getBalance(leaderboard.address), "Contract balance does not equal the funding amount").to.equal(initialFunding);
-           expect(await leaderboard.rewardPool(), "The reward pool did not update").to.equal(initialFunding);
-           expect(await leaderboard.initialFunding(), "The initial funding did not update").to.equal(initialFunding);
-       });
+            expect(await provider.getBalance(leaderboard.address), "Contract balance does not equal the funding amount").to.equal(initialFunding);
+            expect(await leaderboard.rewardPool(), "The reward pool did not update").to.equal(initialFunding);
+            expect(await leaderboard.initialFunding(), "The initial funding did not update").to.equal(initialFunding);
+        });
     });
 
     describe("Get rankings", async function () {
@@ -885,13 +890,13 @@ describe("Leaderboard", function () {
             const beforeRankingRemovedBalance1 = await addr1.getBalance();
             const beforeRankingRemovedBalance2 = await addr2.getBalance();
 
-           await expect(leaderboard.removeRanking(testRanking.id, testRanking.rank, testRanking.name))
-               .to.emit(leaderboard, "RankingRemoved")
-               .withArgs([testRanking.id, testRanking.name, testRanking.rank, testRanking.startingRank, ethers.utils.hexlify(testRanking.data)])
-               .to.emit(leaderboard, "UserStakeWithdrawn")
-               .withArgs(addr1.address, [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)])
-               .to.emit(leaderboard, "UserStakeWithdrawn")
-               .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
+            await expect(leaderboard.removeRanking(testRanking.id, testRanking.rank, testRanking.name))
+                .to.emit(leaderboard, "RankingRemoved")
+                .withArgs([testRanking.id, testRanking.name, testRanking.rank, testRanking.startingRank, ethers.utils.hexlify(testRanking.data)])
+                .to.emit(leaderboard, "UserStakeWithdrawn")
+                .withArgs(addr1.address, [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)])
+                .to.emit(leaderboard, "UserStakeWithdrawn")
+                .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
 
             const afterRankingRemovedBalance1 = await addr1.getBalance();
             const afterRankingRemovedBalance2 = await addr2.getBalance();
@@ -995,7 +1000,9 @@ describe("Destroy contract", async function () {
         const initialAddr2Balance = await addr2.getBalance();
         const initialAddr3Balance = await addr3.getBalance();
 
-        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2025").getTime(), { value: ethers.utils.parseEther("2.0") });
+        const commissionFee = ethers.utils.parseEther("0.0025");
+
+        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2025").getTime(), commissionFee, {value: ethers.utils.parseEther("2.0")});
         await leaderboard.deployed();
 
         const testRanking1 = {

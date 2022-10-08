@@ -30,7 +30,7 @@ export default function LineChart(data, {
     strokeOpacity = 1, // stroke opacity of line
 } = {}) {
     const svgRef = React.useRef(null);
-    
+
     React.useEffect(() => {
         // Compute values.
         const X = d3.map(data, x);
@@ -38,58 +38,58 @@ export default function LineChart(data, {
         const I = d3.range(X.length);
         if (defined === undefined) defined = (d, i) => !isNaN(X[i]) && !isNaN(Y[i]);
         const D = d3.map(data, defined);
-    
+
         // Compute default domains.
         if (xDomain === undefined) xDomain = d3.extent(X);
         if (yDomain === undefined) yDomain = [0, d3.max(Y)];
-    
+
         // Construct scales and axes.
         const xScale = xType(xDomain, xRange);
         const yScale = yType(yDomain, yRange);
         const xAxis = d3.axisBottom(xScale).ticks(width / 80).tickSizeOuter(0);
         const yAxis = d3.axisLeft(yScale).ticks(height / 40, yFormat);
-    
+
         // Construct a line generator.
         const line = d3.line()
-        .defined(i => D[i])
-        .curve(curve)
-        .x(i => xScale(X[i]))
-        .y(i => yScale(Y[i]));
-    
+            .defined(i => D[i])
+            .curve(curve)
+            .x(i => xScale(X[i]))
+            .y(i => yScale(Y[i]));
+
         const svg = d3.select(svgRef.current);
         svg.selectAll("*").remove();
         svg.attr("width", width)
-        .attr("height", height)
-        .attr("viewBox", [0, 0, width, height])
-        .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
-    
+            .attr("height", height)
+            .attr("viewBox", [0, 0, width, height])
+            .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
+
         svg.append("g")
-        .attr("transform", `translate(0,${height - marginBottom})`)
-        .call(xAxis);
-    
+            .attr("transform", `translate(0,${height - marginBottom})`)
+            .call(xAxis);
+
         svg.append("g")
-        .attr("transform", `translate(${marginLeft},0)`)
-        .call(yAxis)
-        .call(g => g.select(".domain").remove())
-        .call(g => g.selectAll(".tick line").clone()
-        .attr("x2", width - marginLeft - marginRight)
-        .attr("stroke-opacity", 0.1))
-        .call(g => g.append("text")
-        .attr("x", -marginLeft)
-        .attr("y", 10)
-        .attr("fill", "currentColor")
-        .attr("text-anchor", "start")
-        .text(yLabel));
-    
+            .attr("transform", `translate(${marginLeft},0)`)
+            .call(yAxis)
+            .call(g => g.select(".domain").remove())
+            .call(g => g.selectAll(".tick line").clone()
+                .attr("x2", width - marginLeft - marginRight)
+                .attr("stroke-opacity", 0.1))
+            .call(g => g.append("text")
+                .attr("x", -marginLeft)
+                .attr("y", 10)
+                .attr("fill", "currentColor")
+                .attr("text-anchor", "start")
+                .text(yLabel));
+
         svg.append("path")
-        .attr("fill", "none")
-        .attr("stroke", color)
-        .attr("stroke-width", strokeWidth)
-        .attr("stroke-linecap", strokeLinecap)
-        .attr("stroke-linejoin", strokeLinejoin)
-        .attr("stroke-opacity", strokeOpacity)
-        .attr("d", line(I));
+            .attr("fill", "none")
+            .attr("stroke", color)
+            .attr("stroke-width", strokeWidth)
+            .attr("stroke-linecap", strokeLinecap)
+            .attr("stroke-linejoin", strokeLinejoin)
+            .attr("stroke-opacity", strokeOpacity)
+            .attr("d", line(I));
     }, [data]);
-    
-    return <svg ref={svgRef} width={width} height={height} />;
+
+    return <svg ref={svgRef} width={width} height={height}/>;
 }

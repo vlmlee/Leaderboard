@@ -1,10 +1,9 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Card from "./Card";
 import "./CardsContainer.scss";
 import {chunk} from "lodash";
 import {Ranking} from "./ListContainer";
 import SearchBar from "./SearchBar";
-import {useState, useEffect} from "react";
 import getPhoto from "../helpers/getPhoto";
 import PageIndices from "./PageIndices";
 
@@ -140,7 +139,7 @@ export default function CardsContainer() {
         <div className={"search-bar-container"}>
             <SearchBar filterResults={filterResults}/>
         </div>
-        <PageIndices pages={Math.ceil((rankings.length / 20))} />
+        <PageIndices pages={Math.ceil((rankings.length / 20))}/>
         {generateCards()}
     </div>;
 }

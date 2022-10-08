@@ -14,13 +14,13 @@ async function main() {
     // If this script is run directly using `node` you may want to call compile
     // manually to make sure everything is compiled
     // await hre.run('compile');
-    
+
     // We get the contract to deploy
     const Leaderboard = await hre.ethers.getContractFactory("Leaderboard");
     const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime());
-    
+
     await leaderboard.deployed();
-    
+
     console.log("Leaderboard deployed to:", leaderboard.address);
 
     saveFrontendFiles(leaderboard, "Leaderboard");
@@ -36,7 +36,7 @@ function saveFrontendFiles(contract, name) {
 
     fs.writeFileSync(
         contractsDir + `/${name}-address.json`,
-        JSON.stringify({ address: contract.address }, undefined, 2)
+        JSON.stringify({address: contract.address}, undefined, 2)
     );
 
     const contractArtifact = artifacts.readArtifactSync(name);

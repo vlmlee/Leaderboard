@@ -5,7 +5,7 @@ import "./Leaderboard.sol";
 
 contract SubstackLeaderboard is Leaderboard {
 
-    constructor(uint256 _endTime) Leaderboard(bytes32("Substack Leaderboard"), _endTime) {
+    constructor(uint256 _endTime, uint256 _commissionFee) Leaderboard(bytes32("Substack Leaderboard"), _endTime, _commissionFee) {
 
     }
 }

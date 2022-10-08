@@ -7,6 +7,7 @@ contract Leaderboard {
     uint256 public endTime;
     uint256 public rewardPool;
     uint256 public initialFunding;
+    uint256 public commissionFee;
 
     event RankingAdded(Ranking _ranking);
     event RankingRemoved(Ranking _ranking);
@@ -18,8 +19,10 @@ contract Leaderboard {
     event UserStakeAdded(address indexed _user, Stake _stake);
     event UserStakeWithdrawn(address indexed _user, Stake _stake);
     event ContractDestroyed();
+    event UnableToAllocateReward(address indexed _user, uint256 _stakedAmount);
+    event SuccessfullyAllocatedRewardTo(address indexed _user, uint256 _reward);
 
-     modifier OnlyFacilitator() {
+    modifier OnlyFacilitator() {
         if (msg.sender != facilitator) revert UserIsNotFacilitator();
         _;
     }
@@ -76,10 +79,11 @@ contract Leaderboard {
     error NoStakesAddedForContractYet();
     error ContractNotFunded();
 
-    constructor(bytes32 _leaderboardName, uint256 _endTime) payable {
+    constructor(bytes32 _leaderboardName, uint256 _endTime, uint256 _commissionFee) payable {
         facilitator = msg.sender;
         leaderboardName = _leaderboardName;
         endTime = _endTime;
+        commissionFee = _commissionFee;
 
         if (!(msg.value > 0)) revert ContractNotFunded();
         initialFunding = msg.value;
@@ -150,9 +154,9 @@ contract Leaderboard {
     }
 
     function swapRank(uint8 idFrom, uint8 rankFrom, uint8 idTo, uint8 rankTo) public
-        OnlyFacilitator
-        GreaterThanOneRank(rankFrom)
-        GreaterThanOneRank(rankTo)
+    OnlyFacilitator
+    GreaterThanOneRank(rankFrom)
+    GreaterThanOneRank(rankTo)
     {
         Ranking storage rankingFrom = rankings[idFrom];
         Ranking storage rankingTo = rankings[idTo];
@@ -213,10 +217,10 @@ contract Leaderboard {
         }
 
         Stake memory stake = Stake({
-            addr: msg.sender,
-            liquidity: msg.value,
-            id: _id,
-            name: _name
+        addr : msg.sender,
+        liquidity : msg.value,
+        id : _id,
+        name : _name
         });
 
         stakes.push(stake);
@@ -231,7 +235,7 @@ contract Leaderboard {
     function withdrawStake(address _user, uint8 _id) public virtual HasContractEnded(endTime) {
         require(msg.sender == _user || msg.sender == facilitator, "Transaction sender is neither the owner of the stake or the facilitator.");
         if (userStakes[_id].length == 0) revert NoStakesAddedForRankingYet(_id);
-        
+
         Stake[] storage stakes = userStakes[_id];
         Stake memory stake;
         uint256 indexToRemove;
@@ -252,7 +256,7 @@ contract Leaderboard {
         assert(userStakedAmount > 0);
         assert(rewardPool > 0);
         assert(payable(address(this)).balance > 0);
-        (bool success, ) = payable(_user).call{ value: userStakedAmount }("");
+        (bool success,) = payable(_user).call{value : userStakedAmount}("");
 
         if (success) {
             uint256 rewardPoolPrev = rewardPool;
@@ -261,8 +265,10 @@ contract Leaderboard {
 
             delete stakes[indexToRemove];
             // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
-            stakes[indexToRemove] = stakes[stakes.length - 1]; // Copy the last element to the removed element's index.
-            stakes.pop(); // removes the last element and decrements the array's length
+            stakes[indexToRemove] = stakes[stakes.length - 1];
+            // Copy the last element to the removed element's index.
+            stakes.pop();
+            // removes the last element and decrements the array's length
 
             if (userStakesSize > 0) {
                 userStakesSize--;
@@ -281,6 +287,18 @@ contract Leaderboard {
      *  1. First past the post: winner takes all.
      *  2. Rank choice: reward is proportional to the ranking achieved.
      *  3. Rank changed: reward is proportional to the ranking net change.
+     *
+     * The contract will default into a rank changed reward system where users will gain/lose
+     * stakes in proportion to how much they have staked and how much the ranking has changed.
+     * A rank gain > 10 will give the maximum reward. A rank loss > 10 will allocate all staked
+     * eth into the reward pool where it will be reallocated to the rank gainers.
+     *
+     * The incentive to stake is the initial balance funded by the contract creator which will
+     * only be reallocated to users who have staked onto rank gainers. Users who have staked
+     * onto rank losers will not partake in this reward.
+     *
+     * The contract creator/facilitator will gain a commission for every stake. Hence, the break
+     * even for the contract will be if: userStakesSize * commissionFee > initialFunding.
      */
     function allocateReward() external virtual OnlyFacilitator HasContractEnded(endTime) {
         if (userStakesSize < 1) revert NoStakesAddedForContractYet();
@@ -306,12 +324,20 @@ contract Leaderboard {
         // Reward for net change in rankings where the counterparties are the users. Negative ranking
         // changes deducts from a user's return amount and gets added into the reward pool.
         for (uint8 i = 0; i < stakeRewardsToCalculate.length; i++) {
-            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i])) / 10000; // Needs to be divided by 10000 to cancel out calculateNorm and calculateWeight precision padding
+            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i])) / 10000;
+            // Needs to be divided by 10000 to cancel out calculateNorm and calculateWeight precision padding
 
-            (bool success,) = payable(stakeRewardsToCalculate[i].addr).call{ value: returnedAmount }("");
+            uint256 userStakedAmount = stakeRewardsToCalculate[i].liquidity;
+            assert(userStakedAmount > 0);
+            assert(rewardPool > 0);
+            assert(payable(address(this)).balance > 0);
+
+            (bool success,) = payable(stakeRewardsToCalculate[i].addr).call{value : returnedAmount}("");
 
             if (success) {
-
+                emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i].addr, returnedAmount);
+            } else {
+                emit UnableToAllocateReward(stakeRewardsToCalculate[i].addr, userStakedAmount);
             }
         }
 
@@ -319,10 +345,17 @@ contract Leaderboard {
         for (uint8 i = 0; i < initialFundingRewardsToCalculate.length; i++) {
             uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i])) / 10000;
 
-            (bool success,) = payable(initialFundingRewardsToCalculate[i].addr).call{ value: returnedAmount }("");
+            uint256 userStakedAmount = initialFundingRewardsToCalculate[i].liquidity;
+            assert(userStakedAmount > 0);
+            assert(rewardPool > 0);
+            assert(payable(address(this)).balance > 0);
+
+            (bool success,) = payable(initialFundingRewardsToCalculate[i].addr).call{value : returnedAmount}("");
 
             if (success) {
-
+                emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i].addr, returnedAmount);
+            } else {
+                emit UnableToAllocateReward(stakeRewardsToCalculate[i].addr, userStakedAmount);
             }
         }
     }
@@ -355,10 +388,10 @@ contract Leaderboard {
 
         if (rankChanged > 10) {
             return 200;
-        } else if (rankChanged < -10) {
+        } else if (rankChanged < - 10) {
             return 0;
         } else {
-            return rankChanged > 0 ? ((_rank.startingRank - _rank.rank)*10) + 100 : 100 - ((_rank.rank - _rank.startingRank)*10);
+            return rankChanged > 0 ? ((_rank.startingRank - _rank.rank) * 10) + 100 : 100 - ((_rank.rank - _rank.startingRank) * 10);
         }
     }
 
@@ -389,7 +422,7 @@ contract Leaderboard {
             assert(userStakedAmount > 0);
             assert(rewardPool > 0);
             assert(payable(address(this)).balance > 0);
-            (bool success, ) = payable(stake.addr).call{ value: userStakedAmount }("");
+            (bool success,) = payable(stake.addr).call{value : userStakedAmount}("");
 
             emit UserStakeWithdrawn(stake.addr, stake);
 

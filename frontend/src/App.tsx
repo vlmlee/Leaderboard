@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './stylesheets/App.scss';
 import {NavLink, Outlet} from "react-router-dom";
-import { ethers } from "ethers";
+import {ethers} from "ethers";
 
 import LeaderboardAddress from "./contractsData/Leaderboard-address.json";
 import LeaderboardAbi from "./contractsData/Leaderboard.json";
@@ -17,7 +17,7 @@ function App() {
     const [contract, setContract] = useState({});
 
     const web3Handler = async () => {
-        const accounts = await _window.ethereum.request({ method: "eth_requestAccounts" });
+        const accounts = await _window.ethereum.request({method: "eth_requestAccounts"});
         setAccount(accounts[0]);
 
         const provider = new ethers.providers.Web3Provider(_window.ethereum);
@@ -65,9 +65,9 @@ function App() {
             <h1>World's Richest People</h1>
             <h2>by Forbes</h2>
             {account ? <a href={`https://etherscan.io/address/${account}`}
-                                target="_blank"
-                                rel="noopener noreferrer">{account}</a>
-            : <button onClick={web3Handler}>Connect Wallet</button>}
+                          target="_blank"
+                          rel="noopener noreferrer">{account}</a>
+                : <button onClick={web3Handler}>Connect Wallet</button>}
             <Outlet/>
         </div>
     );

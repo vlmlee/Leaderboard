@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import List from "./List";
 import "./ListContainer.scss";
 import SearchBar from "./SearchBar";
@@ -93,7 +93,7 @@ export default function ListContainer() {
 
     const generateList = () => {
         const arr: any = [];
-        rankings.slice(currentPage*5, currentPage*5 + 5).forEach((ranking: Ranking, i: number) => {
+        rankings.slice(currentPage * 5, currentPage * 5 + 5).forEach((ranking: Ranking, i: number) => {
             arr.push(<List key={i}
                            rank={ranking.rank}
                            name={ranking.name}
