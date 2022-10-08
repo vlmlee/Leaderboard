@@ -46,6 +46,12 @@ describe("Leaderboard", function () {
         });
     });
 
+    describe("Initial balance", async function () {
+       it("should be funded with an initial balance for the reward pool", async function () {
+
+       });
+    });
+
     describe("Get rankings", async function () {
         it("should get a ranking given an id", async function () {
             const {leaderboard} = await loadFixture(deployFixture);

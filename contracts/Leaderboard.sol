@@ -6,6 +6,7 @@ contract Leaderboard {
     bytes32 public leaderboardName;
     uint256 public endTime;
     uint256 public rewardPool;
+    uint256 public initialFunding;
 
     event RankingAdded(Ranking _ranking);
     event RankingRemoved(Ranking _ranking);
@@ -37,6 +38,7 @@ contract Leaderboard {
         uint8 id; // ID to make sure that the choice is unique.
         bytes32 name;
         uint8 rank;
+        uint8 startingRank;
         bytes data; // arbitrary criteria for ranking
     }
 
@@ -54,6 +56,9 @@ contract Leaderboard {
     mapping(uint8 => Stake[]) public userStakes;
     uint256 public userStakesSize;
 
+    Stake[] public stakeRewardsToCalculate;
+    Stake[] public initialFundingRewardsToCalculate;
+
     error UserIsNotFacilitator();
     error RankNeedsToBeGreaterThanOne();
     error UserAlreadyStaked(string _errorMessage);
@@ -68,11 +73,17 @@ contract Leaderboard {
     error RankingDataArgCannotBeEmpty();
     error RankingDataSuppliedIsTheSame();
     error NoStakesAddedForRankingYet(uint8 _id);
+    error NoStakesAddedForContractYet();
+    error ContractNotFunded();
 
-    constructor(bytes32 _leaderboardName, uint256 _endTime) {
+    constructor(bytes32 _leaderboardName, uint256 _endTime) payable {
         facilitator = msg.sender;
         leaderboardName = _leaderboardName;
         endTime = _endTime;
+
+        if (!(msg.value > 0)) revert ContractNotFunded();
+        initialFunding = msg.value;
+        addToRewardPool(msg.value);
     }
 
     receive() external payable {}
@@ -85,6 +96,16 @@ contract Leaderboard {
         }
 
         if (ranking.rank == 0) revert RankingDoesNotExist(0, _rank, bytes32(0));
+    }
+
+    function getRankingFromId(uint8 _id) public view returns (Ranking memory ranking) {
+        for (uint8 i = 0; i < rankingsCurrentId; i++) {
+            if (rankings[i].id == _id) {
+                ranking = rankings[i];
+            }
+        }
+
+        if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
     }
 
     function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public OnlyFacilitator GreaterThanOneRank(_rank) {
@@ -261,7 +282,83 @@ contract Leaderboard {
      *  3. Rank changed: reward is proportional to the ranking net change.
      */
     function allocateReward() external virtual OnlyFacilitator HasContractEnded(endTime) {
+        if (userStakesSize < 1) revert NoStakesAddedForContractYet();
 
+        // Get all user stakes
+        for (uint8 i = 0; i <= rankingsCurrentId; i++) {
+            Stake[] storage stakes = userStakes[i];
+
+            for (uint8 j = 0; j < stakes.length; i++) {
+                stakeRewardsToCalculate.push(stakes[j]);
+
+                Ranking memory _rank = getRankingFromId(stakes[j].id);
+
+                if ((_rank.startingRank - _rank.rank) > 0) {
+                    initialFundingRewardsToCalculate.push();
+                }
+            }
+        }
+
+        uint256 normForStakeRewards = calculateNorm(stakeRewardsToCalculate, rewardPool - initialFunding);
+        uint256 normForInitialFundingReward = calculateNorm(initialFundingRewardsToCalculate, initialFunding);
+
+        // Reward for net change in rankings where the counterparties are the users. Negative ranking
+        // changes deducts from a user's return amount and gets added into the reward pool.
+        for (uint8 i = 0; i < stakeRewardsToCalculate.length; i++) {
+            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i])) / 10000; // Needs to be divided by 10000 to cancel out calculateNorm and calculateWeight precision padding
+
+            (bool success,) = payable(stakeRewardsToCalculate[i].addr).call{ value: returnedAmount }("");
+
+            if (success) {
+
+            }
+        }
+
+        // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
+        for (uint8 i = 0; i < initialFundingRewardsToCalculate.length; i++) {
+            uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i])) / 10000;
+
+            (bool success,) = payable(initialFundingRewardsToCalculate[i].addr).call{ value: returnedAmount }("");
+
+            if (success) {
+
+            }
+        }
+    }
+
+    // The returned value is multiplied by a factor of 100 to keep two decimal places of precision.
+    function calculateNorm(Stake[] memory stakesToCalculate, uint256 poolAmount) public view virtual OnlyFacilitator returns (uint256 norm) {
+        uint256 weightsSum;
+
+        // Sum up all the coefficients to calculate amount of wei to return to users
+        for (uint8 i = 0; i < stakesToCalculate.length; i++) {
+            weightsSum += calculateWeight(stakesToCalculate[i]);
+        }
+
+        // To get the amount return for each individual stake, the formula will be: weight coefficient * norm
+        // We multiply by 10000 here to keep a precision of two decimal places since weightsSum is a factor of 100.
+        norm = (10000 * poolAmount) / weightsSum;
+    }
+
+    // The weight is how much the user has staked multiplied by the net change of the ranking.
+    function calculateWeight(Stake memory _stake) public view virtual OnlyFacilitator returns (uint256) {
+        return getRankChangedNormalizedCoefficient(_stake) * _stake.liquidity;
+    }
+
+    // To avoid fractions, we multiply the coefficient by 100 so we don't have to use, for example: 1.1, 0.5, 0.8, 1.8
+    // Max reward is offered with a positive rank change of greater than 10.
+    // If the rank has dropped by more than 10, the user's entire stake will be allocated to other users.
+    function getRankChangedNormalizedCoefficient(Stake memory _stake) public view virtual OnlyFacilitator returns (uint256) {
+        Ranking memory _rank = getRankingFromId(_stake.id);
+        int8 rankChanged = int8(_rank.startingRank) - int8(_rank.rank);
+
+        if (rankChanged > 10) {
+            return 200;
+        } else if (rankChanged < -10) {
+            return 0;
+        } else {
+            return rankChanged > 0 ? ((_rank.startingRank - _rank.rank)*10) + 100 : 100 - ((_rank.rank - _rank.startingRank)*10);
+        }
     }
 
     function destroyContract() external OnlyFacilitator {
