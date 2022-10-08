@@ -140,8 +140,7 @@ contract Leaderboard {
 
         // Since rank can't be zero, if ranking.rank = 0, it means the ranking doesn't exist.
         if (ranking.rank == 0) revert RankingDoesNotExist(_id, _rank, _name);
-
-        require(ranking.rank == _rank && ranking.name == _name, "Ranking choice does not exist.");
+        if (!(ranking.rank == _rank && ranking.name == _name)) revert RankingDoesNotExist(_id, _rank, _name);
 
         if (userStakesSize > 0) {
             returnStakes(_id);
