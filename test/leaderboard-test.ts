@@ -71,6 +71,12 @@ describe("Leaderboard", function () {
         });
     });
 
+    describe("Commission Fee", async function () {
+       it("should have a commission fee set", async function () {
+
+       });
+    });
+
     describe("Get rankings", async function () {
         it("should get a ranking given a rank", async function () {
             const {leaderboard} = await loadFixture(deployFixture);
