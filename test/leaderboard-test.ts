@@ -73,8 +73,19 @@ describe("Leaderboard", function () {
 
     describe("Commission Fee", async function () {
        it("should have a commission fee set", async function () {
+           const {leaderboard} = await loadFixture(deployFixture);
+           const commissionFee = ethers.utils.parseEther("0.0025");
 
+           expect(await leaderboard.commissionFee()).to.equal(commissionFee);
        });
+    });
+
+    describe("Minimum Stake Amount", async function () {
+        it("should have a minimum stake amount set", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            expect(+(await leaderboard.minimumStake())).to.be.greaterThan(0);
+        });
     });
 
     describe("Get rankings", async function () {
