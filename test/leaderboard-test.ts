@@ -685,7 +685,18 @@ describe("Leaderboard", function () {
         });
 
         it("should revert if a user cannot pay the commission fee", async function () {
+            const {leaderboard, addr2} = await loadFixture(deployFixture);
 
+            const testRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Bernard Arnault"),
+            };
+
+            const stakeAmount = "0.05";
+            const commissionFee = ethers.utils.parseEther("0.0");
+
+            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
+                .to.be.revertedWith("AmountHasToBeGreaterThanMinimumStakePlusCommission");
         });
 
         it("should revert if a user is trying to stake onto an invalid id", async function () {
