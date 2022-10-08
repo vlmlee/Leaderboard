@@ -13,7 +13,7 @@ describe("Leaderboard", function () {
         const Leaderboard = await ethers.getContractFactory("Leaderboard");
         const [facilitator, addr1, addr2, addr3] = await ethers.getSigners();
 
-        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime());
+        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime(), { value: ethers.utils.parseEther("2.0") });
         await leaderboard.deployed();
 
         const testRankings = [
@@ -44,22 +44,37 @@ describe("Leaderboard", function () {
             const {leaderboard, facilitator} = await loadFixture(deployFixture);
             expect(await leaderboard.facilitator(), "Address did not match facilitator").to.equal(facilitator.address);
         });
+
+        it("should not deploy the contract if it isn't funded", async function () {
+            const Leaderboard = await ethers.getContractFactory("Leaderboard");
+
+            await expect(Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime(), { value: ethers.utils.parseEther("0.0") }))
+                .to.be.revertedWith("ContractNotFunded");
+        });
     });
 
     describe("Initial balance", async function () {
        it("should be funded with an initial balance for the reward pool", async function () {
+           const {leaderboard} = await loadFixture(deployFixture);
+           const provider = waffle.provider;
 
+           const initialFunding = ethers.utils.parseEther("2.0");
+
+           expect(await provider.getBalance(leaderboard.address)).to.equal(initialFunding);
+           expect(await leaderboard.rewardPool()).to.equal(initialFunding);
+           expect(await leaderboard.initialFunding()).to.equal(initialFunding);
        });
     });
 
     describe("Get rankings", async function () {
-        it("should get a ranking given an id", async function () {
+        it("should get a ranking given a rank", async function () {
             const {leaderboard} = await loadFixture(deployFixture);
 
             const elonTestRanking = {
                 id: 0,
                 name: ethers.utils.formatBytes32String("Elon Musk"),
                 rank: 1,
+                startingRank: 1,
                 data: [...Buffer.from("networth:232.4b")]
             };
 
@@ -67,26 +82,69 @@ describe("Leaderboard", function () {
                 id: 1,
                 name: ethers.utils.formatBytes32String("Jeff Bezos"),
                 rank: 2,
+                startingRank: 2,
                 data: [...Buffer.from("networth:144.5b")]
             };
 
-            const elonRanking = await leaderboard.getRanking(1);
-            const jeffRanking = await leaderboard.getRanking(2);
+            const elonRanking = await leaderboard.getRankingByRank(elonTestRanking.rank);
+            const jeffRanking = await leaderboard.getRankingByRank(jeffTestRanking.rank);
 
             expect(elonRanking.id, "Elon's ID did not match test ID").to.equal(elonTestRanking.id);
             expect(elonRanking.name, "Elon's name did not match test name").to.equal(elonTestRanking.name);
             expect(elonRanking.rank, "Elon's rank did not match test rank").to.equal(elonTestRanking.rank);
+            expect(elonRanking.startingRank, "Elon's starting rank did not match test rank").to.equal(elonTestRanking.startingRank);
             expect(elonRanking.data, "Elon's data did not match test data").to.equal(ethers.utils.hexlify(elonTestRanking.data));
             expect(jeffRanking.id, "Jeff's ID did not match test ID").to.equal(jeffTestRanking.id);
             expect(jeffRanking.name, "Jeff's name did not match test name").to.equal(jeffTestRanking.name);
             expect(jeffRanking.rank, "Jeff's rank did not match test rank").to.equal(jeffTestRanking.rank);
+            expect(jeffRanking.startingRank, "Jeff's rank did not match test rank").to.equal(jeffTestRanking.startingRank);
             expect(jeffRanking.data, "Jeff's data did not match test data").to.equal(ethers.utils.hexlify(jeffTestRanking.data));
         });
 
-        it("should revert with an error if a ranking does not exist", async function () {
+        it("should revert with an error if a ranking rank does not exist", async function () {
             const {leaderboard} = await loadFixture(deployFixture);
 
-            await expect(leaderboard.getRanking(10)).to.be.revertedWith("RankingDoesNotExist");
+            await expect(leaderboard.getRankingByRank(10)).to.be.revertedWith("RankingDoesNotExist");
+        });
+
+        it("should get a ranking given an id", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            const elonTestRanking = {
+                id: 0,
+                name: ethers.utils.formatBytes32String("Elon Musk"),
+                rank: 1,
+                startingRank: 1,
+                data: [...Buffer.from("networth:232.4b")]
+            };
+
+            const jeffTestRanking = {
+                id: 1,
+                name: ethers.utils.formatBytes32String("Jeff Bezos"),
+                rank: 2,
+                startingRank: 2,
+                data: [...Buffer.from("networth:144.5b")]
+            };
+
+            const elonRanking = await leaderboard.getRankingFromId(elonTestRanking.id);
+            const jeffRanking = await leaderboard.getRankingFromId(jeffTestRanking.id);
+
+            expect(elonRanking.id, "Elon's ID did not match test ID").to.equal(elonTestRanking.id);
+            expect(elonRanking.name, "Elon's name did not match test name").to.equal(elonTestRanking.name);
+            expect(elonRanking.rank, "Elon's rank did not match test rank").to.equal(elonTestRanking.rank);
+            expect(elonRanking.startingRank, "Elon's starting rank did not match test rank").to.equal(elonTestRanking.startingRank);
+            expect(elonRanking.data, "Elon's data did not match test data").to.equal(ethers.utils.hexlify(elonTestRanking.data));
+            expect(jeffRanking.id, "Jeff's ID did not match test ID").to.equal(jeffTestRanking.id);
+            expect(jeffRanking.name, "Jeff's name did not match test name").to.equal(jeffTestRanking.name);
+            expect(jeffRanking.rank, "Jeff's rank did not match test rank").to.equal(jeffTestRanking.rank);
+            expect(jeffRanking.startingRank, "Jeff's starting rank did not match test rank").to.equal(jeffTestRanking.startingRank);
+            expect(jeffRanking.data, "Jeff's data did not match test data").to.equal(ethers.utils.hexlify(jeffTestRanking.data));
+        });
+
+        it("should revert with an error if a ranking id does not exist", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+
+            await expect(leaderboard.getRankingFromId(10)).to.be.revertedWith("RankingDoesNotExist");
         });
     });
 
@@ -98,18 +156,20 @@ describe("Leaderboard", function () {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Someone"),
                 rank: 3,
+                startingRank: 3,
                 data: []
             };
 
             const addRankingTx = await leaderboard.addRanking(testRanking.rank, testRanking.name, testRanking.data);
             await addRankingTx.wait();
 
-            const ranking = await leaderboard.getRanking(testRanking.rank);
+            const ranking = await leaderboard.getRankingByRank(testRanking.rank);
 
             expect(await leaderboard.rankingsSize(), "Size did not match").to.equal(3);
             expect(ranking.id, "ID did not match test ID").to.equal(testRanking.id);
             expect(ranking.name, "Name did not match test name").to.equal(testRanking.name);
             expect(ranking.rank, "Rank did not match test rank").to.equal(testRanking.rank,);
+            expect(ranking.startingRank, "Starting rank did not match test rank").to.equal(testRanking.startingRank,);
             expect(ranking.data, "Data did not match test data").to.equal(EMPTY_BYTES);
         });
 
@@ -120,12 +180,13 @@ describe("Leaderboard", function () {
                 id: 3,
                 name: ethers.utils.formatBytes32String("Someone"),
                 rank: 4,
+                startingRank: 4,
                 data: []
             };
 
             await expect(leaderboard.addRanking(testRanking.rank, testRanking.name, testRanking.data))
                 .to.emit(leaderboard, "RankingAdded")
-                .withArgs([testRanking.id, testRanking.name, testRanking.rank, EMPTY_BYTES]); // structs are returned as an array
+                .withArgs([testRanking.id, testRanking.name, testRanking.rank, testRanking.startingRank, EMPTY_BYTES]); // structs are returned as an array
         });
 
         it("should revert if a name is not provided when adding a new ranking", async function () {
@@ -215,7 +276,7 @@ describe("Leaderboard", function () {
             const removeRankingTx = await leaderboard.removeRanking(elonTestRanking.id, elonTestRanking.rank, elonTestRanking.name);
             await removeRankingTx.wait();
 
-            await expect(leaderboard.getRanking(elonTestRanking.rank)).to.be.revertedWith("RankingDoesNotExist");
+            await expect(leaderboard.getRankingByRank(elonTestRanking.rank)).to.be.revertedWith("RankingDoesNotExist");
         });
 
         it("should not be able to remove a ranking if the user is not the facilitator", async function () {
@@ -269,8 +330,8 @@ describe("Leaderboard", function () {
             const updateRankingTx = await leaderboard.swapRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank);
             await updateRankingTx.wait();
 
-            const postFromRanking = await leaderboard.getRanking(toRanking.rank);
-            const postToRanking = await leaderboard.getRanking(fromRanking.rank);
+            const postFromRanking = await leaderboard.getRankingByRank(toRanking.rank);
+            const postToRanking = await leaderboard.getRankingByRank(fromRanking.rank);
 
             expect(postFromRanking.rank, "From ranking did not change").to.equal(toRanking.rank);
             // Only the rank changed
@@ -384,7 +445,7 @@ describe("Leaderboard", function () {
             const updateNameTx = await leaderboard.updateName(testRanking.id, newName);
             await updateNameTx.wait();
 
-            const ranking = await leaderboard.getRanking(testRanking.rank);
+            const ranking = await leaderboard.getRankingByRank(testRanking.rank);
 
             expect(ranking.name, "Name did not change").to.equal(newName);
             expect(ranking.id, "Id changed").to.equal(testRanking.id);
@@ -469,7 +530,7 @@ describe("Leaderboard", function () {
             const updateDataTx = await leaderboard.updateData(testRanking.id, newData);
             await updateDataTx.wait();
 
-            const ranking = await leaderboard.getRanking(testRanking.rank);
+            const ranking = await leaderboard.getRankingByRank(testRanking.rank);
 
             expect(ranking.data, "Data did not change").to.equal(ethers.utils.hexlify(newData));
             expect(ranking.id, "Id changed").to.equal(testRanking.id);
@@ -900,7 +961,7 @@ describe("Destroy contract", async function () {
         const initialAddr2Balance = await addr2.getBalance();
         const initialAddr3Balance = await addr3.getBalance();
 
-        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2025").getTime());
+        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2025").getTime(), { value: ethers.utils.parseEther("2.0") });
         await leaderboard.deployed();
 
         const testRanking1 = {

@@ -88,7 +88,7 @@ contract Leaderboard {
 
     receive() external payable {}
 
-    function getRanking(uint8 _rank) public view GreaterThanOneRank(_rank) returns (Ranking memory ranking) {
+    function getRankingByRank(uint8 _rank) public view GreaterThanOneRank(_rank) returns (Ranking memory ranking) {
         for (uint8 i = 0; i < rankingsCurrentId; i++) {
             if (rankings[i].rank == _rank) {
                 ranking = rankings[i];
@@ -122,6 +122,7 @@ contract Leaderboard {
         ranking.id = rankingsCurrentId;
         ranking.name = _name;
         ranking.rank = _rank;
+        ranking.startingRank = _rank;
         ranking.data = _data;
 
         rankingsCurrentId++;
