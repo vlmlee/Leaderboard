@@ -652,8 +652,9 @@ describe("Leaderboard", function () {
 
             const initialFundingAmount = "2.0";
             const stakeAmount = "1.0";
+            const commissionFee = ethers.utils.parseEther("0.0025");
 
-            const stakeTx = await leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)});
+            const stakeTx = await leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)});
             await stakeTx.wait();
 
             const stake = await leaderboard.userStakes(testRanking.id, 0);
@@ -672,6 +673,10 @@ describe("Leaderboard", function () {
             expect(ethers.utils.formatEther(stake.liquidity), "Stake has incorrect liquidity").to.equal(stakeAmount); // liquidity staked should format to "1.0"
         });
 
+        it("should revert if a user cannot pay the commission fee", async function () {
+
+        });
+
         it("should revert if a user is trying to stake onto an invalid id", async function () {
             const {leaderboard, addr2} = await loadFixture(deployFixture);
 
@@ -681,10 +686,11 @@ describe("Leaderboard", function () {
             };
 
             const stakeAmount = "1.0";
+            const commissionFee = ethers.utils.parseEther("0.0025");
 
-            await expect(leaderboard.connect(addr2).addStake(20, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            await expect(leaderboard.connect(addr2).addStake(20, testRanking.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
                 .to.be.revertedWith("RankingDoesNotExist");
-            await expect(leaderboard.connect(addr2).addStake(3, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            await expect(leaderboard.connect(addr2).addStake(3, testRanking.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
                 .to.be.revertedWith("RankingDoesNotExist");
         });
 
@@ -696,12 +702,13 @@ describe("Leaderboard", function () {
             };
 
             const stakeAmount = "1.0";
+            const commissionFee = ethers.utils.parseEther("0.0025");
 
-            await expect(leaderboard.connect(addr2).addStake(testRanking.id, ethers.utils.formatBytes32String("Someone"), {value: ethers.utils.parseEther(stakeAmount)}))
+            await expect(leaderboard.connect(addr2).addStake(testRanking.id, ethers.utils.formatBytes32String("Someone"), {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
                 .to.be.revertedWith("RankingDoesNotExist");
         });
 
-        it("should revert if a user is trying to stake with zero ether", async function () {
+        it("should revert if the user does not stake more than the minimum amount", async function () {
             const {leaderboard, addr2} = await loadFixture(deployFixture);
 
             const testRanking = {
@@ -710,9 +717,10 @@ describe("Leaderboard", function () {
             };
 
             const stakeAmount = "0.0";
+            const commissionFee = ethers.utils.parseEther("0.0025");
 
-            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
-                .to.be.revertedWith("Stake has to be a non-zero amount.");
+            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
+                .to.be.revertedWith("AmountHasToBeGreaterThanMinimumStake");
         });
 
         it("should revert if a user has already staked for this ranking", async function () {
@@ -724,8 +732,9 @@ describe("Leaderboard", function () {
             };
 
             const stakeAmount = "1.0";
+            const commissionFee = ethers.utils.parseEther("0.0025");
 
-            await expect(leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            await expect(leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
                 .to.be.revertedWith("UserAlreadyStaked");
         });
 
@@ -738,9 +747,10 @@ describe("Leaderboard", function () {
             };
 
             const stakeAmount = "1.0";
+            const commissionFee = ethers.utils.parseEther("0.0025");
             const rewardPool = await leaderboard.rewardPool();
 
-            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
                 .to.emit(leaderboard, "UserStakeAdded")
                 .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
             expect(await leaderboard.userStakesSize(), "User stake size is not 2").to.equal(2);
@@ -811,8 +821,9 @@ describe("Leaderboard", function () {
             };
 
             const stakeAmount = "1.0";
+            const commissionFee = ethers.utils.parseEther("0.0025");
 
-            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
                 .to.emit(leaderboard, "UserStakeAdded")
                 .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
 
@@ -875,16 +886,17 @@ describe("Leaderboard", function () {
             };
 
             const stakeAmount = "1.0";
+            const commissionFee = ethers.utils.parseEther("0.0025");
             const rankingsSizePrev = await leaderboard.rankingsSize();
 
-            await expect(leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            await expect(leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
                 .to.emit(leaderboard, "UserStakeAdded")
                 .withArgs(addr1.address, [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
 
             expect(+ethers.utils.formatEther(await addr1.getBalance()), "Addr1 balance is not less than before")
                 .to.be.lessThan(+ethers.utils.formatEther(initialAddr1Balance));
 
-            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            await expect(leaderboard.connect(addr2).addStake(testRanking.id, testRanking.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
                 .to.emit(leaderboard, "UserStakeAdded")
                 .withArgs(addr2.address, [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(stakeAmount)]);
 
@@ -946,10 +958,11 @@ describe("Leaderboard", function () {
             };
 
             const stakeAmount = "1.0";
+            const commissionFee = ethers.utils.parseEther("0.0025");
 
             expect(+(await leaderboard.userStakesSize())).to.equal(0);
 
-            await expect(leaderboard.connect(addr1).addStake(testRanking1.id, testRanking1.name, {value: ethers.utils.parseEther(stakeAmount)}))
+            await expect(leaderboard.connect(addr1).addStake(testRanking1.id, testRanking1.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
                 .to.emit(leaderboard, "UserStakeAdded")
                 .withArgs(addr1.address, [addr1.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)]);
 
@@ -1035,23 +1048,23 @@ describe("Destroy contract", async function () {
 
         expect(+(await leaderboard.userStakesSize())).to.equal(0);
 
-        await expect(leaderboard.connect(addr1).addStake(testRanking1.id, testRanking1.name, {value: ethers.utils.parseEther(stakeAmount)}))
+        await expect(leaderboard.connect(addr1).addStake(testRanking1.id, testRanking1.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
             .to.emit(leaderboard, "UserStakeAdded")
             .withArgs(addr1.address, [addr1.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)]);
 
-        await expect(leaderboard.connect(addr1).addStake(testRanking2.id, testRanking2.name, {value: ethers.utils.parseEther(stakeAmount)}))
+        await expect(leaderboard.connect(addr1).addStake(testRanking2.id, testRanking2.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
             .to.emit(leaderboard, "UserStakeAdded")
             .withArgs(addr1.address, [addr1.address, testRanking2.id, testRanking2.name, ethers.utils.parseEther(stakeAmount)]);
 
-        await expect(leaderboard.connect(addr2).addStake(testRanking1.id, testRanking1.name, {value: ethers.utils.parseEther(stakeAmount)}))
+        await expect(leaderboard.connect(addr2).addStake(testRanking1.id, testRanking1.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
             .to.emit(leaderboard, "UserStakeAdded")
             .withArgs(addr2.address, [addr2.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)]);
 
-        await expect(leaderboard.connect(addr2).addStake(testRanking2.id, testRanking2.name, {value: ethers.utils.parseEther(stakeAmount)}))
+        await expect(leaderboard.connect(addr2).addStake(testRanking2.id, testRanking2.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
             .to.emit(leaderboard, "UserStakeAdded")
             .withArgs(addr2.address, [addr2.address, testRanking2.id, testRanking2.name, ethers.utils.parseEther(stakeAmount)]);
 
-        await expect(leaderboard.connect(addr3).addStake(testRanking1.id, testRanking1.name, {value: ethers.utils.parseEther(stakeAmount)}))
+        await expect(leaderboard.connect(addr3).addStake(testRanking1.id, testRanking1.name, {value: BigNumber.from(ethers.utils.parseEther(stakeAmount)).add(commissionFee)}))
             .to.emit(leaderboard, "UserStakeAdded")
             .withArgs(addr3.address, [addr3.address, testRanking1.id, testRanking1.name, ethers.utils.parseEther(stakeAmount)]);
 

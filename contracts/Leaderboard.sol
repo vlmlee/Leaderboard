@@ -8,6 +8,7 @@ contract Leaderboard {
     uint256 public rewardPool;
     uint256 public initialFunding;
     uint256 public commissionFee;
+    uint256 public minimumStake = 50000000 gwei;
 
     event RankingAdded(Ranking _ranking);
     event RankingRemoved(Ranking _ranking);
@@ -78,6 +79,7 @@ contract Leaderboard {
     error NoStakesAddedForRankingYet(uint8 _id);
     error NoStakesAddedForContractYet();
     error ContractNotFunded();
+    error AmountHasToBeGreaterThanMinimumStakePlusCommission(uint256 _value);
 
     constructor(bytes32 _leaderboardName, uint256 _endTime, uint256 _commissionFee) payable {
         facilitator = msg.sender;
@@ -205,7 +207,7 @@ contract Leaderboard {
         Ranking memory ranking = rankings[_id];
         if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
         if (_name != ranking.name) revert RankingDoesNotExist(_id, ranking.rank, bytes32(0));
-        require(msg.value > 0, "Stake has to be a non-zero amount.");
+        if (msg.value < (minimumStake + commissionFee)) revert AmountHasToBeGreaterThanMinimumStakePlusCommission(msg.value);
 
         Stake[] storage stakes = userStakes[_id];
 
@@ -216,10 +218,10 @@ contract Leaderboard {
         }
 
         Stake memory stake = Stake({
-        addr : msg.sender,
-        liquidity : msg.value,
-        id : _id,
-        name : _name
+            addr : msg.sender,
+            liquidity : msg.value - commissionFee,
+            id : _id,
+            name : _name
         });
 
         stakes.push(stake);
