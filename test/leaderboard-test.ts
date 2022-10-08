@@ -60,9 +60,9 @@ describe("Leaderboard", function () {
 
            const initialFunding = ethers.utils.parseEther("2.0");
 
-           expect(await provider.getBalance(leaderboard.address)).to.equal(initialFunding);
-           expect(await leaderboard.rewardPool()).to.equal(initialFunding);
-           expect(await leaderboard.initialFunding()).to.equal(initialFunding);
+           expect(await provider.getBalance(leaderboard.address), "Contract balance does not equal the funding amount").to.equal(initialFunding);
+           expect(await leaderboard.rewardPool(), "The reward pool did not update").to.equal(initialFunding);
+           expect(await leaderboard.initialFunding(), "The initial funding did not update").to.equal(initialFunding);
        });
     });
 
@@ -94,10 +94,11 @@ describe("Leaderboard", function () {
             expect(elonRanking.rank, "Elon's rank did not match test rank").to.equal(elonTestRanking.rank);
             expect(elonRanking.startingRank, "Elon's starting rank did not match test rank").to.equal(elonTestRanking.startingRank);
             expect(elonRanking.data, "Elon's data did not match test data").to.equal(ethers.utils.hexlify(elonTestRanking.data));
+
             expect(jeffRanking.id, "Jeff's ID did not match test ID").to.equal(jeffTestRanking.id);
             expect(jeffRanking.name, "Jeff's name did not match test name").to.equal(jeffTestRanking.name);
             expect(jeffRanking.rank, "Jeff's rank did not match test rank").to.equal(jeffTestRanking.rank);
-            expect(jeffRanking.startingRank, "Jeff's rank did not match test rank").to.equal(jeffTestRanking.startingRank);
+            expect(jeffRanking.startingRank, "Jeff's starting rank did not match test rank").to.equal(jeffTestRanking.startingRank);
             expect(jeffRanking.data, "Jeff's data did not match test data").to.equal(ethers.utils.hexlify(jeffTestRanking.data));
         });
 
@@ -134,6 +135,7 @@ describe("Leaderboard", function () {
             expect(elonRanking.rank, "Elon's rank did not match test rank").to.equal(elonTestRanking.rank);
             expect(elonRanking.startingRank, "Elon's starting rank did not match test rank").to.equal(elonTestRanking.startingRank);
             expect(elonRanking.data, "Elon's data did not match test data").to.equal(ethers.utils.hexlify(elonTestRanking.data));
+
             expect(jeffRanking.id, "Jeff's ID did not match test ID").to.equal(jeffTestRanking.id);
             expect(jeffRanking.name, "Jeff's name did not match test name").to.equal(jeffTestRanking.name);
             expect(jeffRanking.rank, "Jeff's rank did not match test rank").to.equal(jeffTestRanking.rank);
@@ -168,8 +170,8 @@ describe("Leaderboard", function () {
             expect(await leaderboard.rankingsSize(), "Size did not match").to.equal(3);
             expect(ranking.id, "ID did not match test ID").to.equal(testRanking.id);
             expect(ranking.name, "Name did not match test name").to.equal(testRanking.name);
-            expect(ranking.rank, "Rank did not match test rank").to.equal(testRanking.rank,);
-            expect(ranking.startingRank, "Starting rank did not match test rank").to.equal(testRanking.startingRank,);
+            expect(ranking.rank, "Rank did not match test rank").to.equal(testRanking.rank);
+            expect(ranking.startingRank, "Starting rank did not match test rank").to.equal(testRanking.startingRank);
             expect(ranking.data, "Data did not match test data").to.equal(EMPTY_BYTES);
         });
 
@@ -197,6 +199,7 @@ describe("Leaderboard", function () {
                 id: 4,
                 name: EMPTY_STRING,
                 rank: 5,
+                startingRank: 5,
                 data: []
             };
 
@@ -211,6 +214,7 @@ describe("Leaderboard", function () {
                 id: 4,
                 name: ethers.utils.formatBytes32String("A name"),
                 rank: 0,
+                startingRank: 0,
                 data: []
             };
 
@@ -225,6 +229,7 @@ describe("Leaderboard", function () {
                 id: 4,
                 name: ethers.utils.formatBytes32String("A name"),
                 rank: 5,
+                startingRank: 5,
                 data: []
             };
 
@@ -239,6 +244,7 @@ describe("Leaderboard", function () {
                 id: 4,
                 name: ethers.utils.formatBytes32String("A name"),
                 rank: 4,
+                startingRank: 4,
                 data: []
             };
 
@@ -253,12 +259,13 @@ describe("Leaderboard", function () {
                 id: 4,
                 name: ethers.utils.formatBytes32String("A name"),
                 rank: 5,
+                startingRank: 5,
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
             await expect(leaderboard.addRanking(testRanking.rank, testRanking.name, testRanking.data))
                 .to.emit(leaderboard, "RankingAdded")
-                .withArgs([testRanking.id, testRanking.name, testRanking.rank, ethers.utils.hexlify(testRanking.data)]); // structs are returned as an array
+                .withArgs([testRanking.id, testRanking.name, testRanking.rank, testRanking.startingRank, ethers.utils.hexlify(testRanking.data)]); // structs are returned as an array
         });
     });
 
@@ -270,6 +277,7 @@ describe("Leaderboard", function () {
                 id: 0,
                 name: ethers.utils.formatBytes32String("Elon Musk"),
                 rank: 1,
+                startingRank: 1,
                 data: [...Buffer.from("networth:232.4b")]
             };
 
@@ -286,6 +294,7 @@ describe("Leaderboard", function () {
                 id: 1,
                 name: ethers.utils.formatBytes32String("Jeff Bezos"),
                 rank: 2,
+                startingRank: 2,
                 data: [...Buffer.from("networth:144.5b")]
             };
 
@@ -300,12 +309,13 @@ describe("Leaderboard", function () {
                 id: 1,
                 name: ethers.utils.formatBytes32String("Jeff Bezos"),
                 rank: 2,
+                startingRank: 2,
                 data: [...Buffer.from("networth:144.5b")]
             };
 
             await expect(leaderboard.removeRanking(jeffTestRanking.id, jeffTestRanking.rank, jeffTestRanking.name))
                 .to.emit(leaderboard, "RankingRemoved")
-                .withArgs([jeffTestRanking.id, jeffTestRanking.name, jeffTestRanking.rank, ethers.utils.hexlify(jeffTestRanking.data)]);
+                .withArgs([jeffTestRanking.id, jeffTestRanking.name, jeffTestRanking.rank, jeffTestRanking.startingRank, ethers.utils.hexlify(jeffTestRanking.data)]);
         });
     });
 
@@ -317,12 +327,14 @@ describe("Leaderboard", function () {
                 id: 3,
                 name: ethers.utils.formatBytes32String("Someone"),
                 rank: 4,
+                startingRank: 4,
                 data: []
             };
 
             const toRanking = {
                 id: 4,
                 rank: 5,
+                startingRank: 5,
                 name: ethers.utils.formatBytes32String("A name"),
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
@@ -338,12 +350,14 @@ describe("Leaderboard", function () {
             expect(postFromRanking.id, "From ranking id changed").to.equal(fromRanking.id);
             expect(postFromRanking.name, "From ranking name changed").to.equal(fromRanking.name);
             expect(postFromRanking.data, "To ranking data changed").to.equal(EMPTY_BYTES);
+            expect(postFromRanking.startingRank, "From ranking starting rank did not change").to.equal(fromRanking.startingRank);
 
             expect(postToRanking.rank, "To ranking did not change").to.equal(fromRanking.rank);
             // Only the rank changed
             expect(postToRanking.id, "To ranking id changed").to.equal(toRanking.id);
             expect(postToRanking.name, "To ranking name changed").to.equal(toRanking.name);
             expect(postToRanking.data, "To ranking data changed").to.equal(ethers.utils.hexlify(toRanking.data));
+            expect(postToRanking.startingRank, "To ranking starting rank did not change").to.equal(toRanking.startingRank);
         });
 
         it("should not be able to update a ranking to a zero ranking", async function () {
@@ -392,21 +406,23 @@ describe("Leaderboard", function () {
                 id: 3,
                 name: ethers.utils.formatBytes32String("Someone"),
                 rank: 5,
+                startingRank: 4,
                 data: []
             };
 
             const toRanking = {
                 id: 4,
                 rank: 4,
+                startingRank: 5,
                 name: ethers.utils.formatBytes32String("A name"),
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
             await expect(leaderboard.swapRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank))
                 .to.emit(leaderboard, "RankingUpdatedFrom")
-                .withArgs([fromRanking.id, fromRanking.name, toRanking.rank, ethers.utils.hexlify(fromRanking.data)])
+                .withArgs([fromRanking.id, fromRanking.name, toRanking.rank, fromRanking.startingRank, ethers.utils.hexlify(fromRanking.data)])
                 .to.emit(leaderboard, "RankingUpdatedTo")
-                .withArgs([toRanking.id, toRanking.name, fromRanking.rank, ethers.utils.hexlify(toRanking.data)])
+                .withArgs([toRanking.id, toRanking.name, fromRanking.rank, toRanking.startingRank, ethers.utils.hexlify(toRanking.data)])
         });
 
         it("should revert if the id and rankings are invalid", async function () {
@@ -416,12 +432,14 @@ describe("Leaderboard", function () {
                 id: 3,
                 name: ethers.utils.formatBytes32String("Someone"),
                 rank: 5,
+                startingRank: 4,
                 data: []
             };
 
             const toRanking = {
                 id: 4,
                 rank: 4,
+                startingRank: 5,
                 name: ethers.utils.formatBytes32String("A name"),
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
@@ -437,6 +455,7 @@ describe("Leaderboard", function () {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Someone"),
                 rank: 3,
+                startingRank: 3,
                 data: []
             };
 
@@ -450,6 +469,7 @@ describe("Leaderboard", function () {
             expect(ranking.name, "Name did not change").to.equal(newName);
             expect(ranking.id, "Id changed").to.equal(testRanking.id);
             expect(ranking.rank, "Rank changed").to.equal(testRanking.rank);
+            expect(ranking.startingRank, "Starting rank changed").to.equal(testRanking.startingRank);
         });
 
         it("should revert if updating the name of a nonexistent ranking", async function () {
@@ -459,6 +479,7 @@ describe("Leaderboard", function () {
                 id: 23,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
                 rank: 3,
+                startingRank: 3,
                 data: []
             };
 
@@ -473,6 +494,7 @@ describe("Leaderboard", function () {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
                 rank: 3,
+                startingRank: 3,
                 data: []
             };
 
@@ -487,6 +509,7 @@ describe("Leaderboard", function () {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
                 rank: 3,
+                startingRank: 3,
                 data: []
             };
 
@@ -501,6 +524,7 @@ describe("Leaderboard", function () {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
                 rank: 3,
+                startingRank: 3,
                 data: []
             };
 
@@ -508,11 +532,11 @@ describe("Leaderboard", function () {
 
             await expect(leaderboard.updateName(testRanking.id, newName))
                 .to.emit(leaderboard, "RankingUpdated")
-                .withArgs([testRanking.id, newName, testRanking.rank, ethers.utils.hexlify(testRanking.data)])
+                .withArgs([testRanking.id, newName, testRanking.rank, testRanking.startingRank, ethers.utils.hexlify(testRanking.data)])
 
             await expect(leaderboard.updateName(testRanking.id, testRanking.name))
                 .to.emit(leaderboard, "RankingUpdated")
-                .withArgs([testRanking.id, testRanking.name, testRanking.rank, ethers.utils.hexlify(testRanking.data)])
+                .withArgs([testRanking.id, testRanking.name, testRanking.rank, testRanking.startingRank, ethers.utils.hexlify(testRanking.data)])
         });
 
         it("should be able to update ranking data", async function () {
@@ -522,6 +546,7 @@ describe("Leaderboard", function () {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
                 rank: 3,
+                startingRank: 3,
                 data: []
             };
 
@@ -535,6 +560,7 @@ describe("Leaderboard", function () {
             expect(ranking.data, "Data did not change").to.equal(ethers.utils.hexlify(newData));
             expect(ranking.id, "Id changed").to.equal(testRanking.id);
             expect(ranking.rank, "Rank changed").to.equal(testRanking.rank);
+            expect(ranking.startingRank, "Starting rank changed").to.equal(testRanking.startingRank);
             expect(ranking.name, "Name changed").to.equal(testRanking.name);
         });
 
@@ -545,6 +571,7 @@ describe("Leaderboard", function () {
                 id: 23,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
                 rank: 3,
+                startingRank: 3,
                 data: []
             };
 
@@ -559,6 +586,7 @@ describe("Leaderboard", function () {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
                 rank: 3,
+                startingRank: 3,
                 data: []
             };
 
@@ -573,6 +601,7 @@ describe("Leaderboard", function () {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
                 rank: 3,
+                startingRank: 3,
                 data: [...Buffer.from("networth:151b;country:France")]
             };
 
@@ -587,12 +616,13 @@ describe("Leaderboard", function () {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Bernard Arnault"),
                 rank: 3,
+                startingRank: 3,
                 data: [...Buffer.from("differentsetofdata")]
             };
 
             await expect(leaderboard.updateData(testRanking.id, testRanking.data))
                 .to.emit(leaderboard, "RankingUpdated")
-                .withArgs([testRanking.id, testRanking.name, testRanking.rank, ethers.utils.hexlify(testRanking.data)])
+                .withArgs([testRanking.id, testRanking.name, testRanking.rank, testRanking.startingRank, ethers.utils.hexlify(testRanking.data)])
         });
     });
 
