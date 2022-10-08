@@ -19,7 +19,7 @@ contract Leaderboard {
     event UserStakeAdded(address indexed _user, Stake _stake);
     event UserStakeWithdrawn(address indexed _user, Stake _stake);
     event ContractDestroyed();
-    event UnableToAllocateReward(address indexed _user, uint256 _stakedAmount);
+    event UnableToAllocateRewardTo(address indexed _user, uint256 _stakedAmount);
     event SuccessfullyAllocatedRewardTo(address indexed _user, uint256 _reward);
 
     modifier OnlyFacilitator() {
@@ -337,7 +337,7 @@ contract Leaderboard {
             if (success) {
                 emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i].addr, returnedAmount);
             } else {
-                emit UnableToAllocateReward(stakeRewardsToCalculate[i].addr, userStakedAmount);
+                emit UnableToAllocateRewardTo(stakeRewardsToCalculate[i].addr, userStakedAmount);
             }
         }
 
@@ -355,7 +355,7 @@ contract Leaderboard {
             if (success) {
                 emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i].addr, returnedAmount);
             } else {
-                emit UnableToAllocateReward(stakeRewardsToCalculate[i].addr, userStakedAmount);
+                emit UnableToAllocateRewardTo(stakeRewardsToCalculate[i].addr, userStakedAmount);
             }
         }
     }
