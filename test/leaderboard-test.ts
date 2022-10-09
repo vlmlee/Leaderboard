@@ -1346,7 +1346,7 @@ describe("Leaderboard", function () {
             });
 
             const poolAmount = ethers.utils.parseEther("2.0");
-            console.log("Pool Amount: ", poolAmount.toString()); // 2000000000000000000
+            // console.log("Pool Amount: ", poolAmount.toString()); // 2000000000000000000
 
             const sumOfExpectedWeights = expectedWeights.reduce((cur, acc, i) => {
                 acc = acc.add(cur);
@@ -1366,7 +1366,85 @@ describe("Leaderboard", function () {
             const {leaderboard, addr1, addr2, addr3} = await loadFixture(deployAllocateRewardFixture);
             expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
 
-            // expect(await leaderboard.allocateStakeRewards())
+            const addr1Balance = await addr1.getBalance();
+            const addr2Balance = await addr2.getBalance();
+            const addr3Balance = await addr3.getBalance();
+
+            const fromRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 5,
+                startingRank: 3,
+                data: []
+            };
+
+            const toRanking = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("A name"),
+                rank: 3,
+                startingRank: 4,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const testRanking = {
+                id: 4,
+                name: ethers.utils.formatBytes32String("A different name"),
+                rank: 4,
+                startingRank: 5,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const testStakes = [
+                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("1.2")],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther("4.0")],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther("2.56")],
+                [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("2.00091")],
+                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther("8.12")],
+                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.9421")],
+                [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("3.16")],
+                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther("1.66")],
+                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.7878")],
+            ];
+
+            const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
+            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
+            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[2]);
+
+            // console.log(fromRankingChanged.toNumber()); // => 80, lost 2 ranks ✓ (starting - 3, current - 5)
+            // console.log(toRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 4, current - 3)
+            // console.log(testRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 5, current - 4)
+
+            const rankingsChanged = {
+                [fromRanking.id]: fromRankingChanged,
+                [toRanking.id]: toRankingChanged,
+                [testRanking.id]: testRankingChanged
+            };
+
+            const expectedWeights = testStakes.map(stake => {
+                //  liquidity * normalized coeffiicient / 100
+                return BigNumber.from(stake[3]).mul(rankingsChanged[stake[1]]).div(100);
+            });
+
+            const rewardPool = await leaderboard.rewardPool();
+            const poolAmount = rewardPool.sub(ethers.utils.parseEther("2.0"));
+            console.log("Pool Amount: ", poolAmount.toString()); // 24408310000000000000
+
+            const sumOfExpectedWeights = expectedWeights.reduce((cur, acc, i) => {
+                acc = acc.add(cur);
+                return acc;
+            });
+            console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 19876890000000000000
+
+            const norm = poolAmount.mul(1000000000).div(sumOfExpectedWeights);
+            // console.log("Norm: ", norm.toString()); // 100619362
+            // console.log(100619362 / 1000000000) // 0.100619362
+            // console.log(2000000000000000000 / 19876890000000000000); // 0.10061936248578122
+
+            // expect(await leaderboard.calculateNorm(testStakes, poolAmount)).to.equal(norm);
+            //
+            // await expect(leaderboard.allocateStakeRewards())
+            //     .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+            //     .withArgs(addr1.address, )
         });
 
         it("should allocate initial funding rewards correctly", async function () {

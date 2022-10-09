@@ -312,7 +312,7 @@ contract Leaderboard {
         for (uint8 i = 0; i <= rankingsCurrentId; i++) {
             Stake[] storage stakes = userStakes[i];
 
-            for (uint8 j = 0; j < stakes.length; i++) {
+            for (uint8 j = 0; j < stakes.length; j++) {
                 Ranking memory _rank = getRankingFromId(stakes[j].id);
                 if (_rank.startingRank != _rank.rank) {
                     stakeRewardsToCalculate.push(stakes[j]);
@@ -334,7 +334,7 @@ contract Leaderboard {
             for (uint8 i = 0; i <= rankingsCurrentId; i++) {
                 Stake[] storage stakes = userStakes[i];
 
-                for (uint8 j = 0; j < stakes.length; i++) {
+                for (uint8 j = 0; j < stakes.length; j++) {
                     Ranking memory _rank = getRankingFromId(stakes[j].id);
                     if (_rank.startingRank == _rank.rank) stakeToReturnDueToUnchangedRankings.push(stakes[j]);
                 }
@@ -351,7 +351,7 @@ contract Leaderboard {
             for (uint8 i = 0; i <= rankingsCurrentId; i++) {
                 Stake[] storage stakes = userStakes[i];
 
-                for (uint8 j = 0; j < stakes.length; i++) {
+                for (uint8 j = 0; j < stakes.length; j++) {
                     Ranking memory _rank = getRankingFromId(stakes[j].id);
                     if (_rank.startingRank != _rank.rank) stakeRewardsToCalculate.push(stakes[j]);
                 }
@@ -394,7 +394,7 @@ contract Leaderboard {
             for (uint8 i = 0; i <= rankingsCurrentId; i++) {
                 Stake[] storage stakes = userStakes[i];
 
-                for (uint8 j = 0; j < stakes.length; i++) {
+                for (uint8 j = 0; j < stakes.length; j++) {
                     Ranking memory _rank = getRankingFromId(stakes[j].id);
                     if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) initialFundingRewardsToCalculate.push(stakes[j]);
                 }
