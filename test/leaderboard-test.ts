@@ -1000,7 +1000,7 @@ describe("Leaderboard", function () {
     });
 
     describe("Allocate rewards", async function () {
-
+        // TODO:
     });
 
     describe("Contract ended", async function () {

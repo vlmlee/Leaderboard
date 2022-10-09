@@ -257,6 +257,7 @@ contract Leaderboard {
         assert(userStakedAmount > 0);
         assert(rewardPool > 0);
         assert(payable(address(this)).balance > 0);
+        stakes[indexToRemove].liquidity = 0; // Reentrancy guard
         (bool success,) = payable(_user).call{value : userStakedAmount}("");
 
         if (success) {
@@ -332,7 +333,7 @@ contract Leaderboard {
             assert(userStakedAmount > 0);
             assert(rewardPool > 0);
             assert(payable(address(this)).balance > 0);
-
+            stakeRewardsToCalculate[i].liquidity = 0; // Reentrancy guard
             (bool success,) = payable(stakeRewardsToCalculate[i].addr).call{value : returnedAmount}("");
 
             if (success) {
@@ -350,7 +351,7 @@ contract Leaderboard {
             assert(userStakedAmount > 0);
             assert(rewardPool > 0);
             assert(payable(address(this)).balance > 0);
-
+            initialFundingRewardsToCalculate[i].liquidity = 0; // Reentrancy guard
             (bool success,) = payable(initialFundingRewardsToCalculate[i].addr).call{value : returnedAmount}("");
 
             if (success) {
@@ -426,6 +427,7 @@ contract Leaderboard {
             assert(userStakedAmount > 0);
             assert(rewardPool > 0);
             assert(payable(address(this)).balance > 0);
+
             (bool success,) = payable(stake.addr).call{value : userStakedAmount}("");
 
             emit UserStakeWithdrawn(stake.addr, stake);
