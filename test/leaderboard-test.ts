@@ -1453,11 +1453,19 @@ describe("Leaderboard", function () {
 
         });
 
-        it("should remove reward pool stakes to calculate after rewards have been allocated", async function () {
+        it("should remove reward pool stakes from stakeRewardsToCalculate after rewards have been allocated", async function () {
 
         });
 
-        it("should remove initial funding stakes to calculate after rewards have been allocated", async function () {
+        it("should remove stakes from userStakes after stakeRewardsToCalculate stakes have been allocated", async function () {
+
+        });
+
+        it("should remove initial funding stakes from initialFundingRewardsToCalculate after rewards have been allocated", async function () {
+
+        });
+
+        it("should remove stakes from userStakes after initialFundingRewardsToCalculate stakes have been allocated", async function () {
 
         });
     });
