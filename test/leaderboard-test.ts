@@ -1045,9 +1045,31 @@ describe("Leaderboard", function () {
             // bytes32 name;
             // uint256 liquidity; // a user's stake
             const fromStake = [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(stakeAmount)];
-            const toStake = [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther(stakeAmount)]
+            const toStake = [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther(stakeAmount)];
+
             expect(+(await leaderboard.getRankChangedNormalizedCoefficient(fromStake))).to.equal(90);
             expect(+(await leaderboard.getRankChangedNormalizedCoefficient(toStake))).to.equal(110);
+        });
+
+        it("should revert if an unchanged rank tries to get a changed rank normalized coefficient", async function () {
+            const {leaderboard, addr1} = await loadFixture(deployFixture);
+
+            const unchangedRanking = {
+                id: 7,
+                name: ethers.utils.formatBytes32String("unchanged"),
+                rank: 8,
+                startingRank: 8,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const addRankingTx = await leaderboard.addRanking(unchangedRanking.rank, unchangedRanking.name, unchangedRanking.data);
+            await addRankingTx.wait();
+
+            const stakeAmount = "1.0";
+            const unchangedStake = [addr1.address, unchangedRanking.id, unchangedRanking.name, ethers.utils.parseEther(stakeAmount)];
+
+            await expect(leaderboard.getRankChangedNormalizedCoefficient(unchangedStake))
+                .to.be.revertedWith("UnchangedRankShouldNeverReceiveACoefficient");
         });
 
         it("should calculate the right norm for the reward pool", async function () {

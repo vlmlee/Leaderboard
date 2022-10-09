@@ -62,6 +62,7 @@ contract Leaderboard {
 
     Stake[] public stakeRewardsToCalculate;
     Stake[] public initialFundingRewardsToCalculate;
+    Stake[] public stakeToReturnDueToUnchangedRankings;
 
     error UserIsNotFacilitator();
     error RankNeedsToBeGreaterThanOne();
@@ -81,6 +82,7 @@ contract Leaderboard {
     error ContractNotFunded();
     error AmountHasToBeGreaterThanMinimumStakePlusCommission(uint256 _value);
     error UnableToAllocateReward(address _user, uint256 _value);
+    error UnchangedRankShouldNeverReceiveACoefficient();
 
     constructor(bytes32 _leaderboardName, uint256 _endTime, uint256 _commissionFee) payable {
         facilitator = msg.sender;
@@ -311,18 +313,37 @@ contract Leaderboard {
             Stake[] storage stakes = userStakes[i];
 
             for (uint8 j = 0; j < stakes.length; i++) {
-                stakeRewardsToCalculate.push(stakes[j]);
-
                 Ranking memory _rank = getRankingFromId(stakes[j].id);
+                if (_rank.startingRank != _rank.rank) {
+                    stakeRewardsToCalculate.push(stakes[j]);
+                } else {
+                    stakeToReturnDueToUnchangedRankings.push(stakes[j]);
+                }
 
-                if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) {
-                    initialFundingRewardsToCalculate.push(stakes[j]);
+                if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) initialFundingRewardsToCalculate.push(stakes[j]);
+            }
+        }
+
+        returnStakesForUnchangedRankings();
+        allocateStakeRewards();
+        allocateInitialFundingReward();
+    }
+
+    function returnStakesForUnchangedRankings() public virtual OnlyFacilitator HasContractEnded(endTime) {
+        if (stakeToReturnDueToUnchangedRankings.length == 0) {
+            for (uint8 i = 0; i <= rankingsCurrentId; i++) {
+                Stake[] storage stakes = userStakes[i];
+
+                for (uint8 j = 0; j < stakes.length; i++) {
+                    Ranking memory _rank = getRankingFromId(stakes[j].id);
+                    if (_rank.startingRank == _rank.rank) stakeToReturnDueToUnchangedRankings.push(stakes[j]);
                 }
             }
         }
 
-        allocateStakeRewards();
-        allocateInitialFundingReward();
+        for (uint256 i = 0; i < stakeToReturnDueToUnchangedRankings.length; i++) {
+            withdrawStake(stakeToReturnDueToUnchangedRankings[i].addr, stakeToReturnDueToUnchangedRankings[i].id);
+        }
     }
 
     function allocateStakeRewards() public virtual OnlyFacilitator HasContractEnded(endTime) {
@@ -331,7 +352,8 @@ contract Leaderboard {
                 Stake[] storage stakes = userStakes[i];
 
                 for (uint8 j = 0; j < stakes.length; i++) {
-                    stakeRewardsToCalculate.push(stakes[j]);
+                    Ranking memory _rank = getRankingFromId(stakes[j].id);
+                    if (_rank.startingRank != _rank.rank) stakeRewardsToCalculate.push(stakes[j]);
                 }
             }
         }
@@ -354,6 +376,10 @@ contract Leaderboard {
             if (success) {
                 // remove stakes afterwards
                 stakeRewardsToCalculate.pop();
+                uint256 rewardPoolPrev = rewardPool;
+                uint256 rewardPoolAfter = removeFromRewardPool(userStakedAmount);
+                assert(rewardPoolAfter < rewardPoolPrev);
+
                 emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i].addr, returnedAmount);
             } else {
                 // should revert
@@ -370,10 +396,7 @@ contract Leaderboard {
 
                 for (uint8 j = 0; j < stakes.length; i++) {
                     Ranking memory _rank = getRankingFromId(stakes[j].id);
-
-                    if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) {
-                        initialFundingRewardsToCalculate.push(stakes[j]);
-                    }
+                    if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) initialFundingRewardsToCalculate.push(stakes[j]);
                 }
             }
         }
@@ -430,6 +453,8 @@ contract Leaderboard {
     function getRankChangedNormalizedCoefficient(Stake memory _stake) public view virtual OnlyFacilitator returns (uint256) {
         Ranking memory _rank = getRankingFromId(_stake.id);
         int8 rankChanged = int8(_rank.startingRank) - int8(_rank.rank);
+
+        if (rankChanged == 0) revert UnchangedRankShouldNeverReceiveACoefficient();
 
         if (rankChanged > 10) {
             return 200;
