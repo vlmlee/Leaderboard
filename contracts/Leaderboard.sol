@@ -80,6 +80,7 @@ contract Leaderboard {
     error NoStakesAddedForContractYet();
     error ContractNotFunded();
     error AmountHasToBeGreaterThanMinimumStakePlusCommission(uint256 _value);
+    error UnableToAllocateReward(address _user, uint256 _value);
 
     constructor(bytes32 _leaderboardName, uint256 _endTime, uint256 _commissionFee) payable {
         facilitator = msg.sender;
@@ -315,7 +316,7 @@ contract Leaderboard {
                 Ranking memory _rank = getRankingFromId(stakes[j].id);
 
                 if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) {
-                    initialFundingRewardsToCalculate.push();
+                    initialFundingRewardsToCalculate.push(stakes[j]);
                 }
             }
         }
@@ -325,11 +326,21 @@ contract Leaderboard {
     }
 
     function allocateStakeRewards() public virtual OnlyFacilitator HasContractEnded(endTime) {
+        if (stakeRewardsToCalculate.length == 0) {
+            for (uint8 i = 0; i <= rankingsCurrentId; i++) {
+                Stake[] storage stakes = userStakes[i];
+
+                for (uint8 j = 0; j < stakes.length; i++) {
+                    stakeRewardsToCalculate.push(stakes[j]);
+                }
+            }
+        }
+
         uint256 normForStakeRewards = calculateNorm(stakeRewardsToCalculate, rewardPool - initialFunding);
 
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
         // changes deducts from a player's return amount and gets added into the reward pool.
-        for (uint8 i = 0; i < stakeRewardsToCalculate.length; i++) {
+        for (uint8 i = stakeRewardsToCalculate.length - 1; i >= 0; i--) {
             uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i])) / 10000;
             // Needs to be divided by 10000 to cancel out calculateNorm and calculateWeight precision padding. We should increase this for higher precision.
 
@@ -341,18 +352,36 @@ contract Leaderboard {
             (bool success,) = payable(stakeRewardsToCalculate[i].addr).call{value : returnedAmount}("");
 
             if (success) {
+                // remove stakes afterwards
+                stakeRewardsToCalculate.pop();
                 emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i].addr, returnedAmount);
             } else {
-                emit UnableToAllocateRewardTo(stakeRewardsToCalculate[i].addr, userStakedAmount);
+                // should revert
+                emit UnableToAllocateRewardTo(stakeRewardsToCalculate[i].addr, returnedAmount);
+                revert UnableToAllocateReward(stakeRewardsToCalculate[i].addr, returnedAmount);
             }
         }
     }
 
     function allocateInitialFundingReward() public virtual OnlyFacilitator HasContractEnded(endTime) {
+        if (initialFundingRewardsToCalculate.length == 0) {
+            for (uint8 i = 0; i <= rankingsCurrentId; i++) {
+                Stake[] storage stakes = userStakes[i];
+
+                for (uint8 j = 0; j < stakes.length; i++) {
+                    Ranking memory _rank = getRankingFromId(stakes[j].id);
+
+                    if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) {
+                        initialFundingRewardsToCalculate.push(stakes[j]);
+                    }
+                }
+            }
+        }
+
         uint256 normForInitialFundingReward = calculateNorm(initialFundingRewardsToCalculate, initialFunding);
 
         // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
-        for (uint8 i = 0; i < initialFundingRewardsToCalculate.length; i++) {
+        for (uint8 i = initialFundingRewardsToCalculate.length - 1; i >= 0; i++) {
             uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i])) / 10000;
 
             uint256 userStakedAmount = initialFundingRewardsToCalculate[i].liquidity;
@@ -363,9 +392,11 @@ contract Leaderboard {
             (bool success,) = payable(initialFundingRewardsToCalculate[i].addr).call{value : returnedAmount}("");
 
             if (success) {
-                emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i].addr, returnedAmount);
+                initialFundingRewardsToCalculate.pop();
+                emit SuccessfullyAllocatedRewardTo(initialFundingRewardsToCalculate[i].addr, returnedAmount);
             } else {
-                emit UnableToAllocateRewardTo(stakeRewardsToCalculate[i].addr, userStakedAmount);
+                emit UnableToAllocateRewardTo(initialFundingRewardsToCalculate[i].addr, returnedAmount);
+                revert UnableToAllocateReward(initialFundingRewardsToCalculate[i].addr, returnedAmount);
             }
         }
     }

@@ -1020,6 +1020,14 @@ describe("Leaderboard", function () {
         it("should allocate rewards correctly", async function () {
 
         });
+
+        it("should remove stakes rewards to calculate after rewards have been allocated", async function () {
+
+        });
+
+        it("should remove initial funding rewards to calculate after rewards have been allocated", async function () {
+
+        });
     });
 
     describe("Contract ended", async function () {
