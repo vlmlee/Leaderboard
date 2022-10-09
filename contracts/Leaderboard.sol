@@ -412,6 +412,7 @@ contract Leaderboard {
                 Stake[] storage stakes = userStakes[stakeRewardsToCalculate[i-1].id];
                 for (uint256 j = 0; j < stakes.length; j++) {
                     if (stakes[j].addr == stakeRewardsToCalculate[i-1].addr) {
+                        emit UserStakeFulfilled(stakes[j].addr, stakes[j]);
                         delete stakes[j];
                         // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
                         stakes[j] = stakes[stakes.length - 1];
@@ -422,7 +423,6 @@ contract Leaderboard {
                     }
                 }
 
-                emit UserStakeFulfilled(stakeRewardsToCalculate[i-1].addr, stakeRewardsToCalculate[i-1]);
                 emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i-1].addr, returnedAmount);
                 // remove stake from stakeRewardsToCalculate afterwards
                 stakeRewardsToCalculate.pop();
@@ -472,6 +472,7 @@ contract Leaderboard {
                 Stake[] storage stakes = userStakes[initialFundingRewardsToCalculate[i-1].id];
                 for (uint256 j = 0; j < stakes.length; j++) {
                     if (stakes[j].addr == initialFundingRewardsToCalculate[i-1].addr) {
+                        emit UserStakeFulfilled(stakes[j].addr, stakes[j]);
                         delete stakes[j];
                         // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
                         stakes[j] = stakes[stakes.length - 1];
@@ -482,7 +483,6 @@ contract Leaderboard {
                     }
                 }
 
-                emit UserStakeFulfilled(initialFundingRewardsToCalculate[i-1].addr, initialFundingRewardsToCalculate[i-1]);
                 emit SuccessfullyAllocatedRewardTo(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
                 initialFundingRewardsToCalculate.pop();
                 if (userStakesSize > 0) userStakesSize--;
