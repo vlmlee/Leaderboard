@@ -1406,6 +1406,8 @@ describe("Leaderboard", function () {
                 [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.7878")],
             ];
 
+            // Total: 24.43
+
             const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
             const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
             const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[2]);

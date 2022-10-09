@@ -410,23 +410,23 @@ contract Leaderboard {
         uint256 normForInitialFundingReward = calculateNorm(initialFundingRewardsToCalculate, initialFunding);
 
         // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
-        for (uint256 i = (initialFundingRewardsToCalculate.length - 1); i >= 0; i--) {
-            uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i])) / 1000000000;
+        for (uint256 i = initialFundingRewardsToCalculate.length; i > 0; i--) {
+            uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i-1])) / 1000000000;
 
-            uint256 userStakedAmount = initialFundingRewardsToCalculate[i].liquidity;
+            uint256 userStakedAmount = initialFundingRewardsToCalculate[i-1].liquidity;
             assert(userStakedAmount > 0);
             assert(rewardPool > 0);
             assert(payable(address(this)).balance > 0);
-            initialFundingRewardsToCalculate[i].liquidity = 0; // Reentrancy guard
-            (bool success,) = payable(initialFundingRewardsToCalculate[i].addr).call{value : returnedAmount}("");
+            initialFundingRewardsToCalculate[i-1].liquidity = 0; // Reentrancy guard
+            (bool success,) = payable(initialFundingRewardsToCalculate[i-1].addr).call{value : returnedAmount}("");
 
             if (success) {
-                emit SuccessfullyAllocatedRewardTo(initialFundingRewardsToCalculate[i].addr, returnedAmount);
+                emit SuccessfullyAllocatedRewardTo(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
 
                 initialFundingRewardsToCalculate.pop();
             } else {
-                emit UnableToAllocateRewardTo(initialFundingRewardsToCalculate[i].addr, returnedAmount);
-                revert UnableToAllocateReward(initialFundingRewardsToCalculate[i].addr, returnedAmount);
+                emit UnableToAllocateRewardTo(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
+                revert UnableToAllocateReward(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
             }
         }
     }
