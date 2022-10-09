@@ -16,7 +16,40 @@ describe("Leaderboard", function () {
         const commissionFee = ethers.utils.parseEther("0.0025");
         const initialFunding = ethers.utils.parseEther("2.0");
 
-        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime(), commissionFee, {value: initialFunding});
+        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard Fixture"), new Date("12/12/2022").getTime(), commissionFee, {value: initialFunding});
+        await leaderboard.deployed();
+
+        const testRankings = [
+            {
+                id: 0,
+                rank: 1,
+                name: ethers.utils.formatBytes32String("Elon Musk"),
+                data: [...Buffer.from("networth:232.4b")]
+            },
+            {
+                id: 1,
+                rank: 2,
+                name: ethers.utils.formatBytes32String("Jeff Bezos"),
+                data: [...Buffer.from("networth:144.5b")]
+            }
+        ];
+
+        const addRankingTx1 = await leaderboard.addRanking(testRankings[0].rank, testRankings[0].name, testRankings[0].data);
+        await addRankingTx1.wait();
+        const addRankingTx2 = await leaderboard.addRanking(testRankings[1].rank, testRankings[1].name, testRankings[1].data);
+        await addRankingTx2.wait();
+
+        return {Leaderboard, leaderboard, facilitator, addr1, addr2, addr3};
+    }
+
+    async function deployAllocateRewardFixture() {
+        const Leaderboard = await ethers.getContractFactory("Leaderboard");
+        const [facilitator, addr1, addr2, addr3] = await ethers.getSigners();
+
+        const commissionFee = ethers.utils.parseEther("0.0025");
+        const initialFunding = ethers.utils.parseEther("2.0");
+
+        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Allocate Reward Fixture"), new Date("12/12/2022").getTime(), commissionFee, {value: initialFunding});
         await leaderboard.deployed();
 
         const testRankings = [
@@ -1001,21 +1034,22 @@ describe("Leaderboard", function () {
 
     describe("Allocate rewards", async function () {
         it("should calculate the right rank changed normalized coefficient", async function () {
-            const {leaderboard, addr1} = await loadFixture(deployFixture);
+            const {leaderboard, addr1} = await loadFixture(deployAllocateRewardFixture);
+            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
 
             const fromRanking = {
-                id: 5,
+                id: 2,
                 name: ethers.utils.formatBytes32String("Someone"),
-                rank: 6,
-                startingRank: 6,
+                rank: 3,
+                startingRank: 3,
                 data: []
             };
 
             const toRanking = {
-                id: 6,
+                id: 3,
                 name: ethers.utils.formatBytes32String("A name"),
-                rank: 7,
-                startingRank: 7,
+                rank: 4,
+                startingRank: 4,
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
@@ -1051,14 +1085,106 @@ describe("Leaderboard", function () {
             expect(+(await leaderboard.getRankChangedNormalizedCoefficient(toStake))).to.equal(110);
         });
 
+        it("should calculate the correct weight for a ranking", async function () {
+            const {leaderboard, addr1} = await loadFixture(deployAllocateRewardFixture);
+            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
+
+            const fromRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 4,
+                startingRank: 3,
+                data: []
+            };
+
+            const toRanking = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("A name"),
+                rank: 3,
+                startingRank: 4,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const testRanking = {
+                id: 4,
+                name: ethers.utils.formatBytes32String("A different name"),
+                rank: 5,
+                startingRank: 5,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const addRankingTx = await leaderboard.addRanking(testRanking.rank, testRanking.name, testRanking.data);
+            await addRankingTx.wait();
+
+            const updateRankingTx = await leaderboard.swapRank(fromRanking.id, fromRanking.rank, testRanking.id, testRanking.rank);
+            await updateRankingTx.wait();
+
+            const testStakes = [
+                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("1.2")],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther("4.0")],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther("2.56")],
+                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("2.00091")],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther("8.12")],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.9421")],
+            ];
+
+            const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
+            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
+            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[2]);
+
+            // console.log(fromRankingChanged.toNumber()); // => 80, lost 2 ranks ✓ (starting - 3, current - 5)
+            // console.log(toRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 4, current - 3)
+            // console.log(testRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 5, current - 4)
+
+            const rankingsChanged = {
+                [fromRanking.id]: fromRankingChanged,
+                [toRanking.id]: toRankingChanged,
+                [testRanking.id]: testRankingChanged
+            };
+
+            const expectedWeights = testStakes.map(stake => {
+                //  liquidity * normalized coeffiicient / 100
+               return BigNumber.from(stake[3]).mul(rankingsChanged[stake[1]]).div(100);
+            });
+
+            // console.log(expectedWeights);
+            // [
+            //     BigNumber { _hex: '0x0d529ae9e8600000', _isBigNumber: true },
+            //     BigNumber { _hex: '0x3d0ff0b013b80000', _isBigNumber: true },
+            //     BigNumber { _hex: '0x2714711487800000', _isBigNumber: true },
+            //     BigNumber { _hex: '0x1636eda28e058000', _isBigNumber: true },
+            //     BigNumber { _hex: '0x7bf4d6ad1dca0000', _isBigNumber: true },
+            //     BigNumber { _hex: '0x0e61b674532f6000', _isBigNumber: true }
+            // ]
+
+            // console.log(expectedWeights.map(w => w.toString()));
+            // [
+            //     '960000000000000000',
+            //     '4400000000000000000',
+            //     '2816000000000000000',
+            //     '1600728000000000000',
+            //     '8932000000000000000',
+            //     '1036310000000000000'
+            // ]
+
+            for (let i = 0; i < testStakes.length; i++) {
+                expect(await leaderboard.calculateWeight(testStakes[i])).to.equal(expectedWeights[i]);
+            }
+        });
+
+        it("should always return a positive number for a weight", async function () {
+
+        });
+
         it("should revert if an unchanged rank tries to get a changed rank normalized coefficient", async function () {
-            const {leaderboard, addr1} = await loadFixture(deployFixture);
+            const {leaderboard, addr1} = await loadFixture(deployAllocateRewardFixture);
+            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
 
             const unchangedRanking = {
-                id: 7,
+                id: 5,
                 name: ethers.utils.formatBytes32String("unchanged"),
-                rank: 8,
-                startingRank: 8,
+                rank: 22,
+                startingRank: 22,
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
@@ -1073,22 +1199,177 @@ describe("Leaderboard", function () {
         });
 
         it("should calculate the right norm for the reward pool", async function () {
+            const {leaderboard, addr1, addr2, addr3} = await loadFixture(deployAllocateRewardFixture);
+            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
 
+            const fromRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 5,
+                startingRank: 3,
+                data: []
+            };
+
+            const toRanking = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("A name"),
+                rank: 3,
+                startingRank: 4,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const testRanking = {
+                id: 4,
+                name: ethers.utils.formatBytes32String("A different name"),
+                rank: 4,
+                startingRank: 5,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const testStakes = [
+                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("1.2")],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther("4.0")],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther("2.56")],
+                [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("2.00091")],
+                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther("8.12")],
+                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.9421")],
+                [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("3.16")],
+                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther("1.66")],
+                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.7878")],
+            ];
+
+            const accounts = {
+                [addr1.address] : addr1,
+                [addr2.address] : addr2,
+                [addr3.address] : addr3,
+            };
+
+            for (let i = 0; i < testStakes.length; i++) {
+                const tx = await leaderboard.connect(accounts[testStakes[i][0]]).addStake(testStakes[i][1], testStakes[i][2], {value: testStakes[i][3]});
+                await tx.wait();
+            }
+
+            const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
+            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
+            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[2]);
+
+            // console.log(fromRankingChanged.toNumber()); // => 80, lost 2 ranks ✓ (starting - 3, current - 5)
+            // console.log(toRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 4, current - 3)
+            // console.log(testRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 5, current - 4)
+
+            const rankingsChanged = {
+                [fromRanking.id]: fromRankingChanged,
+                [toRanking.id]: toRankingChanged,
+                [testRanking.id]: testRankingChanged
+            };
+
+            const expectedWeights = testStakes.map(stake => {
+                //  liquidity * normalized coeffiicient / 100
+                return BigNumber.from(stake[3]).mul(rankingsChanged[stake[1]]).div(100);
+            });
+
+            const rewardPool = await leaderboard.rewardPool();
+            const poolAmount = rewardPool.sub(ethers.utils.parseEther("2.0"));
+            // console.log("Pool Amount: ", poolAmount.toString()); // 24408310000000000000
+
+            const sumOfExpectedWeights = expectedWeights.reduce((cur, acc, i) => {
+                acc = acc.add(cur);
+                return acc;
+            });
+            // console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 24965618000000000000
+
+            const norm = poolAmount.mul(1000000000).div(sumOfExpectedWeights);
+            // console.log("Norm: ", norm.toString()); // 977676979
+            // console.log(977676979 / 1000000000) // 0.977676979
+            // console.log(24408310000000000000 / 24965618000000000000); // 0.9776769795964995
+
+            expect(await leaderboard.calculateNorm(testStakes, poolAmount)).to.equal(norm);
         });
 
         it("should calculate the right norm for the initial funding", async function () {
+            const {leaderboard, addr1, addr2, addr3} = await loadFixture(deployAllocateRewardFixture);
+            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
 
+            const fromRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 5,
+                startingRank: 3,
+                data: []
+            };
+
+            const toRanking = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("A name"),
+                rank: 3,
+                startingRank: 4,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const testRanking = {
+                id: 4,
+                name: ethers.utils.formatBytes32String("A different name"),
+                rank: 4,
+                startingRank: 5,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const testStakes = [
+                // [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("1.2")],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther("4.0")],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther("2.56")],
+                // [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("2.00091")],
+                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther("8.12")],
+                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.9421")],
+                // [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("3.16")],
+                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther("1.66")],
+                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.7878")],
+            ];
+
+            const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
+            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
+            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[2]);
+
+            // console.log(fromRankingChanged.toNumber()); // => 80, lost 2 ranks ✓ (starting - 3, current - 5)
+            // console.log(toRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 4, current - 3)
+            // console.log(testRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 5, current - 4)
+
+            const rankingsChanged = {
+                [fromRanking.id]: fromRankingChanged,
+                [toRanking.id]: toRankingChanged,
+                [testRanking.id]: testRankingChanged
+            };
+
+            const expectedWeights = testStakes.map(stake => {
+                //  liquidity * normalized coeffiicient / 100
+                return BigNumber.from(stake[3]).mul(rankingsChanged[stake[1]]).div(100);
+            });
+
+            const poolAmount = ethers.utils.parseEther("2.0");
+            console.log("Pool Amount: ", poolAmount.toString()); // 2000000000000000000
+
+            const sumOfExpectedWeights = expectedWeights.reduce((cur, acc, i) => {
+                acc = acc.add(cur);
+                return acc;
+            });
+            // console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 19876890000000000000
+
+            const norm = poolAmount.mul(1000000000).div(sumOfExpectedWeights);
+            // console.log("Norm: ", norm.toString()); // 100619362
+            // console.log(100619362 / 1000000000) // 0.100619362
+            // console.log(2000000000000000000 / 19876890000000000000); // 0.10061936248578122
+
+            expect(await leaderboard.calculateNorm(testStakes, poolAmount)).to.equal(norm);
         });
 
-        it("should calculate the correct weight for a ranking", async function () {
+        it("should allocate stake rewards correctly", async function () {
+            const {leaderboard, addr1, addr2, addr3} = await loadFixture(deployAllocateRewardFixture);
+            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
 
+            // expect(await leaderboard.allocateStakeRewards())
         });
 
-        it("should return a weight of 0 if a ranking did not change from its initial value", async function () {
-
-        });
-
-        it("should allocate rewards correctly", async function () {
+        it("should allocate initial funding rewards correctly", async function () {
 
         });
 

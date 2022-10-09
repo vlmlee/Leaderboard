@@ -363,8 +363,8 @@ contract Leaderboard {
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
         // changes deducts from a player's return amount and gets added into the reward pool.
         for (uint256 i = stakeRewardsToCalculate.length - 1; i >= 0; i--) {
-            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i])) / 10000;
-            // Needs to be divided by 10000 to cancel out calculateNorm and calculateWeight precision padding. We should increase this for higher precision.
+            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i])) / 1000000000;
+            // Needs to be divided by 1000000000 to cancel out calculateNorm and calculateWeight precision padding.
 
             uint256 userStakedAmount = stakeRewardsToCalculate[i].liquidity;
             assert(userStakedAmount > 0);
@@ -405,7 +405,7 @@ contract Leaderboard {
 
         // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
         for (uint256 i = initialFundingRewardsToCalculate.length - 1; i >= 0; i++) {
-            uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i])) / 10000;
+            uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i])) / 1000000000;
 
             uint256 userStakedAmount = initialFundingRewardsToCalculate[i].liquidity;
             assert(userStakedAmount > 0);
@@ -433,18 +433,14 @@ contract Leaderboard {
             weightsSum += calculateWeight(stakesToCalculate[i]);
         }
 
-        if (weightsSum == 0) { // don't want the norm to ever be infinite
-            return 0;
-        }
-
         // To get the amount return for each individual stake, the formula will be: weight coefficient * norm.
-        // We multiply by 10000 here to keep a precision of two decimal places since weightsSum is multiplied by a factor of 100.
-        norm = (10000 * poolAmount) / weightsSum;
+        // We multiply by 1000000000 here to keep a high precision.
+        norm = (1000000000 * poolAmount) / weightsSum;
     }
 
     // The weight is how much the user has staked multiplied by the net change of the ranking.
     function calculateWeight(Stake memory _stake) public view virtual OnlyFacilitator returns (uint256) {
-        return getRankChangedNormalizedCoefficient(_stake) * _stake.liquidity;
+        return (getRankChangedNormalizedCoefficient(_stake) * _stake.liquidity) / 100;
     }
 
     // To avoid fractions, we multiply the coefficient by 100 so we don't lose precision from rounding unsigned ints, for example: 1.1, 0.5, 0.8, 1.8 -> 1, 0, 0, 1.
