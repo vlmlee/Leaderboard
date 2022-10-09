@@ -19,6 +19,7 @@ contract Leaderboard {
     //
     event UserStakeAdded(address indexed _user, Stake _stake);
     event UserStakeWithdrawn(address indexed _user, Stake _stake);
+    event UserStakeFulfilled(address indexed _user, Stake _stake);
     event ContractDestroyed();
     event UnableToAllocateRewardTo(address indexed _user, uint256 _stakedAmount);
     event SuccessfullyAllocatedRewardTo(address indexed _user, uint256 _reward);
@@ -311,7 +312,10 @@ contract Leaderboard {
      * The contract creator/facilitator will gain a commission for every stake. Hence, the break
      * even for the contract will be if: userStakesSize * commissionFee > initialFunding.
      */
-    function allocateReward() public virtual OnlyFacilitator OnlyAfterContractHasEnded {
+    function allocateReward() public virtual
+        OnlyFacilitator
+//        OnlyAfterContractHasEnded
+    {
         if (userStakesSize < 1) revert NoStakesAddedForContractYet();
 
         // Get all user stakes
@@ -335,7 +339,10 @@ contract Leaderboard {
         allocateInitialFundingReward();
     }
 
-    function returnStakesForUnchangedRankings() public virtual OnlyFacilitator OnlyAfterContractHasEnded {
+    function returnStakesForUnchangedRankings() public virtual
+        OnlyFacilitator
+//        OnlyAfterContractHasEnded
+    {
         if (stakeToReturnDueToUnchangedRankings.length == 0) {
             for (uint8 i = 0; i <= rankingsCurrentId; i++) {
                 Stake[] storage stakes = userStakes[i];
@@ -352,7 +359,10 @@ contract Leaderboard {
         }
     }
 
-    function allocateStakeRewards() public virtual OnlyFacilitator OnlyAfterContractHasEnded {
+    function allocateStakeRewards() public virtual
+        OnlyFacilitator
+//        OnlyAfterContractHasEnded
+    {
         if (stakeRewardsToCalculate.length == 0) {
             for (uint8 i = 0; i <= rankingsCurrentId; i++) {
                 Stake[] storage stakes = userStakes[i];
@@ -381,12 +391,28 @@ contract Leaderboard {
 
             if (success) {
                 uint256 rewardPoolPrev = rewardPool;
-                uint256 rewardPoolAfter = removeFromRewardPool(userStakedAmount);
+                uint256 rewardPoolAfter = removeFromRewardPool(returnedAmount);
                 assert(rewardPoolAfter < rewardPoolPrev);
 
+                // Delete stake from userStakes
+                Stake[] storage stakes = userStakes[stakeRewardsToCalculate[i-1].id];
+                for (uint256 j = 0; j < stakes.length; j++) {
+                    if (stakes[j].addr == stakeRewardsToCalculate[i-1].addr) {
+                        delete stakes[j];
+                        // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
+                        stakes[j] = stakes[stakes.length - 1];
+                        // Copy the last element to the removed element's index.
+                        stakes.pop();
+                        // removes the last element and decrements the array's length
+                        break;
+                    }
+                }
+
+                emit UserStakeFulfilled(stakeRewardsToCalculate[i-1].addr, stakeRewardsToCalculate[i-1]);
                 emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i-1].addr, returnedAmount);
-                // remove stakes afterwards
+                // remove stake from stakeRewardsToCalculate afterwards
                 stakeRewardsToCalculate.pop();
+                if (userStakesSize > 0) userStakesSize--;
             } else {
                 // should revert
                 emit UnableToAllocateRewardTo(stakeRewardsToCalculate[i-1].addr, returnedAmount);
@@ -395,7 +421,10 @@ contract Leaderboard {
         }
     }
 
-    function allocateInitialFundingReward() public virtual OnlyFacilitator OnlyAfterContractHasEnded {
+    function allocateInitialFundingReward() public virtual
+        OnlyFacilitator
+//        OnlyAfterContractHasEnded
+    {
         if (initialFundingRewardsToCalculate.length == 0) {
             for (uint8 i = 0; i <= rankingsCurrentId; i++) {
                 Stake[] storage stakes = userStakes[i];
@@ -421,9 +450,28 @@ contract Leaderboard {
             (bool success,) = payable(initialFundingRewardsToCalculate[i-1].addr).call{value : returnedAmount}("");
 
             if (success) {
-                emit SuccessfullyAllocatedRewardTo(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
+                uint256 rewardPoolPrev = rewardPool;
+                uint256 rewardPoolAfter = removeFromRewardPool(returnedAmount);
+                assert(rewardPoolAfter < rewardPoolPrev);
 
+                // Delete stake from userStakes
+                Stake[] storage stakes = userStakes[initialFundingRewardsToCalculate[i-1].id];
+                for (uint256 j = 0; j < stakes.length; j++) {
+                    if (stakes[j].addr == initialFundingRewardsToCalculate[i-1].addr) {
+                        delete stakes[j];
+                        // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
+                        stakes[j] = stakes[stakes.length - 1];
+                        // Copy the last element to the removed element's index.
+                        stakes.pop();
+                        // removes the last element and decrements the array's length
+                        break;
+                    }
+                }
+
+                emit UserStakeFulfilled(initialFundingRewardsToCalculate[i-1].addr, initialFundingRewardsToCalculate[i-1]);
+                emit SuccessfullyAllocatedRewardTo(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
                 initialFundingRewardsToCalculate.pop();
+                if (userStakesSize > 0) userStakesSize--;
             } else {
                 emit UnableToAllocateRewardTo(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
                 revert UnableToAllocateReward(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);

@@ -1429,16 +1429,16 @@ describe("Leaderboard", function () {
 
             const rewardPool = await leaderboard.rewardPool();
             const poolAmount = rewardPool.sub(ethers.utils.parseEther("2.0"));
-            console.log("Pool Amount: ", poolAmount.toString()); // 24408310000000000000
+            // console.log("Pool Amount: ", poolAmount.toString()); // 24408310000000000000
 
             const sumOfExpectedWeights = expectedWeights.reduce((cur, acc, i) => {
                 acc = acc.add(cur);
                 return acc;
             });
-            console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 24965618000000000000
+            // console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 24965618000000000000
 
             const norm = poolAmount.mul(1000000000).div(sumOfExpectedWeights);
-            console.log("Norm: ", norm.toString()); // 977676979
+            // console.log("Norm: ", norm.toString()); // 977676979
             // console.log(977676979 / 1000000000) // 0.977676979
             // console.log(24408310000000000000 / 24965618000000000000); // 0.977676979
 
@@ -1446,7 +1446,7 @@ describe("Leaderboard", function () {
 
             await expect(leaderboard.allocateStakeRewards())
                 .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
-                .withArgs(addr1.address, )
+                // .withArgs(addr1.address, )
         });
 
         it("should allocate initial funding rewards correctly", async function () {
