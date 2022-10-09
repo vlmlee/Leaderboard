@@ -340,7 +340,7 @@ contract Leaderboard {
 
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
         // changes deducts from a player's return amount and gets added into the reward pool.
-        for (uint8 i = stakeRewardsToCalculate.length - 1; i >= 0; i--) {
+        for (uint256 i = stakeRewardsToCalculate.length - 1; i >= 0; i--) {
             uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i])) / 10000;
             // Needs to be divided by 10000 to cancel out calculateNorm and calculateWeight precision padding. We should increase this for higher precision.
 
@@ -381,7 +381,7 @@ contract Leaderboard {
         uint256 normForInitialFundingReward = calculateNorm(initialFundingRewardsToCalculate, initialFunding);
 
         // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
-        for (uint8 i = initialFundingRewardsToCalculate.length - 1; i >= 0; i++) {
+        for (uint256 i = initialFundingRewardsToCalculate.length - 1; i >= 0; i++) {
             uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i])) / 10000;
 
             uint256 userStakedAmount = initialFundingRewardsToCalculate[i].liquidity;

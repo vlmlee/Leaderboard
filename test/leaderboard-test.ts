@@ -372,14 +372,14 @@ describe("Leaderboard", function () {
             expect(postFromRanking.id, "From ranking id changed").to.equal(fromRanking.id);
             expect(postFromRanking.name, "From ranking name changed").to.equal(fromRanking.name);
             expect(postFromRanking.data, "To ranking data changed").to.equal(EMPTY_BYTES);
-            expect(postFromRanking.startingRank, "From ranking starting rank did not change").to.equal(fromRanking.startingRank);
+            expect(postFromRanking.startingRank, "From ranking starting rank changed").to.equal(fromRanking.startingRank);
 
             expect(postToRanking.rank, "To ranking did not change").to.equal(fromRanking.rank);
             // Only the rank changed
             expect(postToRanking.id, "To ranking id changed").to.equal(toRanking.id);
             expect(postToRanking.name, "To ranking name changed").to.equal(toRanking.name);
             expect(postToRanking.data, "To ranking data changed").to.equal(ethers.utils.hexlify(toRanking.data));
-            expect(postToRanking.startingRank, "To ranking starting rank did not change").to.equal(toRanking.startingRank);
+            expect(postToRanking.startingRank, "To ranking starting rank changed").to.equal(toRanking.startingRank);
         });
 
         it("should not be able to update a ranking to a zero ranking", async function () {
@@ -1000,6 +1000,56 @@ describe("Leaderboard", function () {
     });
 
     describe("Allocate rewards", async function () {
+        it("should calculate the right rank changed normalized coefficient", async function () {
+            const {leaderboard, addr1} = await loadFixture(deployFixture);
+
+            const fromRanking = {
+                id: 5,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 6,
+                startingRank: 6,
+                data: []
+            };
+
+            const toRanking = {
+                id: 6,
+                name: ethers.utils.formatBytes32String("A name"),
+                rank: 7,
+                startingRank: 7,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const addRankingTx1 = await leaderboard.addRanking(fromRanking.rank, fromRanking.name, fromRanking.data);
+            await addRankingTx1.wait();
+
+            const addRankingTx2 = await leaderboard.addRanking(toRanking.rank, toRanking.name, toRanking.data);
+            await addRankingTx2.wait();
+
+            const updateRankingTx = await leaderboard.swapRank(fromRanking.id, fromRanking.rank, toRanking.id, toRanking.rank);
+            await updateRankingTx.wait();
+
+            const postFromRanking = await leaderboard.getRankingByRank(toRanking.rank);
+            const postToRanking = await leaderboard.getRankingByRank(fromRanking.rank);
+
+            expect(postFromRanking.rank, "From ranking did not change").to.equal(toRanking.rank);
+            expect(postFromRanking.startingRank, "From ranking starting rank should not change").to.equal(fromRanking.startingRank);
+
+            expect(postToRanking.rank, "To ranking did not change").to.equal(fromRanking.rank);
+            expect(postToRanking.startingRank, "To ranking starting rank should not change").to.equal(toRanking.startingRank);
+
+            const stakeAmount = "1.0";
+
+            // Stake structure:
+            // address addr;
+            // uint8 id;
+            // bytes32 name;
+            // uint256 liquidity; // a user's stake
+            const fromStake = [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(stakeAmount)];
+            const toStake = [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther(stakeAmount)]
+            expect(+(await leaderboard.getRankChangedNormalizedCoefficient(fromStake))).to.equal(90);
+            expect(+(await leaderboard.getRankChangedNormalizedCoefficient(toStake))).to.equal(110);
+        });
+
         it("should calculate the right norm for the reward pool", async function () {
 
         });
@@ -1016,16 +1066,15 @@ describe("Leaderboard", function () {
 
         });
 
-        // TODO:
         it("should allocate rewards correctly", async function () {
 
         });
 
-        it("should remove stakes rewards to calculate after rewards have been allocated", async function () {
+        it("should remove reward pool stakes to calculate after rewards have been allocated", async function () {
 
         });
 
-        it("should remove initial funding rewards to calculate after rewards have been allocated", async function () {
+        it("should remove initial funding stakes to calculate after rewards have been allocated", async function () {
 
         });
     });
