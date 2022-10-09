@@ -124,7 +124,11 @@ contract Leaderboard {
         if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
     }
 
-    function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public OnlyFacilitator GreaterThanOneRank(_rank) {
+    function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public
+        OnlyFacilitator
+        OnlyBeforeContractHasEnded
+        GreaterThanOneRank(_rank)
+    {
         require(_name != 0, "A name has to be used to be added to the rankings.");
 
         Ranking storage ranking = rankings[rankingsCurrentId];
@@ -147,7 +151,11 @@ contract Leaderboard {
         emit RankingAdded(ranking);
     }
 
-    function removeRanking(uint8 _id, uint8 _rank, bytes32 _name) public OnlyFacilitator GreaterThanOneRank(_rank) {
+    function removeRanking(uint8 _id, uint8 _rank, bytes32 _name) public
+        OnlyFacilitator
+        OnlyBeforeContractHasEnded
+        GreaterThanOneRank(_rank)
+    {
         Ranking storage ranking = rankings[_id];
 
         // Since rank can't be zero, if ranking.rank = 0, it means the ranking doesn't exist.
@@ -165,9 +173,10 @@ contract Leaderboard {
     }
 
     function swapRank(uint8 idFrom, uint8 rankFrom, uint8 idTo, uint8 rankTo) public
-    OnlyFacilitator
-    GreaterThanOneRank(rankFrom)
-    GreaterThanOneRank(rankTo)
+        OnlyFacilitator
+        GreaterThanOneRank(rankFrom)
+        GreaterThanOneRank(rankTo)
+        OnlyBeforeContractHasEnded
     {
         Ranking storage rankingFrom = rankings[idFrom];
         Ranking storage rankingTo = rankings[idTo];
@@ -232,6 +241,7 @@ contract Leaderboard {
             liquidity : msg.value - commissionFee,
             id : _id,
             name : _name
+            // lockTime: block.timestamp + 1 days
         });
 
         stakes.push(stake);
@@ -243,7 +253,7 @@ contract Leaderboard {
         emit UserStakeAdded(msg.sender, stake);
     }
 
-    function withdrawStake(address _user, uint8 _id) public virtual OnlyBeforeContractHasEnded {
+    function withdrawStake(address _user, uint8 _id) public virtual {
         require(msg.sender == _user || msg.sender == facilitator, "Transaction sender is neither the owner of the stake or the facilitator.");
         if (userStakes[_id].length == 0) revert NoStakesAddedForRankingYet(_id);
 
@@ -262,6 +272,10 @@ contract Leaderboard {
         if (stake.addr == address(0)) {
             revert UserHasNotStakedYet(_user);
         }
+
+//        if (stake.lockTime < block.timestamp && msg.sender != facilitator) {
+//            revert UserHasPassedTheAllowedWithdrawalTimeLimit(stake.addr, stake.lockTime, block.timestamp);
+//        }
 
         uint256 userStakedAmount = stake.liquidity;
         assert(userStakedAmount > 0);
@@ -537,6 +551,7 @@ contract Leaderboard {
     function returnStakes(uint8 _id) internal OnlyFacilitator {
         Stake[] storage stakes = userStakes[_id];
 
+        // Returning all stakes for a ranking
         for (uint256 i = 0; i < stakes.length; i++) {
             Stake storage stake = stakes[i];
 
