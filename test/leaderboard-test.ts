@@ -1000,7 +1000,26 @@ describe("Leaderboard", function () {
     });
 
     describe("Allocate rewards", async function () {
+        it("should calculate the right norm for the reward pool", async function () {
+
+        });
+
+        it("should calculate the right norm for the initial funding", async function () {
+
+        });
+
+        it("should calculate the correct weight for a ranking", async function () {
+
+        });
+
+        it("should return a weight of 0 if a ranking did not change from its initial value", async function () {
+
+        });
+
         // TODO:
+        it("should allocate rewards correctly", async function () {
+
+        });
     });
 
     describe("Contract ended", async function () {

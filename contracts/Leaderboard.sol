@@ -302,7 +302,7 @@ contract Leaderboard {
      * The contract creator/facilitator will gain a commission for every stake. Hence, the break
      * even for the contract will be if: userStakesSize * commissionFee > initialFunding.
      */
-    function allocateReward() external virtual OnlyFacilitator HasContractEnded(endTime) {
+    function allocateReward() public virtual OnlyFacilitator HasContractEnded(endTime) {
         if (userStakesSize < 1) revert NoStakesAddedForContractYet();
 
         // Get all user stakes
@@ -320,8 +320,12 @@ contract Leaderboard {
             }
         }
 
+        allocateStakeRewards();
+        allocateInitialFundingReward();
+    }
+
+    function allocateStakeRewards() public virtual OnlyFacilitator HasContractEnded(endTime) {
         uint256 normForStakeRewards = calculateNorm(stakeRewardsToCalculate, rewardPool - initialFunding);
-        uint256 normForInitialFundingReward = calculateNorm(initialFundingRewardsToCalculate, initialFunding);
 
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
         // changes deducts from a player's return amount and gets added into the reward pool.
@@ -342,6 +346,10 @@ contract Leaderboard {
                 emit UnableToAllocateRewardTo(stakeRewardsToCalculate[i].addr, userStakedAmount);
             }
         }
+    }
+
+    function allocateInitialFundingReward() public virtual OnlyFacilitator HasContractEnded(endTime) {
+        uint256 normForInitialFundingReward = calculateNorm(initialFundingRewardsToCalculate, initialFunding);
 
         // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
         for (uint8 i = 0; i < initialFundingRewardsToCalculate.length; i++) {
@@ -369,6 +377,10 @@ contract Leaderboard {
         // Sum up all the coefficients to be able to calculate the amount of wei to return to users
         for (uint8 i = 0; i < stakesToCalculate.length; i++) {
             weightsSum += calculateWeight(stakesToCalculate[i]);
+        }
+
+        if (weightsSum == 0) { // don't want the norm to ever be infinite
+            return 0;
         }
 
         // To get the amount return for each individual stake, the formula will be: weight coefficient * norm.
