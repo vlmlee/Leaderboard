@@ -1433,18 +1433,18 @@ describe("Leaderboard", function () {
                 acc = acc.add(cur);
                 return acc;
             });
-            console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 19876890000000000000
+            console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 24965618000000000000
 
             const norm = poolAmount.mul(1000000000).div(sumOfExpectedWeights);
-            // console.log("Norm: ", norm.toString()); // 100619362
-            // console.log(100619362 / 1000000000) // 0.100619362
-            // console.log(2000000000000000000 / 19876890000000000000); // 0.10061936248578122
+            console.log("Norm: ", norm.toString()); // 977676979
+            // console.log(977676979 / 1000000000) // 0.977676979
+            // console.log(24408310000000000000 / 24965618000000000000); // 0.977676979
 
-            // expect(await leaderboard.calculateNorm(testStakes, poolAmount)).to.equal(norm);
-            //
-            // await expect(leaderboard.allocateStakeRewards())
-            //     .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
-            //     .withArgs(addr1.address, )
+            expect(await leaderboard.calculateNorm(testStakes, poolAmount)).to.equal(norm);
+
+            await expect(leaderboard.allocateStakeRewards())
+                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                .withArgs(addr1.address, )
         });
 
         it("should allocate initial funding rewards correctly", async function () {

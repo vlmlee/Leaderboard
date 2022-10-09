@@ -33,8 +33,13 @@ contract Leaderboard {
         _;
     }
 
-    modifier HasContractEnded(uint256 _endTime) {
+    modifier OnlyBeforeContractHasEnded() {
         if (block.timestamp > endTime) revert ContractEnded(endTime, block.timestamp);
+        _;
+    }
+
+    modifier OnlyAfterContractHasEnded() {
+        if (block.timestamp < endTime) revert ContractHasNotEndedYet(endTime, block.timestamp);
         _;
     }
 
@@ -69,6 +74,7 @@ contract Leaderboard {
     error UserAlreadyStaked(string _errorMessage);
     error UserHasNotStakedYet(address _user);
     error ContractEnded(uint256 _endTime, uint256 _currentTime);
+    error ContractHasNotEndedYet(uint256 _endTime, uint256 _currentTime);
     error UnableToWithdrawStake(address _user);
     error RankingDoesNotExist(uint8 _id, uint8 _rank, bytes32 _name);
     error RankingAlreadyExists(uint8 _rank);
@@ -204,7 +210,7 @@ contract Leaderboard {
         emit RankingUpdated(ranking);
     }
 
-    function addStake(uint8 _id, bytes32 _name) public virtual HasContractEnded(endTime) payable {
+    function addStake(uint8 _id, bytes32 _name) public virtual OnlyBeforeContractHasEnded payable {
         if (_id >= rankingsCurrentId) revert RankingDoesNotExist(_id, 0, bytes32(0));
 
         Ranking memory ranking = rankings[_id];
@@ -236,7 +242,7 @@ contract Leaderboard {
         emit UserStakeAdded(msg.sender, stake);
     }
 
-    function withdrawStake(address _user, uint8 _id) public virtual HasContractEnded(endTime) {
+    function withdrawStake(address _user, uint8 _id) public virtual OnlyBeforeContractHasEnded {
         require(msg.sender == _user || msg.sender == facilitator, "Transaction sender is neither the owner of the stake or the facilitator.");
         if (userStakes[_id].length == 0) revert NoStakesAddedForRankingYet(_id);
 
@@ -305,7 +311,7 @@ contract Leaderboard {
      * The contract creator/facilitator will gain a commission for every stake. Hence, the break
      * even for the contract will be if: userStakesSize * commissionFee > initialFunding.
      */
-    function allocateReward() public virtual OnlyFacilitator HasContractEnded(endTime) {
+    function allocateReward() public virtual OnlyFacilitator OnlyAfterContractHasEnded {
         if (userStakesSize < 1) revert NoStakesAddedForContractYet();
 
         // Get all user stakes
@@ -329,7 +335,7 @@ contract Leaderboard {
         allocateInitialFundingReward();
     }
 
-    function returnStakesForUnchangedRankings() public virtual OnlyFacilitator HasContractEnded(endTime) {
+    function returnStakesForUnchangedRankings() public virtual OnlyFacilitator OnlyAfterContractHasEnded {
         if (stakeToReturnDueToUnchangedRankings.length == 0) {
             for (uint8 i = 0; i <= rankingsCurrentId; i++) {
                 Stake[] storage stakes = userStakes[i];
@@ -346,7 +352,7 @@ contract Leaderboard {
         }
     }
 
-    function allocateStakeRewards() public virtual OnlyFacilitator HasContractEnded(endTime) {
+    function allocateStakeRewards() public virtual OnlyFacilitator OnlyAfterContractHasEnded {
         if (stakeRewardsToCalculate.length == 0) {
             for (uint8 i = 0; i <= rankingsCurrentId; i++) {
                 Stake[] storage stakes = userStakes[i];
@@ -362,34 +368,34 @@ contract Leaderboard {
 
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
         // changes deducts from a player's return amount and gets added into the reward pool.
-        for (uint256 i = stakeRewardsToCalculate.length - 1; i >= 0; i--) {
-            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i])) / 1000000000;
+        for (uint256 i = (stakeRewardsToCalculate.length); i > 0; i--) {
+            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i-1])) / 1000000000;
             // Needs to be divided by 1000000000 to cancel out calculateNorm and calculateWeight precision padding.
 
-            uint256 userStakedAmount = stakeRewardsToCalculate[i].liquidity;
+            uint256 userStakedAmount = stakeRewardsToCalculate[i-1].liquidity;
             assert(userStakedAmount > 0);
             assert(rewardPool > 0);
             assert(payable(address(this)).balance > 0);
-            stakeRewardsToCalculate[i].liquidity = 0; // Reentrancy guard
-            (bool success,) = payable(stakeRewardsToCalculate[i].addr).call{value : returnedAmount}("");
+            stakeRewardsToCalculate[i-1].liquidity = 0; // Reentrancy guard
+            (bool success,) = payable(stakeRewardsToCalculate[i-1].addr).call{value : returnedAmount}("");
 
             if (success) {
-                // remove stakes afterwards
-                stakeRewardsToCalculate.pop();
                 uint256 rewardPoolPrev = rewardPool;
                 uint256 rewardPoolAfter = removeFromRewardPool(userStakedAmount);
                 assert(rewardPoolAfter < rewardPoolPrev);
 
-                emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i].addr, returnedAmount);
+                emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i-1].addr, returnedAmount);
+                // remove stakes afterwards
+                stakeRewardsToCalculate.pop();
             } else {
                 // should revert
-                emit UnableToAllocateRewardTo(stakeRewardsToCalculate[i].addr, returnedAmount);
-                revert UnableToAllocateReward(stakeRewardsToCalculate[i].addr, returnedAmount);
+                emit UnableToAllocateRewardTo(stakeRewardsToCalculate[i-1].addr, returnedAmount);
+                revert UnableToAllocateReward(stakeRewardsToCalculate[i-1].addr, returnedAmount);
             }
         }
     }
 
-    function allocateInitialFundingReward() public virtual OnlyFacilitator HasContractEnded(endTime) {
+    function allocateInitialFundingReward() public virtual OnlyFacilitator OnlyAfterContractHasEnded {
         if (initialFundingRewardsToCalculate.length == 0) {
             for (uint8 i = 0; i <= rankingsCurrentId; i++) {
                 Stake[] storage stakes = userStakes[i];
@@ -404,7 +410,7 @@ contract Leaderboard {
         uint256 normForInitialFundingReward = calculateNorm(initialFundingRewardsToCalculate, initialFunding);
 
         // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
-        for (uint256 i = initialFundingRewardsToCalculate.length - 1; i >= 0; i++) {
+        for (uint256 i = (initialFundingRewardsToCalculate.length - 1); i >= 0; i--) {
             uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i])) / 1000000000;
 
             uint256 userStakedAmount = initialFundingRewardsToCalculate[i].liquidity;
@@ -415,8 +421,9 @@ contract Leaderboard {
             (bool success,) = payable(initialFundingRewardsToCalculate[i].addr).call{value : returnedAmount}("");
 
             if (success) {
-                initialFundingRewardsToCalculate.pop();
                 emit SuccessfullyAllocatedRewardTo(initialFundingRewardsToCalculate[i].addr, returnedAmount);
+
+                initialFundingRewardsToCalculate.pop();
             } else {
                 emit UnableToAllocateRewardTo(initialFundingRewardsToCalculate[i].addr, returnedAmount);
                 revert UnableToAllocateReward(initialFundingRewardsToCalculate[i].addr, returnedAmount);
