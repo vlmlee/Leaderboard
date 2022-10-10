@@ -923,6 +923,14 @@ describe("Leaderboard", function () {
             await expect(leaderboard.connect(addr2).withdrawStake(addr2.address, testRanking.id))
                 .to.be.revertedWith("NoStakesAddedForRankingYet");
         });
+
+        it("should not allow a user to withdraw a stake after its lock time", async function () {
+
+        });
+
+        it("should allow a facilitator to withdraw a stake for a player regardless of the lock time", async function () {
+
+        });
     });
 
     describe("Return stakes", async function () {
@@ -1577,7 +1585,7 @@ describe("Leaderboard", function () {
                 .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[7]))
                 .to.emit(leaderboard, "UserStakeFulfilled")
                 .withArgs(addr3.address, testStakes[7])
-            // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
                 // .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[8]));
 
             const postAddr1Balance = await addr1.getBalance();
@@ -1610,21 +1618,11 @@ describe("Leaderboard", function () {
                     .add(ethers.utils.parseEther(expectedReturnValues[8]))
                     .div(100000)
             );
+
+            expect((await leaderboard.getStakeRewardsToCalculate()).length).to.equal(0);
         });
 
         it("should allocate initial funding rewards correctly", async function () {
-
-        });
-
-        it("should remove reward pool stakes from stakeRewardsToCalculate after rewards have been allocated", async function () {
-
-        });
-
-        it("should remove stakes from userStakes after stakeRewardsToCalculate stakes have been allocated", async function () {
-
-        });
-
-        it("should remove initial funding stakes from initialFundingRewardsToCalculate after rewards have been allocated", async function () {
 
         });
 

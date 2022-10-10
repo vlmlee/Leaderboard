@@ -125,6 +125,18 @@ contract Leaderboard {
         if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
     }
 
+    function getStakeRewardsToCalculate() public view OnlyFacilitator returns (Stake[] memory) {
+        return stakeRewardsToCalculate;
+    }
+
+    function getInitialFundingRewardsToCalculate() public view OnlyFacilitator returns (Stake[] memory) {
+        return initialFundingRewardsToCalculate;
+    }
+
+    function getStakeToReturnDueToUnchangedRankings() public view OnlyFacilitator returns (Stake[] memory) {
+        return stakeToReturnDueToUnchangedRankings;
+    }
+
     function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public
         OnlyFacilitator
         OnlyBeforeContractHasEnded
