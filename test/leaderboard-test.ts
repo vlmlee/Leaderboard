@@ -1549,23 +1549,35 @@ describe("Leaderboard", function () {
             await expect(leaderboard.allocateStakeRewards())
                 .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
                 .withArgs(addr1.address, BigNumber.from(ethers.utils.parseEther(expectedReturnValues[0])))
+                .to.emit(leaderboard, "UserStakeFulfilled")
+                .withArgs(addr1.address, testStakes[0])
                 .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
                 .withArgs(addr1.address, ethers.utils.parseEther(expectedReturnValues[1]))
+                .to.emit(leaderboard, "UserStakeFulfilled")
+                .withArgs(addr1.address, testStakes[1])
                 .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
                 .withArgs(addr1.address, ethers.utils.parseEther(expectedReturnValues[2]))
+                .to.emit(leaderboard, "UserStakeFulfilled")
+                .withArgs(addr1.address, testStakes[2])
 
                 // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
                 // .withArgs(addr2.address, ethers.utils.parseEther(expectedReturnValues[3]))
                 .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
                 .withArgs(addr2.address, ethers.utils.parseEther(expectedReturnValues[4]))
+                .to.emit(leaderboard, "UserStakeFulfilled")
+                .withArgs(addr2.address, testStakes[4])
                 // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
                 // .withArgs(addr2.address, ethers.utils.parseEther(expectedReturnValues[5]))
 
                 .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
                 .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[6]))
+                .to.emit(leaderboard, "UserStakeFulfilled")
+                .withArgs(addr3.address, testStakes[6])
                 .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
-                .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[7]));
-                // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[7]))
+                .to.emit(leaderboard, "UserStakeFulfilled")
+                .withArgs(addr3.address, testStakes[7])
+            // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
                 // .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[8]));
 
             const postAddr1Balance = await addr1.getBalance();
