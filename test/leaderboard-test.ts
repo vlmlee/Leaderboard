@@ -1033,6 +1033,19 @@ describe("Leaderboard", function () {
     });
 
     describe("Allocate rewards", async function () {
+        // Change here to test other amounts. Values are non-zero unsigned.
+        const originalStakeAmounts = [
+            "1.2",
+            "4.0",
+            "2.56",
+            "2.00091",
+            "8.12",
+            "0.9421",
+            "3.16",
+            "1.66",
+            "0.7878"
+        ];
+
         it("should calculate the right rank changed normalized coefficient", async function () {
             const {leaderboard, addr1} = await loadFixture(deployAllocateRewardFixture);
             expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
@@ -1074,6 +1087,7 @@ describe("Leaderboard", function () {
             const stakeAmount = "1.0";
 
             // Stake structure:
+            // address addr;
             // address addr;
             // uint8 id;
             // bytes32 name;
@@ -1120,12 +1134,12 @@ describe("Leaderboard", function () {
             await updateRankingTx.wait();
 
             const testStakes = [
-                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("1.2")],
-                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther("4.0")],
-                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther("2.56")],
-                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("2.00091")],
-                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther("8.12")],
-                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.9421")],
+                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[0])],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[1])],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[2])],
+                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[3])],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[4])],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[5])],
             ];
 
             const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
@@ -1227,15 +1241,15 @@ describe("Leaderboard", function () {
             };
 
             const testStakes = [
-                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("1.2")],
-                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther("4.0")],
-                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther("2.56")],
-                [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("2.00091")],
-                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther("8.12")],
-                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.9421")],
-                [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("3.16")],
-                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther("1.66")],
-                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.7878")],
+                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[0])],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[1])],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[2])],
+                [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[3])],
+                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[4])],
+                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[5])],
+                [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[6])],
+                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[7])],
+                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[8])],
             ];
 
             const accounts = {
@@ -1272,13 +1286,13 @@ describe("Leaderboard", function () {
             const poolAmount = rewardPool.sub(ethers.utils.parseEther("2.0"));
             // console.log("Pool Amount: ", poolAmount.toString()); // 24408310000000000000
 
-            const sumOfExpectedWeights = expectedWeights.reduce((cur, acc, i) => {
+            const sumOfExpectedWeights = expectedWeights.reduce((acc, cur, i) => {
                 acc = acc.add(cur);
                 return acc;
-            });
+            }, BigNumber.from(0));
             // console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 24965618000000000000
 
-            const norm = poolAmount.mul(1000000000).div(sumOfExpectedWeights);
+            const norm = poolAmount.mul(100000000000).div(sumOfExpectedWeights);
             // console.log("Norm: ", norm.toString()); // 977676979
             // console.log(977676979 / 1000000000) // 0.977676979
             // console.log(24408310000000000000 / 24965618000000000000); // 0.9776769795964995
@@ -1315,15 +1329,15 @@ describe("Leaderboard", function () {
             };
 
             const testStakes = [
-                // [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("1.2")],
-                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther("4.0")],
-                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther("2.56")],
-                // [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("2.00091")],
-                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther("8.12")],
-                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.9421")],
-                // [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("3.16")],
-                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther("1.66")],
-                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.7878")],
+                // [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[0])],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[1])],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[2])],
+                // [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[3])],
+                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[4])],
+                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[5])],
+                // [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[6])],
+                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[7])],
+                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[8])],
             ];
 
             const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
@@ -1348,13 +1362,13 @@ describe("Leaderboard", function () {
             const poolAmount = ethers.utils.parseEther("2.0");
             // console.log("Pool Amount: ", poolAmount.toString()); // 2000000000000000000
 
-            const sumOfExpectedWeights = expectedWeights.reduce((cur, acc, i) => {
+            const sumOfExpectedWeights = expectedWeights.reduce((acc, cur, i) => {
                 acc = acc.add(cur);
                 return acc;
-            });
+            }, BigNumber.from(0));
             // console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 19876890000000000000
 
-            const norm = poolAmount.mul(1000000000).div(sumOfExpectedWeights);
+            const norm = poolAmount.mul(100000000000).div(sumOfExpectedWeights);
             // console.log("Norm: ", norm.toString()); // 100619362
             // console.log(100619362 / 1000000000) // 0.100619362
             // console.log(2000000000000000000 / 19876890000000000000); // 0.10061936248578122
@@ -1395,18 +1409,18 @@ describe("Leaderboard", function () {
             };
 
             const testStakes = [
-                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("1.2")],
-                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther("4.0")],
-                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther("2.56")],
-                [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("2.00091")],
-                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther("8.12")],
-                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.9421")],
-                [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther("3.16")],
-                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther("1.66")],
-                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther("0.7878")],
+                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[0].toString())],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[1].toString())],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[2].toString())],
+                [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[3].toString())],
+                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[4].toString())],
+                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[5].toString())],
+                [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[6].toString())],
+                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[7].toString())],
+                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[8].toString())],
             ];
-
-            // Total: 24.43
+            // Total: 24.43081
+            console.log("Original stakes: ", originalStakeAmounts);
 
             const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
             const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
@@ -1429,20 +1443,99 @@ describe("Leaderboard", function () {
 
             const rewardPool = await leaderboard.rewardPool();
             const poolAmount = rewardPool.sub(ethers.utils.parseEther("2.0"));
-            // console.log("Pool Amount: ", poolAmount.toString()); // 24408310000000000000
+            console.log("Pool Amount: ", ethers.utils.formatEther(poolAmount)); // 24408310000000000000
 
-            const sumOfExpectedWeights = expectedWeights.reduce((cur, acc, i) => {
+            const sumOfExpectedWeights = expectedWeights.reduce((acc, cur, i) => {
                 acc = acc.add(cur);
                 return acc;
-            });
-            // console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 24965618000000000000
+            }, BigNumber.from(0));
+            console.log("Sum of Expected Weights: ", ethers.utils.formatEther(sumOfExpectedWeights)); // 24965618000000000000
 
-            const norm = poolAmount.mul(1000000000).div(sumOfExpectedWeights);
-            // console.log("Norm: ", norm.toString()); // 977676979
-            // console.log(977676979 / 1000000000) // 0.977676979
-            // console.log(24408310000000000000 / 24965618000000000000); // 0.977676979
-
+            const norm = poolAmount.mul(100000000000).div(sumOfExpectedWeights);
             expect(await leaderboard.calculateNorm(testStakes, poolAmount)).to.equal(norm);
+
+            const expectedReturnValues = expectedWeights.map(w => {
+                return ethers.utils.formatEther(w.mul(norm).div(100000000000));
+            });
+
+            const total = expectedReturnValues.reduce((acc, cur, i) => {
+                acc = +acc + +cur;
+                return acc;
+            }, 0);
+
+            // Weights
+            console.log("Expected weights: ", expectedWeights.map(w => ethers.utils.formatEther(w)));
+            // [
+            //     '0.96',
+            //     '4.4',
+            //     '2.816',
+            //     '1.600728',
+            //     '8.932',
+            //     '1.03631',
+            //     '2.528',
+            //     '1.826',
+            //     '0.86658'
+            // ]
+
+            // Calculated norm from contract
+            console.log("Norm * precision (100000000000): ", norm.toString()); // 977676979
+            console.log("Norm: ", norm / 100000000000) // 0.977676979
+            // Calculated norm from taking reward pool divided by sum of all weights
+            console.log("Norm calculated from reward pool / sumOfAllWeights: ", total / +ethers.utils.formatEther(sumOfExpectedWeights)); // 0.977676979
+
+            // Amount returned by contract = weight * norm = rankingChanged * liquidityStaked * norm
+            console.log("Expected return values: ", expectedReturnValues);
+            // [
+            //   '0.9385699004064', // originally staked 1.2 ETH, rank decreased by 1, returns 0.9385699004064 ETH, net change = -0.2614300995936
+            //   '4.301778710196', // originally staked 4.0 ETH, rank increased by 1, returns 4.301778710196 ETH, net change = + 0.30177871019600033
+            //   '2.75313837452544', ...
+            //   '1.56499491618514152',
+            //   '8.73261078169788',
+            //   '1.0131764307189129',
+            //   '2.47156740440352',
+            //   '1.78523816473134',
+            //   '0.8472353169731022'
+            // ]
+            console.log("Total", total); // 24.408309999837737
+
+            const netChange = originalStakeAmounts.map((a, i) => {
+               return expectedReturnValues[i] - +a;
+            });
+
+            console.log("Net Change: ", netChange);
+            // [
+            //   -0.2614300995936,
+            //   0.30177871019600033,
+            //   0.1931383745254398,
+            //   -0.43591508381485866,
+            //   0.6126107816978816,
+            //   0.07107643071891279,
+            //   -0.6884325955964803,
+            //   0.12523816473134008,
+            //   0.059435316973102226
+            // ]
+
+            const testStakesTotalValue = ethers.utils.formatEther(testStakes.reduce((acc: any, cur: any) => {
+                acc = acc.add(cur[3]);
+                return acc;
+            }, BigNumber.from(0)));
+            // Total: 24.43081
+
+            const commissionFee = 0.0025;
+            const precision = 100000;
+
+            // The total stakes redistributed should equal the initial total amount staked minus the commission fees.
+            expect(Math.round(total * precision) / precision).to.equal(
+                (Math.round(+testStakesTotalValue * precision) - Math.round(commissionFee * testStakes.length * precision)) / precision
+            );
+
+            const netChangedSum = netChange.reduce((acc, cur) => {
+                acc = acc + cur;
+                return acc;
+            }, 0);
+            // The sum of the net change will always be the total commission collected by the contract.
+            // console.log("Net Changed Sum: ", netChangedSum); // -0.022500000162262057
+            expect(Math.round(netChangedSum * precision) / precision).to.be.equal(-(Math.round(commissionFee * testStakes.length * precision)) / precision);
 
             await expect(leaderboard.allocateStakeRewards())
                 .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
@@ -1482,18 +1575,6 @@ describe("Leaderboard", function () {
             await ethers.provider.send("evm_setNextBlockTimestamp", [new Date("12/12/2023").getTime()]);
 
             await expect(leaderboard.connect(addr1).addStake(testRanking.id, testRanking.name, {value: ethers.utils.parseEther("1")}))
-                .to.be.revertedWith("ContractEnded");
-        });
-
-        it("should revert withdrawing stakes if the contract has already ended", async function () {
-            const {leaderboard, addr1} = await loadFixture(deployFixture);
-
-            const testRanking = {
-                id: 2,
-                name: ethers.utils.formatBytes32String("Bernard Arnault"),
-            };
-
-            await expect(leaderboard.connect(addr1).withdrawStake(addr1.address, testRanking.id))
                 .to.be.revertedWith("ContractEnded");
         });
     });

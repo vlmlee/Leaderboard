@@ -9,6 +9,7 @@ contract Leaderboard {
     uint256 public initialFunding;
     uint256 public commissionFee;
     uint256 public minimumStake = 50000000 gwei;
+    uint256 private precision = 100000000000;
 
     event RankingAdded(Ranking _ranking);
     event RankingRemoved(Ranking _ranking);
@@ -393,7 +394,7 @@ contract Leaderboard {
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
         // changes deducts from a player's return amount and gets added into the reward pool.
         for (uint256 i = (stakeRewardsToCalculate.length); i > 0; i--) {
-            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i-1])) / 1000000000;
+            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i-1])) / precision;
             // Needs to be divided by 1000000000 to cancel out calculateNorm and calculateWeight precision padding.
 
             uint256 userStakedAmount = stakeRewardsToCalculate[i-1].liquidity;
@@ -454,7 +455,7 @@ contract Leaderboard {
 
         // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
         for (uint256 i = initialFundingRewardsToCalculate.length; i > 0; i--) {
-            uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i-1])) / 1000000000;
+            uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i-1])) / precision;
 
             uint256 userStakedAmount = initialFundingRewardsToCalculate[i-1].liquidity;
             assert(userStakedAmount > 0);
@@ -504,7 +505,7 @@ contract Leaderboard {
 
         // To get the amount return for each individual stake, the formula will be: weight coefficient * norm.
         // We multiply by 1000000000 here to keep a high precision.
-        norm = (1000000000 * poolAmount) / weightsSum;
+        norm = (precision * poolAmount) / weightsSum;
     }
 
     // The weight is how much the user has staked multiplied by the net change of the ranking.
