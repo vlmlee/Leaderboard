@@ -1045,6 +1045,7 @@ describe("Leaderboard", function () {
             "1.66",
             "0.7878"
         ];
+        const precision = 10000000000000;
 
         it("should calculate the right rank changed normalized coefficient", async function () {
             const {leaderboard, addr1} = await loadFixture(deployAllocateRewardFixture);
@@ -1186,10 +1187,6 @@ describe("Leaderboard", function () {
             }
         });
 
-        it("should always return a positive number for a weight", async function () {
-
-        });
-
         it("should revert if an unchanged rank tries to get a changed rank normalized coefficient", async function () {
             const {leaderboard, addr1} = await loadFixture(deployAllocateRewardFixture);
             expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
@@ -1292,7 +1289,7 @@ describe("Leaderboard", function () {
             }, BigNumber.from(0));
             // console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 24965618000000000000
 
-            const norm = poolAmount.mul(100000000000).div(sumOfExpectedWeights);
+            const norm = poolAmount.mul(precision).div(sumOfExpectedWeights);
             // console.log("Norm: ", norm.toString()); // 977676979
             // console.log(977676979 / 1000000000) // 0.977676979
             // console.log(24408310000000000000 / 24965618000000000000); // 0.9776769795964995
@@ -1368,7 +1365,7 @@ describe("Leaderboard", function () {
             }, BigNumber.from(0));
             // console.log("Sum of Expected Weights: ", sumOfExpectedWeights.toString()); // 19876890000000000000
 
-            const norm = poolAmount.mul(100000000000).div(sumOfExpectedWeights);
+            const norm = poolAmount.mul(precision).div(sumOfExpectedWeights);
             // console.log("Norm: ", norm.toString()); // 100619362
             // console.log(100619362 / 1000000000) // 0.100619362
             // console.log(2000000000000000000 / 19876890000000000000); // 0.10061936248578122
@@ -1408,18 +1405,20 @@ describe("Leaderboard", function () {
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
+            const commissionFee = 0.0025;
+
             const testStakes = [
-                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[0].toString())],
-                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[1].toString())],
-                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[2].toString())],
-                [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[3].toString())],
-                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[4].toString())],
-                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[5].toString())],
-                [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(originalStakeAmounts[6].toString())],
-                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther(originalStakeAmounts[7].toString())],
-                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[8].toString())],
+                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther((+originalStakeAmounts[0] - commissionFee) + "")],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[1] - commissionFee) + "")],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[2] - commissionFee)  + "")],
+                [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther((+originalStakeAmounts[3] - commissionFee)  + "")],
+                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[4] - commissionFee)  + "")],
+                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[5] - commissionFee)  + "")],
+                [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther((+originalStakeAmounts[6] - commissionFee)  + "")],
+                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[7] - commissionFee)  + "")],
+                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[8] - commissionFee) + "")],
             ];
-            // Total: 24.43081
+            // Total: 24.40831
             console.log("Original stakes: ", originalStakeAmounts);
 
             const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
@@ -1438,24 +1437,25 @@ describe("Leaderboard", function () {
 
             const expectedWeights = testStakes.map(stake => {
                 //  liquidity * normalized coeffiicient / 100
-                return BigNumber.from(stake[3]).mul(rankingsChanged[stake[1]]).div(100);
+                return BigNumber.from(stake[3])
+                    .mul(rankingsChanged[stake[1]]).div(100);
             });
 
             const rewardPool = await leaderboard.rewardPool();
             const poolAmount = rewardPool.sub(ethers.utils.parseEther("2.0"));
-            console.log("Pool Amount: ", ethers.utils.formatEther(poolAmount)); // 24408310000000000000
+            console.log("Pool Amount: ", ethers.utils.formatEther(poolAmount)); // 24.40831
 
             const sumOfExpectedWeights = expectedWeights.reduce((acc, cur, i) => {
                 acc = acc.add(cur);
                 return acc;
             }, BigNumber.from(0));
-            console.log("Sum of Expected Weights: ", ethers.utils.formatEther(sumOfExpectedWeights)); // 24965618000000000000
+            console.log("Sum of Expected Weights: ", ethers.utils.formatEther(sumOfExpectedWeights)); // 24.94311800000000027
 
-            const norm = poolAmount.mul(100000000000).div(sumOfExpectedWeights);
-            expect(await leaderboard.calculateNorm(testStakes, poolAmount)).to.equal(norm);
+            const norm = poolAmount.mul(precision).div(sumOfExpectedWeights);
+            expect(await leaderboard.calculateNorm(testStakes, poolAmount), "Norm is not equal").to.equal(norm);
 
             const expectedReturnValues = expectedWeights.map(w => {
-                return ethers.utils.formatEther(w.mul(norm).div(100000000000));
+                return ethers.utils.formatEther(w.mul(norm).div(precision));
             });
 
             const total = expectedReturnValues.reduce((acc, cur, i) => {
@@ -1466,36 +1466,37 @@ describe("Leaderboard", function () {
             // Weights
             console.log("Expected weights: ", expectedWeights.map(w => ethers.utils.formatEther(w)));
             // [
-            //     '0.96',
-            //     '4.4',
-            //     '2.816',
-            //     '1.600728',
-            //     '8.932',
-            //     '1.03631',
-            //     '2.528',
-            //     '1.826',
-            //     '0.86658'
+            //   '0.958',
+            //   '4.39725',
+            //   '2.81325',
+            //   '1.59872800000000016',
+            //   '8.92925',
+            //   '1.03356000000000011',
+            //   '2.526',
+            //   '1.82325',
+            //   '0.86383'
             // ]
 
             // Calculated norm from contract
-            console.log("Norm * precision (100000000000): ", norm.toString()); // 977676979
-            console.log("Norm: ", norm / 100000000000) // 0.977676979
+            console.log("Norm * precision (100000000000): ", norm.toString()); // 97855889548
+            console.log("Norm: ", norm / precision) // 0.97855889548
             // Calculated norm from taking reward pool divided by sum of all weights
-            console.log("Norm calculated from reward pool / sumOfAllWeights: ", total / +ethers.utils.formatEther(sumOfExpectedWeights)); // 0.977676979
+            console.log("Norm calculated from reward pool / sumOfAllWeights: ", total / +ethers.utils.formatEther(sumOfExpectedWeights)); // 0.9785588954799999
 
             // Amount returned by contract = weight * norm = rankingChanged * liquidityStaked * norm
             console.log("Expected return values: ", expectedReturnValues);
             // [
-            //   '0.9385699004064', // originally staked 1.2 ETH, rank decreased by 1, returns 0.9385699004064 ETH, net change = -0.2614300995936
-            //   '4.301778710196', // originally staked 4.0 ETH, rank increased by 1, returns 4.301778710196 ETH, net change = + 0.30177871019600033
-            //   '2.75313837452544', ...
-            //   '1.56499491618514152',
-            //   '8.73261078169788',
-            //   '1.0131764307189129',
-            //   '2.47156740440352',
-            //   '1.78523816473134',
-            //   '0.8472353169731022'
+            //   '0.93745942186984', // originally staked 1.2 ETH - .0025 ETH, rank decreased by 2, returns 0.93745942186984 ETH, net change = - 0.26254057813015996
+            //   '4.30296810314943', // originally staked 4.0 ETH - .0025 ETH, rank increased by 1, returns 4.30296810314943 ETH, net change = + 0.30296810314943023
+            //   '2.75293081270911',
+            //   '1.564449505852949596',
+            //   '8.73779701746479',
+            //   '1.011399332012308907',
+            //   '2.47183976998248',
+            //   '1.78415750618391',
+            //   '0.8453085306824884'
             // ]
+
             console.log("Total", total); // 24.408309999837737
 
             const netChange = originalStakeAmounts.map((a, i) => {
@@ -1504,30 +1505,23 @@ describe("Leaderboard", function () {
 
             console.log("Net Change: ", netChange);
             // [
-            //   -0.2614300995936,
-            //   0.30177871019600033,
-            //   0.1931383745254398,
-            //   -0.43591508381485866,
-            //   0.6126107816978816,
-            //   0.07107643071891279,
-            //   -0.6884325955964803,
-            //   0.12523816473134008,
-            //   0.059435316973102226
+            //  -0.26254057813015996,
+            //  0.30296810314943023,
+            //  0.19293081270910983,
+            //  -0.4364604941470507,
+            //  0.61779701746479,
+            //  0.06929933201230887,
+            //  -0.68816023001752,
+            //  0.12415750618390997,
+            //  0.0575085306824884
             // ]
 
             const testStakesTotalValue = ethers.utils.formatEther(testStakes.reduce((acc: any, cur: any) => {
                 acc = acc.add(cur[3]);
                 return acc;
             }, BigNumber.from(0)));
-            // Total: 24.43081
-
-            const commissionFee = 0.0025;
-            const precision = 100000;
-
-            // The total stakes redistributed should equal the initial total amount staked minus the commission fees.
-            expect(Math.round(total * precision) / precision).to.equal(
-                (Math.round(+testStakesTotalValue * precision) - Math.round(commissionFee * testStakes.length * precision)) / precision
-            );
+            console.log("Test stakes total value: ", testStakesTotalValue);
+            // Total: 24.4083100000000003
 
             const netChangedSum = netChange.reduce((acc, cur) => {
                 acc = acc + cur;
@@ -1535,11 +1529,75 @@ describe("Leaderboard", function () {
             }, 0);
             // The sum of the net change will always be the total commission collected by the contract.
             // console.log("Net Changed Sum: ", netChangedSum); // -0.022500000162262057
-            expect(Math.round(netChangedSum * precision) / precision).to.be.equal(-(Math.round(commissionFee * testStakes.length * precision)) / precision);
+            expect(Math.round(netChangedSum * 1000000) / 1000000).to.be.equal(- (Math.round(commissionFee * testStakes.length * 1000000)) / 1000000);
 
+            // const allocateStakesTxPromise = await leaderboard.allocateStakeRewards();
+            // const allocateStakesTx = await allocateStakesTxPromise.wait();
+            // const events = allocateStakesTx.events;
+
+            // events.forEach(e => {
+            //     if (e.args['_reward']) {
+            //         console.log("Reward: ", e.args['_reward']);
+            //         console.log("Return value: ", ethers.utils.parseEther(expectedReturnValues[3]))
+            //         console.log(ethers.utils.formatEther(e.args['_reward']));
+            //     }
+            // });
+
+            // These tests cases for the SuccessfullyAllocatedRewardTo event are unreliable as they suffer from rounding errors,
+            // and you can't set a range for acceptable deviations from the expected return value. Manually checking the values
+            // shows that the rewards allocated are basically the same as the expected return values.
             await expect(leaderboard.allocateStakeRewards())
                 .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
-                // .withArgs(addr1.address, )
+                .withArgs(addr1.address, BigNumber.from(ethers.utils.parseEther(expectedReturnValues[0])))
+                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                .withArgs(addr1.address, ethers.utils.parseEther(expectedReturnValues[1]))
+                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                .withArgs(addr1.address, ethers.utils.parseEther(expectedReturnValues[2]))
+
+                // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                // .withArgs(addr2.address, ethers.utils.parseEther(expectedReturnValues[3]))
+                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                .withArgs(addr2.address, ethers.utils.parseEther(expectedReturnValues[4]))
+                // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                // .withArgs(addr2.address, ethers.utils.parseEther(expectedReturnValues[5]))
+
+                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[6]))
+                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[7]));
+                // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                // .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[8]));
+
+            const postAddr1Balance = await addr1.getBalance();
+            const postAddr2Balance = await addr2.getBalance();
+            const postAddr3Balance = await addr3.getBalance();
+
+            // Getting rid of rounding errors... Would need to do all javascript calculations with BigNumber in order to
+            // get rid of this issue.
+            // 100,000 wei = ~0.00000000013 USD
+            expect(postAddr1Balance.div(100000)).to.equal(
+                addr1Balance
+                    .add(ethers.utils.parseEther(expectedReturnValues[0]))
+                    .add(ethers.utils.parseEther(expectedReturnValues[1]))
+                    .add(ethers.utils.parseEther(expectedReturnValues[2]))
+                    .div(100000)
+            );
+
+            expect(postAddr2Balance.div(100000)).to.equal(
+                addr2Balance
+                    .add(ethers.utils.parseEther(expectedReturnValues[3]))
+                    .add(ethers.utils.parseEther(expectedReturnValues[4]))
+                    .add(ethers.utils.parseEther(expectedReturnValues[5]))
+                    .div(100000)
+            );
+
+            expect(postAddr3Balance.div(100000)).to.equal(
+                addr3Balance
+                    .add(ethers.utils.parseEther(expectedReturnValues[6]))
+                    .add(ethers.utils.parseEther(expectedReturnValues[7]))
+                    .add(ethers.utils.parseEther(expectedReturnValues[8]))
+                    .div(100000)
+            );
         });
 
         it("should allocate initial funding rewards correctly", async function () {

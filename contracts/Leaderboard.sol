@@ -9,7 +9,7 @@ contract Leaderboard {
     uint256 public initialFunding;
     uint256 public commissionFee;
     uint256 public minimumStake = 50000000 gwei;
-    uint256 private precision = 100000000000;
+    uint256 private precision = 10000000000000;
 
     event RankingAdded(Ranking _ranking);
     event RankingRemoved(Ranking _ranking);
@@ -501,6 +501,10 @@ contract Leaderboard {
         // Sum up all the coefficients to be able to calculate the amount of wei to return to users
         for (uint8 i = 0; i < stakesToCalculate.length; i++) {
             weightsSum += calculateWeight(stakesToCalculate[i]);
+        }
+
+        if (weightsSum == 0) {
+            return 0;
         }
 
         // To get the amount return for each individual stake, the formula will be: weight coefficient * norm.
