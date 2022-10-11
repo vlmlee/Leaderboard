@@ -1630,12 +1630,88 @@ describe("Leaderboard", function () {
             );
 
             expect((await leaderboard.getStakeRewardsToCalculate()).length).to.equal(0);
+            expect((await leaderboard.userStakesSize()).length).to.equal(0);
             const expectedRewardPool = ethers.utils.parseEther(""+(+initialFunding + commissionFee *  testStakes.length)); // Initial funding plus commission fees
             const balance = await waffle.provider.getBalance(leaderboard.address);
             expect(balance.div(100000000), "Contract balance does not equal the expected reward pool.").to.equal(expectedRewardPool.div(100000000));
         });
 
         it("should allocate initial funding rewards correctly", async function () {
+            const {leaderboard, addr1, addr2, addr3} = await loadFixture(deployAllocateRewardFixture);
+            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
+
+            const addr1Balance = await addr1.getBalance();
+            const addr2Balance = await addr2.getBalance();
+            const addr3Balance = await addr3.getBalance();
+
+            const fromRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 5,
+                startingRank: 3,
+                data: []
+            };
+
+            const toRanking = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("A name"),
+                rank: 3,
+                startingRank: 4,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const testRanking = {
+                id: 4,
+                name: ethers.utils.formatBytes32String("A different name"),
+                rank: 4,
+                startingRank: 5,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const commissionFee = 0.0025;
+            const initialFunding = "2.0";
+
+            const accounts = {
+                [addr1.address] : addr1,
+                [addr2.address] : addr2,
+                [addr3.address] : addr3,
+            };
+
+            const testStakes = [
+                [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther((+originalStakeAmounts[0] - commissionFee) + "")],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[1] - commissionFee) + "")],
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[2] - commissionFee)  + "")],
+                [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther((+originalStakeAmounts[3] - commissionFee)  + "")],
+                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[4] - commissionFee)  + "")],
+                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[5] - commissionFee)  + "")],
+                [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther((+originalStakeAmounts[6] - commissionFee)  + "")],
+                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[7] - commissionFee)  + "")],
+                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[8] - commissionFee) + "")],
+            ];
+            // Total: 24.40831
+
+            for (let i = 0; i < testStakes.length; i++) {
+                const tx = await leaderboard.connect(accounts[testStakes[i][0]]).addStake(testStakes[i][1], testStakes[i][2], {value: testStakes[i][3]});
+                await tx.wait();
+            }
+
+            const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
+            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
+            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[2]);
+
+            const rankingsChanged = {
+                [fromRanking.id]: fromRankingChanged,
+                [toRanking.id]: toRankingChanged,
+                [testRanking.id]: testRankingChanged
+            };
+
+            const expectedWeights = testStakes.filter(stake => {
+                return rankingsChanged[stake[1]] > 100;
+            }).map(stake => {
+                //  liquidity * normalized coeffiicient / 100
+                return BigNumber.from(stake[3])
+                    .mul(rankingsChanged[stake[1]]).div(100);
+            });
 
         });
 
