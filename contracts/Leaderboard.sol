@@ -133,8 +133,22 @@ contract Leaderboard {
         return initialFundingRewardsToCalculate;
     }
 
-    function getStakeToReturnDueToUnchangedRankings() public view OnlyFacilitator returns (Stake[] memory) {
+    function getStakeToReturnDueToUnchangedRankings() public view OnlyFacilitator returns (Stake[] memory stakes) {
         return stakeToReturnDueToUnchangedRankings;
+    }
+
+    function getUserStakes() public view returns (Stake[] memory stakes) {
+        stakes = new Stake[](userStakesSize);
+        uint256 currentIndex = 0;
+
+        for (uint8 i = 0; i < rankingsCurrentId; i++) {
+            for (uint256 j = 0; j < userStakes[i].length; j++) {
+                stakes[currentIndex] = userStakes[i][j];
+                currentIndex++;
+            }
+        }
+
+        return stakes;
     }
 
     function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public

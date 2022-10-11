@@ -813,6 +813,15 @@ describe("Leaderboard", function () {
         });
     });
 
+    describe("Get stakes", async function () {
+        it("should be able get all user stakes", async function () {
+            const {leaderboard} = await loadFixture(deployFixture);
+            const userStakes = await leaderboard.getUserStakes();
+
+            expect(await leaderboard.userStakesSize(), "User stake size is not 2").to.equal(userStakes.length);
+        });
+    });
+
     describe("Withdraw stakes", async function () {
         it("should withdraw stake for a user if it exists for a ranking", async function () {
             const {leaderboard, addr2} = await loadFixture(deployFixture);
@@ -1414,6 +1423,7 @@ describe("Leaderboard", function () {
             };
 
             const commissionFee = 0.0025;
+            const initialFunding = "2.0";
 
             const testStakes = [
                 [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther((+originalStakeAmounts[0] - commissionFee) + "")],
@@ -1450,7 +1460,7 @@ describe("Leaderboard", function () {
             });
 
             const rewardPool = await leaderboard.rewardPool();
-            const poolAmount = rewardPool.sub(ethers.utils.parseEther("2.0"));
+            const poolAmount = rewardPool.sub(ethers.utils.parseEther(initialFunding));
             console.log("Pool Amount: ", ethers.utils.formatEther(poolAmount)); // 24.40831
 
             const sumOfExpectedWeights = expectedWeights.reduce((acc, cur, i) => {
@@ -1620,9 +1630,16 @@ describe("Leaderboard", function () {
             );
 
             expect((await leaderboard.getStakeRewardsToCalculate()).length).to.equal(0);
+            const expectedRewardPool = ethers.utils.parseEther(""+(+initialFunding + commissionFee *  testStakes.length)); // Initial funding plus commission fees
+            const balance = await waffle.provider.getBalance(leaderboard.address);
+            expect(balance.div(100000000), "Contract balance does not equal the expected reward pool.").to.equal(expectedRewardPool.div(100000000));
         });
 
         it("should allocate initial funding rewards correctly", async function () {
+
+        });
+
+        it("should withdraw for users stakes where its ranking didn't change", async function () {
 
         });
 
