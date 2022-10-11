@@ -2,12 +2,13 @@
 pragma solidity ^0.8.0;
 
 contract Leaderboard {
+    bytes32 public immutable leaderboardName;
+    uint256 public immutable endTime;
+    uint256 public immutable initialFunding;
+    uint256 public immutable commissionFee;
     address public facilitator;
-    bytes32 public leaderboardName;
-    uint256 public endTime;
     uint256 public rewardPool;
-    uint256 public initialFunding;
-    uint256 public commissionFee;
+
     uint256 public constant MINIMUM_STAKE = 50_000_000 gwei;
     uint256 private constant PRECISION = 10_000_000_000_000; // ~ $0.013 USD = 10000000000000 wei
     string public constant AUTHORS = "Michael Lee, mlee.app";
@@ -53,7 +54,6 @@ contract Leaderboard {
         uint8 startingRank;
         bytes data; // arbitrary criteria for ranking
     }
-
     mapping(uint8 => Ranking) public rankings;
     uint8 public rankingsCurrentId;
     uint8 public rankingsSize;
@@ -64,7 +64,6 @@ contract Leaderboard {
         bytes32 name;
         uint256 liquidity; // a user's stake
     }
-
     mapping(uint8 => Stake[]) public userStakes;
     uint256 public userStakesSize;
 
