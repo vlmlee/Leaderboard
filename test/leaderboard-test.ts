@@ -117,7 +117,7 @@ describe("Leaderboard", function () {
         it("should have a minimum stake amount set", async function () {
             const {leaderboard} = await loadFixture(deployFixture);
 
-            expect(+(await leaderboard.minimumStake())).to.be.greaterThan(0);
+            expect(+(await leaderboard.MINIMUM_STAKE())).to.be.greaterThan(0);
         });
     });
 
@@ -1630,7 +1630,7 @@ describe("Leaderboard", function () {
             );
 
             expect((await leaderboard.getStakeRewardsToCalculate()).length).to.equal(0);
-            expect((await leaderboard.userStakesSize()).length).to.equal(0);
+            expect(await leaderboard.userStakesSize()).to.equal(0);
             const expectedRewardPool = ethers.utils.parseEther(""+(+initialFunding + commissionFee *  testStakes.length)); // Initial funding plus commission fees
             const balance = await waffle.provider.getBalance(leaderboard.address);
             expect(balance.div(100000000), "Contract balance does not equal the expected reward pool.").to.equal(expectedRewardPool.div(100000000));

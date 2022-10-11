@@ -8,8 +8,8 @@ contract Leaderboard {
     uint256 public rewardPool;
     uint256 public initialFunding;
     uint256 public commissionFee;
-    uint256 public constant minimumStake = 50000000 gwei;
-    uint256 private constant precision = 10000000000000;
+    uint256 public constant MINIMUM_STAKE = 50000000 gwei;
+    uint256 private constant PRECISION = 10000000000000;
 
     event RankingAdded(Ranking _ranking);
     event RankingRemoved(Ranking _ranking);
@@ -253,7 +253,7 @@ contract Leaderboard {
         Ranking memory ranking = rankings[_id];
         if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
         if (_name != ranking.name) revert RankingDoesNotExist(_id, ranking.rank, bytes32(0));
-        if (msg.value < (minimumStake + commissionFee)) revert AmountHasToBeGreaterThanMinimumStakePlusCommission(msg.value);
+        if (msg.value < (MINIMUM_STAKE + commissionFee)) revert AmountHasToBeGreaterThanMinimumStakePlusCommission(msg.value);
 
         Stake[] storage stakes = userStakes[_id];
 
@@ -420,8 +420,8 @@ contract Leaderboard {
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
         // changes deducts from a player's return amount and gets added into the reward pool.
         for (uint256 i = (stakeRewardsToCalculate.length); i > 0; i--) {
-            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i-1])) / precision;
-            // Needs to be divided by 1000000000 to cancel out calculateNorm and calculateWeight precision padding.
+            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i-1])) / PRECISION;
+            // Needs to be divided by 1000000000 to cancel out calculateNorm and calculateWeight PRECISION padding.
 
             uint256 userStakedAmount = stakeRewardsToCalculate[i-1].liquidity;
             assert(userStakedAmount > 0);
@@ -481,7 +481,7 @@ contract Leaderboard {
 
         // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
         for (uint256 i = initialFundingRewardsToCalculate.length; i > 0; i--) {
-            uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i-1])) / precision;
+            uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i-1])) / PRECISION;
 
             uint256 userStakedAmount = initialFundingRewardsToCalculate[i-1].liquidity;
             assert(userStakedAmount > 0);
@@ -520,7 +520,7 @@ contract Leaderboard {
         }
     }
 
-    // The returned value is multiplied by a factor of 100 to keep two decimal places of precision.
+    // The returned value is multiplied by a factor of 100 to keep two decimal places of PRECISION.
     function calculateNorm(Stake[] memory stakesToCalculate, uint256 poolAmount) public view virtual OnlyFacilitator returns (uint256 norm) {
         uint256 weightsSum;
 
@@ -534,8 +534,8 @@ contract Leaderboard {
         }
 
         // To get the amount return for each individual stake, the formula will be: weight coefficient * norm.
-        // We multiply by 1000000000 here to keep a high precision.
-        norm = (precision * poolAmount) / weightsSum;
+        // We multiply by 1000000000 here to keep a high PRECISION.
+        norm = (PRECISION * poolAmount) / weightsSum;
     }
 
     // The weight is how much the user has staked multiplied by the net change of the ranking.
@@ -543,7 +543,7 @@ contract Leaderboard {
         return (getRankChangedNormalizedCoefficient(_stake) * _stake.liquidity) / 100;
     }
 
-    // To avoid fractions, we multiply the coefficient by 100 so we don't lose precision from rounding unsigned ints, for example: 1.1, 0.5, 0.8, 1.8 -> 1, 0, 0, 1.
+    // To avoid fractions, we multiply the coefficient by 100 so we don't lose PRECISION from rounding unsigned ints, for example: 1.1, 0.5, 0.8, 1.8 -> 1, 0, 0, 1.
     // Max reward is offered with a positive rank change of greater than 10.
     // If the rank has dropped by more than 10, the user's entire stake will be allocated to other users.
     function getRankChangedNormalizedCoefficient(Stake memory _stake) public view virtual OnlyFacilitator returns (uint256) {
