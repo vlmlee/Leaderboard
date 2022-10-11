@@ -8,8 +8,8 @@ contract Leaderboard {
     uint256 public rewardPool;
     uint256 public initialFunding;
     uint256 public commissionFee;
-    uint256 public constant MINIMUM_STAKE = 50000000 gwei;
-    uint256 private constant PRECISION = 10000000000000;
+    uint256 public constant MINIMUM_STAKE = 50_000_000 gwei;
+    uint256 private constant PRECISION = 10_000_000_000_000; // ~ $0.013 USD = 10000000000000 wei
 
     event RankingAdded(Ranking _ranking);
     event RankingRemoved(Ranking _ranking);
