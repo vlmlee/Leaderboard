@@ -69,7 +69,7 @@ contract Leaderboard {
 
     Stake[] public stakeRewardsToCalculate;
     Stake[] public initialFundingRewardsToCalculate;
-    Stake[] public stakeToReturnDueToUnchangedRankings;
+    Stake[] public stakesToReturnDueToUnchangedRankings;
 
     error UserIsNotFacilitator();
     error RankNeedsToBeGreaterThanOne();
@@ -133,8 +133,8 @@ contract Leaderboard {
         return initialFundingRewardsToCalculate;
     }
 
-    function getStakeToReturnDueToUnchangedRankings() public view OnlyFacilitator returns (Stake[] memory stakes) {
-        return stakeToReturnDueToUnchangedRankings;
+    function getStakesToReturnDueToUnchangedRankings() public view OnlyFacilitator returns (Stake[] memory stakes) {
+        return stakesToReturnDueToUnchangedRankings;
     }
 
     function getUserStakes() public view returns (Stake[] memory stakes) {
@@ -368,7 +368,7 @@ contract Leaderboard {
                 if (_rank.startingRank != _rank.rank) {
                     stakeRewardsToCalculate.push(stakes[j]);
                 } else {
-                    stakeToReturnDueToUnchangedRankings.push(stakes[j]);
+                    stakesToReturnDueToUnchangedRankings.push(stakes[j]);
                 }
 
                 if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) initialFundingRewardsToCalculate.push(stakes[j]);
@@ -384,19 +384,19 @@ contract Leaderboard {
         OnlyFacilitator
 //        OnlyAfterContractHasEnded
     {
-        if (stakeToReturnDueToUnchangedRankings.length == 0) {
+        if (stakesToReturnDueToUnchangedRankings.length == 0) {
             for (uint8 i = 0; i <= rankingsCurrentId; i++) {
                 Stake[] storage stakes = userStakes[i];
 
                 for (uint8 j = 0; j < stakes.length; j++) {
                     Ranking memory _rank = getRankingFromId(stakes[j].id);
-                    if (_rank.startingRank == _rank.rank) stakeToReturnDueToUnchangedRankings.push(stakes[j]);
+                    if (_rank.startingRank == _rank.rank) stakesToReturnDueToUnchangedRankings.push(stakes[j]);
                 }
             }
         }
 
-        for (uint256 i = 0; i < stakeToReturnDueToUnchangedRankings.length; i++) {
-            withdrawStake(stakeToReturnDueToUnchangedRankings[i].addr, stakeToReturnDueToUnchangedRankings[i].id);
+        for (uint256 i = 0; i < stakesToReturnDueToUnchangedRankings.length; i++) {
+            withdrawStake(stakesToReturnDueToUnchangedRankings[i].addr, stakesToReturnDueToUnchangedRankings[i].id);
         }
     }
 
