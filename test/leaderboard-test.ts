@@ -75,6 +75,39 @@ describe("Leaderboard", function () {
         return {Leaderboard, leaderboard, facilitator, addr1, addr2, addr3};
     }
 
+    async function deployAllocateInitialRewardFixture() {
+        const Leaderboard = await ethers.getContractFactory("Leaderboard");
+        const [facilitator, addr1, addr2, addr3] = await ethers.getSigners();
+
+        const commissionFee = ethers.utils.parseEther("0.0025");
+        const initialFunding = ethers.utils.parseEther("2.0");
+
+        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Allocate Initial Reward Fixture"), new Date("12/12/2022").getTime(), commissionFee, {value: initialFunding});
+        await leaderboard.deployed();
+
+        const testRankings = [
+            {
+                id: 0,
+                rank: 1,
+                name: ethers.utils.formatBytes32String("Elon Musk"),
+                data: [...Buffer.from("networth:232.4b")]
+            },
+            {
+                id: 1,
+                rank: 2,
+                name: ethers.utils.formatBytes32String("Jeff Bezos"),
+                data: [...Buffer.from("networth:144.5b")]
+            }
+        ];
+
+        const addRankingTx1 = await leaderboard.addRanking(testRankings[0].rank, testRankings[0].name, testRankings[0].data);
+        await addRankingTx1.wait();
+        const addRankingTx2 = await leaderboard.addRanking(testRankings[1].rank, testRankings[1].name, testRankings[1].data);
+        await addRankingTx2.wait();
+
+        return {Leaderboard, leaderboard, facilitator, addr1, addr2, addr3};
+    }
+
     describe("Deployment", async function () {
         it("should set the facilitator correctly", async function () {
             const {leaderboard, facilitator} = await loadFixture(deployFixture);
@@ -1638,13 +1671,14 @@ describe("Leaderboard", function () {
         });
 
         it("should allocate initial funding rewards correctly", async function () {
-            const {leaderboard, addr1, addr2, addr3} = await loadFixture(deployAllocateRewardFixture);
-            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
+            const {leaderboard, addr1, addr2, addr3} = await loadFixture(deployAllocateInitialRewardFixture);
+            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Initial Reward Fixture"));
 
             const addr1Balance = await addr1.getBalance();
             const addr2Balance = await addr2.getBalance();
             const addr3Balance = await addr3.getBalance();
 
+            // These ranks are post updates. As they are for the new deployed contract, they should be the starting rank.
             const fromRanking = {
                 id: 2,
                 name: ethers.utils.formatBytes32String("Someone"),
@@ -1668,6 +1702,18 @@ describe("Leaderboard", function () {
                 startingRank: 5,
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
+
+            const addRankingTx1 = await leaderboard.addRanking(fromRanking.startingRank, fromRanking.name, fromRanking.data);
+            await addRankingTx1.wait();
+            const addRankingTx2 = await leaderboard.addRanking(toRanking.startingRank, toRanking.name, toRanking.data);
+            await addRankingTx2.wait();
+            const addRankingTx3 = await leaderboard.addRanking(testRanking.startingRank, testRanking.name, testRanking.data);
+            await addRankingTx3.wait();
+
+            const updateRankingTx1 = await leaderboard.swapRank(testRanking.id, testRanking.startingRank, toRanking.id, toRanking.startingRank); // 5 -> 4
+            await updateRankingTx1.wait();
+            const updateRankingTx2 = await leaderboard.swapRank(fromRanking.id, fromRanking.startingRank, toRanking.id, testRanking.startingRank); // 3 -> 5
+            await updateRankingTx2.wait();
 
             const commissionFee = 0.0025;
             const initialFunding = "2.0";
@@ -1696,16 +1742,17 @@ describe("Leaderboard", function () {
                 await tx.wait();
             }
 
+            // In storage stakes
             const testStakes = [
                 [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther((+originalStakeAmounts[0] - commissionFee) + "")],
-                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[1] - commissionFee) + "")],
-                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[2] - commissionFee)  + "")],
+                [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[1] - commissionFee) + "")], // 3.9975
+                [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[2] - commissionFee)  + "")], // 2.5575
                 [addr2.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther((+originalStakeAmounts[3] - commissionFee)  + "")],
-                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[4] - commissionFee)  + "")],
-                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[5] - commissionFee)  + "")],
+                [addr2.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[4] - commissionFee)  + "")], // 8.1175
+                [addr2.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[5] - commissionFee)  + "")], // 0.9396
                 [addr3.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther((+originalStakeAmounts[6] - commissionFee)  + "")],
-                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[7] - commissionFee)  + "")],
-                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[8] - commissionFee) + "")],
+                [addr3.address, toRanking.id, toRanking.name, ethers.utils.parseEther((+originalStakeAmounts[7] - commissionFee)  + "")], // 1.6575
+                [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[8] - commissionFee) + "")], // .7853
             ];
 
             const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
@@ -1787,19 +1834,50 @@ describe("Leaderboard", function () {
                 .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
                 .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo");
 
+            const postAddr1Balance = await addr1.getBalance();
+            const postAddr2Balance = await addr2.getBalance();
+            const postAddr3Balance = await addr3.getBalance();
+
             expect((await leaderboard.getInitialFundingRewardsToCalculate()).length).to.equal(0);
             expect(await leaderboard.userStakesSize()).to.equal(3); // 3 test stakes that did not get added into the initial funding rewards
 
-            // const expectedRewardPool = ethers.utils.parseEther(""+(+initialFunding + commissionFee *  testStakes.length)); // Initial funding plus commission fees
-            // const balance = await waffle.provider.getBalance(leaderboard.address);
-            // expect(balance.div(100000000), "Contract balance does not equal the expected reward pool.").to.equal(expectedRewardPool.div(100000000));
+            // slight rounding errors...
+            expect(Math.trunc(+ethers.utils.formatEther(postAddr1Balance.mul(1000)))).to.equal(
+                Math.trunc(+ethers.utils.formatEther(addr1Balance
+                    .add(ethers.utils.parseEther(expectedReturnValues[0]))
+                    .add(ethers.utils.parseEther(expectedReturnValues[1]))
+                    .sub(ethers.utils.parseEther(originalStakeAmounts[0]))
+                    .sub(ethers.utils.parseEther(originalStakeAmounts[1]))
+                    .sub(ethers.utils.parseEther(originalStakeAmounts[2]))
+                    .mul(1000))
+                ));
+
+            expect(Math.trunc(+ethers.utils.formatEther(postAddr2Balance.mul(1000)))).to.equal(
+                Math.trunc(+ethers.utils.formatEther(addr2Balance
+                    .add(ethers.utils.parseEther(expectedReturnValues[2]))
+                    .add(ethers.utils.parseEther(expectedReturnValues[3]))
+                    .sub(ethers.utils.parseEther(originalStakeAmounts[3]))
+                    .sub(ethers.utils.parseEther(originalStakeAmounts[4]))
+                    .sub(ethers.utils.parseEther(originalStakeAmounts[5]))
+                    .mul(1000))
+                ));
+
+            expect(Math.trunc(+ethers.utils.formatEther(postAddr3Balance.mul(1000)))).to.equal(
+                Math.trunc(+ethers.utils.formatEther(addr3Balance
+                    .add(ethers.utils.parseEther(expectedReturnValues[4]))
+                    .add(ethers.utils.parseEther(expectedReturnValues[5]))
+                    .sub(ethers.utils.parseEther(originalStakeAmounts[6]))
+                    .sub(ethers.utils.parseEther(originalStakeAmounts[7]))
+                    .sub(ethers.utils.parseEther(originalStakeAmounts[8]))
+                    .mul(1000))
+                ));
         });
 
         it("should withdraw for users stakes where its ranking didn't change", async function () {
 
         });
 
-        it("should remove stakes from userStakes after initialFundingRewardsToCalculate stakes have been allocated", async function () {
+        it("should allocate all rewards correctly", function () {
 
         });
     });
