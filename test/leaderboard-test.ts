@@ -1769,8 +1769,8 @@ describe("Leaderboard", function () {
             });
             console.log("Expected total returns: ", expectedTotalReturn);
 
-            const allocateTxPromise = await leaderboard.allocateInitialFundingReward();
-            const allocateTx = await allocateTxPromise.wait();
+            // const allocateTxPromise = await leaderboard.allocateInitialFundingReward();
+            // const allocateTx = await allocateTxPromise.wait();
 
             // allocateTx.events.forEach(e => {
             //     if (e.args['_reward']) {
