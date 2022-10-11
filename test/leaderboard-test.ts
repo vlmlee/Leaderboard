@@ -1906,7 +1906,7 @@ describe("Leaderboard", function () {
             const updateRankingTx1 = await leaderboard.swapRank(toRanking.id, toRanking.rank, fromRanking.id, fromRanking.rank); // 3 -> 5
             await updateRankingTx1.wait();
 
-            expect(await leaderboard.userStakesSize()).to.equal(3);
+            expect(await leaderboard.userStakesSize(), "User stake size is not 3").to.equal(3);
 
             // const txPromise = await leaderboard.returnStakesForUnchangedRankings();
             // const tx = await txPromise.wait();
@@ -1928,13 +1928,13 @@ describe("Leaderboard", function () {
 
             await expect(leaderboard.returnStakesForUnchangedRankings())
                 .to.emit(leaderboard, "UserStakeWithdrawn")
-                .withArgs(addr1.address, [addr1.address, fromRanking.id, fromRanking.name, BigNumber.from(ethers.utils.parseEther((+originalStakeAmounts[0] - commissionFee) + ""))])
+                .withArgs(addr1.address, [addr1.address, fromRanking.id, fromRanking.name, BigNumber.from(ethers.utils.parseEther((+originalStakeAmounts[0] - commissionFee).toPrecision(8) + ""))])
                 .to.emit(leaderboard, "UserStakeWithdrawn")
-                .withArgs(addr2.address, [addr2.address, fromRanking.id, fromRanking.name, BigNumber.from(ethers.utils.parseEther((Math.trunc(100000000*(+originalStakeAmounts[3] - commissionFee)) / 100000000) + ""))])
+                .withArgs(addr2.address, [addr2.address, fromRanking.id, fromRanking.name, BigNumber.from(ethers.utils.parseEther((+originalStakeAmounts[3] - commissionFee).toPrecision(8) + ""))])
                 .to.emit(leaderboard, "UserStakeWithdrawn")
-                .withArgs(addr3.address, [addr3.address, fromRanking.id, fromRanking.name, BigNumber.from(ethers.utils.parseEther((+originalStakeAmounts[6] - commissionFee) + ""))]);
+                .withArgs(addr3.address, [addr3.address, fromRanking.id, fromRanking.name, BigNumber.from(ethers.utils.parseEther((+originalStakeAmounts[6] - commissionFee).toPrecision(8) + ""))]);
 
-            expect(await leaderboard.userStakesSize()).to.equal(0);
+            expect(await leaderboard.userStakesSize(), "Stakes for unchanged rankings did not withdraw correctly.").to.equal(0);
         });
 
         it("should allocate all rewards correctly", function () {
