@@ -1874,7 +1874,67 @@ describe("Leaderboard", function () {
         });
 
         it("should withdraw for users stakes where its ranking didn't change", async function () {
+            const {leaderboard, addr1, addr2, addr3} = await loadFixture(deployAllocateInitialRewardFixture);
+            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Initial Reward Fixture"));
 
+            const fromRanking = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("Someone"),
+                rank: 5,
+                startingRank: 3,
+                data: []
+            };
+
+            const toRanking = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("A name"),
+                rank: 3,
+                startingRank: 4,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const testRanking = {
+                id: 4,
+                name: ethers.utils.formatBytes32String("A different name"),
+                rank: 4,
+                startingRank: 5,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const commissionFee = 0.0025;
+
+            const updateRankingTx1 = await leaderboard.swapRank(toRanking.id, toRanking.rank, fromRanking.id, fromRanking.rank); // 3 -> 5
+            await updateRankingTx1.wait();
+
+            expect(await leaderboard.userStakesSize()).to.equal(3);
+
+            // const txPromise = await leaderboard.returnStakesForUnchangedRankings();
+            // const tx = await txPromise.wait();
+            //
+            // console.log(+originalStakeAmounts[0] - commissionFee);
+            // console.log(ethers.utils.parseEther((+originalStakeAmounts[0] - commissionFee) + ""));
+            // console.log("Addr1: ", addr1.address);
+            // console.log("Addr2: ", addr2.address);
+            // console.log("Addr3: ", addr3.address);
+            // console.log("Name: ", fromRanking.name);
+            // console.log("1", ethers.utils.parseEther((+originalStakeAmounts[0] - commissionFee) + ""));
+            // console.log("2", (+originalStakeAmounts[3] - commissionFee) + ""); // 1.9984100000000002???
+            // console.log("3", ethers.utils.parseEther((+originalStakeAmounts[6] - commissionFee) + ""));
+
+            // tx.events.forEach(e => {
+            //     console.log(e.args['_stake']);
+            //     console.log(ethers.utils.formatEther(e.args['_stake'].liquidity));
+            // });
+
+            await expect(leaderboard.returnStakesForUnchangedRankings())
+                .to.emit(leaderboard, "UserStakeWithdrawn")
+                .withArgs(addr1.address, [addr1.address, fromRanking.id, fromRanking.name, BigNumber.from(ethers.utils.parseEther((+originalStakeAmounts[0] - commissionFee) + ""))])
+                .to.emit(leaderboard, "UserStakeWithdrawn")
+                .withArgs(addr2.address, [addr2.address, fromRanking.id, fromRanking.name, BigNumber.from(ethers.utils.parseEther((Math.trunc(100000000*(+originalStakeAmounts[3] - commissionFee)) / 100000000) + ""))])
+                .to.emit(leaderboard, "UserStakeWithdrawn")
+                .withArgs(addr3.address, [addr3.address, fromRanking.id, fromRanking.name, BigNumber.from(ethers.utils.parseEther((+originalStakeAmounts[6] - commissionFee) + ""))]);
+
+            expect(await leaderboard.userStakesSize()).to.equal(0);
         });
 
         it("should allocate all rewards correctly", function () {
