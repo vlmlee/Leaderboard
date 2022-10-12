@@ -84,7 +84,8 @@ export default function CardsContainer() {
     const [rankings, setRankings]: any = useState(initialRankings);
 
     useEffect(() => {
-        Promise.all(initialRankings.map(r => getPhoto(r.name))).then(res => {
+        const controller = new AbortController();
+        Promise.all(initialRankings.map(r => getPhoto(r.name, controller))).then(res => {
             setRankings(initialRankings.map((s, index) => {
                 return {
                     ...s,
@@ -92,6 +93,10 @@ export default function CardsContainer() {
                 };
             }));
         });
+
+        return () => {
+            controller.abort();
+        };
     }, []);
 
     const generateBoxes = (numOfBoxes: number) => {
