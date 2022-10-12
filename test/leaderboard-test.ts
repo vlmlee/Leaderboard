@@ -108,6 +108,39 @@ describe("Leaderboard", function () {
         return {Leaderboard, leaderboard, facilitator, addr1, addr2, addr3};
     }
 
+    async function deployAllocateAllRewardsFixture() {
+        const Leaderboard = await ethers.getContractFactory("Leaderboard");
+        const [facilitator, addr1, addr2, addr3, addr4, addr5, addr6, addr7] = await ethers.getSigners();
+
+        const commissionFee = ethers.utils.parseEther("0.0025");
+        const initialFunding = ethers.utils.parseEther("2.0");
+
+        const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Allocate All Rewards Fixture"), new Date("12/12/2022").getTime(), commissionFee, {value: initialFunding});
+        await leaderboard.deployed();
+
+        const testRankings = [
+            {
+                id: 0,
+                rank: 1,
+                name: ethers.utils.formatBytes32String("Elon Musk"),
+                data: [...Buffer.from("networth:232.4b")]
+            },
+            {
+                id: 1,
+                rank: 2,
+                name: ethers.utils.formatBytes32String("Jeff Bezos"),
+                data: [...Buffer.from("networth:144.5b")]
+            }
+        ];
+
+        const addRankingTx1 = await leaderboard.addRanking(testRankings[0].rank, testRankings[0].name, testRankings[0].data);
+        await addRankingTx1.wait();
+        const addRankingTx2 = await leaderboard.addRanking(testRankings[1].rank, testRankings[1].name, testRankings[1].data);
+        await addRankingTx2.wait();
+
+        return {Leaderboard, leaderboard, facilitator, addr1, addr2, addr3, addr4, addr5, addr6, addr7};
+    }
+
     describe("Deployment", async function () {
         it("should set the facilitator correctly", async function () {
             const {leaderboard, facilitator} = await loadFixture(deployFixture);
@@ -1387,16 +1420,15 @@ describe("Leaderboard", function () {
                 [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[8])],
             ];
 
-            const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
-            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
-            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[2]);
+            // const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
+            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
+            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
 
             // console.log(fromRankingChanged.toNumber()); // => 80, lost 2 ranks ✓ (starting - 3, current - 5)
             // console.log(toRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 4, current - 3)
             // console.log(testRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 5, current - 4)
 
             const rankingsChanged = {
-                [fromRanking.id]: fromRankingChanged,
                 [toRanking.id]: toRankingChanged,
                 [testRanking.id]: testRankingChanged
             };
@@ -1937,7 +1969,275 @@ describe("Leaderboard", function () {
             expect(await leaderboard.userStakesSize(), "Stakes for unchanged rankings did not withdraw correctly.").to.equal(0);
         });
 
-        it("should allocate all rewards correctly", function () {
+        it("should allocate all rewards correctly", async function () {
+            const {leaderboard, addr1, addr2, addr3, addr4, addr5, addr6, addr7} = await loadFixture(deployAllocateAllRewardsFixture);
+            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate All Rewards Fixture"));
+
+            const commissionFee = 0.025;
+
+            const ranking1 = {
+                id: 0,
+                rank: 1,
+                startingRank: 1,
+                name: ethers.utils.formatBytes32String("Elon Musk"),
+                data: [...Buffer.from("networth:232.4b")]
+            };
+
+            const ranking2 = {
+                id: 1,
+                rank: 2,
+                name: ethers.utils.formatBytes32String("Jeff Bezos"),
+                startingRank: 2,
+                data: [...Buffer.from("networth:144.5b")]
+            };
+
+            const ranking3 = {
+                id: 2,
+                name: ethers.utils.formatBytes32String("3"),
+                rank: 3,
+                startingRank: 3,
+                data: []
+            };
+
+            const ranking4 = {
+                id: 3,
+                name: ethers.utils.formatBytes32String("4"),
+                rank: 4,
+                startingRank: 4,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const ranking5 = {
+                id: 4,
+                name: ethers.utils.formatBytes32String("5"),
+                rank: 5,
+                startingRank: 5,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const ranking6 = {
+                id: 5,
+                name: ethers.utils.formatBytes32String("6"),
+                rank: 6,
+                startingRank: 6,
+                data: []
+            };
+
+            const ranking7 = {
+                id: 6,
+                name: ethers.utils.formatBytes32String("7"),
+                rank: 7,
+                startingRank: 7,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const ranking8 = {
+                id: 7,
+                name: ethers.utils.formatBytes32String("8"),
+                rank: 8,
+                startingRank: 8,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const ranking9 = {
+                id: 8,
+                name: ethers.utils.formatBytes32String("9"),
+                rank: 9,
+                startingRank: 9,
+                data: []
+            };
+
+            const ranking10 = {
+                id: 9,
+                name: ethers.utils.formatBytes32String("10"),
+                rank: 10,
+                startingRank: 10,
+                data: [...Buffer.from("Some random string of data converted into bytes")]
+            };
+
+            const addRankingTx1 = await leaderboard.addRanking(ranking1.startingRank, ranking1.name, ranking1.data);
+            await addRankingTx1.wait();
+            const addRankingTx2 = await leaderboard.addRanking(ranking2.startingRank, ranking2.name, ranking2.data);
+            await addRankingTx2.wait();
+            const addRankingTx3 = await leaderboard.addRanking(ranking3.startingRank, ranking3.name, ranking3.data);
+            await addRankingTx3.wait();
+            const addRankingTx4 = await leaderboard.addRanking(ranking4.startingRank, ranking4.name, ranking4.data);
+            await addRankingTx4.wait();
+            const addRankingTx5 = await leaderboard.addRanking(ranking5.startingRank, ranking5.name, ranking5.data);
+            await addRankingTx5.wait();
+            const addRankingTx6 = await leaderboard.addRanking(ranking6.startingRank, ranking6.name, ranking6.data);
+            await addRankingTx6.wait();
+            const addRankingTx7 = await leaderboard.addRanking(ranking7.startingRank, ranking7.name, ranking7.data);
+            await addRankingTx7.wait();
+            const addRankingTx8 = await leaderboard.addRanking(ranking8.startingRank, ranking8.name, ranking8.data);
+            await addRankingTx8.wait();
+            const addRankingTx9 = await leaderboard.addRanking(ranking9.startingRank, ranking9.name, ranking9.data);
+            await addRankingTx9.wait();
+            const addRankingTx10 = await leaderboard.addRanking(ranking10.startingRank, ranking10.name, ranking10.data);
+            await addRankingTx10.wait();
+
+            const stakedAmounts = [
+                "1.0",
+                "2.2",
+                "0.88",
+
+                "10.43",
+                "0.55",
+                "5.333",
+                "6.121",
+                "0.188",
+
+                "7.77",
+                "14.0",
+                "2.11",
+                "4.56",
+                "8.02",
+                "23.8",
+
+                "9.99",
+
+                "4.32",
+                "7.10",
+                "11.11",
+                "0.81",
+                "5.1",
+                "2.78",
+                "4.75",
+                "6.90",
+
+                "3.98",
+                "4.8",
+                "0.74",
+
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ];
+
+            const addStakes = [
+                [addr1.address, ranking3.id, ranking3.name, ethers.utils.parseEther(stakedAmounts[0])],
+                [addr1.address, ranking4.id, ranking4.name, ethers.utils.parseEther(stakedAmounts[1])],
+                [addr1.address, ranking5.id, ranking5.name, ethers.utils.parseEther(stakedAmounts[2])],
+
+                [addr2.address, ranking4.id, ranking4.name, ethers.utils.parseEther(stakedAmounts[3])],
+                [addr2.address, ranking6.id, ranking6.name, ethers.utils.parseEther(stakedAmounts[4])],
+                [addr2.address, ranking7.id, ranking7.name, ethers.utils.parseEther(stakedAmounts[5])],
+                [addr2.address, ranking8.id, ranking8.name, ethers.utils.parseEther(stakedAmounts[6])],
+                [addr2.address, ranking10.id, ranking10.name, ethers.utils.parseEther(stakedAmounts[7])],
+
+                [addr3.address, ranking1.id, ranking1.name, ethers.utils.parseEther(stakedAmounts[8])],
+                [addr3.address, ranking2.id, ranking2.name, ethers.utils.parseEther(stakedAmounts[9])],
+                [addr3.address, ranking4.id, ranking4.name, ethers.utils.parseEther(stakedAmounts[10])],
+                [addr3.address, ranking5.id, ranking5.name, ethers.utils.parseEther(stakedAmounts[11])],
+                [addr3.address, ranking8.id, ranking8.name, ethers.utils.parseEther(stakedAmounts[12])],
+                [addr3.address, ranking10.id, ranking10.name, ethers.utils.parseEther(stakedAmounts[13])],
+
+                [addr4.address, ranking1.id, ranking1.name, ethers.utils.parseEther(stakedAmounts[14])],
+
+                [addr5.address, ranking2.id, ranking2.name, ethers.utils.parseEther(stakedAmounts[15])],
+                [addr5.address, ranking3.id, ranking3.name, ethers.utils.parseEther(stakedAmounts[16])],
+                [addr5.address, ranking5.id, ranking5.name, ethers.utils.parseEther(stakedAmounts[17])],
+                [addr5.address, ranking6.id, ranking6.name, ethers.utils.parseEther(stakedAmounts[18])],
+                [addr5.address, ranking7.id, ranking7.name, ethers.utils.parseEther(stakedAmounts[19])],
+                [addr5.address, ranking8.id, ranking8.name, ethers.utils.parseEther(stakedAmounts[20])],
+                [addr5.address, ranking9.id, ranking9.name, ethers.utils.parseEther(stakedAmounts[21])],
+                [addr5.address, ranking10.id, ranking10.name, ethers.utils.parseEther(stakedAmounts[22])],
+
+                [addr6.address, ranking1.id, ranking1.name, ethers.utils.parseEther(stakedAmounts[23])],
+                [addr6.address, ranking5.id, ranking5.name, ethers.utils.parseEther(stakedAmounts[24])],
+                [addr6.address, ranking10.id, ranking10.name, ethers.utils.parseEther(stakedAmounts[25])],
+            ];
+
+            const accounts = {
+                [addr1.address] : addr1,
+                [addr2.address] : addr2,
+                [addr3.address] : addr3,
+                [addr4.address] : addr4,
+                [addr5.address] : addr5,
+                [addr6.address] : addr6,
+                [addr7.address] : addr7,
+            };
+
+            for (let i = 0; i < addStakes.length; i++) {
+                const tx = await leaderboard.connect(accounts[addStakes[i][0]]).addStake(addStakes[i][1], addStakes[i][2], {value: addStakes[i][3]});
+                await tx.wait();
+            }
+
+            const testStakes = [
+                [addr1.address, ranking3.id, ranking3.name, ethers.utils.parseEther((+stakedAmounts[0] - commissionFee) + "" )],
+                [addr1.address, ranking4.id, ranking4.name, ethers.utils.parseEther((+stakedAmounts[1] - commissionFee) + "" )],
+                [addr1.address, ranking5.id, ranking5.name, ethers.utils.parseEther((+stakedAmounts[2] - commissionFee) + "" )],
+
+                [addr2.address, ranking4.id, ranking4.name, ethers.utils.parseEther((+stakedAmounts[3] - commissionFee) + "" )],
+                [addr2.address, ranking6.id, ranking6.name, ethers.utils.parseEther((+stakedAmounts[4] - commissionFee) + "" )],
+                [addr2.address, ranking7.id, ranking7.name, ethers.utils.parseEther((+stakedAmounts[5] - commissionFee) + "" )],
+                [addr2.address, ranking8.id, ranking8.name, ethers.utils.parseEther((+stakedAmounts[6] - commissionFee) + "" )],
+                [addr2.address, ranking10.id, ranking10.name, ethers.utils.parseEther((+stakedAmounts[7] - commissionFee) + "" )],
+
+                [addr3.address, ranking1.id, ranking1.name, ethers.utils.parseEther((+stakedAmounts[8] - commissionFee) + "" )],
+                [addr3.address, ranking2.id, ranking2.name, ethers.utils.parseEther((+stakedAmounts[9] - commissionFee) + "" )],
+                [addr3.address, ranking4.id, ranking4.name, ethers.utils.parseEther((+stakedAmounts[10] - commissionFee) + "" )],
+                [addr3.address, ranking5.id, ranking5.name, ethers.utils.parseEther((+stakedAmounts[11] - commissionFee) + "" )],
+                [addr3.address, ranking8.id, ranking8.name, ethers.utils.parseEther((+stakedAmounts[12] - commissionFee) + "" )],
+                [addr3.address, ranking10.id, ranking10.name, ethers.utils.parseEther((+stakedAmounts[13] - commissionFee) + "" )],
+
+                [addr4.address, ranking1.id, ranking1.name, ethers.utils.parseEther((+stakedAmounts[14] - commissionFee) + "" )],
+
+                [addr5.address, ranking2.id, ranking2.name, ethers.utils.parseEther((+stakedAmounts[15] - commissionFee) + "" )],
+                [addr5.address, ranking3.id, ranking3.name, ethers.utils.parseEther((+stakedAmounts[16] - commissionFee) + "" )],
+                [addr5.address, ranking5.id, ranking5.name, ethers.utils.parseEther((+stakedAmounts[17] - commissionFee) + "" )],
+                [addr5.address, ranking6.id, ranking6.name, ethers.utils.parseEther((+stakedAmounts[18] - commissionFee) + "" )],
+                [addr5.address, ranking7.id, ranking7.name, ethers.utils.parseEther((+stakedAmounts[19] - commissionFee) + "" )],
+                [addr5.address, ranking8.id, ranking8.name, ethers.utils.parseEther((+stakedAmounts[20] - commissionFee) + "" )],
+                [addr5.address, ranking9.id, ranking9.name, ethers.utils.parseEther((+stakedAmounts[21] - commissionFee) + "" )],
+                [addr5.address, ranking10.id, ranking10.name, ethers.utils.parseEther((+stakedAmounts[22] - commissionFee) + "" )],
+
+                [addr6.address, ranking1.id, ranking1.name, ethers.utils.parseEther((+stakedAmounts[23] - commissionFee) + "" )],
+                [addr6.address, ranking5.id, ranking5.name, ethers.utils.parseEther((+stakedAmounts[24] - commissionFee) + "" )],
+                [addr6.address, ranking10.id, ranking10.name, ethers.utils.parseEther((+stakedAmounts[25] - commissionFee) + "" )],
+
+                [addr7.address, ranking1.id, ranking1.name, ethers.utils.parseEther((+stakedAmounts[26] - commissionFee) + "" )],
+                [addr7.address, ranking2.id, ranking2.name, ethers.utils.parseEther((+stakedAmounts[27] - commissionFee) + "" )],
+                [addr7.address, ranking3.id, ranking3.name, ethers.utils.parseEther((+stakedAmounts[28] - commissionFee) + "" )],
+                [addr7.address, ranking4.id, ranking4.name, ethers.utils.parseEther((+stakedAmounts[29] - commissionFee) + "" )],
+                [addr7.address, ranking5.id, ranking5.name, ethers.utils.parseEther((+stakedAmounts[30] - commissionFee) + "" )],
+                [addr7.address, ranking6.id, ranking6.name, ethers.utils.parseEther((+stakedAmounts[31] - commissionFee) + "" )],
+                [addr7.address, ranking7.id, ranking7.name, ethers.utils.parseEther((+stakedAmounts[32] - commissionFee) + "" )],
+                [addr7.address, ranking8.id, ranking8.name, ethers.utils.parseEther((+stakedAmounts[33] - commissionFee) + "" )],
+                [addr7.address, ranking9.id, ranking9.name, ethers.utils.parseEther((+stakedAmounts[34] - commissionFee) + "" )],
+                [addr7.address, ranking10.id, ranking10.name, ethers.utils.parseEther((+stakedAmounts[35] - commissionFee) + "" )],
+            ];
+
+            const ranking1Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[26]);
+            const ranking2Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[27]);
+            const ranking3Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[28]);
+            const ranking4Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[29]);
+            const ranking5Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[30]);
+            const ranking6Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[31]);
+            const ranking7Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[32]);
+            const ranking8Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[33]);
+            const ranking9Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[34]);
+            const ranking10Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[35]);
+
+            const rankingsChanged = {
+                [ranking1Changed.id]: ranking1Changed,
+                [ranking2Changed.id]: ranking2Changed,
+                [ranking3Changed.id]: ranking3Changed,
+                [ranking4Changed.id]: ranking4Changed,
+                [ranking5Changed.id]: ranking5Changed,
+                [ranking6Changed.id]: ranking6Changed,
+                [ranking7Changed.id]: ranking7Changed,
+                [ranking8Changed.id]: ranking8Changed,
+                [ranking9Changed.id]: ranking9Changed,
+                [ranking10Changed.id]: ranking10Changed,
+            };
 
         });
     });
