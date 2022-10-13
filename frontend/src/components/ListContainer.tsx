@@ -10,6 +10,7 @@ export type Ranking = {
     netWorth: string;
     country: string;
     imgUrl: string;
+    isLoading?: boolean;
 };
 
 const defaultRankings: Array<Ranking> = [

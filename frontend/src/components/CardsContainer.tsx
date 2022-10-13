@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback, useMemo} from "react";
 import Card from "./Card";
 import "./CardsContainer.scss";
 import {chunk} from "lodash";
@@ -82,20 +82,23 @@ export default function CardsContainer() {
     ];
 
     const [rankings, setRankings]: any = useState(initialRankings);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const controller = new AbortController();
-        Promise.all(initialRankings.map(r => getPhoto(r.name, controller))).then(res => {
-            setRankings(initialRankings.map((s, index) => {
-                return {
-                    ...s,
-                    imgUrl: res[index]
-                };
-            }));
+        let isCancelled = false;
+        Promise.all(rankings.map((r: any) => getPhoto(r.name))).then(res => {
+            if (!isCancelled) {
+                setRankings(rankings.map((s: any, index: number) => {
+                    return {
+                        ...s,
+                        imgUrl: res[index]
+                    };
+                }));
+            }
         });
 
         return () => {
-            controller.abort();
+            isCancelled = true;
         };
     }, []);
 
@@ -117,6 +120,7 @@ export default function CardsContainer() {
                     <>
                         {group.map((ranking: Ranking, j: number) =>
                             <Card key={j}
+                                  isLoading={isLoading}
                                   rank={ranking.rank}
                                   name={ranking.name}
                                   netWorth={ranking.netWorth}
@@ -131,14 +135,14 @@ export default function CardsContainer() {
     }
 
     const filterResults = (searchTerm: string) => {
-        if (searchTerm != "") {
+        if (searchTerm !== "") {
             setRankings((state: any) => {
                 return initialRankings.filter((ranking: Ranking) => ranking.name.toLowerCase().includes(searchTerm));
             });
         } else {
             setRankings((state: any) => initialRankings);
         }
-    };
+    }
 
     return <div className={"card-container"}>
         <div className={"search-bar-container"}>

@@ -8,7 +8,7 @@ export default function List({rank, name, netWorth, country, imgUrl}: Ranking) {
         <div>{name}</div>
         <div style={{color: '#52b788'}}>{netWorth}</div>
         <div>{country}</div>
-        <img src={imgUrl}/>
+        <img src={imgUrl} alt={"..."}/>
         <div>stake</div>
     </div>;
 }

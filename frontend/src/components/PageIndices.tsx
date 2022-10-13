@@ -6,8 +6,7 @@ interface PageIndices {
 }
 
 export default function PageIndices({pages = 10}: PageIndices) {
-
     return <div className={"page-indices"}>
-        {Array.from({length: pages}, (_, index) => <a className={"page"}>{index + 1}</a>)}
+        {Array.from({length: pages}, (_, index) => <p className={"page"}>{index + 1}</p>)}
     </div>;
 }
