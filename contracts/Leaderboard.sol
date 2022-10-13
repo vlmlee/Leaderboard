@@ -25,7 +25,8 @@ contract Leaderboard {
     event UserStakeFulfilled(address indexed _user, Stake _stake);
     event ContractDestroyed();
     event UnableToAllocateRewardTo(address indexed _user, uint256 _stakedAmount);
-    event SuccessfullyAllocatedRewardTo(address indexed _user, uint256 _reward);
+    event SuccessfullyAllocatedStakeRewardTo(address indexed _user, uint256 _reward);
+    event SuccessfullyAllocatedInitialFundingRewardTo(address indexed _user, uint256 _reward);
 
     modifier OnlyFacilitator() {
         if (msg.sender != facilitator) revert UserIsNotFacilitator();
@@ -353,7 +354,7 @@ contract Leaderboard {
      * The contract creator/facilitator will gain a commission for every stake. Hence, the break
      * even for the contract will be if: userStakesSize * commissionFee > initialFunding.
      */
-    function allocateReward() public virtual
+    function allocateRewards() public virtual
         OnlyFacilitator
 //        OnlyAfterContractHasEnded
     {
@@ -375,8 +376,12 @@ contract Leaderboard {
             }
         }
 
+        // First remove unchanged ranking stakes from the pool.
         returnStakesForUnchangedRankings();
+        // Next, calculate the amount to return based on ranking changes, redistributed between winners and losers.
+        // Reward pool decreases to the initial funding amount in this step.
         allocateStakeRewards();
+        // Then calculate the reward for winners from the initial funding amount.
         allocateInitialFundingReward();
     }
 
@@ -420,6 +425,7 @@ contract Leaderboard {
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
         // changes deducts from a player's return amount and gets added into the reward pool.
         for (uint256 i = (stakeRewardsToCalculate.length); i > 0; i--) {
+            uint256 rankChanged = getRankChangedNormalizedCoefficient(stakeRewardsToCalculate[i-1]);
             uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i-1])) / PRECISION;
             // Needs to be divided by 1000000000 to cancel out calculateNorm and calculateWeight PRECISION padding.
 
@@ -435,22 +441,25 @@ contract Leaderboard {
                 uint256 rewardPoolAfter = removeFromRewardPool(returnedAmount);
                 assert(rewardPoolAfter < rewardPoolPrev);
 
-                // Delete stake from userStakes
-                Stake[] storage stakes = userStakes[stakeRewardsToCalculate[i-1].id];
-                for (uint256 j = 0; j < stakes.length; j++) {
-                    if (stakes[j].addr == stakeRewardsToCalculate[i-1].addr) {
-                        emit UserStakeFulfilled(stakes[j].addr, stakes[j]);
-                        delete stakes[j];
-                        // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
-                        stakes[j] = stakes[stakes.length - 1];
-                        // Copy the last element to the removed element's index.
-                        stakes.pop();
-                        // removes the last element and decrements the array's length
-                        break;
+                // remove only the stakes that are not included in the initial funding reward pool
+                if (rankChanged < 100) {
+                    // Delete stake from userStakes
+                    Stake[] storage stakes = userStakes[stakeRewardsToCalculate[i-1].id];
+                    for (uint256 j = 0; j < stakes.length; j++) {
+                        if (stakes[j].addr == stakeRewardsToCalculate[i-1].addr) {
+                            emit UserStakeFulfilled(stakes[j].addr, stakes[j]);
+                            delete stakes[j];
+                            // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
+                            stakes[j] = stakes[stakes.length - 1];
+                            // Copy the last element to the removed element's index.
+                            stakes.pop();
+                            // removes the last element and decrements the array's length
+                            break;
+                        }
                     }
                 }
 
-                emit SuccessfullyAllocatedRewardTo(stakeRewardsToCalculate[i-1].addr, returnedAmount);
+                emit SuccessfullyAllocatedStakeRewardTo(stakeRewardsToCalculate[i-1].addr, returnedAmount);
                 // remove stake from stakeRewardsToCalculate afterwards
                 stakeRewardsToCalculate.pop();
                 if (userStakesSize > 0) userStakesSize--;
@@ -495,7 +504,7 @@ contract Leaderboard {
                 uint256 rewardPoolAfter = removeFromRewardPool(returnedAmount);
                 assert(rewardPoolAfter < rewardPoolPrev);
 
-                // Delete stake from userStakes
+                // Delete positive ranking changed stakes from userStakes
                 Stake[] storage stakes = userStakes[initialFundingRewardsToCalculate[i-1].id];
                 for (uint256 j = 0; j < stakes.length; j++) {
                     if (stakes[j].addr == initialFundingRewardsToCalculate[i-1].addr) {
@@ -510,7 +519,7 @@ contract Leaderboard {
                     }
                 }
 
-                emit SuccessfullyAllocatedRewardTo(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
+                emit SuccessfullyAllocatedInitialFundingRewardTo(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
                 initialFundingRewardsToCalculate.pop();
                 if (userStakesSize > 0) userStakesSize--;
             } else {
