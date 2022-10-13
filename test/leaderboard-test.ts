@@ -1951,7 +1951,7 @@ describe("Leaderboard", function () {
             const {leaderboard, addr1, addr2, addr3, addr4, addr5, addr6, addr7} = await loadFixture(deployAllocateAllRewardsFixture);
             expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate All Rewards Fixture"));
 
-            const commissionFee = 0.025;
+            const commissionFee = 0.0025;
 
             const ranking1 = {
                 id: 0,
@@ -2359,6 +2359,11 @@ describe("Leaderboard", function () {
             expect(allocateTx.events.filter(event => event.event === "UserStakeFulfilled").length, "All user stake fulfilled events did not occur").to.equal(29);
 
             expect(await leaderboard.userStakesSize()).to.equal(0);
+
+            const provider = waffle.provider;
+            const balance = await provider.getBalance(leaderboard.address);
+
+            expect(+(+ethers.utils.formatEther(balance)).toFixed(5)).to.equal(testStakes.length * commissionFee);
         });
     });
 
