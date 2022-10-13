@@ -26,7 +26,8 @@
   "scripts": {
     "test": "npx hardhat test",
     "node": "npx hardhat node --watch",
-    "frontend": "cd frontend && npm run start"
+    "frontend": "cd frontend && npm run start",
+    "deploy": "npx hardhat run --network sepolia scripts/deploy.js"
   },
   "repository": {
     "type": "git",
