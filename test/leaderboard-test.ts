@@ -2109,16 +2109,16 @@ describe("Leaderboard", function () {
                 "4.8",
                 "0.74",
 
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                ""
+                "5.59",
+                "3.11",
+                "12.3",
+                "7.222",
+                "0.975",
+                "1.671",
+                "6.322",
+                "4.7",
+                "6.333",
+                "17.24"
             ];
 
             const addStakes = [
@@ -2238,6 +2238,8 @@ describe("Leaderboard", function () {
                 [ranking9Changed.id]: ranking9Changed,
                 [ranking10Changed.id]: ranking10Changed,
             };
+
+
 
         });
     });
