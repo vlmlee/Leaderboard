@@ -1270,28 +1270,6 @@ describe("Leaderboard", function () {
             }
         });
 
-        it("should revert if an unchanged rank tries to get a changed rank normalized coefficient", async function () {
-            const {leaderboard, addr1} = await loadFixture(deployAllocateRewardFixture);
-            expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
-
-            const unchangedRanking = {
-                id: 5,
-                name: ethers.utils.formatBytes32String("unchanged"),
-                rank: 22,
-                startingRank: 22,
-                data: [...Buffer.from("Some random string of data converted into bytes")]
-            };
-
-            const addRankingTx = await leaderboard.addRanking(unchangedRanking.rank, unchangedRanking.name, unchangedRanking.data);
-            await addRankingTx.wait();
-
-            const stakeAmount = "1.0";
-            const unchangedStake = [addr1.address, unchangedRanking.id, unchangedRanking.name, ethers.utils.parseEther(stakeAmount)];
-
-            await expect(leaderboard.getRankChangedNormalizedCoefficient(unchangedStake))
-                .to.be.revertedWith("UnchangedRankShouldNeverReceiveACoefficient");
-        });
-
         it("should calculate the right norm for the reward pool", async function () {
             const {leaderboard, addr1, addr2, addr3} = await loadFixture(deployAllocateRewardFixture);
             expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
@@ -2055,10 +2033,10 @@ describe("Leaderboard", function () {
                 data: [...Buffer.from("Some random string of data converted into bytes")]
             };
 
-            const addRankingTx1 = await leaderboard.addRanking(ranking1.startingRank, ranking1.name, ranking1.data);
-            await addRankingTx1.wait();
-            const addRankingTx2 = await leaderboard.addRanking(ranking2.startingRank, ranking2.name, ranking2.data);
-            await addRankingTx2.wait();
+            // const addRankingTx1 = await leaderboard.addRanking(ranking1.startingRank, ranking1.name, ranking1.data);
+            // await addRankingTx1.wait();
+            // const addRankingTx2 = await leaderboard.addRanking(ranking2.startingRank, ranking2.name, ranking2.data);
+            // await addRankingTx2.wait();
             const addRankingTx3 = await leaderboard.addRanking(ranking3.startingRank, ranking3.name, ranking3.data);
             await addRankingTx3.wait();
             const addRankingTx4 = await leaderboard.addRanking(ranking4.startingRank, ranking4.name, ranking4.data);
@@ -2153,6 +2131,17 @@ describe("Leaderboard", function () {
                 [addr6.address, ranking1.id, ranking1.name, ethers.utils.parseEther(stakedAmounts[23])],
                 [addr6.address, ranking5.id, ranking5.name, ethers.utils.parseEther(stakedAmounts[24])],
                 [addr6.address, ranking10.id, ranking10.name, ethers.utils.parseEther(stakedAmounts[25])],
+
+                [addr7.address, ranking1.id, ranking1.name, ethers.utils.parseEther(stakedAmounts[26])],
+                [addr7.address, ranking2.id, ranking2.name, ethers.utils.parseEther(stakedAmounts[27])],
+                [addr7.address, ranking3.id, ranking3.name, ethers.utils.parseEther(stakedAmounts[28])],
+                [addr7.address, ranking4.id, ranking4.name, ethers.utils.parseEther(stakedAmounts[29])],
+                [addr7.address, ranking5.id, ranking5.name, ethers.utils.parseEther(stakedAmounts[30])],
+                [addr7.address, ranking6.id, ranking6.name, ethers.utils.parseEther(stakedAmounts[31])],
+                [addr7.address, ranking7.id, ranking7.name, ethers.utils.parseEther(stakedAmounts[32])],
+                [addr7.address, ranking8.id, ranking8.name, ethers.utils.parseEther(stakedAmounts[33])],
+                [addr7.address, ranking9.id, ranking9.name, ethers.utils.parseEther(stakedAmounts[34])],
+                [addr7.address, ranking10.id, ranking10.name, ethers.utils.parseEther(stakedAmounts[35])],
             ];
 
             const accounts = {
@@ -2164,6 +2153,8 @@ describe("Leaderboard", function () {
                 [addr6.address] : addr6,
                 [addr7.address] : addr7,
             };
+
+            expect(await leaderboard.userStakesSize(), "Stakes for unchanged rankings did not withdraw correctly.").to.equal(0);
 
             for (let i = 0; i < addStakes.length; i++) {
                 const tx = await leaderboard.connect(accounts[addStakes[i][0]]).addStake(addStakes[i][1], addStakes[i][2], {value: addStakes[i][3]});
@@ -2215,6 +2206,17 @@ describe("Leaderboard", function () {
                 [addr7.address, ranking10.id, ranking10.name, ethers.utils.parseEther((+stakedAmounts[35] - commissionFee) + "" )],
             ];
 
+            expect(await leaderboard.userStakesSize(), "Stakes for unchanged rankings did not withdraw correctly.").to.equal(testStakes.length);
+
+            const updateRankingTx1 = await leaderboard.swapRank(ranking1.id, ranking1.startingRank, ranking4.id, ranking4.startingRank); // 1 -> 4
+            await updateRankingTx1.wait();
+            const updateRankingTx2 = await leaderboard.swapRank(ranking3.id, ranking3.startingRank, ranking5.id, ranking5.startingRank); // 3 -> 5
+            await updateRankingTx2.wait();
+            const updateRankingTx3 = await leaderboard.swapRank(ranking8.id, ranking8.startingRank, ranking6.id, ranking6.startingRank); // 8 -> 6
+            await updateRankingTx3.wait();
+            const updateRankingTx4 = await leaderboard.swapRank(ranking7.id, ranking7.startingRank, ranking2.id, ranking2.startingRank); // 7 -> 2
+            await updateRankingTx4.wait();
+
             const ranking1Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[26]);
             const ranking2Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[27]);
             const ranking3Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[28]);
@@ -2239,7 +2241,11 @@ describe("Leaderboard", function () {
                 [ranking10Changed.id]: ranking10Changed,
             };
 
-
+            const expectedWeights = testStakes.map(stake => {
+                //  liquidity * normalized coeffiicient / 100
+                return BigNumber.from(stake[3])
+                    .mul(rankingsChanged[stake[1]]).div(100);
+            });
 
         });
     });
