@@ -550,7 +550,7 @@ contract Leaderboard {
         Ranking memory _rank = getRankingFromId(_stake.id);
         int8 rankChanged = int8(_rank.startingRank) - int8(_rank.rank);
 
-        if (rankChanged == 0) revert UnchangedRankShouldNeverReceiveACoefficient();
+        if (rankChanged == 0) return 0;
 
         if (rankChanged > 10) {
             return 200;
