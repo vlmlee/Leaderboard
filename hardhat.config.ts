@@ -16,6 +16,8 @@ task("accounts", "Prints the list of accounts", async (args, hre) => {
     }
 });
 
+require('dotenv').config();
+
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
 
@@ -34,15 +36,12 @@ const config: HardhatUserConfig = {
                 mnemonic: "test test test test test test test test test test test junk", // test test test test test test test test test test test junk
             },
         },
-        // hardhat: {
-        //   accounts: [
-        //     {
-        //       balance: "10000000000000000000000",
-        //       privateKey:
-        //         "0xe87d780e4c31c953a68aef2763df56599c9cfe73df4740fc24c2d0f5acd21bae",
-        //     },
-        //   ],
-        // },
+        sepolia: {
+            url: process.env.INFURA_URL + process.env.INFURA_API_KEY,
+            accounts: {
+                mnemonic: process.env.MNEMONIC
+            }
+        }
     },
     solidity: {
         compilers: [
