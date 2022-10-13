@@ -1605,41 +1605,41 @@ describe("Leaderboard", function () {
             //     }
             // });
 
-            // These tests cases for the SuccessfullyAllocatedRewardTo event are unreliable as they suffer from rounding errors,
+            // These tests cases for the SuccessfullyAllocatedStakeRewardTo event are unreliable as they suffer from rounding errors,
             // and you can't set a range for acceptable deviations from the expected return value. Manually checking the values
             // shows that the rewards allocated are basically the same as the expected return values.
             await expect(leaderboard.allocateStakeRewards())
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                .to.emit(leaderboard, "SuccessfullyAllocatedStakeRewardTo")
                 .withArgs(addr1.address, BigNumber.from(ethers.utils.parseEther(expectedReturnValues[0])))
-                .to.emit(leaderboard, "UserStakeFulfilled")
-                .withArgs(addr1.address, testStakes[0])
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                // .to.emit(leaderboard, "UserStakeFulfilled")
+                // .withArgs(addr1.address, testStakes[0])
+                .to.emit(leaderboard, "SuccessfullyAllocatedStakeRewardTo")
                 .withArgs(addr1.address, ethers.utils.parseEther(expectedReturnValues[1]))
-                .to.emit(leaderboard, "UserStakeFulfilled")
-                .withArgs(addr1.address, testStakes[1])
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                // .to.emit(leaderboard, "UserStakeFulfilled")
+                // .withArgs(addr1.address, testStakes[1])
+                .to.emit(leaderboard, "SuccessfullyAllocatedStakeRewardTo")
                 .withArgs(addr1.address, ethers.utils.parseEther(expectedReturnValues[2]))
-                .to.emit(leaderboard, "UserStakeFulfilled")
-                .withArgs(addr1.address, testStakes[2])
+                // .to.emit(leaderboard, "UserStakeFulfilled")
+                // .withArgs(addr1.address, testStakes[2])
 
-                // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                // .to.emit(leaderboard, "SuccessfullyAllocatedStakeRewardTo")
                 // .withArgs(addr2.address, ethers.utils.parseEther(expectedReturnValues[3]))
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                .to.emit(leaderboard, "SuccessfullyAllocatedStakeRewardTo")
                 .withArgs(addr2.address, ethers.utils.parseEther(expectedReturnValues[4]))
-                .to.emit(leaderboard, "UserStakeFulfilled")
-                .withArgs(addr2.address, testStakes[4])
-                // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                // .to.emit(leaderboard, "UserStakeFulfilled")
+                // .withArgs(addr2.address, testStakes[4])
+                // .to.emit(leaderboard, "SuccessfullyAllocatedStakeRewardTo")
                 // .withArgs(addr2.address, ethers.utils.parseEther(expectedReturnValues[5]))
 
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                .to.emit(leaderboard, "SuccessfullyAllocatedStakeRewardTo")
                 .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[6]))
-                .to.emit(leaderboard, "UserStakeFulfilled")
-                .withArgs(addr3.address, testStakes[6])
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                // .to.emit(leaderboard, "UserStakeFulfilled")
+                // .withArgs(addr3.address, testStakes[6])
+                .to.emit(leaderboard, "SuccessfullyAllocatedStakeRewardTo")
                 .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[7]))
-                .to.emit(leaderboard, "UserStakeFulfilled")
-                .withArgs(addr3.address, testStakes[7])
-                // .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
+                // .to.emit(leaderboard, "UserStakeFulfilled")
+                // .withArgs(addr3.address, testStakes[7])
+                // .to.emit(leaderboard, "SuccessfullyAllocatedStakeRewardTo")
                 // .withArgs(addr3.address, ethers.utils.parseEther(expectedReturnValues[8]));
 
             const postAddr1Balance = await addr1.getBalance();
@@ -1837,12 +1837,12 @@ describe("Leaderboard", function () {
             // });
 
             await expect(leaderboard.allocateInitialFundingReward())
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo")
-                .to.emit(leaderboard, "SuccessfullyAllocatedRewardTo");
+                .to.emit(leaderboard, "SuccessfullyAllocatedInitialFundingRewardTo")
+                .to.emit(leaderboard, "SuccessfullyAllocatedInitialFundingRewardTo")
+                .to.emit(leaderboard, "SuccessfullyAllocatedInitialFundingRewardTo")
+                .to.emit(leaderboard, "SuccessfullyAllocatedInitialFundingRewardTo")
+                .to.emit(leaderboard, "SuccessfullyAllocatedInitialFundingRewardTo")
+                .to.emit(leaderboard, "SuccessfullyAllocatedInitialFundingRewardTo");
 
             const postAddr1Balance = await addr1.getBalance();
             const postAddr2Balance = await addr2.getBalance();
@@ -2203,7 +2203,7 @@ describe("Leaderboard", function () {
                 [addr7.address, ranking7.id, ranking7.name, ethers.utils.parseEther((+stakedAmounts[32] - commissionFee) + "" )],
                 [addr7.address, ranking8.id, ranking8.name, ethers.utils.parseEther((+stakedAmounts[33] - commissionFee) + "" )],
                 [addr7.address, ranking9.id, ranking9.name, ethers.utils.parseEther((+stakedAmounts[34] - commissionFee) + "" )],
-                [addr7.address, ranking10.id, ranking10.name, ethers.utils.parseEther((+stakedAmounts[35] - commissionFee) + "" )],
+                [addr7.address, ranking10.id, ranking10.name, BigNumber.from(ethers.utils.parseEther(stakedAmounts[35])).sub(ethers.utils.parseEther(""+commissionFee))],
             ];
 
             expect(await leaderboard.userStakesSize(), "Stakes for unchanged rankings did not withdraw correctly.").to.equal(testStakes.length);
@@ -2229,24 +2229,136 @@ describe("Leaderboard", function () {
             const ranking10Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[35]);
 
             const rankingsChanged = {
-                [ranking1Changed.id]: ranking1Changed,
-                [ranking2Changed.id]: ranking2Changed,
-                [ranking3Changed.id]: ranking3Changed,
-                [ranking4Changed.id]: ranking4Changed,
-                [ranking5Changed.id]: ranking5Changed,
-                [ranking6Changed.id]: ranking6Changed,
-                [ranking7Changed.id]: ranking7Changed,
-                [ranking8Changed.id]: ranking8Changed,
-                [ranking9Changed.id]: ranking9Changed,
-                [ranking10Changed.id]: ranking10Changed,
+                [ranking1.id]: ranking1Changed,
+                [ranking2.id]: ranking2Changed,
+                [ranking3.id]: ranking3Changed,
+                [ranking4.id]: ranking4Changed,
+                [ranking5.id]: ranking5Changed,
+                [ranking6.id]: ranking6Changed,
+                [ranking7.id]: ranking7Changed,
+                [ranking8.id]: ranking8Changed,
+                [ranking9.id]: ranking9Changed,
+                [ranking10.id]: ranking10Changed,
             };
 
-            const expectedWeights = testStakes.map(stake => {
+            console.log("Rankings changed:", rankingsChanged);
+
+            const filteredStakes = testStakes.filter(stake => {
+                return rankingsChanged[stake[1]] > 0;
+            });
+
+            const unChangedStakes = testStakes.filter(stake => {
+                return ethers.utils.formatEther(rankingsChanged[stake[1]]) == 0;
+            });
+
+            const sumOfUnchangedStakes = unChangedStakes.reduce((acc, cur, i) => {
+                acc = acc.add(BigNumber.from(cur[3]));
+                return acc;
+            }, BigNumber.from(0));
+            console.log("Sum of unchanged ranking stakes", ethers.utils.formatEther(sumOfUnchangedStakes));
+
+            const expectedWeights = filteredStakes.map(stake => {
                 //  liquidity * normalized coeffiicient / 100
                 return BigNumber.from(stake[3])
                     .mul(rankingsChanged[stake[1]]).div(100);
             });
+            console.log("Expected weights for reward pool stakes: ", expectedWeights.map(e => ethers.utils.formatEther(e)));
 
+            const rewardPool = await leaderboard.rewardPool();
+            const poolAmount = rewardPool.sub(ethers.utils.parseEther("2.0")).sub(sumOfUnchangedStakes);
+            console.log("Pool Amount: ", ethers.utils.formatEther(poolAmount)); // 214.715
+
+            const sumOfExpectedWeights = expectedWeights.reduce((acc, cur, i) => {
+                acc = acc.add(cur);
+                return acc;
+            }, BigNumber.from(0));
+            console.log("Sum of Expected Weights: ", ethers.utils.formatEther(sumOfExpectedWeights)); // 154.26909999999999292
+
+            const normForRewardStakes = poolAmount.mul(precision).div(sumOfExpectedWeights);
+            const calculatedNormFromContract = await leaderboard.calculateNorm(testStakes, poolAmount);
+            expect(calculatedNormFromContract, "Norm is not equal").to.equal(normForRewardStakes);
+            console.log("Norm for reward stakes: ", ethers.utils.formatEther(normForRewardStakes)); //
+
+            const expectedReturnValues = expectedWeights.map(w => {
+                return ethers.utils.formatEther(w.mul(normForRewardStakes).div(precision));
+            });
+            console.log("Expected return values for reward pool stakes", expectedReturnValues);
+
+            const expectedWeightsForInitialFunding = filteredStakes.filter(stake => {
+                return rankingsChanged[stake[1]] > 100;
+            }).map(stake => {
+                return BigNumber.from(stake[3])
+                    .mul(rankingsChanged[stake[1]]).div(100);
+            });
+            console.log("Expected weights for initial funding reward pool", expectedWeightsForInitialFunding.map(e => ethers.utils.formatEther(e)));
+
+            const sumOfExpectedWeightsForInitialFunding = expectedWeightsForInitialFunding.reduce((acc, cur, i) => {
+                acc = acc.add(cur);
+                return acc;
+            }, BigNumber.from(0));
+            console.log("Sum of expected weights for initial funding reward pool: ", ethers.utils.formatEther(sumOfExpectedWeightsForInitialFunding)); // 105.90579999999999469
+
+            console.log("Reward pool for initial funding reward: ", 2.0);
+            const normForInitialFundingReward = ethers.utils.parseEther("2.0").mul(precision).div(sumOfExpectedWeightsForInitialFunding);
+            console.log("Norm for reward stakes: ", ethers.utils.formatEther(normForInitialFundingReward)); // 0.000000188847069754
+
+            const expectedInitialFundingReturnValues = expectedWeightsForInitialFunding.map(w => {
+                return ethers.utils.formatEther(w.mul(normForInitialFundingReward).div(precision));
+            });
+            console.log("Expected return values for initial funding stakes", expectedInitialFundingReturnValues);
+
+            const sumOfInitialFundingReturnValues = expectedInitialFundingReturnValues.reduce((acc, cur) => {
+                acc = acc + +cur;
+                return acc
+            }, 0);
+            console.log("Sum of expected return values for initial funding stakes", sumOfInitialFundingReturnValues);
+
+            const allocateTxPromise = await leaderboard.allocateRewards();
+            const allocateTx = await allocateTxPromise.wait();
+
+            const addresses = {
+                [addr1.address]: "addr1",
+                [addr2.address]: "addr2",
+                [addr3.address]: "addr3",
+                [addr4.address]: "addr4",
+                [addr5.address]: "addr5",
+                [addr6.address]: "addr6",
+                [addr7.address]: "addr7",
+            };
+
+            allocateTx.events
+                .filter((event) => event.event === "SuccessfullyAllocatedStakeRewardTo" || event.event === "SuccessfullyAllocatedInitialFundingRewardTo")
+                .sort((a, b) => {
+                    if (addresses[a.args['_user']] > addresses[b.args['_user']]) {
+                        return 1;
+                    } else if (addresses[a.args['_user']] < addresses[b.args['_user']]) {
+                        return -1
+                    } else {
+                        return 0;
+                    }
+                })
+                .forEach(event => {
+               // console.log(event);
+                // expect 7 withdraw stake
+                // expect 16 SuccessfullyAllocatedInitialFundingRewardTo
+                // expect 29 SuccessfullyAllocatedStakeRewardTo
+                if (event.event === "SuccessfullyAllocatedStakeRewardTo") {
+                    console.log(`Stake redistribution reward => User: ${addresses[event.args['_user']]}, Stake reward returned: ${ethers.utils.formatEther(""+event.args['_reward'])}`);
+                }
+                if (event.event === "SuccessfullyAllocatedInitialFundingRewardTo") {
+                    console.log(`Initial funding winner => User: ${addresses[event.args['_user']]}, Stake reward returned: ${ethers.utils.formatEther(""+event.args['_reward'])}`);
+                }
+            });
+
+            expect(allocateTx.events.filter(event => event.event === "UserStakeWithdrawn").length, "All withdraw events did not occur").to.equal(7);
+            // Only positive ranking changes
+            expect(allocateTx.events.filter(event => event.event === "SuccessfullyAllocatedInitialFundingRewardTo").length, "All initial funding events did not occur").to.equal(16);
+            // Both positive and negative ranking changes
+            expect(allocateTx.events.filter(event => event.event === "SuccessfullyAllocatedStakeRewardTo").length, "All stake reward events did not occur").to.equal(29);
+            // Negative rankings changed stakes are removed first in the allocateStakeRewards method, then positive rankings changed stakes are removed in the allocateInitialFundingReward method
+            expect(allocateTx.events.filter(event => event.event === "UserStakeFulfilled").length, "All user stake fulfilled events did not occur").to.equal(29);
+
+            expect(await leaderboard.userStakesSize()).to.equal(0);
         });
     });
 
