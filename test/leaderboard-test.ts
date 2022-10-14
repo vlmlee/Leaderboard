@@ -248,8 +248,8 @@ describe("Leaderboard", function () {
                 data: [...Buffer.from("networth:144.5b")]
             };
 
-            const elonRanking = await leaderboard.getRankingFromId(elonTestRanking.id);
-            const jeffRanking = await leaderboard.getRankingFromId(jeffTestRanking.id);
+            const elonRanking = await leaderboard.getRankingById(elonTestRanking.id);
+            const jeffRanking = await leaderboard.getRankingById(jeffTestRanking.id);
 
             expect(elonRanking.id, "Elon's ID did not match test ID").to.equal(elonTestRanking.id);
             expect(elonRanking.name, "Elon's name did not match test name").to.equal(elonTestRanking.name);
@@ -267,7 +267,7 @@ describe("Leaderboard", function () {
         it("should revert with an error if a ranking id does not exist", async function () {
             const {leaderboard} = await loadFixture(deployFixture);
 
-            await expect(leaderboard.getRankingFromId(10)).to.be.revertedWith("RankingDoesNotExist");
+            await expect(leaderboard.getRankingById(10)).to.be.revertedWith("RankingDoesNotExist");
         });
     });
 

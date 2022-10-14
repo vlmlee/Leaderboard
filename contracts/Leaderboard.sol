@@ -10,7 +10,7 @@ contract Leaderboard {
     uint256 public rewardPool;
 
     uint256 public constant MINIMUM_STAKE = 50_000_000 gwei;
-    uint256 private constant PRECISION = 10_000_000_000_000; // ~ $0.013 USD = 10000000000000 wei
+    uint256 private constant PRECISION = 10_000_000_000_000;
     string public constant AUTHORS = "Michael Lee, mlee.app";
 
     event RankingAdded(Ranking _ranking);
@@ -68,6 +68,7 @@ contract Leaderboard {
     mapping(uint8 => Stake[]) public userStakes;
     uint256 public userStakesSize;
 
+    // For aggregating and calculating returned rewards
     Stake[] public stakeRewardsToCalculate;
     Stake[] public initialFundingRewardsToCalculate;
     Stake[] public stakesToReturnDueToUnchangedRankings;
@@ -116,7 +117,7 @@ contract Leaderboard {
         if (ranking.rank == 0) revert RankingDoesNotExist(0, _rank, bytes32(0));
     }
 
-    function getRankingFromId(uint8 _id) public view returns (Ranking memory ranking) {
+    function getRankingById(uint8 _id) public view returns (Ranking memory ranking) {
         for (uint8 i = 0; i < rankingsCurrentId; i++) {
             if (rankings[i].id == _id) {
                 ranking = rankings[i];
@@ -358,22 +359,8 @@ contract Leaderboard {
     {
         if (userStakesSize < 1) revert NoStakesAddedForContractYet();
 
-        // Get all user stakes
-        for (uint8 i = 0; i <= rankingsCurrentId; i++) {
-            Stake[] storage stakes = userStakes[i];
-
-            for (uint8 j = 0; j < stakes.length; j++) {
-                Ranking memory _rank = getRankingFromId(stakes[j].id);
-                if (_rank.startingRank != _rank.rank) {
-                    stakeRewardsToCalculate.push(stakes[j]);
-                } else {
-                    stakesToReturnDueToUnchangedRankings.push(stakes[j]);
-                }
-
-                if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) initialFundingRewardsToCalculate.push(stakes[j]);
-            }
-        }
-
+        // Get all user stakes and fill up the return arrays
+        filterAllStakes();
         // First remove unchanged ranking stakes from the pool.
         returnStakesForUnchangedRankings();
         // Next, calculate the amount to return based on ranking changes, redistributed between winners and losers.
@@ -497,7 +484,7 @@ contract Leaderboard {
     // Max reward is offered with a positive rank change of greater than 10.
     // If the rank has dropped by more than 10, the user's entire stake will be allocated to other users.
     function getRankChangedNormalizedCoefficient(Stake memory _stake) public view virtual OnlyFacilitator returns (uint256) {
-        Ranking memory _rank = getRankingFromId(_stake.id);
+        Ranking memory _rank = getRankingById(_stake.id);
         int8 rankChanged = int8(_rank.startingRank) - int8(_rank.rank);
 
         if (rankChanged == 0) return 0;
@@ -529,13 +516,26 @@ contract Leaderboard {
 
     // Internal functions
 
+    function filterAllStakes() internal {
+        for (uint8 i = 0; i <= rankingsCurrentId; i++) {
+            Stake[] storage stakes = userStakes[i];
+
+            for (uint8 j = 0; j < stakes.length; j++) {
+                Ranking memory _rank = getRankingById(stakes[j].id);
+                filterReturnStakes(_rank, stakes[j]);
+                filterStakeRewards(_rank, stakes[j]);
+                filterInitialFundingRewards(_rank, stakes[j]);
+            }
+        }
+    }
+
     function filterStakes(Stake[] memory arrayToFill, function (Ranking memory, Stake memory) internal condition) internal {
         if (arrayToFill.length == 0) {
             for (uint8 i = 0; i <= rankingsCurrentId; i++) {
                 Stake[] storage stakes = userStakes[i];
 
                 for (uint8 j = 0; j < stakes.length; j++) {
-                    Ranking memory _rank = getRankingFromId(stakes[j].id);
+                    Ranking memory _rank = getRankingById(stakes[j].id);
                     condition(_rank, stakes[j]);
                 }
             }
