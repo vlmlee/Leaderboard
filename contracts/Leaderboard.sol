@@ -313,9 +313,7 @@ contract Leaderboard {
         (bool success,) = payable(_user).call{value : userStakedAmount}("");
 
         if (success) {
-            uint256 rewardPoolPrev = rewardPool;
-            uint256 rewardPoolAfter = removeFromRewardPool(userStakedAmount);
-            assert(rewardPoolAfter < rewardPoolPrev);
+            assertRewardPoolDecreased(userStakedAmount);
 
             delete stakes[indexToRemove];
             // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
@@ -389,16 +387,7 @@ contract Leaderboard {
         OnlyFacilitator
 //        OnlyAfterContractHasEnded
     {
-        if (stakesToReturnDueToUnchangedRankings.length == 0) {
-            for (uint8 i = 0; i <= rankingsCurrentId; i++) {
-                Stake[] storage stakes = userStakes[i];
-
-                for (uint8 j = 0; j < stakes.length; j++) {
-                    Ranking memory _rank = getRankingFromId(stakes[j].id);
-                    if (_rank.startingRank == _rank.rank) stakesToReturnDueToUnchangedRankings.push(stakes[j]);
-                }
-            }
-        }
+        filterStakes(stakesToReturnDueToUnchangedRankings, filterReturnStakes);
 
         for (uint256 i = 0; i < stakesToReturnDueToUnchangedRankings.length; i++) {
             withdrawStake(stakesToReturnDueToUnchangedRankings[i].addr, stakesToReturnDueToUnchangedRankings[i].id);
@@ -409,17 +398,7 @@ contract Leaderboard {
         OnlyFacilitator
 //        OnlyAfterContractHasEnded
     {
-        if (stakeRewardsToCalculate.length == 0) {
-            for (uint8 i = 0; i <= rankingsCurrentId; i++) {
-                Stake[] storage stakes = userStakes[i];
-
-                for (uint8 j = 0; j < stakes.length; j++) {
-                    Ranking memory _rank = getRankingFromId(stakes[j].id);
-                    if (_rank.startingRank != _rank.rank) stakeRewardsToCalculate.push(stakes[j]);
-                }
-            }
-        }
-
+        filterStakes(stakeRewardsToCalculate, filterStakeRewards);
         uint256 normForStakeRewards = calculateNorm(stakeRewardsToCalculate, rewardPool - initialFunding);
 
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
@@ -437,26 +416,12 @@ contract Leaderboard {
             (bool success,) = payable(stakeRewardsToCalculate[i-1].addr).call{value : returnedAmount}("");
 
             if (success) {
-                uint256 rewardPoolPrev = rewardPool;
-                uint256 rewardPoolAfter = removeFromRewardPool(returnedAmount);
-                assert(rewardPoolAfter < rewardPoolPrev);
+                assertRewardPoolDecreased(returnedAmount);
 
                 // remove only the stakes that are not included in the initial funding reward pool
                 if (rankChanged < 100) {
                     // Delete stake from userStakes
-                    Stake[] storage stakes = userStakes[stakeRewardsToCalculate[i-1].id];
-                    for (uint256 j = 0; j < stakes.length; j++) {
-                        if (stakes[j].addr == stakeRewardsToCalculate[i-1].addr) {
-                            emit UserStakeFulfilled(stakes[j].addr, stakes[j]);
-                            delete stakes[j];
-                            // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
-                            stakes[j] = stakes[stakes.length - 1];
-                            // Copy the last element to the removed element's index.
-                            stakes.pop();
-                            // removes the last element and decrements the array's length
-                            break;
-                        }
-                    }
+                    deleteStakes(stakeRewardsToCalculate[i-1]);
                 }
 
                 emit SuccessfullyAllocatedStakeRewardTo(stakeRewardsToCalculate[i-1].addr, returnedAmount);
@@ -475,17 +440,7 @@ contract Leaderboard {
         OnlyFacilitator
 //        OnlyAfterContractHasEnded
     {
-        if (initialFundingRewardsToCalculate.length == 0) {
-            for (uint8 i = 0; i <= rankingsCurrentId; i++) {
-                Stake[] storage stakes = userStakes[i];
-
-                for (uint8 j = 0; j < stakes.length; j++) {
-                    Ranking memory _rank = getRankingFromId(stakes[j].id);
-                    if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) initialFundingRewardsToCalculate.push(stakes[j]);
-                }
-            }
-        }
-
+        filterStakes(initialFundingRewardsToCalculate, filterInitialFundingRewards);
         uint256 normForInitialFundingReward = calculateNorm(initialFundingRewardsToCalculate, initialFunding);
 
         // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
@@ -500,24 +455,10 @@ contract Leaderboard {
             (bool success,) = payable(initialFundingRewardsToCalculate[i-1].addr).call{value : returnedAmount}("");
 
             if (success) {
-                uint256 rewardPoolPrev = rewardPool;
-                uint256 rewardPoolAfter = removeFromRewardPool(returnedAmount);
-                assert(rewardPoolAfter < rewardPoolPrev);
+                assertRewardPoolDecreased(returnedAmount);
 
                 // Delete positive ranking changed stakes from userStakes
-                Stake[] storage stakes = userStakes[initialFundingRewardsToCalculate[i-1].id];
-                for (uint256 j = 0; j < stakes.length; j++) {
-                    if (stakes[j].addr == initialFundingRewardsToCalculate[i-1].addr) {
-                        emit UserStakeFulfilled(stakes[j].addr, stakes[j]);
-                        delete stakes[j];
-                        // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
-                        stakes[j] = stakes[stakes.length - 1];
-                        // Copy the last element to the removed element's index.
-                        stakes.pop();
-                        // removes the last element and decrements the array's length
-                        break;
-                    }
-                }
+                deleteStakes(initialFundingRewardsToCalculate[i-1]);
 
                 emit SuccessfullyAllocatedInitialFundingRewardTo(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
                 initialFundingRewardsToCalculate.pop();
@@ -588,6 +529,54 @@ contract Leaderboard {
 
     // Internal functions
 
+    function filterStakes(Stake[] memory arrayToFill, function (Ranking memory, Stake memory) internal condition) internal {
+        if (arrayToFill.length == 0) {
+            for (uint8 i = 0; i <= rankingsCurrentId; i++) {
+                Stake[] storage stakes = userStakes[i];
+
+                for (uint8 j = 0; j < stakes.length; j++) {
+                    Ranking memory _rank = getRankingFromId(stakes[j].id);
+                    condition(_rank, stakes[j]);
+                }
+            }
+        }
+    }
+
+    function filterReturnStakes(Ranking memory _rank, Stake memory _stake) internal {
+        if (_rank.startingRank == _rank.rank) stakesToReturnDueToUnchangedRankings.push(_stake);
+    }
+
+    function filterStakeRewards(Ranking memory _rank, Stake memory _stake) internal {
+        if (_rank.startingRank != _rank.rank) stakeRewardsToCalculate.push(_stake);
+    }
+
+    function filterInitialFundingRewards(Ranking memory _rank, Stake memory _stake) internal {
+        if ((int8(_rank.startingRank) - int8(_rank.rank)) > 0) initialFundingRewardsToCalculate.push(_stake);
+    }
+
+    function deleteStakes(Stake memory stakeToRemoveFrom) internal {
+        // Delete positive ranking changed stakes from userStakes
+        Stake[] storage stakes = userStakes[stakeToRemoveFrom.id];
+        for (uint256 j = 0; j < stakes.length; j++) {
+            if (stakes[j].addr == stakeToRemoveFrom.addr) {
+                emit UserStakeFulfilled(stakes[j].addr, stakes[j]);
+                delete stakes[j];
+                // Trick to remove unordered elements in an array in O(1) without needing to shift elements.
+                stakes[j] = stakes[stakes.length - 1];
+                // Copy the last element to the removed element's index.
+                stakes.pop();
+                // removes the last element and decrements the array's length
+                break;
+            }
+        }
+    }
+
+    function assertRewardPoolDecreased(uint256 _removedAmount) internal {
+        uint256 rewardPoolPrev = rewardPool;
+        uint256 rewardPoolAfter = removeFromRewardPool(_removedAmount);
+        assert(rewardPoolAfter < rewardPoolPrev);
+    }
+
     function returnStakes(uint8 _id) internal OnlyFacilitator {
         Stake[] storage stakes = userStakes[_id];
 
@@ -607,9 +596,7 @@ contract Leaderboard {
             emit UserStakeWithdrawn(stake.addr, stake);
 
             if (success) {
-                uint256 rewardPoolPrev = rewardPool;
-                uint256 rewardPoolAfter = removeFromRewardPool(userStakedAmount);
-                assert(rewardPoolAfter < rewardPoolPrev);
+                assertRewardPoolDecreased(userStakedAmount);
 
                 if (userStakesSize > 0) {
                     userStakesSize--;
