@@ -391,7 +391,7 @@ contract Leaderboard {
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
         // changes deducts from a player's return amount and gets added into the reward pool.
         for (uint256 i = (stakeRewardsToCalculate.length); i > 0; i--) {
-            uint256 rankChanged = getRankChangedNormalizedCoefficient(stakeRewardsToCalculate[i-1]);
+            uint256 rankChanged = getRankChangedDeltaCoefficient(stakeRewardsToCalculate[i-1]);
             uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i-1])) / PRECISION;
             // Needs to be divided by 1000000000 to cancel out calculateNorm and calculateWeight PRECISION padding.
 
@@ -476,13 +476,13 @@ contract Leaderboard {
 
     // The weight is how much the user has staked multiplied by the net change of the ranking.
     function calculateWeight(Stake memory _stake) public view virtual OnlyFacilitator returns (uint256) {
-        return (getRankChangedNormalizedCoefficient(_stake) * _stake.liquidity) / 100;
+        return (getRankChangedDeltaCoefficient(_stake) * _stake.liquidity) / 100;
     }
 
     // To avoid fractions, we multiply the coefficient by 100 so we don't lose PRECISION from rounding unsigned ints, for example: 1.1, 0.5, 0.8, 1.8 -> 1, 0, 0, 1.
     // Max reward is offered with a positive rank change of greater than 10.
     // If the rank has dropped by more than 10, the user's entire stake will be allocated to other users.
-    function getRankChangedNormalizedCoefficient(Stake memory _stake) public view virtual OnlyFacilitator returns (uint256) {
+    function getRankChangedDeltaCoefficient(Stake memory _stake) public view virtual OnlyFacilitator returns (uint256) {
         Ranking memory _rank = getRankingById(_stake.id);
         int8 rankChanged = int8(_rank.startingRank) - int8(_rank.rank);
 

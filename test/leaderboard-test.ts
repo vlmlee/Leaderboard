@@ -1130,7 +1130,7 @@ describe("Leaderboard", function () {
         ];
         const precision = 10000000000000;
 
-        it("should calculate the right rank changed normalized coefficient", async function () {
+        it("should calculate the right rank changed delta coefficient", async function () {
             const {leaderboard, addr1} = await loadFixture(deployAllocateRewardFixture);
             expect(await leaderboard.leaderboardName()).to.equal(ethers.utils.formatBytes32String("Allocate Reward Fixture"));
 
@@ -1179,8 +1179,8 @@ describe("Leaderboard", function () {
             const fromStake = [addr1.address, fromRanking.id, fromRanking.name, ethers.utils.parseEther(stakeAmount)];
             const toStake = [addr1.address, toRanking.id, toRanking.name, ethers.utils.parseEther(stakeAmount)];
 
-            expect(+(await leaderboard.getRankChangedNormalizedCoefficient(fromStake))).to.equal(90);
-            expect(+(await leaderboard.getRankChangedNormalizedCoefficient(toStake))).to.equal(110);
+            expect(+(await leaderboard.getRankChangedDeltaCoefficient(fromStake))).to.equal(90);
+            expect(+(await leaderboard.getRankChangedDeltaCoefficient(toStake))).to.equal(110);
         });
 
         it("should calculate the correct weight for a ranking", async function () {
@@ -1226,9 +1226,9 @@ describe("Leaderboard", function () {
                 [addr1.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[5])],
             ];
 
-            const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
-            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
-            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[2]);
+            const fromRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[0]);
+            const toRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[1]);
+            const testRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[2]);
 
             // console.log(fromRankingChanged.toNumber()); // => 80, lost 2 ranks ✓ (starting - 3, current - 5)
             // console.log(toRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 4, current - 3)
@@ -1241,7 +1241,7 @@ describe("Leaderboard", function () {
             };
 
             const expectedWeights = testStakes.map(stake => {
-                //  liquidity * normalized coeffiicient / 100
+                //  liquidity * delta coeffiicient / 100
                return BigNumber.from(stake[3]).mul(rankingsChanged[stake[1]]).div(100);
             });
 
@@ -1321,9 +1321,9 @@ describe("Leaderboard", function () {
                 await tx.wait();
             }
 
-            const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
-            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
-            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[2]);
+            const fromRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[0]);
+            const toRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[1]);
+            const testRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[2]);
 
             // console.log(fromRankingChanged.toNumber()); // => 80, lost 2 ranks ✓ (starting - 3, current - 5)
             // console.log(toRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 4, current - 3)
@@ -1336,7 +1336,7 @@ describe("Leaderboard", function () {
             };
 
             const expectedWeights = testStakes.map(stake => {
-                //  liquidity * normalized coeffiicient / 100
+                //  liquidity * delta coeffiicient / 100
                 return BigNumber.from(stake[3]).mul(rankingsChanged[stake[1]]).div(100);
             });
 
@@ -1398,9 +1398,9 @@ describe("Leaderboard", function () {
                 [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther(originalStakeAmounts[8])],
             ];
 
-            // const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
-            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
-            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
+            // const fromRankingChanged = await leaderboard.getRankChangeddeltaCoefficient(testStakes[0]);
+            const toRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[0]);
+            const testRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[1]);
 
             // console.log(fromRankingChanged.toNumber()); // => 80, lost 2 ranks ✓ (starting - 3, current - 5)
             // console.log(toRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 4, current - 3)
@@ -1412,7 +1412,7 @@ describe("Leaderboard", function () {
             };
 
             const expectedWeights = testStakes.map(stake => {
-                //  liquidity * normalized coeffiicient / 100
+                //  liquidity * delta coeffiicient / 100
                 return BigNumber.from(stake[3]).mul(rankingsChanged[stake[1]]).div(100);
             });
 
@@ -1482,9 +1482,9 @@ describe("Leaderboard", function () {
             // Total: 24.40831
             console.log("Original stakes: ", originalStakeAmounts);
 
-            const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
-            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
-            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[2]);
+            const fromRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[0]);
+            const toRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[1]);
+            const testRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[2]);
 
             // console.log(fromRankingChanged.toNumber()); // => 80, lost 2 ranks ✓ (starting - 3, current - 5)
             // console.log(toRankingChanged.toNumber()); // => 110, gain 1 rank ✓ (starting - 4, current - 3)
@@ -1497,7 +1497,7 @@ describe("Leaderboard", function () {
             };
 
             const expectedWeights = testStakes.map(stake => {
-                //  liquidity * normalized coeffiicient / 100
+                //  liquidity * delta coeffiicient / 100
                 return BigNumber.from(stake[3])
                     .mul(rankingsChanged[stake[1]]).div(100);
             });
@@ -1765,9 +1765,9 @@ describe("Leaderboard", function () {
                 [addr3.address, testRanking.id, testRanking.name, ethers.utils.parseEther((+originalStakeAmounts[8] - commissionFee) + "")], // .7853
             ];
 
-            const fromRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[0]);
-            const toRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[1]);
-            const testRankingChanged = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[2]);
+            const fromRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[0]);
+            const toRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[1]);
+            const testRankingChanged = await leaderboard.getRankChangedDeltaCoefficient(testStakes[2]);
 
             const rankingsChanged = {
                 [fromRanking.id]: fromRankingChanged,
@@ -1780,7 +1780,7 @@ describe("Leaderboard", function () {
             });
 
             const expectedWeights = filteredStakes.map(stake => {
-                //  liquidity * normalized coeffiicient / 100
+                //  liquidity * delta coeffiicient / 100
                 return BigNumber.from(stake[3])
                     .mul(rankingsChanged[stake[1]]).div(100);
             });
@@ -2217,16 +2217,16 @@ describe("Leaderboard", function () {
             const updateRankingTx4 = await leaderboard.swapRank(ranking7.id, ranking7.startingRank, ranking2.id, ranking2.startingRank); // 7 -> 2
             await updateRankingTx4.wait();
 
-            const ranking1Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[26]);
-            const ranking2Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[27]);
-            const ranking3Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[28]);
-            const ranking4Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[29]);
-            const ranking5Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[30]);
-            const ranking6Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[31]);
-            const ranking7Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[32]);
-            const ranking8Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[33]);
-            const ranking9Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[34]);
-            const ranking10Changed = await leaderboard.getRankChangedNormalizedCoefficient(testStakes[35]);
+            const ranking1Changed = await leaderboard.getRankChangedDeltaCoefficient(testStakes[26]);
+            const ranking2Changed = await leaderboard.getRankChangedDeltaCoefficient(testStakes[27]);
+            const ranking3Changed = await leaderboard.getRankChangedDeltaCoefficient(testStakes[28]);
+            const ranking4Changed = await leaderboard.getRankChangedDeltaCoefficient(testStakes[29]);
+            const ranking5Changed = await leaderboard.getRankChangedDeltaCoefficient(testStakes[30]);
+            const ranking6Changed = await leaderboard.getRankChangedDeltaCoefficient(testStakes[31]);
+            const ranking7Changed = await leaderboard.getRankChangedDeltaCoefficient(testStakes[32]);
+            const ranking8Changed = await leaderboard.getRankChangedDeltaCoefficient(testStakes[33]);
+            const ranking9Changed = await leaderboard.getRankChangedDeltaCoefficient(testStakes[34]);
+            const ranking10Changed = await leaderboard.getRankChangedDeltaCoefficient(testStakes[35]);
 
             const rankingsChanged = {
                 [ranking1.id]: ranking1Changed,
@@ -2258,7 +2258,7 @@ describe("Leaderboard", function () {
             console.log("Sum of unchanged ranking stakes", ethers.utils.formatEther(sumOfUnchangedStakes));
 
             const expectedWeights = filteredStakes.map(stake => {
-                //  liquidity * normalized coeffiicient / 100
+                //  liquidity * delta coeffiicient / 100
                 return BigNumber.from(stake[3])
                     .mul(rankingsChanged[stake[1]]).div(100);
             });
