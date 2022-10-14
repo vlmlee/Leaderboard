@@ -457,7 +457,6 @@ contract Leaderboard {
         }
     }
 
-    // The returned value is multiplied by a factor of 100 to keep two decimal places of PRECISION.
     function calculateNorm(Stake[] memory stakesToCalculate, uint256 poolAmount) public view virtual OnlyFacilitator returns (uint256 norm) {
         uint256 weightsSum;
 
