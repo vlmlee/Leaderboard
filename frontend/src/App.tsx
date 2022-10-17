@@ -6,28 +6,37 @@ import { ethers } from 'ethers';
 import LeaderboardAddress from './contractsData/Leaderboard-address.json';
 import LeaderboardAbi from './contractsData/Leaderboard.json';
 
+export const Web3Context = React.createContext<any>({});
+
 function App() {
     const activeStyle = {
         textDecoration: 'underline',
         fontWeight: 600
     };
 
-    const _window: any = window;
-    const [account, setAccount] = useState<any>(null);
-    const [contract, setContract] = useState({});
+    const [{ account, contract }, setContext] = useState<{ account: any; contract: any }>({
+        account: null,
+        contract: {}
+    });
 
     const web3Handler = async () => {
-        const accounts = await _window.ethereum.request({ method: 'eth_requestAccounts' });
-        setAccount(accounts[0]);
+        const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
+        setContext((prev) => ({
+            ...prev,
+            account: accounts[0]
+        }));
 
-        const provider = new ethers.providers.Web3Provider(_window.ethereum);
+        const provider = new ethers.providers.Web3Provider((window as any).ethereum);
         const signer = provider.getSigner();
         await loadContract(signer);
     };
 
     const loadContract = async (signer: any) => {
         const _contract = new ethers.Contract(LeaderboardAddress.address, LeaderboardAbi.abi, signer);
-        setContract(_contract);
+        setContext((prev) => ({
+            ...prev,
+            contract: _contract
+        }));
     };
 
     return (
@@ -76,7 +85,9 @@ function App() {
                 <h1>World's Richest People</h1>
                 <h2>by Forbes</h2>
             </div>
-            <Outlet />
+            <Web3Context.Provider value={[{ contract, account }, setContext]}>
+                <Outlet />
+            </Web3Context.Provider>
         </div>
     );
 }
