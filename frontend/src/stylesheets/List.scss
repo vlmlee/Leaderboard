@@ -1,0 +1,42 @@
+.list__element {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    height: 90px;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+
+    &:hover {
+        background-color: #fafafa;
+    }
+
+    > div {
+        display: inline-block;
+        position: relative;
+        text-align: left;
+        flex-basis: 20%;
+        font-size: 14px;
+        line-height: 90px;
+    }
+
+    > div:last-child {
+        flex-basis: 15%;
+    }
+
+    .rank span {
+        position: absolute;
+        left: 58px;
+    }
+
+    &__stake-button {
+        position: relative;
+        padding: 5px 15px;
+        border: 1px solid #eee;
+        border-radius: 4px;
+    }
+}
+
+.list__element:last-of-type {
+    border-bottom: none;
+}

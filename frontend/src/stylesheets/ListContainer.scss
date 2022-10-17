@@ -27,6 +27,10 @@
         font-size: 14px;
       }
 
+      > div:last-child {
+        flex-basis: 15%;
+      }
+
       .rank span {
         position: absolute;
         left: 45px;

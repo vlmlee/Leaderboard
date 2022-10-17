@@ -1,50 +1,69 @@
 @font-face {
-  font-family: "Luxora-Grotesk-Regular";
-  src: url("fonts/LuxoraGrotesk-Regular.woff") format("woff");
+    font-family: 'Luxora-Grotesk-Regular';
+    src: url('fonts/LuxoraGrotesk-Regular.woff') format('woff');
 }
 
 .App {
-  text-align: center;
-  font-family: "Luxora-Grotesk-Regular";
-  color: #333;
-  letter-spacing: 1px;
-  background-color: #fafafa;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  overflow-y: scroll;
+    text-align: center;
+    font-family: 'Luxora-Grotesk-Regular', 'SF Pro Display', serif;
+    color: #333;
+    letter-spacing: 1px;
+    background-color: #fafafa;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: scroll;
 
-  h1 {
-    font-size: 48px;
-    margin: 40px auto 5px;
-  }
+    &__header {
+        margin: 15px 0;
 
-  h2 {
-    color: #555;
-    margin: 0;
-  }
-}
+        nav ul {
+            display: flex;
+            flex-direction: row;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            justify-content: flex-end;
 
-.App-header {
-  padding: 15px 0;
+            li {
+                margin-right: 60px;
 
-  nav ul {
-    display: flex;
-    flex-direction: row;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    justify-content: flex-end;
+                a {
+                    text-decoration: none;
+                    color: #434343;
+                }
+            }
+        }
 
-    li {
-      margin-right: 60px;
+        .connect-wallet {
+            position: absolute;
+            top: 60px;
+            right: 60px;
+        }
 
-      a {
-        text-decoration: none;
-        color: #434343;
-      }
+        a.connect-wallet {
+            font-size: 14px;
+        }
+
+        button.connect-wallet {
+            width: 180px;
+            padding: 8px 15px;
+        }
     }
-  }
+
+    &__title {
+        margin: 60px 0 0;
+
+        h1 {
+            font-size: 48px;
+            margin: 5px auto;
+        }
+
+        h2 {
+            color: #555;
+            margin: 0;
+        }
+    }
 }
