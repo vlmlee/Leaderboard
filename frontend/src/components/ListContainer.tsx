@@ -87,8 +87,6 @@ const defaultRankings: Array<Ranking> = [
 ];
 
 export default function ListContainer() {
-    // const rankings = getRankings();
-
     const [rankings, setRankings] = useState(defaultRankings);
     const [currentPage, setCurrentPage] = useState(0);
 

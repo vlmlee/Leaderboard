@@ -5,11 +5,12 @@ import { Ranking } from './ListContainer';
 const Card: React.FC<Ranking> = ({ rank, name, netWorth, country, imgUrl, isLoading }: Ranking) => {
     return (
         <div className={'card-element'}>
-            {isLoading ? (
+            {isLoading && (
                 <div>
                     <div>IsLoading</div>
                 </div>
-            ) : (
+            )}
+            {!isLoading && (
                 <>
                     <div className={'rank'}>No. {rank}</div>
                     <img className="photo" src={imgUrl} alt={'...'} />
