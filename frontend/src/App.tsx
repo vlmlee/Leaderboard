@@ -42,7 +42,7 @@ function App() {
     return (
         <div className="App">
             <header className="App__header">
-                {account ? (
+                {account && (
                     <a
                         className="connect-wallet"
                         href={`https://etherscan.io/address/${account}`}
@@ -51,7 +51,8 @@ function App() {
                     >
                         Address: {account?.slice(0, 8)}...{account?.slice(account.length - 4)}
                     </a>
-                ) : (
+                )}
+                {!account && (
                     <button className="connect-wallet" onClick={web3Handler}>
                         Connect Wallet
                     </button>

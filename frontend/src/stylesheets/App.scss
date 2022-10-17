@@ -19,20 +19,24 @@
     &__header {
         margin: 15px 0;
 
-        nav ul {
-            display: flex;
-            flex-direction: row;
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            justify-content: flex-end;
+        nav {
+            position: relative;
+            right: 60px;
 
-            li {
-                margin-right: 60px;
+            ul {
+                display: flex;
+                flex-direction: row;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                justify-content: flex-end;
+                gap: 60px;
 
-                a {
-                    text-decoration: none;
-                    color: #434343;
+                li {
+                    a {
+                        text-decoration: none;
+                        color: #434343;
+                    }
                 }
             }
         }
