@@ -43,7 +43,7 @@ function App() {
     };
 
     return (
-        <div className="App">
+        <div className="App bg">
             <header className="App__header">
                 {account && (
                     <a

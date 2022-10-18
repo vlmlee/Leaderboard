@@ -12,12 +12,16 @@ export default function PaginationButtons({
 }) {
     return (
         <div className={'pagination-button'}>
-            <div className={'pagination-button__indices'}>
-                <span>
-                    {resultsLength ? currentPage * 5 + 1 : 0}-
-                    {resultsLength > currentPage * 5 + 5 ? currentPage * 5 + 5 : resultsLength} of {resultsLength}
-                </span>
-            </div>
+            {resultsLength > 1 ? (
+                <div className={'pagination-button__indices'}>
+                    <span>
+                        {currentPage * 5 + 1}-
+                        {resultsLength > currentPage * 5 + 5 ? currentPage * 5 + 5 : resultsLength > 1 && resultsLength}{' '}
+                        {resultsLength > 5 && <>of {resultsLength}</>}
+                    </span>
+                </div>
+            ) : null}
+
             <div className={'pagination-button__buttons'}>
                 <div
                     className={

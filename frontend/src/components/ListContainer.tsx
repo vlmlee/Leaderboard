@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import List from './ListRow';
+import ListRow from './ListRow';
 import '../stylesheets/ListContainer.scss';
 import SearchBar from './SearchBar';
 import PaginationButtons from './PaginationButtons';
@@ -14,7 +14,7 @@ export default function ListContainer() {
         const arr: any = [];
         rankings.slice(currentPage * 5, currentPage * 5 + 5).forEach((ranking: Ranking, i: number) => {
             arr.push(
-                <List
+                <ListRow
                     key={i}
                     rank={ranking.rank}
                     name={ranking.name}

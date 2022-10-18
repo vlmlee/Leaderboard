@@ -10,6 +10,10 @@
         background-color: #fafafa;
     }
 
+    &:hover:last-of-type {
+        border-radius: 15px;
+    }
+
     .list__element {
         text-align: center;
         flex-basis: calc(100% / 6);
@@ -25,6 +29,7 @@
             border-radius: 4px;
             letter-spacing: 1px;
             color: #333;
+            font-size: 12px;
         }
 
         &--net-worth {
@@ -36,6 +41,6 @@
     }
 }
 
-.list__element:last-of-type {
+.list__row:last-of-type {
     border-bottom: none;
 }
