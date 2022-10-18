@@ -107,6 +107,8 @@ contract Leaderboard {
         addToRewardPool(msg.value);
     }
 
+    function() public payable {}
+
     receive() external payable {}
 
     function getRankingByRank(uint8 _rank) public view GreaterThanOneRank(_rank) returns (Ranking memory ranking) {
