@@ -9,6 +9,7 @@ import ListContainer from './components/ListContainer';
 import ChartContainer from './components/Charts/ChartContainer';
 import CardsContainer from './components/CardsContainer';
 import About from './components/About';
+import Rewards from './components/Rewards';
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             {
                 path: '/about',
                 element: <About />
+            },
+            {
+                path: '/rewards',
+                element: <Rewards />
             }
         ]
     }

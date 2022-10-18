@@ -81,6 +81,11 @@ function App() {
                             </NavLink>
                         </li>
                         <li>
+                            <NavLink to={'/rewards'} style={({ isActive }) => (isActive ? activeStyle : undefined)}>
+                                Rewards
+                            </NavLink>
+                        </li>
+                        <li>
                             <NavLink to={'/about'} style={({ isActive }) => (isActive ? activeStyle : undefined)}>
                                 About
                             </NavLink>
