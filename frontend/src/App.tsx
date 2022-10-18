@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 
 import LeaderboardAddress from './contractsData/Leaderboard-address.json';
 import LeaderboardAbi from './contractsData/Leaderboard.json';
+import { useFindPath } from './hooks/useFindPath';
 
 export const Web3Context = React.createContext<any>({});
 
@@ -13,6 +14,8 @@ function App() {
         textDecoration: 'underline',
         fontWeight: 600
     };
+
+    const isHomePage = useFindPath() === '/';
 
     const [{ account, contract }, setContext] = useState<{ account: any; contract: any }>({
         account: null,
@@ -59,7 +62,11 @@ function App() {
                 <nav>
                     <ul>
                         <li>
-                            <NavLink to={'/compact'} style={({ isActive }) => (isActive ? activeStyle : undefined)}>
+                            <NavLink
+                                to={'/compact'}
+                                style={({ isActive }) => {
+                                    return isHomePage || isActive ? activeStyle : undefined;
+                                }}>
                                 Compact
                             </NavLink>
                         </li>
