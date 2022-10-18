@@ -12,20 +12,30 @@ export default function PaginationButtons({
 }) {
     return (
         <div className={'pagination-button'}>
-            <div className={'index-of'}>
+            <div className={'pagination-button__indices'}>
                 <span>
                     {resultsLength ? currentPage * 5 + 1 : 0}-
                     {resultsLength > currentPage * 5 + 5 ? currentPage * 5 + 5 : resultsLength} of {resultsLength}
                 </span>
             </div>
-            <div className={'buttons'}>
+            <div className={'pagination-button__buttons'}>
                 <div
-                    className={currentPage > 0 ? 'active' : 'disabled'}
+                    className={
+                        'pagination-button__buttons--previous ' +
+                        (currentPage > 0
+                            ? 'pagination-button__buttons--active'
+                            : 'pagination-button__buttons--disabled')
+                    }
                     onClick={() => (currentPage > 0 ? paginate(currentPage - 1) : null)}>
                     ← Previous
                 </div>
                 <div
-                    className={currentPage * 5 + 5 < resultsLength ? 'active' : 'disabled'}
+                    className={
+                        'pagination-button__buttons--next ' +
+                        (currentPage * 5 + 5 < resultsLength
+                            ? 'pagination-button__buttons--active'
+                            : 'pagination-button__buttons--disabled')
+                    }
                     onClick={() => (currentPage * 5 + 5 < resultsLength ? paginate(currentPage + 1) : null)}>
                     Next →
                 </div>
