@@ -102,7 +102,7 @@ export default function CardsContainer() {
         return () => {
             isCancelled = true;
         };
-    }, []);
+    }, [rankings]);
 
     const generateBoxes = (numOfBoxes: number) => {
         const boxes: any = [];

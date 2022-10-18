@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import List from './List';
+import List from './ListRow';
 import '../stylesheets/ListContainer.scss';
 import SearchBar from './SearchBar';
 import PaginationButtons from './PaginationButtons';
@@ -11,6 +11,7 @@ export type Ranking = {
     country: string;
     imgUrl: string;
     isLoading?: boolean;
+    stakers?: number;
 };
 
 const defaultRankings: Array<Ranking> = [
@@ -128,7 +129,8 @@ export default function ListContainer() {
                     <div>Name</div>
                     <div>Net Worth</div>
                     <div>Country</div>
-                    <div></div>
+                    <div>Stake</div>
+                    <div>Number of Stakers</div>
                 </div>
                 {generateList()}
             </div>

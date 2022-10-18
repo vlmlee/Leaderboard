@@ -1,0 +1,42 @@
+.list__row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 90px;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+
+    &:hover {
+        background-color: #fafafa;
+    }
+
+    .list__element {
+        display: inline-block;
+        text-align: center;
+        flex-basis: calc(100% / 6);
+        font-size: 14px;
+        line-height: 90px;
+
+        &--rank {
+        }
+
+        &--stake-button {
+            padding: 5px 15px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            color: #333;
+        }
+
+        &--net-worth {
+            color: #52b788;
+        }
+
+        &--stakers {
+        }
+    }
+}
+
+.list__element:last-of-type {
+    border-bottom: none;
+}

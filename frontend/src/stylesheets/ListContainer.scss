@@ -23,7 +23,7 @@
                 display: inline-block;
                 position: relative;
                 text-align: left;
-                flex-basis: 20%;
+                flex-basis: calc(100% / 6);
                 font-size: 14px;
             }
 
