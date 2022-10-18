@@ -1,7 +1,9 @@
 .search-bar {
-    padding: 15px 20px;
+    padding: 20px 30px;
     background: linear-gradient(-135deg, #1da1f2, #5851db);
     border-radius: 5px 5px 0 0;
+    box-shadow: 0 4px 2px 3px #5851db;
+    border-bottom: 4px solid #5851db;
 
     input {
         width: calc(100% - 36px);

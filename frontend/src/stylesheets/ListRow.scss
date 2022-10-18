@@ -5,13 +5,14 @@
     height: 90px;
     border-bottom: 1px solid #eee;
     overflow: hidden;
+    transition: 0.25s background-color ease-in-out;
 
     &:hover {
-        background-color: #fafafa;
+        background-color: #f9f9f9;
     }
 
     &:hover:last-of-type {
-        border-radius: 15px;
+        //border-radius: 15px;
     }
 
     .list__element {

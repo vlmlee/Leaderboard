@@ -6,17 +6,17 @@
     margin: 0 auto;
 
     .list {
-        border-radius: 0 0 10px 10px;
+        border-radius: 0 0 3px 3px;
         background-color: white;
-        box-shadow: 0 4px 0px 0px #5851db;
+        box-shadow: 0px 5px 2px 3px #5851db;
 
         &__header {
             display: flex;
             flex-direction: row;
             justify-content: space-around;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid #ddd;
             overflow: hidden;
-            padding: 15px 0;
+            padding: 15px 0 18px;
 
             &--element {
                 text-align: center;
