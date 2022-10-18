@@ -4,16 +4,7 @@ import '../stylesheets/ListContainer.scss';
 import SearchBar from './SearchBar';
 import PaginationButtons from './PaginationButtons';
 import { defaultRankings } from '../helpers/Constants';
-
-export type Ranking = {
-    rank: number;
-    name: string;
-    netWorth: string;
-    country: string;
-    imgUrl: string;
-    isLoading?: boolean;
-    stakers?: number;
-};
+import { Ranking } from '../typings';
 
 export default function ListContainer() {
     const [rankings, setRankings] = useState(defaultRankings);

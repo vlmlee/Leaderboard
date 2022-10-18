@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ranking } from './ListContainer';
+import { Ranking } from '../typings';
 import '../stylesheets/ListRow.scss';
 
 export default function ListRow({ rank, name, netWorth, country, imgUrl, stakers }: Ranking) {

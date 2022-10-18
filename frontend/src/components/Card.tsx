@@ -1,6 +1,6 @@
 import React from 'react';
 import '../stylesheets/Card.scss';
-import { Ranking } from './ListContainer';
+import { Ranking } from '../typings';
 
 const Card: React.FC<Ranking> = ({ rank, name, netWorth, country, imgUrl, isLoading }: Ranking) => {
     return (

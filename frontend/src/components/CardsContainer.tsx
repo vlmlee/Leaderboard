@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import '../stylesheets/CardsContainer.scss';
 import { chunk } from 'lodash';
-import { Ranking } from './ListContainer';
+import { Ranking } from '../typings';
 import SearchBar from './SearchBar';
 import getPhoto from '../helpers/getPhoto';
 import PageIndices from './PageIndices';

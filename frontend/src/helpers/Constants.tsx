@@ -1,4 +1,4 @@
-import { Ranking } from '../components/ListContainer';
+import { Ranking } from '../typings';
 
 export const defaultRankings: Array<Ranking> = [
     {

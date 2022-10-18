@@ -24,7 +24,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "types": []
+    "types": [],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/typings.d.ts"
+    ]
   },
   "include": [
     "src"
