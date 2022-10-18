@@ -21,14 +21,12 @@ export default function PaginationButtons({
             <div className={'buttons'}>
                 <div
                     className={currentPage > 0 ? 'active' : 'disabled'}
-                    onClick={() => (currentPage > 0 ? paginate(currentPage - 1) : null)}
-                >
+                    onClick={() => (currentPage > 0 ? paginate(currentPage - 1) : null)}>
                     ← Previous
                 </div>
                 <div
                     className={currentPage * 5 + 5 < resultsLength ? 'active' : 'disabled'}
-                    onClick={() => (currentPage * 5 + 5 < resultsLength ? paginate(currentPage + 1) : null)}
-                >
+                    onClick={() => (currentPage * 5 + 5 < resultsLength ? paginate(currentPage + 1) : null)}>
                     Next →
                 </div>
             </div>

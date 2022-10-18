@@ -21,7 +21,7 @@ function App() {
 
     const web3Handler = async () => {
         const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-        setContext((prev) => ({
+        setContext(prev => ({
             ...prev,
             account: accounts[0]
         }));
@@ -33,7 +33,7 @@ function App() {
 
     const loadContract = async (signer: any) => {
         const _contract = new ethers.Contract(LeaderboardAddress.address, LeaderboardAbi.abi, signer);
-        setContext((prev) => ({
+        setContext(prev => ({
             ...prev,
             contract: _contract
         }));
@@ -47,8 +47,7 @@ function App() {
                         className="connect-wallet"
                         href={`https://etherscan.io/address/${account}`}
                         target="_blank"
-                        rel="noopener noreferrer"
-                    >
+                        rel="noopener noreferrer">
                         Address: {account?.slice(0, 8)}...{account?.slice(account.length - 4)}
                     </a>
                 )}

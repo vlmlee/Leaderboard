@@ -1,33 +1,33 @@
 .card-container {
-  display: flex;
-  flex-direction: column;
-  margin-top: 45px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 45px;
 
-  .search-bar-container {
-    width: 75%;
-    margin: 15px auto;
+    .search-bar-container {
+        width: 75%;
+        margin: 15px auto;
 
-    .search-bar {
-      padding: 1px 21px 0;
-      background-color: #fafafa;
+        .search-bar {
+            padding: 1px 21px 0;
+            background-color: #fafafa;
 
-      input {
-        border: 3px solid #e9e9e9;
-      }
+            input {
+                border: 3px solid #e9e9e9;
+            }
+        }
     }
-  }
 }
 
 .group-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  flex-grow: 1;
-  justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    justify-content: space-evenly;
 }
 
 .box-push-left {
-  height: 422px;
-  width: 299px;
-  margin: 45px;
+    height: 422px;
+    width: 299px;
+    margin: 45px;
 }

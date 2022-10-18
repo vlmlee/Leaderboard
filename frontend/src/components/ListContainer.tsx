@@ -108,7 +108,7 @@ export default function ListContainer() {
     };
 
     const filterResults = (searchTerm: string) => {
-        setRankings((state) => {
+        setRankings(state => {
             return defaultRankings.filter((ranking: Ranking) => ranking.name.toLowerCase().includes(searchTerm));
         });
     };

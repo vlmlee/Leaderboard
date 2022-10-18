@@ -86,7 +86,7 @@ export default function CardsContainer() {
 
     useEffect(() => {
         let isCancelled = false;
-        Promise.all(rankings.map((r: any) => getPhoto(r.name))).then((res) => {
+        Promise.all(rankings.map((r: any) => getPhoto(r.name))).then(res => {
             if (!isCancelled) {
                 setRankings(
                     rankings.map((s: any, index: number) => {

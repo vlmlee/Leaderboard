@@ -3,9 +3,9 @@
 //
 // When running the script with `hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
-const hre = require("hardhat");
-const {artifacts, ethers} = require("hardhat");
-const path = require("path");
+const hre = require('hardhat');
+const { artifacts, ethers } = require('hardhat');
+const path = require('path');
 
 async function main() {
     // Hardhat always runs the compile task when running scripts with its command
@@ -16,19 +16,22 @@ async function main() {
     // await hre.run('compile');
 
     // We get the contract to deploy
-    const Leaderboard = await hre.ethers.getContractFactory("Leaderboard");
-    const leaderboard = await Leaderboard.deploy(ethers.utils.formatBytes32String("Leaderboard"), new Date("12/12/2022").getTime());
+    const Leaderboard = await hre.ethers.getContractFactory('Leaderboard');
+    const leaderboard = await Leaderboard.deploy(
+        ethers.utils.formatBytes32String('Leaderboard'),
+        new Date('12/12/2022').getTime()
+    );
 
     await leaderboard.deployed();
 
-    console.log("Leaderboard deployed to:", leaderboard.address);
+    console.log('Leaderboard deployed to:', leaderboard.address);
 
-    saveFrontendFiles(leaderboard, "Leaderboard");
+    saveFrontendFiles(leaderboard, 'Leaderboard');
 }
 
 function saveFrontendFiles(contract, name) {
-    const fs = require("fs");
-    const contractsDir = path.resolve("..") + "/leaderboard/frontend/src/contractsData";
+    const fs = require('fs');
+    const contractsDir = path.resolve('..') + '/leaderboard/frontend/src/contractsData';
 
     if (!fs.existsSync(contractsDir)) {
         fs.mkdirSync(contractsDir);
@@ -36,15 +39,12 @@ function saveFrontendFiles(contract, name) {
 
     fs.writeFileSync(
         contractsDir + `/${name}-address.json`,
-        JSON.stringify({address: contract.address}, undefined, 2)
+        JSON.stringify({ address: contract.address }, undefined, 2)
     );
 
     const contractArtifact = artifacts.readArtifactSync(name);
 
-    fs.writeFileSync(
-        contractsDir + `/${name}.json`,
-        JSON.stringify(contractArtifact, null, 2)
-    );
+    fs.writeFileSync(contractsDir + `/${name}.json`, JSON.stringify(contractArtifact, null, 2));
 }
 
 // We recommend this pattern to be able to use async/await everywhere

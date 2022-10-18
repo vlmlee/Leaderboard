@@ -55,6 +55,7 @@ contract Leaderboard {
         uint8 startingRank;
         bytes data; // arbitrary criteria for ranking
     }
+
     mapping(uint8 => Ranking) public rankings;
     uint8 public rankingsCurrentId;
     uint8 public rankingsSize;
@@ -65,6 +66,7 @@ contract Leaderboard {
         bytes32 name;
         uint256 liquidity; // a user's stake
     }
+
     mapping(uint8 => Stake[]) public userStakes;
     uint256 public userStakesSize;
 
@@ -154,9 +156,9 @@ contract Leaderboard {
     }
 
     function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public
-        OnlyFacilitator
-        OnlyBeforeContractHasEnded
-        GreaterThanOneRank(_rank)
+    OnlyFacilitator
+    OnlyBeforeContractHasEnded
+    GreaterThanOneRank(_rank)
     {
         require(_name != 0, "A name has to be used to be added to the rankings.");
 
@@ -181,9 +183,9 @@ contract Leaderboard {
     }
 
     function removeRanking(uint8 _id, uint8 _rank, bytes32 _name) public
-        OnlyFacilitator
-        OnlyBeforeContractHasEnded
-        GreaterThanOneRank(_rank)
+    OnlyFacilitator
+    OnlyBeforeContractHasEnded
+    GreaterThanOneRank(_rank)
     {
         Ranking storage ranking = rankings[_id];
 
@@ -202,10 +204,10 @@ contract Leaderboard {
     }
 
     function swapRank(uint8 idFrom, uint8 rankFrom, uint8 idTo, uint8 rankTo) public
-        OnlyFacilitator
-        GreaterThanOneRank(rankFrom)
-        GreaterThanOneRank(rankTo)
-        OnlyBeforeContractHasEnded
+    OnlyFacilitator
+    GreaterThanOneRank(rankFrom)
+    GreaterThanOneRank(rankTo)
+    OnlyBeforeContractHasEnded
     {
         Ranking storage rankingFrom = rankings[idFrom];
         Ranking storage rankingTo = rankings[idTo];
@@ -266,11 +268,11 @@ contract Leaderboard {
         }
 
         Stake memory stake = Stake({
-            addr : msg.sender,
-            liquidity : msg.value - commissionFee,
-            id : _id,
-            name : _name
-            // lockTime: block.timestamp + 1 days
+        addr : msg.sender,
+        liquidity : msg.value - commissionFee,
+        id : _id,
+        name : _name
+        // lockTime: block.timestamp + 1 days
         });
 
         stakes.push(stake);
@@ -302,15 +304,16 @@ contract Leaderboard {
             revert UserHasNotStakedYet(_user);
         }
 
-//        if (stake.lockTime < block.timestamp && msg.sender != facilitator) {
-//            revert UserHasPassedTheAllowedWithdrawalTimeLimit(stake.addr, stake.lockTime, block.timestamp);
-//        }
+        //        if (stake.lockTime < block.timestamp && msg.sender != facilitator) {
+        //            revert UserHasPassedTheAllowedWithdrawalTimeLimit(stake.addr, stake.lockTime, block.timestamp);
+        //        }
 
         uint256 userStakedAmount = stake.liquidity;
         assert(userStakedAmount > 0);
         assert(rewardPool > 0);
         assert(payable(address(this)).balance > 0);
-        stakes[indexToRemove].liquidity = 0; // Reentrancy guard
+        stakes[indexToRemove].liquidity = 0;
+        // Reentrancy guard
         (bool success,) = payable(_user).call{value : userStakedAmount}("");
 
         if (success) {
@@ -354,8 +357,8 @@ contract Leaderboard {
      * even for the contract will be if: userStakesSize * commissionFee > initialFunding.
      */
     function allocateRewards() public virtual
-        OnlyFacilitator
-//        OnlyAfterContractHasEnded
+    OnlyFacilitator
+        //        OnlyAfterContractHasEnded
     {
         if (userStakesSize < 1) revert NoStakesAddedForContractYet();
 
@@ -371,8 +374,8 @@ contract Leaderboard {
     }
 
     function returnStakesForUnchangedRankings() public virtual
-        OnlyFacilitator
-//        OnlyAfterContractHasEnded
+    OnlyFacilitator
+        //        OnlyAfterContractHasEnded
     {
         filterStakes(stakesToReturnDueToUnchangedRankings, filterReturnStakes);
 
@@ -382,8 +385,8 @@ contract Leaderboard {
     }
 
     function allocateStakeRewards() public virtual
-        OnlyFacilitator
-//        OnlyAfterContractHasEnded
+    OnlyFacilitator
+        //        OnlyAfterContractHasEnded
     {
         filterStakes(stakeRewardsToCalculate, filterStakeRewards);
         uint256 normForStakeRewards = calculateNorm(stakeRewardsToCalculate, rewardPool - initialFunding);
@@ -391,16 +394,17 @@ contract Leaderboard {
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
         // changes deducts from a player's return amount and gets added into the reward pool.
         for (uint256 i = (stakeRewardsToCalculate.length); i > 0; i--) {
-            uint256 rankChanged = getRankChangedDeltaCoefficient(stakeRewardsToCalculate[i-1]);
-            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i-1])) / PRECISION;
+            uint256 rankChanged = getRankChangedDeltaCoefficient(stakeRewardsToCalculate[i - 1]);
+            uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i - 1])) / PRECISION;
             // Needs to be divided by 1000000000 to cancel out calculateNorm and calculateWeight PRECISION padding.
 
-            uint256 userStakedAmount = stakeRewardsToCalculate[i-1].liquidity;
+            uint256 userStakedAmount = stakeRewardsToCalculate[i - 1].liquidity;
             assert(userStakedAmount > 0);
             assert(rewardPool > 0);
             assert(payable(address(this)).balance > 0);
-            stakeRewardsToCalculate[i-1].liquidity = 0; // Reentrancy guard
-            (bool success,) = payable(stakeRewardsToCalculate[i-1].addr).call{value : returnedAmount}("");
+            stakeRewardsToCalculate[i - 1].liquidity = 0;
+            // Reentrancy guard
+            (bool success,) = payable(stakeRewardsToCalculate[i - 1].addr).call{value : returnedAmount}("");
 
             if (success) {
                 assertRewardPoolDecreased(returnedAmount);
@@ -408,51 +412,52 @@ contract Leaderboard {
                 // remove only the stakes that are not included in the initial funding reward pool
                 if (rankChanged < 100) {
                     // Delete stake from userStakes
-                    deleteStakes(stakeRewardsToCalculate[i-1]);
+                    deleteStakes(stakeRewardsToCalculate[i - 1]);
                 }
 
-                emit SuccessfullyAllocatedStakeRewardTo(stakeRewardsToCalculate[i-1].addr, returnedAmount);
+                emit SuccessfullyAllocatedStakeRewardTo(stakeRewardsToCalculate[i - 1].addr, returnedAmount);
                 // remove stake from stakeRewardsToCalculate afterwards
                 stakeRewardsToCalculate.pop();
                 if (userStakesSize > 0) userStakesSize--;
             } else {
                 // should revert
-                emit UnableToAllocateRewardTo(stakeRewardsToCalculate[i-1].addr, returnedAmount);
-                revert UnableToAllocateReward(stakeRewardsToCalculate[i-1].addr, returnedAmount);
+                emit UnableToAllocateRewardTo(stakeRewardsToCalculate[i - 1].addr, returnedAmount);
+                revert UnableToAllocateReward(stakeRewardsToCalculate[i - 1].addr, returnedAmount);
             }
         }
     }
 
     function allocateInitialFundingReward() public virtual
-        OnlyFacilitator
-//        OnlyAfterContractHasEnded
+    OnlyFacilitator
+        //        OnlyAfterContractHasEnded
     {
         filterStakes(initialFundingRewardsToCalculate, filterInitialFundingRewards);
         uint256 normForInitialFundingReward = calculateNorm(initialFundingRewardsToCalculate, initialFunding);
 
         // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
         for (uint256 i = initialFundingRewardsToCalculate.length; i > 0; i--) {
-            uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i-1])) / PRECISION;
+            uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i - 1])) / PRECISION;
 
-            uint256 userStakedAmount = initialFundingRewardsToCalculate[i-1].liquidity;
+            uint256 userStakedAmount = initialFundingRewardsToCalculate[i - 1].liquidity;
             assert(userStakedAmount > 0);
             assert(rewardPool > 0);
             assert(payable(address(this)).balance > 0);
-            initialFundingRewardsToCalculate[i-1].liquidity = 0; // Reentrancy guard
-            (bool success,) = payable(initialFundingRewardsToCalculate[i-1].addr).call{value : returnedAmount}("");
+            initialFundingRewardsToCalculate[i - 1].liquidity = 0;
+            // Reentrancy guard
+            (bool success,) = payable(initialFundingRewardsToCalculate[i - 1].addr).call{value : returnedAmount}("");
 
             if (success) {
                 assertRewardPoolDecreased(returnedAmount);
 
                 // Delete positive ranking changed stakes from userStakes
-                deleteStakes(initialFundingRewardsToCalculate[i-1]);
+                deleteStakes(initialFundingRewardsToCalculate[i - 1]);
 
-                emit SuccessfullyAllocatedInitialFundingRewardTo(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
+                emit SuccessfullyAllocatedInitialFundingRewardTo(initialFundingRewardsToCalculate[i - 1].addr, returnedAmount);
                 initialFundingRewardsToCalculate.pop();
                 if (userStakesSize > 0) userStakesSize--;
             } else {
-                emit UnableToAllocateRewardTo(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
-                revert UnableToAllocateReward(initialFundingRewardsToCalculate[i-1].addr, returnedAmount);
+                emit UnableToAllocateRewardTo(initialFundingRewardsToCalculate[i - 1].addr, returnedAmount);
+                revert UnableToAllocateReward(initialFundingRewardsToCalculate[i - 1].addr, returnedAmount);
             }
         }
     }
@@ -490,7 +495,7 @@ contract Leaderboard {
 
         if (rankChanged > 10) {
             return 200;
-        } else if (rankChanged < -10) {
+        } else if (rankChanged < - 10) {
             return 0;
         } else {
             // For uint256:

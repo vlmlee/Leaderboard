@@ -1,46 +1,46 @@
 .list-container {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  width: 75%;
-  margin: 0 auto;
-  padding: 45px 0;
+    width: 75%;
+    margin: 0 auto;
+    padding: 45px 0;
 
-  .list {
-    border-radius: 0 0 10px 10px;
-    border: 1px solid #eee;
-    background-color: white;
+    .list {
+        border-radius: 0 0 10px 10px;
+        border: 1px solid #eee;
+        background-color: white;
 
-    .header {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      border-bottom: 1px solid #eee;
-      overflow: hidden;
-      padding: 15px 0;
+        .header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            border-bottom: 1px solid #eee;
+            overflow: hidden;
+            padding: 15px 0;
 
-      div {
-        display: inline-block;
-        position: relative;
-        text-align: left;
-        flex-basis: 20%;
-        font-size: 14px;
-      }
+            div {
+                display: inline-block;
+                position: relative;
+                text-align: left;
+                flex-basis: 20%;
+                font-size: 14px;
+            }
 
-      > div:last-child {
-        flex-basis: 15%;
-      }
+            > div:last-child {
+                flex-basis: 15%;
+            }
 
-      .rank span {
-        position: absolute;
-        left: 45px;
-      }
+            .rank span {
+                position: absolute;
+                left: 45px;
+            }
+        }
     }
-  }
 
-  .search-bar {
-    border-top: 1px solid #eee;
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
-  }
+    .search-bar {
+        border-top: 1px solid #eee;
+        border-left: 1px solid #eee;
+        border-right: 1px solid #eee;
+    }
 }
