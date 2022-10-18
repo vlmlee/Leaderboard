@@ -19,7 +19,7 @@ export default function ListRow({ rank, name, netWorth, country, imgUrl, stakers
                 <button className={'list__element--stake-button'}>Stake</button>
             </div>
             <div className={'list__element'}>
-                <span className={'list__element--stakers'}>{stakers}</span>
+                <span className={'list__element--stakers'}>{stakers} / total stakers </span>
             </div>
         </div>
     );

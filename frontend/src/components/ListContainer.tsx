@@ -3,6 +3,7 @@ import List from './ListRow';
 import '../stylesheets/ListContainer.scss';
 import SearchBar from './SearchBar';
 import PaginationButtons from './PaginationButtons';
+import { defaultRankings } from '../helpers/Constants';
 
 export type Ranking = {
     rank: number;
@@ -13,79 +14,6 @@ export type Ranking = {
     isLoading?: boolean;
     stakers?: number;
 };
-
-const defaultRankings: Array<Ranking> = [
-    {
-        rank: 1,
-        name: 'Elon Musk',
-        netWorth: '$219 B',
-        country: 'USA',
-        imgUrl: ''
-    },
-    {
-        rank: 2,
-        name: 'Jeff Bezos',
-        netWorth: '$171 B',
-        country: 'USA',
-        imgUrl: ''
-    },
-    {
-        rank: 3,
-        name: 'Bernard Arnault',
-        netWorth: '$151 B',
-        country: 'France',
-        imgUrl: ''
-    },
-    {
-        rank: 4,
-        name: 'Bill Gates',
-        netWorth: '$129 B',
-        country: 'USA',
-        imgUrl: ''
-    },
-    {
-        rank: 5,
-        name: 'Warren Buffet',
-        netWorth: '$118 B',
-        country: 'USA',
-        imgUrl: ''
-    },
-    {
-        rank: 6,
-        name: 'Larry Page',
-        netWorth: '$111 B',
-        country: 'USA',
-        imgUrl: ''
-    },
-    {
-        rank: 7,
-        name: 'Sergey Brin',
-        netWorth: '$107 B',
-        country: 'USA',
-        imgUrl: ''
-    },
-    {
-        rank: 8,
-        name: 'Larry Ellison',
-        netWorth: '$106 B',
-        country: 'USA',
-        imgUrl: ''
-    },
-    {
-        rank: 9,
-        name: 'Steve Ballmer',
-        netWorth: '$91.4 B',
-        country: 'USA',
-        imgUrl: ''
-    },
-    {
-        rank: 10,
-        name: 'Mukesh Ambani',
-        netWorth: '$90.7 B',
-        country: 'India',
-        imgUrl: ''
-    }
-];
 
 export default function ListContainer() {
     const [rankings, setRankings] = useState(defaultRankings);
@@ -119,18 +47,28 @@ export default function ListContainer() {
     };
 
     return (
-        <div className={'list-container'}>
+        <div className={'list__container'}>
             <SearchBar filterResults={filterResults} />
             <div className={'list'}>
-                <div className={'header'}>
-                    <div className={'rank'}>
-                        <span>Rank</span>
+                <div className={'list__header'}>
+                    <div className={'list__header--element'}>
+                        <span className={'list__header--element--rank'}>Rank</span>
                     </div>
-                    <div>Name</div>
-                    <div>Net Worth</div>
-                    <div>Country</div>
-                    <div>Stake</div>
-                    <div>Number of Stakers</div>
+                    <div className={'list__header--element'}>
+                        <span className={'list__header--element--name'}>Name</span>
+                    </div>
+                    <div className={'list__header--element'}>
+                        <span className={'list__header--element--net-worth'}>Net Worth</span>
+                    </div>
+                    <div className={'list__header--element'}>
+                        <span className={'list__header--element--country'}>Country</span>
+                    </div>
+                    <div className={'list__header--element'}>
+                        <span className={'list__header--element--stake'}>Stake</span>
+                    </div>
+                    <div className={'list__header--element'}>
+                        <span className={'list__header--element--num'}>Number of Stakers</span>
+                    </div>
                 </div>
                 {generateList()}
             </div>
