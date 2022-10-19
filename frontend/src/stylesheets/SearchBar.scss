@@ -14,8 +14,12 @@
             padding: 0 15px;
             font-size: 16px;
             letter-spacing: 1px;
-            transition: 0.1s border ease-in-out;
+            transition: 0.1s border ease-in-out, 0.5s border-color ease-in-out;
             outline: none;
+
+            &:hover {
+                border-color: #0e71c8;
+            }
         }
     }
 }
