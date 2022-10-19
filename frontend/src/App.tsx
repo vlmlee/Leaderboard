@@ -110,7 +110,7 @@ function App() {
                     DeLeaderboards
                 </NavLink>
                 <div className={'App__staking-countdown'}>
-                    <div className={'App__staking-countdown__warning'}>Staking Ends In:</div>
+                    <div className={'App__staking-countdown__warning'}>Staking ends in:</div>
                     <div className={'App__staking-countdown__timer'}>00:00:00</div>
                 </div>
             </header>
