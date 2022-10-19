@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './stylesheets/App.scss';
 import { NavLink, Outlet } from 'react-router-dom';
 import { ethers } from 'ethers';
@@ -7,8 +7,13 @@ import LeaderboardAddress from './contractsData/Leaderboard-address.json';
 import LeaderboardAbi from './contractsData/Leaderboard.json';
 import { useFindPath } from './hooks/useFindPath';
 import Modal from './components/Modal';
+import { IWeb3Context } from './typings';
 
-export const Web3Context = React.createContext<any>({});
+export const Web3Context = React.createContext<any>({
+    account: null,
+    contract: {},
+    etherPriceUSD: 0
+});
 
 function App() {
     const activeStyle = {
@@ -18,9 +23,10 @@ function App() {
 
     const isHomePage = useFindPath() === '/';
 
-    const [{ account, contract }, setContext] = useState<{ account: any; contract: any }>({
+    const [{ account, contract, etherPriceUSD }, setContext] = useState<IWeb3Context>({
         account: null,
-        contract: {}
+        contract: {},
+        etherPriceUSD: 0
     });
     const [isModalOpen, setModalState] = useState<boolean>(false);
 
@@ -48,6 +54,21 @@ function App() {
         setModalState(true);
         // do stuff
     };
+
+    useEffect(() => {
+        fetch('https://api.coinbase.com/v2/exchange-rates?currency=ETH', { mode: 'cors', method: 'GET' })
+            .then(res => {
+                return res.json();
+            })
+            .then(json => {
+                setContext(prev => {
+                    return {
+                        ...prev,
+                        etherPriceUSD: parseFloat(json.data.rates['USD']).toFixed(2)
+                    };
+                });
+            });
+    }, []);
 
     return (
         <div className="App">
@@ -130,7 +151,7 @@ function App() {
                 </h1>
                 <h2>by Forbes</h2>
             </div>
-            <Web3Context.Provider value={[{ contract, account }, setContext]}>
+            <Web3Context.Provider value={[{ contract, account, etherPriceUSD }, setContext]}>
                 <Outlet />
             </Web3Context.Provider>
             {isModalOpen && (

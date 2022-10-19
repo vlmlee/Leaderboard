@@ -12,3 +12,9 @@ export type IRanking = {
 export interface IPageIndices {
     pages: number;
 }
+
+export interface IWeb3Context {
+    account: any;
+    contract: any;
+    etherPriceUSD?: number | string;
+}

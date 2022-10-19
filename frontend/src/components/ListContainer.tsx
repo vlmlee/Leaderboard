@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ListRow from './ListRow';
 import '../stylesheets/ListContainer.scss';
 import SearchBar from './SearchBar';
@@ -6,6 +6,7 @@ import PaginationButtons from './PaginationButtons';
 import { DEFAULT_RANKINGS, INITIAL_SELECTED_RANK } from '../helpers/Constants';
 import { IRanking } from '../typings';
 import Modal from './Modal';
+import { Web3Context } from '../App';
 
 export default function ListContainer() {
     const [rankings, setRankings] = useState(DEFAULT_RANKINGS);
@@ -19,6 +20,8 @@ export default function ListContainer() {
         imgUrl: '',
         classes: ''
     });
+
+    const [{ etherPriceUSD }] = useContext(Web3Context);
 
     const generateList = () => {
         const arr: any = [];
@@ -87,6 +90,9 @@ export default function ListContainer() {
                     </div>
                 </div>
                 {generateList()}
+            </div>
+            <div className={'App__fee-notice'}>
+                <div>The commission fee for staking is: 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)})</div>
             </div>
             <PaginationButtons paginate={paginate} currentPage={currentPage} resultsLength={rankings.length} />
             {isModalOpen && (
