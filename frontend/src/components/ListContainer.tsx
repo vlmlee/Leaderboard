@@ -15,7 +15,7 @@ export default function ListContainer() {
         rankings.slice(currentPage * 5, currentPage * 5 + 5).forEach((ranking: IRanking, i: number) => {
             arr.push(
                 <ListRow
-                    key={i}
+                    key={`list__element-${i}`}
                     rank={ranking.rank}
                     name={ranking.name}
                     netWorth={ranking.netWorth}

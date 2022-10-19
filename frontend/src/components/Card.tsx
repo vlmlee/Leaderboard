@@ -24,7 +24,7 @@ const Card: React.FC<IRanking> = ({ rank, name, netWorth, country, imgUrl, isLoa
                         <div className={'country'}>{country}</div>
                     </div>
                     <div>
-                        <div>Stake</div>
+                        <button>Stake</button>
                     </div>
                 </div>
             )}

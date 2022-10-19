@@ -22,7 +22,7 @@ export default function ListRow({ rank, name, netWorth, country, imgUrl, stakers
                 <span className={'list__element--stakers'}>{stakers} / total stakers </span>
             </div>
             <div className={'list__element'}>
-                <span className={'list__element--total-value-locked'}>{stakers} ETH </span>
+                <span className={'list__element--total-value-locked'}>{0} eth</span>
             </div>
         </div>
     );

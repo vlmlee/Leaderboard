@@ -43,19 +43,26 @@ function App() {
     };
 
     return (
-        <div className="App bg">
+        <div className="App">
             <header className="App__header">
                 {account && (
-                    <a
-                        className="connect-wallet"
-                        href={`https://etherscan.io/address/${account}`}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        Address: {account?.slice(0, 8)}...{account?.slice(account.length - 4)}
-                    </a>
+                    <>
+                        <a
+                            className="App__header__connect-wallet"
+                            href={`https://etherscan.io/address/${account}`}
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            <span className={'App__header__connect-wallet__emoji'}>🔗</span>Address:{' '}
+                            {account?.slice(0, 8)}...
+                            {account?.slice(account.length - 4)}
+                        </a>
+                        <button className="App__header__allocate-rewards button" onClick={web3Handler}>
+                            Allocate Rewards
+                        </button>
+                    </>
                 )}
                 {!account && (
-                    <button className="connect-wallet" onClick={web3Handler}>
+                    <button className="App__header__connect-wallet button" onClick={web3Handler}>
                         Connect Wallet
                     </button>
                 )}

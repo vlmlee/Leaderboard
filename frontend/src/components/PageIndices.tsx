@@ -4,9 +4,11 @@ import { IPageIndices } from '../typings';
 
 export default function PageIndices({ pages = 10 }: IPageIndices) {
     return (
-        <div className={'page-indices'}>
+        <div className={'page__indices'}>
             {Array.from({ length: pages }, (_, index) => (
-                <p className={'page'}>{index + 1}</p>
+                <p key={`page__indices-${index}`} className={'page'}>
+                    {index + 1}
+                </p>
             ))}
         </div>
     );

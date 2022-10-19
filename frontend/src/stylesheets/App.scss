@@ -48,18 +48,29 @@
             }
         }
 
-        .connect-wallet {
+        &__connect-wallet {
             position: absolute;
             top: 60px;
             right: 60px;
             font-size: 14px;
+
+            &__emoji {
+                font-size: 10px;
+
+                &:after {
+                    content: ' ';
+                }
+            }
         }
 
-        a.connect-wallet {
-            color: #4078f2;
+        a {
+            color: white;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
         }
 
-        button.connect-wallet {
+        .button {
             width: 180px;
             padding: 8px 15px;
             border: 1px solid #ccc;
@@ -67,6 +78,7 @@
             letter-spacing: 0.6px;
             box-shadow: 0px 4px 2px 3px #5851db;
             transition: all 0.1s ease-in;
+            font-size: 14px;
 
             &:hover {
                 transform: translateY(-1px);
@@ -75,6 +87,12 @@
             &:active {
                 transform: translateY(3px);
             }
+        }
+
+        &__allocate-rewards {
+            position: absolute;
+            right: 60px;
+            top: 90px;
         }
 
         &__logo {
