@@ -8,6 +8,7 @@ import LeaderboardAbi from './contractsData/Leaderboard.json';
 import { useFindPath } from './hooks/useFindPath';
 import Modal from './components/Modal';
 import { IWeb3Context } from './typings';
+import { useCountdown } from './hooks/useCountDown';
 
 export const Web3Context = React.createContext<any>({
     account: null,
@@ -29,6 +30,7 @@ function App() {
         etherPriceUSD: 0
     });
     const [isModalOpen, setModalState] = useState<boolean>(false);
+    const [days, hours, minutes, seconds] = useCountdown(new Date('11/11/2023'));
 
     const web3Handler = async () => {
         const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
@@ -132,7 +134,12 @@ function App() {
                 </NavLink>
                 <div className={'App__staking-countdown'}>
                     <div className={'App__staking-countdown__warning'}>Staking ends in:</div>
-                    <div className={'App__staking-countdown__timer'}>00:00:00</div>
+                    <div className={'App__staking-countdown__timer'}>
+                        {days}:{hours < 10 && '0'}
+                        {hours}:{minutes < 10 && '0'}
+                        {minutes}:{seconds < 10 && '0'}
+                        {seconds}
+                    </div>
                 </div>
             </header>
             <div className={'App__title'}>
