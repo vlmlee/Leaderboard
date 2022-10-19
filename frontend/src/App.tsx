@@ -102,6 +102,10 @@ function App() {
                 <NavLink className={'App__header__logo'} to={'/'}>
                     DeLeaderboards
                 </NavLink>
+                <div className={'App__staking-countdown'}>
+                    <div className={'App__staking-countdown__warning'}>Staking Ends In:</div>
+                    <div className={'App__staking-countdown__timer'}>00:00:00</div>
+                </div>
             </header>
             <div className={'App__title'}>
                 <h1>

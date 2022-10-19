@@ -1,4 +1,6 @@
 .list__container {
+    position: relative;
+    top: 60px;
     display: flex;
     flex-direction: column;
 
@@ -29,7 +31,7 @@
 }
 
 .App__credit {
-    position: absolute;
+    position: fixed;
     right: 15px;
     bottom: 15px;
 

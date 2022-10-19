@@ -23,6 +23,30 @@
     bottom: 0;
     right: 0;
     overflow-y: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    &__staking-countdown {
+        position: relative;
+        left: 60px;
+        top: 15px;
+        display: flex;
+        flex-direction: column;
+        color: white;
+        text-shadow: 1px 0px 0 #22222290, 0px 1px 0 #22222290, 1px 1px 0 #22222290;
+        width: fit-content;
+        text-align: center;
+
+        &__warning {
+        }
+
+        &__timer {
+        }
+    }
 
     &__header {
         margin: 15px 0;
@@ -108,7 +132,6 @@
     }
 
     &__title {
-        margin: 50px 0;
         text-align: center;
         color: white;
         text-shadow: 2px 3px 0 #22222290, 2px 0 0 #22222290, 2px -1px 0 #22222290, -2px 1px 0 #22222290,
