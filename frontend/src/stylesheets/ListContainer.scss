@@ -20,9 +20,22 @@
 
             &--element {
                 text-align: center;
-                flex-basis: calc(100% / 6);
+                flex-basis: calc(100% / 7);
                 font-size: 12px;
             }
         }
+    }
+}
+
+.App__credit {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+
+    &-link {
+        font-size: 12px;
+        text-decoration: none;
+        color: white;
+        text-shadow: 1px 0px 0 #22222290, 0px 1px 0 #22222290, 1px 1px 0 #22222290;
     }
 }

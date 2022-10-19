@@ -94,7 +94,7 @@ function App() {
                 </nav>
             </header>
             <div className={'App__title'}>
-                <h1>World's Richest People</h1>
+                <h1>💸🏆💵 World's Richest People 💵🏆💸</h1>
                 <h2>by Forbes</h2>
             </div>
             <Web3Context.Provider value={[{ contract, account }, setContext]}>

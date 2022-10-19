@@ -55,15 +55,23 @@ export default function ListContainer() {
                         <span className={'list__header--element--country'}>Country</span>
                     </div>
                     <div className={'list__header--element'}>
-                        <span className={'list__header--element--stake'}>Stake</span>
+                        <span className={'list__header--element--stake'}>Already Staked?</span>
                     </div>
                     <div className={'list__header--element'}>
                         <span className={'list__header--element--num'}>Number of Stakers</span>
+                    </div>
+                    <div className={'list__header--element'}>
+                        <span className={'list__header--element--total-value-locked'}>Total Value Locked</span>
                     </div>
                 </div>
                 {generateList()}
             </div>
             <PaginationButtons paginate={paginate} currentPage={currentPage} resultsLength={rankings.length} />
+            <footer className={'App__credit'}>
+                <a className={'App__credit-link'} href={'https://github.com/vlmlee'}>
+                    -created by mlee <span>👀</span>
+                </a>{' '}
+            </footer>
         </div>
     );
 }
