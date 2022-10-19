@@ -9,12 +9,12 @@ import PageIndices from './PageIndices';
 import { DEFAULT_RANKINGS } from '../helpers/Constants';
 
 export default function CardsContainer() {
-    const [rankings, setRankings] = useState(DEFAULT_RANKINGS);
-    const [isLoading, setIsLoading] = useState(false);
+    const [rankings, setRankings] = useState<IRanking[]>(DEFAULT_RANKINGS);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         let isCancelled = false;
-        Promise.all(rankings.map((r: any) => getPhoto(r.name))).then(res => {
+        Promise.all(rankings.map((r: IRanking) => getPhoto(r.name))).then(res => {
             if (!isCancelled) {
                 setRankings(
                     rankings.map((s: any, index: number) => {
@@ -30,27 +30,26 @@ export default function CardsContainer() {
         return () => {
             isCancelled = true;
         };
-    }, [rankings]);
+    }, []);
 
     const generateBoxes = (numOfBoxes: number) => {
         const boxes: any = [];
         for (let i = 0; i < numOfBoxes; i++) {
-            boxes.push(<div className={'box-push-left'}></div>);
+            boxes.push(<div id={`generated-box-${i}`} className={'box-push-left'}></div>);
         }
         return boxes;
     };
 
     const generateCards = () => {
         const rankingsChunk = chunk(rankings, 4);
-        const arr: any = [];
-        // @ts-ignore
-        rankingsChunk.forEach((group: Array<Ranking>, i: number) => {
+        const arr: JSX.Element[] = [];
+        rankingsChunk.forEach((group: Array<IRanking>, i: number) => {
             arr.push(
-                <div key={i} className={'group-container'}>
+                <div key={`card__container__group-${i}`} className={'card__container__group'}>
                     <>
                         {group.map((ranking: IRanking, j: number) => (
                             <Card
-                                key={j}
+                                key={`card-${j}`}
                                 classes={j % 2 === 0 ? 'blue' : 'red'}
                                 isLoading={isLoading}
                                 rank={ranking.rank}
@@ -70,11 +69,11 @@ export default function CardsContainer() {
 
     const filterResults = (searchTerm: string) => {
         if (searchTerm !== '') {
-            setRankings((state: any) => {
+            setRankings((state: IRanking[]) => {
                 return DEFAULT_RANKINGS.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
             });
         } else {
-            setRankings((state: any) => DEFAULT_RANKINGS);
+            setRankings((state: IRanking[]) => DEFAULT_RANKINGS);
         }
     };
 

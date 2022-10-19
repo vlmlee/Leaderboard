@@ -12,22 +12,22 @@ const Card: React.FC<IRanking> = ({ rank, name, netWorth, country, imgUrl, isLoa
             )}
             {!isLoading && (
                 <div className={'card__element--ready'}>
-                    <div className={'rank'}>No. {rank}</div>
-                    <img className="photo" src={imgUrl} alt={'...'} />
-                    <div className={'info'}>
-                        <div className={'name'}>{name}</div>
-                        <div className={'net-worth'}>
+                    <div className={'card__element__rank'}>No. {rank}</div>
+                    <img className="card__element__photo" src={imgUrl} alt={'...'} />
+                    <div className={'card__element-info'}>
+                        <div className={'card__element-info--name'}>{name}</div>
+                        <div className={'card__element-info--net-worth'}>
                             <span style={{ fontSize: '14px' }}>Net Worth</span>
                             <br />
                             <span style={{ color: '#52b788' }}>{netWorth}</span>
                         </div>
-                        <div className={'country'}>{country}</div>
-                    </div>
-                    <div>
-                        <button>Stake</button>
+                        <div className={'card__element-info--country'}>{country}</div>
                     </div>
                 </div>
             )}
+            <div className={'card__element__stake-button'}>
+                <button>Stake</button>
+            </div>
         </div>
     );
 };

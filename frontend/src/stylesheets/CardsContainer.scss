@@ -16,14 +16,14 @@
             }
         }
     }
-}
 
-.group-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    flex-grow: 1;
-    justify-content: space-evenly;
+    &__group {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        justify-content: space-evenly;
+    }
 }
 
 .box-push-left {

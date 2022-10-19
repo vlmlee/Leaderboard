@@ -15,11 +15,7 @@
         box-shadow: 0px 4px 2px 2px #c13584;
     }
 
-    div {
-        position: relative;
-    }
-
-    .rank {
+    &__rank {
         font-size: 16px;
         position: absolute;
         bottom: 12px;
@@ -30,7 +26,31 @@
         font-weight: 500;
     }
 
-    .info {
+    &__stake-button {
+        position: absolute;
+        display: inline-block;
+        bottom: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        button {
+            outline: none;
+            font-size: 14px;
+            padding: 5px 20px;
+            border-radius: 0 0 3px 3px;
+            background-color: white;
+            box-shadow: 0px 4px 0px -2px #5851db;
+            letter-spacing: 1px;
+        }
+    }
+
+    &__photo {
+        height: 350px;
+        width: 265px;
+        object-fit: cover;
+    }
+
+    &-info {
         text-transform: lowercase;
         font-variant: small-caps;
 
@@ -38,30 +58,24 @@
             display: inline-block;
         }
 
-        .name {
+        &--name {
             text-align: left;
             font-size: 18px;
             float: left;
         }
 
-        .net-worth {
+        &--net-worth {
             text-align: right;
             font-size: 16px;
             float: right;
         }
 
-        .country {
+        &--country {
             text-align: left;
             color: #999;
             float: left;
             clear: left;
         }
-    }
-
-    .photo {
-        height: 350px;
-        width: 265px;
-        object-fit: cover;
     }
 
     &__loading {
