@@ -67,6 +67,12 @@
                         text-decoration: none;
                         color: white;
                         text-shadow: 1px 0px 0 #22222290, 0px 1px 0 #22222290, 1px 1px 0 #22222290;
+                        transition: 0.4s text-shadow ease-in;
+
+                        &:hover {
+                            text-shadow: 2px 1px 0 #22222290, -1px 0 0 #22222290, 1px 0 0 #22222290, 0 1px 0 #22222290,
+                                1px 1px 0 #22222290;
+                        }
                     }
                 }
             }
@@ -87,11 +93,16 @@
             }
         }
 
-        a {
+        a.App__header__connect-wallet {
             color: white;
             display: inline-block;
             cursor: pointer;
             text-decoration: none;
+            transition: 0.15s text-shadow;
+
+            &:hover {
+                text-shadow: 1px 1px 0 #22222290, 0 1px 0 #22222290, 1px 1px 0 #22222290;
+            }
         }
 
         .button {
@@ -128,6 +139,12 @@
             font-family: 'Luxora-Grotesk-Medium', 'Luxora-Grotesk-Regular', 'SF Pro Display', serif;
             color: white;
             text-shadow: 2px 1px 0 #1da1f2, -1px 0 0 #0e71c8, 1px 0 0 #3b5990, 0 1px 0 #e1306c, 1px 1px 0 #0078d7;
+            transition: 2s text-shadow ease-in;
+
+            &:hover {
+                text-shadow: 2px 1px 0 #22222290, -1px 0 0 #22222290, 1px 0 0 #22222290, 0 1px 0 #22222290,
+                    1px 1px 0 #22222290;
+            }
         }
     }
 

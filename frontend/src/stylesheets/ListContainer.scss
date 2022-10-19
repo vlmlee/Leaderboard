@@ -40,5 +40,11 @@
         text-decoration: none;
         color: white;
         text-shadow: 1px 0px 0 #22222290, 0px 1px 0 #22222290, 1px 1px 0 #22222290;
+        transition: 0.4s text-shadow ease-in;
+
+        &:hover {
+            text-shadow: 2px 1px 0 #22222290, -1px 0 0 #22222290, 1px 0 0 #22222290, 0 1px 0 #22222290,
+                1px 1px 0 #22222290;
+        }
     }
 }

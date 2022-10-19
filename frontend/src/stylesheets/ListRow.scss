@@ -7,6 +7,10 @@
     overflow: hidden;
     transition: 0.25s background-color ease-in-out;
 
+    &:last-of-type {
+        border-bottom: none;
+    }
+
     &:hover {
         background-color: #f9f9f9;
     }
@@ -41,9 +45,14 @@
 
         &--stakers {
         }
-    }
-}
 
-.list__row:last-of-type {
-    border-bottom: none;
+        &--total-value-locked {
+            &--none {
+                font-size: 10px;
+                font-family: serif;
+                position: relative;
+                top: -1px;
+            }
+        }
+    }
 }
