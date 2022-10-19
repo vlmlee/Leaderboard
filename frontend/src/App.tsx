@@ -63,13 +63,13 @@ function App() {
                             {account?.slice(0, 8)}...
                             {account?.slice(account.length - 4)}
                         </a>
-                        <button className="App__header__allocate-rewards button" onClick={allocateRewards}>
+                        <button className="App__header__allocate-rewards" onClick={allocateRewards}>
                             Allocate Rewards
                         </button>
                     </>
                 )}
                 {!account && (
-                    <button className="App__header__connect-wallet button" onClick={web3Handler}>
+                    <button className="App__header__connect-wallet" onClick={web3Handler}>
                         Connect Wallet
                     </button>
                 )}

@@ -9,6 +9,11 @@
     width: 400px;
     border: 3px solid #5851db;
     box-shadow: 0 0 60px #00000095;
+    border-radius: 15px;
+
+    > div {
+        padding: 45px;
+    }
 }
 
 .modal__overlay {

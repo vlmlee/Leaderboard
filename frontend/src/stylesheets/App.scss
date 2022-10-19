@@ -108,7 +108,8 @@
             }
         }
 
-        .button {
+        &__allocate-rewards,
+        &__connect-wallet:not(a) {
             width: 180px;
             padding: 8px 15px;
             border: 1px solid #ccc;
@@ -154,7 +155,7 @@
     &__title {
         position: relative;
         top: 30px;
-
+        pointer-events: none;
         text-align: center;
         color: white;
         text-shadow: 2px 3px 0 #22222290, 2px 0 0 #22222290, 2px -1px 0 #22222290, -2px 1px 0 #22222290,

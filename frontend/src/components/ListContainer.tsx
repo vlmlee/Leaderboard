@@ -50,7 +50,7 @@ export default function ListContainer() {
 
     const stakeToRanking = (rank: number, name: string) => {
         setModalState(true);
-        const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.name == name && _ranking.rank === rank);
+        const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.name === name && _ranking.rank === rank);
 
         setSelectedRank(_selectedRank ?? INITIAL_SELECTED_RANK);
     };
