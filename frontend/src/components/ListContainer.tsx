@@ -110,7 +110,7 @@ export default function ListContainer() {
                 </Modal>
             )}
             <footer className={'App__credit'}>
-                <a className={'App__credit-link'} href={'https://github.com/vlmlee'}>
+                <a className={'App__credit-link'} href={'https://www.mlee.app'}>
                     -created by mlee <span>👀</span>
                 </a>{' '}
             </footer>
