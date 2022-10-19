@@ -93,7 +93,7 @@ function App() {
                     </ul>
                 </nav>
                 <NavLink className={'App__header__logo'} to={'/'}>
-                    Leaderboard
+                    Leaderboards
                 </NavLink>
             </header>
             <div className={'App__title'}>

@@ -8,12 +8,17 @@
     src: url('fonts/LuxoraGrotesk-Medium.woff') format('woff');
 }
 
+@font-face {
+    font-family: 'Luxora-Grotesk-Bold';
+    src: url('fonts/LuxoraGrotesk-Bold.woff') format('woff');
+}
+
 .App {
     font-family: 'Luxora-Grotesk-Regular', 'SF Pro Display', serif;
     color: #333;
     letter-spacing: 1px;
     position: absolute;
-    top: 0;
+    top: 15px;
     left: 0;
     bottom: 0;
     right: 0;
@@ -78,9 +83,9 @@
             top: 15px;
             font-size: 30px;
             text-decoration: none;
-            font-variant: small-caps;
+            font-family: 'Luxora-Grotesk-Medium', 'Luxora-Grotesk-Regular', 'SF Pro Display', serif;
             color: white;
-            text-shadow: 1px 0px 0 #22222290, 0px 1px 0 #22222290, 1px 1px 0 #22222290;
+            text-shadow: 2px 1px 0 #1da1f2, -1px 0 0 #0e71c8, 1px 0 0 #3b5990, 0 1px 0 #e1306c, 1px 1px 0 #0078d7;
         }
     }
 
@@ -88,8 +93,8 @@
         margin: 50px 0;
         text-align: center;
         color: white;
-        text-shadow: 3px 3px 0 #22222290, 0 0 0 #22222290, 1px -1px 0 #22222290, -1px 1px 0 #22222290,
-            1px 1px 0 #22222290;
+        text-shadow: 2px 3px 0 #22222290, 2px 0 0 #22222290, 2px -1px 0 #22222290, -2px 1px 0 #22222290,
+            2px 1px 0 #22222290;
 
         h1 {
             font-size: 48px;
