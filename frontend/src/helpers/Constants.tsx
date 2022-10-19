@@ -1,6 +1,6 @@
-import { Ranking } from '../typings';
+import { IRanking } from '../typings';
 
-export const defaultRankings: Array<Ranking> = [
+export const defaultRankings: Array<IRanking> = [
     {
         rank: 1,
         name: 'Elon Musk',

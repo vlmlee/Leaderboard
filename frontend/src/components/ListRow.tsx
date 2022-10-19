@@ -1,8 +1,8 @@
 import React from 'react';
-import { Ranking } from '../typings';
+import { IRanking } from '../typings';
 import '../stylesheets/ListRow.scss';
 
-export default function ListRow({ rank, name, netWorth, country, imgUrl, stakers }: Ranking) {
+export default function ListRow({ rank, name, netWorth, country, imgUrl, stakers }: IRanking) {
     return (
         <div className={'list__row'}>
             <div className={'list__element'}>
@@ -20,6 +20,9 @@ export default function ListRow({ rank, name, netWorth, country, imgUrl, stakers
             </div>
             <div className={'list__element'}>
                 <span className={'list__element--stakers'}>{stakers} / total stakers </span>
+            </div>
+            <div className={'list__element'}>
+                <span className={'list__element--total-value-locked'}>{stakers} ETH </span>
             </div>
         </div>
     );

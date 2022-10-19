@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import '../stylesheets/CardsContainer.scss';
 import { chunk } from 'lodash';
-import { Ranking } from '../typings';
+import { IRanking } from '../typings';
 import SearchBar from './SearchBar';
 import getPhoto from '../helpers/getPhoto';
 import PageIndices from './PageIndices';
@@ -48,9 +48,10 @@ export default function CardsContainer() {
             arr.push(
                 <div key={i} className={'group-container'}>
                     <>
-                        {group.map((ranking: Ranking, j: number) => (
+                        {group.map((ranking: IRanking, j: number) => (
                             <Card
                                 key={j}
+                                classes={j % 2 === 0 ? 'blue' : 'red'}
                                 isLoading={isLoading}
                                 rank={ranking.rank}
                                 name={ranking.name}
@@ -70,7 +71,7 @@ export default function CardsContainer() {
     const filterResults = (searchTerm: string) => {
         if (searchTerm !== '') {
             setRankings((state: any) => {
-                return defaultRankings.filter((ranking: Ranking) => ranking.name.toLowerCase().includes(searchTerm));
+                return defaultRankings.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
             });
         } else {
             setRankings((state: any) => defaultRankings);
@@ -78,7 +79,7 @@ export default function CardsContainer() {
     };
 
     return (
-        <div className={'card-container'}>
+        <div className={'card__container'}>
             <div className={'search-bar-container'}>
                 <SearchBar filterResults={filterResults} />
             </div>

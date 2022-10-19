@@ -4,7 +4,7 @@ import '../stylesheets/ListContainer.scss';
 import SearchBar from './SearchBar';
 import PaginationButtons from './PaginationButtons';
 import { defaultRankings } from '../helpers/Constants';
-import { Ranking } from '../typings';
+import { IRanking } from '../typings';
 
 export default function ListContainer() {
     const [rankings, setRankings] = useState(defaultRankings);
@@ -12,7 +12,7 @@ export default function ListContainer() {
 
     const generateList = () => {
         const arr: any = [];
-        rankings.slice(currentPage * 5, currentPage * 5 + 5).forEach((ranking: Ranking, i: number) => {
+        rankings.slice(currentPage * 5, currentPage * 5 + 5).forEach((ranking: IRanking, i: number) => {
             arr.push(
                 <ListRow
                     key={i}
@@ -29,7 +29,7 @@ export default function ListContainer() {
 
     const filterResults = (searchTerm: string) => {
         setRankings(state => {
-            return defaultRankings.filter((ranking: Ranking) => ranking.name.toLowerCase().includes(searchTerm));
+            return defaultRankings.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
         });
     };
 

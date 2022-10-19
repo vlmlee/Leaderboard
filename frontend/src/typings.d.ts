@@ -1,4 +1,4 @@
-export type Ranking = {
+export type IRanking = {
     rank: number;
     name: string;
     netWorth: string;
@@ -6,4 +6,9 @@ export type Ranking = {
     imgUrl: string;
     isLoading?: boolean;
     stakers?: number;
+    classes?: string;
 };
+
+export interface IPageIndices {
+    pages: number;
+}

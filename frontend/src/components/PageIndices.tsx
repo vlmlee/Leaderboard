@@ -1,11 +1,8 @@
 import React from 'react';
 import '../stylesheets/PageIndices.scss';
+import { IPageIndices } from '../typings';
 
-interface PageIndices {
-    pages: number;
-}
-
-export default function PageIndices({ pages = 10 }: PageIndices) {
+export default function PageIndices({ pages = 10 }: IPageIndices) {
     return (
         <div className={'page-indices'}>
             {Array.from({ length: pages }, (_, index) => (
