@@ -10,7 +10,7 @@ import Modal from './Modal';
 export default function ListContainer() {
     const [rankings, setRankings] = useState(DEFAULT_RANKINGS);
     const [currentPage, setCurrentPage] = useState(0);
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [isModalOpen, setModalState] = useState(false);
     const [selectedRank, setSelectedRank] = useState<IRanking>({
         name: '',
         rank: 0,
@@ -49,14 +49,14 @@ export default function ListContainer() {
     };
 
     const stakeToRanking = (rank: number, name: string) => {
-        setModalOpen(true);
+        setModalState(true);
         const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.name == name && _ranking.rank === rank);
 
         setSelectedRank(_selectedRank ?? INITIAL_SELECTED_RANK);
     };
 
     const closeModal = (state: boolean) => {
-        setModalOpen(state);
+        setModalState(state);
     };
 
     return (
@@ -98,7 +98,7 @@ export default function ListContainer() {
                         <div>Are you sure you want to stake? There is a 0.0025 ETH commission fee.</div>
                         <div>
                             <button onClick={() => {}}>yes</button>
-                            <button onClick={() => setModalOpen(false)}>cancel</button>
+                            <button onClick={() => setModalState(false)}>cancel</button>
                         </div>
                     </div>
                 </Modal>

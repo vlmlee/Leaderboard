@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 import LeaderboardAddress from './contractsData/Leaderboard-address.json';
 import LeaderboardAbi from './contractsData/Leaderboard.json';
 import { useFindPath } from './hooks/useFindPath';
+import Modal from './components/Modal';
 
 export const Web3Context = React.createContext<any>({});
 
@@ -21,6 +22,7 @@ function App() {
         account: null,
         contract: {}
     });
+    const [isModalOpen, setModalState] = useState<boolean>(false);
 
     const web3Handler = async () => {
         const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
@@ -42,6 +44,11 @@ function App() {
         }));
     };
 
+    const allocateRewards = () => {
+        setModalState(true);
+        // do stuff
+    };
+
     return (
         <div className="App">
             <header className="App__header">
@@ -56,7 +63,7 @@ function App() {
                             {account?.slice(0, 8)}...
                             {account?.slice(account.length - 4)}
                         </a>
-                        <button className="App__header__allocate-rewards button" onClick={web3Handler}>
+                        <button className="App__header__allocate-rewards button" onClick={allocateRewards}>
                             Allocate Rewards
                         </button>
                     </>
@@ -126,6 +133,18 @@ function App() {
             <Web3Context.Provider value={[{ contract, account }, setContext]}>
                 <Outlet />
             </Web3Context.Provider>
+            {isModalOpen && (
+                <Modal closeModal={() => setModalState(false)}>
+                    <div>
+                        <div>You are about to end this leaderboard contract.</div>
+                        <div>Are you sure you want to continue?</div>
+                        <div>
+                            <button>Yes</button>
+                            <button onClick={() => setModalState(false)}>No</button>
+                        </div>
+                    </div>
+                </Modal>
+            )}
         </div>
     );
 }
