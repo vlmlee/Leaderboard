@@ -3,6 +3,11 @@
     src: url('fonts/LuxoraGrotesk-Regular.woff') format('woff');
 }
 
+@font-face {
+    font-family: 'Luxora-Grotesk-Medium';
+    src: url('fonts/LuxoraGrotesk-Medium.woff') format('woff');
+}
+
 .App {
     font-family: 'Luxora-Grotesk-Regular', 'SF Pro Display', serif;
     color: #333;
@@ -66,6 +71,17 @@
                 transform: translateY(3px);
             }
         }
+
+        &__logo {
+            position: absolute;
+            left: 60px;
+            top: 15px;
+            font-size: 30px;
+            text-decoration: none;
+            font-variant: small-caps;
+            color: white;
+            text-shadow: 1px 0px 0 #22222290, 0px 1px 0 #22222290, 1px 1px 0 #22222290;
+        }
     }
 
     &__title {
@@ -83,6 +99,25 @@
 
         h2 {
             margin: 0;
+        }
+    }
+}
+
+.emoji__container {
+    display: inline-block;
+
+    .emoji {
+        font-size: 42px;
+        margin: 0 8px;
+        display: inline-block;
+        will-change: transform;
+
+        &:nth-child(2n) {
+            animation: flip1 3s linear infinite;
+        }
+
+        &:nth-child(2n + 1) {
+            animation: flip2 3s linear infinite;
         }
     }
 }
@@ -109,5 +144,29 @@ body::before {
     }
     100% {
         transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes flip1 {
+    0% {
+        transform: translateY(5px) rotateY(0);
+    }
+    50% {
+        transform: translateY(-5px) rotateY(180deg);
+    }
+    100% {
+        transform: translateY(5px) rotateY(360deg);
+    }
+}
+
+@keyframes flip2 {
+    0% {
+        transform: translateY(-5px) rotateY(45deg);
+    }
+    50% {
+        transform: translateY(5px) rotateY(215deg);
+    }
+    100% {
+        transform: translateY(-5px) rotateY(405deg);
     }
 }

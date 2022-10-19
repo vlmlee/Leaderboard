@@ -92,9 +92,24 @@ function App() {
                         </li>
                     </ul>
                 </nav>
+                <NavLink className={'App__header__logo'} to={'/'}>
+                    Leaderboard
+                </NavLink>
             </header>
             <div className={'App__title'}>
-                <h1>💸🏆💵 World's Richest People 💵🏆💸</h1>
+                <h1>
+                    <div className={'emoji__container'} role={'img'}>
+                        <div className={'emoji'}>💸</div>
+                        <div className={'emoji'}>🏆</div>
+                        <div className={'emoji'}>💵</div>
+                    </div>{' '}
+                    World's Richest People{' '}
+                    <div className={'emoji__container'} role={'img'}>
+                        <div className={'emoji'}>💵</div>
+                        <div className={'emoji'}>🏆</div>
+                        <div className={'emoji'}>💸</div>
+                    </div>
+                </h1>
                 <h2>by Forbes</h2>
             </div>
             <Web3Context.Provider value={[{ contract, account }, setContext]}>
