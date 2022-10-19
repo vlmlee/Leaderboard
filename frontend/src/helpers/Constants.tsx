@@ -1,6 +1,6 @@
 import { IRanking } from '../typings';
 
-export const defaultRankings: Array<IRanking> = [
+export const DEFAULT_RANKINGS: Array<IRanking> = [
     {
         rank: 1,
         name: 'Elon Musk',
@@ -73,6 +73,17 @@ export const defaultRankings: Array<IRanking> = [
     }
 ];
 
+export const INITIAL_SELECTED_RANK = {
+    name: '',
+    rank: 0,
+    netWorth: '',
+    country: '',
+    imgUrl: '',
+    isLoading: false,
+    stakers: 0
+};
+
 export default {
-    defaultRankings
+    DEFAULT_RANKINGS,
+    INITIAL_SELECTED_RANK
 };

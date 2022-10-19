@@ -3,12 +3,22 @@ import ListRow from './ListRow';
 import '../stylesheets/ListContainer.scss';
 import SearchBar from './SearchBar';
 import PaginationButtons from './PaginationButtons';
-import { defaultRankings } from '../helpers/Constants';
+import { DEFAULT_RANKINGS, INITIAL_SELECTED_RANK } from '../helpers/Constants';
 import { IRanking } from '../typings';
+import Modal from './Modal';
 
 export default function ListContainer() {
-    const [rankings, setRankings] = useState(defaultRankings);
+    const [rankings, setRankings] = useState(DEFAULT_RANKINGS);
     const [currentPage, setCurrentPage] = useState(0);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [selectedRank, setSelectedRank] = useState<IRanking>({
+        name: '',
+        rank: 0,
+        netWorth: '',
+        country: '',
+        imgUrl: '',
+        classes: ''
+    });
 
     const generateList = () => {
         const arr: any = [];
@@ -21,6 +31,7 @@ export default function ListContainer() {
                     netWorth={ranking.netWorth}
                     country={ranking.country}
                     imgUrl={ranking.imgUrl}
+                    stakeToRanking={stakeToRanking}
                 />
             );
         });
@@ -29,12 +40,23 @@ export default function ListContainer() {
 
     const filterResults = (searchTerm: string) => {
         setRankings(state => {
-            return defaultRankings.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
+            return DEFAULT_RANKINGS.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
         });
     };
 
     const paginate = (page: number) => {
         setCurrentPage(page);
+    };
+
+    const stakeToRanking = (rank: number, name: string) => {
+        setModalOpen(true);
+        const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.name == name && _ranking.rank === rank);
+
+        setSelectedRank(_selectedRank ?? INITIAL_SELECTED_RANK);
+    };
+
+    const closeModal = (state: boolean) => {
+        setModalOpen(state);
     };
 
     return (
@@ -67,6 +89,20 @@ export default function ListContainer() {
                 {generateList()}
             </div>
             <PaginationButtons paginate={paginate} currentPage={currentPage} resultsLength={rankings.length} />
+            {isModalOpen && (
+                <Modal closeModal={closeModal}>
+                    <div>
+                        <div>
+                            You are attempting to stake to {selectedRank.name}, ranked {selectedRank.rank}.
+                        </div>
+                        <div>Are you sure you want to stake? There is a 0.0025 ETH commission fee.</div>
+                        <div>
+                            <button onClick={() => {}}>yes</button>
+                            <button onClick={() => setModalOpen(false)}>cancel</button>
+                        </div>
+                    </div>
+                </Modal>
+            )}
             <footer className={'App__credit'}>
                 <a className={'App__credit-link'} href={'https://github.com/vlmlee'}>
                     -created by mlee <span>👀</span>

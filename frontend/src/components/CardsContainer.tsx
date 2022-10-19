@@ -6,10 +6,10 @@ import { IRanking } from '../typings';
 import SearchBar from './SearchBar';
 import getPhoto from '../helpers/getPhoto';
 import PageIndices from './PageIndices';
-import { defaultRankings } from '../helpers/Constants';
+import { DEFAULT_RANKINGS } from '../helpers/Constants';
 
 export default function CardsContainer() {
-    const [rankings, setRankings] = useState(defaultRankings);
+    const [rankings, setRankings] = useState(DEFAULT_RANKINGS);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -71,10 +71,10 @@ export default function CardsContainer() {
     const filterResults = (searchTerm: string) => {
         if (searchTerm !== '') {
             setRankings((state: any) => {
-                return defaultRankings.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
+                return DEFAULT_RANKINGS.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
             });
         } else {
-            setRankings((state: any) => defaultRankings);
+            setRankings((state: any) => DEFAULT_RANKINGS);
         }
     };
 
