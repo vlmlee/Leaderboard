@@ -203,6 +203,15 @@
         font-size: 11px;
         text-shadow: 1px 0px 0 #22222290, 0px 1px 0 #22222290, 1px 1px 0 #22222290;
     }
+
+    &__connect-message {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        text-align: center;
+        bottom: 50%;
+    }
 }
 
 .emoji__container {
@@ -302,3 +311,5 @@ body::before {
 }
 
 //@import './no-animations.scss';
+@import './Shine.scss';
+@import './Spinner.scss';

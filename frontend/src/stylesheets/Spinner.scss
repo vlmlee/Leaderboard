@@ -1,0 +1,152 @@
+.spinner__container {
+    position: relative;
+    top: 90px;
+}
+
+.Spinner {
+    height: 29px;
+    margin: auto;
+    display: flex;
+    opacity: 0;
+    justify-content: center;
+    animation-name: fadeIn;
+    animation-duration: 1200ms;
+    animation-fill-mode: forwards;
+}
+
+.Spinner.SpinnerDots {
+    .spinner-dot {
+        animation-name: dance;
+        animation-duration: 1000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        height: 12px;
+        width: 12px;
+        background-color: #242429;
+        margin: 3px;
+        border-radius: 12px;
+    }
+
+    .spinner-dot:nth-child(1) {
+        animation-delay: 0;
+    }
+
+    .spinner-dot:nth-child(2) {
+        animation-delay: 333ms;
+    }
+
+    .spinner-dot:nth-child(3) {
+        animation-delay: 666ms;
+    }
+}
+
+.Spinner.SpinnerCircle {
+    .spinner-dot {
+        width: 32px;
+        height: 32px;
+        background: #232329;
+        border-radius: 50px;
+        position: absolute;
+
+        animation-duration: 3000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+    }
+
+    .spinner-dot:nth-child(1) {
+    }
+
+    .spinner-dot:nth-child(2) {
+        animation-name: scaleDance;
+        animation-delay: 900ms;
+    }
+
+    .spinner-dot:nth-child(3) {
+        animation-name: scaleDance;
+    }
+}
+
+.Spinner.SpinnerDotsScale {
+    .spinner-dot {
+        width: 12px;
+        height: 12px;
+        background: #232329;
+        border-radius: 50px;
+        margin: 3px;
+        animation-duration: 2000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+    }
+
+    .spinner-dot:nth-child(1) {
+        animation-name: explode;
+        animation-delay: 0;
+    }
+
+    .spinner-dot:nth-child(2) {
+        animation-name: explode;
+        animation-delay: 250ms;
+    }
+
+    .spinner-dot:nth-child(3) {
+        animation-name: explode;
+        animation-delay: 500ms;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleDance {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: scale(1.7434);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: scale(1.25);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+}
+
+@keyframes dance {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(12px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

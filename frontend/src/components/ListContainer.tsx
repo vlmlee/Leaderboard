@@ -331,6 +331,8 @@ export default function ListContainer() {
                                     {acceptedRisk && (
                                         <>
                                             <div>You may withdraw your stake now.</div>
+                                            <br />
+                                            <div>There is no commission fee for withdrawing.</div>
                                         </>
                                     )}
                                     {errors && errors.errorWithdrawingStake && (

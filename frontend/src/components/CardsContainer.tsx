@@ -186,6 +186,15 @@ export default function CardsContainer() {
                 pages={isBeingFiltered ? Math.ceil(filteredRankings.length / 20) : 5}
                 setCurrentPage={setCurrentPage}
             />
+            {isLoading && (
+                <div className={'spinner__container'}>
+                    <div className="Spinner SpinnerDotsScale">
+                        <div className="spinner-dot"></div>
+                        <div className="spinner-dot"></div>
+                        <div className="spinner-dot"></div>
+                    </div>
+                </div>
+            )}
             {generateCards()}
             {isModalOpen && (
                 <Modal
