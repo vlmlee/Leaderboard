@@ -5,7 +5,7 @@ export default function About() {
     return (
         <div className={'about-page info-sections'}>
             <div className={'about-page__content info-sections__content'}>
-                Take part in betting on who will gain in rank for the richest (publicly) person in the world.
+                Take part in betting on who will gain in rank for the Forbes richest person (publicly) in the world.
                 <br />
                 <br />
                 This app is just one example of what you can build with a Leaderboard smart contract. The design was
