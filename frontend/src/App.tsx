@@ -15,7 +15,9 @@ export const Web3Context = React.createContext<any>({
     account: null,
     contract: {},
     etherPriceUSD: 0,
-    rankings: []
+    rankings: [],
+    stakes: [],
+    maxLength: 100
 });
 
 function App() {
@@ -26,12 +28,13 @@ function App() {
 
     const isHomePage = useFindPath() === '/';
 
-    const [{ account, contract, etherPriceUSD, rankings, stakes }, setContext] = useState<IWeb3Context>({
+    const [{ account, contract, etherPriceUSD, rankings, stakes, maxLength }, setContext] = useState<IWeb3Context>({
         account: null,
         contract: {},
         etherPriceUSD: 0,
         rankings: [],
-        stakes: []
+        stakes: [],
+        maxLength: 100
     });
     const [isModalOpen, setModalState] = useState<boolean>(false);
     const [endTime, setEndTime] = useState<Date>(new Date(''));
@@ -180,7 +183,8 @@ function App() {
                 </h1>
                 <h2>by Forbes</h2>
             </div>
-            <Web3Context.Provider value={[{ contract, account, etherPriceUSD, rankings, stakes }, setContext]}>
+            <Web3Context.Provider
+                value={[{ contract, account, etherPriceUSD, rankings, stakes, maxLength }, setContext]}>
                 <Outlet />
             </Web3Context.Provider>
             {isModalOpen && (

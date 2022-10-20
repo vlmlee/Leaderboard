@@ -7,7 +7,7 @@ export default function convertToRanking(_ranking: any): IRanking {
     const dataObj = JSON.parse(data);
 
     let imgUrl = '';
-    if (!dataObj.imgUrl.startsWith('https:')) imgUrl = 'https:' + dataObj.imgUrl;
+    if (!dataObj?.imgUrl?.startsWith('https:')) imgUrl = 'https:' + dataObj.imgUrl;
     else imgUrl = dataObj.imgUrl;
 
     return {

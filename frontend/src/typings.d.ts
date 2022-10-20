@@ -20,4 +20,5 @@ export interface IWeb3Context {
     etherPriceUSD?: number | string;
     rankings: any[];
     stakes: any[];
+    maxLength: 100;
 }

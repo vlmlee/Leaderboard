@@ -5,12 +5,14 @@ export default function PaginationButtons({
     paginate,
     currentPage,
     resultsLength,
-    maxLength
+    maxLength,
+    isLoading
 }: {
     paginate: Function;
     currentPage: number;
     resultsLength: number;
     maxLength: number;
+    isLoading: boolean;
 }) {
     return (
         <div className={'pagination-button'}>
@@ -38,7 +40,7 @@ export default function PaginationButtons({
                 <div
                     className={
                         'pagination-button__buttons--next ' +
-                        (currentPage * 5 + 5 < resultsLength
+                        (currentPage * 5 + 5 < resultsLength && !isLoading
                             ? 'pagination-button__buttons--active'
                             : 'pagination-button__buttons--disabled')
                     }

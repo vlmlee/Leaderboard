@@ -7,45 +7,81 @@ import { INITIAL_SELECTED_RANK } from '../helpers/Constants';
 import { IRanking } from '../typings';
 import Modal from './Modal';
 import { Web3Context } from '../App';
+import convertToRanking from '../helpers/convertToRanking';
+import { isEmpty } from 'lodash';
 
 export default function ListContainer() {
-    const [{ contract, stakes, rankings }] = useContext(Web3Context);
-    const [currentRankings, setCurrentRankings] = useState<IRanking[]>(rankings);
+    const [{ contract, stakes, rankings, maxLength }, setContext] = useContext<any>(Web3Context);
+    const [currentFilterTerm, setFilter] = useState<string>('');
     const [currentPage, setCurrentPage] = useState(0);
     const [isModalOpen, setModalState] = useState(false);
     const [selectedRank, setSelectedRank] = useState<IRanking>(INITIAL_SELECTED_RANK);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [{ etherPriceUSD }] = useContext(Web3Context);
 
-    const fetchNextPage = async () => {};
-
     useEffect(() => {
-        setCurrentRankings(rankings);
-    }, [rankings]);
+        async function retrieveNextPageRankings() {
+            if (!isEmpty(contract)) {
+                // Check next page index and what rankings are supposed to be there
+                const rankingsIndexToCheck = currentPage * 5 + 6;
+
+                // If it is greater than the current length of the rankings, then fetch those
+                // rankings from the smart contract unless the rankings are above the max length
+                // defined.
+                if (rankingsIndexToCheck >= rankings.length && rankingsIndexToCheck < maxLength) {
+                    let _rankings: any[] = [];
+                    setIsLoading(true);
+                    // Get the next 5 rankings
+                    for (let i = rankingsIndexToCheck; i < rankingsIndexToCheck + 5; i++) {
+                        const _ranks = await contract.getRankingByRank(i);
+                        _rankings.push(convertToRanking(_ranks));
+                    }
+
+                    return rankings.concat(_rankings);
+                }
+            }
+        }
+
+        retrieveNextPageRankings().then(newRankings => {
+            if (newRankings && newRankings.length) {
+                setContext((prev: any) => {
+                    return {
+                        ...prev,
+                        rankings: newRankings
+                    };
+                });
+                setIsLoading(false);
+            }
+        });
+    }, [currentPage]);
 
     const generateList = (_rankings: IRanking[]) => {
         const arr: any = [];
-        _rankings.slice(currentPage * 5, currentPage * 5 + 5).forEach((ranking: IRanking, i: number) => {
-            arr.push(
-                <ListRow
-                    key={`list__element-${i}`}
-                    id={ranking.id}
-                    rank={ranking.rank}
-                    name={ranking.name}
-                    netWorth={ranking.netWorth}
-                    country={ranking.country}
-                    imgUrl={ranking.imgUrl}
-                    stakeToRanking={stakeToRanking}
-                />
-            );
-        });
+        _rankings
+            .slice(currentPage * 5, currentPage * 5 + 5)
+            .filter((ranking: IRanking) => {
+                return ranking.name.toLowerCase().includes(currentFilterTerm);
+            })
+            .forEach((ranking: IRanking, i: number) => {
+                arr.push(
+                    <ListRow
+                        key={`list__element-${i}`}
+                        id={ranking.id}
+                        rank={ranking.rank}
+                        name={ranking.name}
+                        netWorth={ranking.netWorth}
+                        country={ranking.country}
+                        imgUrl={ranking.imgUrl}
+                        stakeToRanking={stakeToRanking}
+                    />
+                );
+            });
         return arr;
     };
 
     const filterResults = (searchTerm: string) => {
-        setCurrentRankings(state => {
-            return rankings.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
-        });
+        setFilter(searchTerm);
     };
 
     const paginate = (page: number) => {
@@ -90,7 +126,7 @@ export default function ListContainer() {
                         <span className={'list__header--element--total-value-locked'}>Total Value Locked</span>
                     </div>
                 </div>
-                {generateList(currentRankings)}
+                {generateList(rankings)}
             </div>
             <div className={'App__fee-notice'}>
                 <div>The commission fee for staking is: 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)})</div>
@@ -99,7 +135,8 @@ export default function ListContainer() {
                 paginate={paginate}
                 currentPage={currentPage}
                 resultsLength={rankings.length}
-                maxLength={100}
+                isLoading={isLoading}
+                maxLength={maxLength}
             />
             {isModalOpen && (
                 <Modal closeModal={closeModal}>
