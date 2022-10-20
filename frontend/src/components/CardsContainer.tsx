@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import Card from './Card';
 import '../stylesheets/CardsContainer.scss';
 import { chunk, isEmpty } from 'lodash';
@@ -9,9 +9,11 @@ import { Web3Context } from '../App';
 import Modal from './Modal';
 import { INITIAL_SELECTED_RANK } from '../helpers/Constants';
 import convertToRanking from '../helpers/convertToRanking';
+import { BigNumber, ethers } from 'ethers';
 
 export default function CardsContainer() {
-    const [{ rankings, contract, etherPriceUSD, maxLength }, setContext] = useContext<any>(Web3Context);
+    const [{ rankings, contract, etherPriceUSD, maxLength, gasPrice, gasLimit }, setContext] =
+        useContext<any>(Web3Context);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isModalOpen, setModalState] = useState(false);
     const [selectedRank, setSelectedRank] = useState<IRanking>(INITIAL_SELECTED_RANK);
@@ -24,6 +26,11 @@ export default function CardsContainer() {
         currentFilterTerm: '',
         filterLength: 0,
         filteredRankings: []
+    });
+    const [acceptedRisk, setAcceptedRisk] = useState(false);
+    const [amountToStake, setAmountToStake] = useState<string>('0');
+    const [errors, setErrors] = useState({
+        userHasAlreadyStaked: false
     });
 
     const isBeingFiltered = currentFilterTerm !== '';
@@ -84,6 +91,12 @@ export default function CardsContainer() {
 
     const closeModal = () => {
         setModalState(false);
+        setAcceptedRisk(false);
+        setErrors(() => {
+            return {
+                userHasAlreadyStaked: false
+            };
+        });
     };
 
     useEffect(() => {
@@ -122,6 +135,48 @@ export default function CardsContainer() {
         });
     }, [currentPage]);
 
+    const addStake = useCallback(
+        async (_selectedRank: IRanking) => {
+            try {
+                const addStakeTx = await contract.addStake(
+                    _selectedRank.id,
+                    ethers.utils.formatBytes32String(_selectedRank.name),
+                    {
+                        value: BigNumber.from(ethers.utils.parseEther(amountToStake)).add(
+                            ethers.utils.parseEther('0.0025')
+                        ),
+                        gasLimit: gasLimit,
+                        gasPrice: gasPrice
+                    }
+                );
+                const addStakeTxReceipt = await addStakeTx.wait();
+
+                const stakes = await contract.getUserStakes();
+
+                setContext((prev: any) => {
+                    return {
+                        ...prev,
+                        stakes: stakes
+                    };
+                });
+
+                await closeModal();
+            } catch (err) {
+                setErrors(prev => {
+                    return {
+                        ...errors,
+                        userHasAlreadyStaked: true
+                    };
+                });
+            }
+        },
+        [amountToStake]
+    );
+
+    const acceptRisk = () => {
+        setAcceptedRisk(true);
+    };
+
     return (
         <div className={'card__container'}>
             <div className={'search-bar-container'}>
@@ -133,18 +188,44 @@ export default function CardsContainer() {
             />
             {generateCards()}
             {isModalOpen && (
-                <Modal closeModal={closeModal} onAccept={() => {}}>
+                <Modal
+                    closeModal={closeModal}
+                    onAccept={() => (acceptedRisk ? addStake(selectedRank) : acceptRisk())}
+                    altText={acceptedRisk ? 'stake' : ''}>
                     <div>
                         <div className={'modal__title'}>Stake to {selectedRank.name}</div>
                         <div className={'modal__description'}>
-                            <div>
-                                You are attempting to stake to {selectedRank.name}, who is currently ranked #
-                                {selectedRank.rank}.
-                            </div>
-                            <div className={'modal__description__are-you-sure'}>Are you sure you want to continue?</div>
-                            <div className={'modal__description__fee-notice'}>
-                                Notice: There is a 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)}) commission fee.
-                            </div>
+                            {!acceptedRisk && (
+                                <>
+                                    <div>
+                                        You are attempting to stake to {selectedRank.name}, who is currently ranked #
+                                        {selectedRank.rank}.
+                                    </div>
+                                    <div className={'modal__description__are-you-sure'}>
+                                        Are you sure you want to continue?
+                                    </div>
+                                    <div className={'modal__description__fee-notice'}>
+                                        Notice: There is a 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)})
+                                        commission fee.
+                                    </div>
+                                </>
+                            )}
+                            {acceptedRisk && (
+                                <>
+                                    <div>Select an amount to stake to {selectedRank.name} (in ETH).</div>
+                                    <input
+                                        className={'modal__description__input'}
+                                        type="number"
+                                        onChange={e => setAmountToStake(e.target.value)}
+                                    />
+                                </>
+                            )}
+                            {errors && errors.userHasAlreadyStaked && (
+                                <div className={'modal__error--already-staked'}>
+                                    You've already staked to {selectedRank.name}. Please unstake first or choose a
+                                    different person.
+                                </div>
+                            )}
                         </div>
                     </div>
                 </Modal>

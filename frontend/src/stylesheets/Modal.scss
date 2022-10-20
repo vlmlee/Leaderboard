@@ -83,10 +83,13 @@
 
     &__error {
         &--already-staked {
-            z-index: 1;
+            z-index: 3;
             position: relative;
-            top: 90px;
+            top: -30px;
             color: red;
+            border: 2px solid;
+            background: white;
+            padding: 15px;
         }
     }
 }
