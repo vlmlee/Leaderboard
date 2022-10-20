@@ -87,7 +87,11 @@ export default function ListContainer() {
         });
 
         const filterLength = filteredRankings.length;
-        setFilter({ currentFilterTerm: searchTerm, filterLength: filterLength, filteredRankings: filteredRankings });
+        setFilter(() => ({
+            currentFilterTerm: searchTerm,
+            filterLength: filterLength,
+            filteredRankings: filteredRankings
+        }));
         setCurrentPage(0);
     };
 
