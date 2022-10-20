@@ -19,7 +19,13 @@ async function main() {
     const Leaderboard = await hre.ethers.getContractFactory('Leaderboard');
     const leaderboard = await Leaderboard.deploy(
         ethers.utils.formatBytes32String('Leaderboard'),
-        new Date('12/12/2022').getTime()
+        new Date('12/12/2022').getTime(),
+        ethers.utils.parseEther('0.0025'),
+        {
+            value: ethers.utils.parseEther('2.0'),
+            gasPrice: 8000000000,
+            gasLimit: 10000000
+        }
     );
 
     await leaderboard.deployed();
@@ -45,6 +51,12 @@ function saveFrontendFiles(contract, name) {
     const contractArtifact = artifacts.readArtifactSync(name);
 
     fs.writeFileSync(contractsDir + `/${name}.json`, JSON.stringify(contractArtifact, null, 2));
+    console.log(
+        'Contract artifacts saved at:',
+        contractsDir + `/${name}-address.json`,
+        ' and ',
+        contractsDir + `/${name}.json`
+    );
 }
 
 // We recommend this pattern to be able to use async/await everywhere

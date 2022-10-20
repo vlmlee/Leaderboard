@@ -30,7 +30,8 @@ function App() {
         etherPriceUSD: 0
     });
     const [isModalOpen, setModalState] = useState<boolean>(false);
-    const [days, hours, minutes, seconds] = useCountdown(new Date('11/11/2023'));
+    const [endTime, setEndTime] = useState<Date>(new Date(''));
+    const [days, hours, minutes, seconds] = useCountdown(endTime);
 
     const web3Handler = async () => {
         const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
@@ -50,6 +51,9 @@ function App() {
             ...prev,
             contract: _contract
         }));
+
+        const endTime = await _contract.endTime();
+        setEndTime(endTime.toNumber());
     };
 
     const allocateRewards = () => {
@@ -132,15 +136,17 @@ function App() {
                 <NavLink className={'App__header__logo'} to={'/'}>
                     DeLeaderboards
                 </NavLink>
-                <div className={'App__staking-countdown'}>
-                    <div className={'App__staking-countdown__warning'}>Staking ends in:</div>
-                    <div className={'App__staking-countdown__timer'}>
-                        {days}:{hours < 10 && '0'}
-                        {hours}:{minutes < 10 && '0'}
-                        {minutes}:{seconds < 10 && '0'}
-                        {seconds}
+                {!isNaN(days) && (
+                    <div className={'App__staking-countdown fade-in'}>
+                        <div className={'App__staking-countdown__warning'}>Staking ends in:</div>
+                        <div className={'App__staking-countdown__timer'}>
+                            {days}:{hours < 10 && '0'}
+                            {hours}:{minutes < 10 && '0'}
+                            {minutes}:{seconds < 10 && '0'}
+                            {seconds}
+                        </div>
                     </div>
-                </div>
+                )}
             </header>
             <div className={'App__title'}>
                 <h1>

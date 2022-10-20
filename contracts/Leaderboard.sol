@@ -107,7 +107,7 @@ contract Leaderboard {
         addToRewardPool(msg.value);
     }
 
-    function() public payable {}
+    fallback() external payable {}
 
     receive() external payable {}
 

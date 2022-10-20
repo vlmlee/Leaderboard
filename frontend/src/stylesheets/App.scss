@@ -41,6 +41,7 @@
         width: fit-content;
         text-align: center;
         gap: 10px;
+        transition: 1s all ease-in;
 
         &__warning {
             font-size: 15px;
@@ -251,6 +252,10 @@ body::before {
     will-change: transform;
 }
 
+.fade-in {
+    animation: fadein 0.4s;
+}
+
 @keyframes AnimateBG {
     0% {
         transform: translate3d(0, 0, 0);
@@ -286,3 +291,14 @@ body::before {
         transform: translateY(-5px) rotateY(405deg);
     }
 }
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+//@import './no-animations.scss';
