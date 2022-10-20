@@ -9,6 +9,7 @@ import { useFindPath } from './hooks/useFindPath';
 import Modal from './components/Modal';
 import { IWeb3Context } from './typings';
 import { useCountdown } from './hooks/useCountDown';
+import convertToRanking from './helpers/convertToRanking';
 
 export const Web3Context = React.createContext<any>({
     account: null,
@@ -55,11 +56,10 @@ function App() {
 
         let _ranks: any = [];
 
-        // for (let i = 1; i < 20; i++) {
-        //     const rankings = await _contract.getRankingByRank(i);
-        //     console.log(rankings);
-        //     _ranks.push(rankings);
-        // }
+        for (let i = 1; i < 20; i++) {
+            const _rankings = await _contract.getRankingByRank(i);
+            _ranks.push(convertToRanking(_rankings));
+        }
 
         setContext(prev => ({
             ...prev,

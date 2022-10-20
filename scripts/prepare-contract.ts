@@ -61,7 +61,7 @@ async function rankingsData() {
             netWorth: person.finalWorth,
             country: person.country
         };
-        const data = Buffer.from(JSON.stringify(dataObj));
+        const data = ethers.utils.hexlify(Buffer.from(JSON.stringify(dataObj)));
 
         return {
             name,
