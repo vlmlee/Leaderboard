@@ -17,7 +17,8 @@ export const Web3Context = React.createContext<any>({
     etherPriceUSD: 0,
     rankings: [],
     stakes: [],
-    maxLength: 100
+    maxLength: 100,
+    isFacilitator: false
 });
 
 function App() {
@@ -28,14 +29,16 @@ function App() {
 
     const isHomePage = useFindPath() === '/';
 
-    const [{ account, contract, etherPriceUSD, rankings, stakes, maxLength }, setContext] = useState<IWeb3Context>({
-        account: null,
-        contract: {},
-        etherPriceUSD: 0,
-        rankings: [],
-        stakes: [],
-        maxLength: 100
-    });
+    const [{ account, contract, etherPriceUSD, rankings, stakes, maxLength, isFacilitator }, setContext] =
+        useState<IWeb3Context>({
+            account: null,
+            contract: {},
+            etherPriceUSD: 0,
+            rankings: [],
+            stakes: [],
+            maxLength: 100,
+            isFacilitator: false
+        });
     const [isModalOpen, setModalState] = useState<boolean>(false);
     const [endTime, setEndTime] = useState<Date>(new Date(''));
     const [days, hours, minutes, seconds] = useCountdown(endTime);
@@ -49,10 +52,11 @@ function App() {
 
         const provider = new ethers.providers.Web3Provider((window as any).ethereum);
         const signer = provider.getSigner();
-        await loadContract(signer);
+        await loadContract(signer, accounts[0]);
     };
 
-    const loadContract = async (signer: any) => {
+    const loadContract = async (signer: any, account: string) => {
+        console.log(signer);
         const _contract = new ethers.Contract(LeaderboardAddress.address, LeaderboardAbi.abi, signer);
 
         const endTime = await _contract.endTime();
@@ -66,12 +70,14 @@ function App() {
         }
 
         const _stakes = await _contract.getUserStakes();
+        const facilitator = await _contract.facilitator();
 
         setContext(prev => ({
             ...prev,
             contract: _contract,
             rankings: _ranks,
-            stakes: _stakes
+            stakes: _stakes,
+            isFacilitator: facilitator.toLowerCase() === account.toLowerCase()
         }));
     };
 
@@ -109,9 +115,11 @@ function App() {
                             {account?.slice(0, 8)}...
                             {account?.slice(account.length - 4)}
                         </a>
-                        <button className="App__header__allocate-rewards" onClick={allocateRewards}>
-                            Allocate Rewards
-                        </button>
+                        {isFacilitator && (
+                            <button className="App__header__allocate-rewards" onClick={allocateRewards}>
+                                Allocate Rewards
+                            </button>
+                        )}
                     </>
                 )}
                 {!account && (
@@ -184,7 +192,7 @@ function App() {
                 <h2>by Forbes</h2>
             </div>
             <Web3Context.Provider
-                value={[{ contract, account, etherPriceUSD, rankings, stakes, maxLength }, setContext]}>
+                value={[{ contract, account, etherPriceUSD, rankings, stakes, maxLength, isFacilitator }, setContext]}>
                 <Outlet />
             </Web3Context.Provider>
             {isModalOpen && (
