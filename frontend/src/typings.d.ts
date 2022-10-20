@@ -17,12 +17,16 @@ export interface IPageIndices {
 
 export interface IWeb3Context {
     account: any;
+    provider: any;
     contract: any;
     etherPriceUSD?: number | string;
     rankings: any[];
     stakes: any[];
     maxLength: number;
     isFacilitator: boolean;
+    gasPrice: number;
+    gasLimit: number;
+    maxFeePerGas: number;
 }
 
 export interface IListFilter {

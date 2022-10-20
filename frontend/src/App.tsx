@@ -18,7 +18,11 @@ export const Web3Context = React.createContext<any>({
     rankings: [],
     stakes: [],
     maxLength: 100,
-    isFacilitator: false
+    isFacilitator: false,
+    provider: {},
+    gasPrice: 0,
+    gasLimit: 0,
+    maxFeePerGas: 0
 });
 
 function App() {
@@ -29,16 +33,34 @@ function App() {
 
     const isHomePage = useFindPath() === '/';
 
-    const [{ account, contract, etherPriceUSD, rankings, stakes, maxLength, isFacilitator }, setContext] =
-        useState<IWeb3Context>({
-            account: null,
-            contract: {},
-            etherPriceUSD: 0,
-            rankings: [],
-            stakes: [],
-            maxLength: 100,
-            isFacilitator: false
-        });
+    const [
+        {
+            provider,
+            account,
+            contract,
+            etherPriceUSD,
+            rankings,
+            stakes,
+            maxLength,
+            isFacilitator,
+            gasPrice,
+            gasLimit,
+            maxFeePerGas
+        },
+        setContext
+    ] = useState<IWeb3Context>({
+        account: null,
+        contract: {},
+        provider: {},
+        etherPriceUSD: 0,
+        rankings: [],
+        stakes: [],
+        maxLength: 100,
+        isFacilitator: false,
+        gasPrice: 0,
+        gasLimit: 0,
+        maxFeePerGas: 0
+    });
     const [isModalOpen, setModalState] = useState<boolean>(false);
     const [endTime, setEndTime] = useState<Date>(new Date(''));
     const [days, hours, minutes, seconds] = useCountdown(endTime);
@@ -51,12 +73,12 @@ function App() {
         }));
 
         const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+
         const signer = provider.getSigner();
-        await loadContract(signer, accounts[0]);
+        await loadContract(signer, provider, accounts[0]);
     };
 
-    const loadContract = async (signer: any, account: string) => {
-        console.log(signer);
+    const loadContract = async (signer: any, _provider: any, account: string) => {
         const _contract = new ethers.Contract(LeaderboardAddress.address, LeaderboardAbi.abi, signer);
 
         const endTime = await _contract.endTime();
@@ -72,8 +94,14 @@ function App() {
         const _stakes = await _contract.getUserStakes();
         const facilitator = await _contract.facilitator();
 
+        const feeData = await _provider.getFeeData();
+
         setContext(prev => ({
             ...prev,
+            gasPrice: +ethers.utils.formatUnits(feeData.gasPrice, 'wei'),
+            gasLimit: 150000,
+            maxFeePerGas: +ethers.utils.formatUnits(feeData.maxFeePerGas, 'wei'),
+            provider: _provider,
             contract: _contract,
             rankings: _ranks,
             stakes: _stakes,
@@ -192,7 +220,22 @@ function App() {
                 <h2>by Forbes</h2>
             </div>
             <Web3Context.Provider
-                value={[{ contract, account, etherPriceUSD, rankings, stakes, maxLength, isFacilitator }, setContext]}>
+                value={[
+                    {
+                        provider,
+                        contract,
+                        account,
+                        etherPriceUSD,
+                        rankings,
+                        stakes,
+                        maxLength,
+                        isFacilitator,
+                        gasPrice,
+                        gasLimit,
+                        maxFeePerGas
+                    },
+                    setContext
+                ]}>
                 <Outlet />
             </Web3Context.Provider>
             {isModalOpen && (

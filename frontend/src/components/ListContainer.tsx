@@ -9,9 +9,11 @@ import Modal from './Modal';
 import { Web3Context } from '../App';
 import convertToRanking from '../helpers/convertToRanking';
 import { isEmpty } from 'lodash';
+import { BigNumber, ethers } from 'ethers';
 
 export default function ListContainer() {
-    const [{ contract, stakes, rankings, maxLength, etherPriceUSD }, setContext] = useContext<any>(Web3Context);
+    const [{ contract, stakes, rankings, maxLength, etherPriceUSD, gasLimit, gasPrice }, setContext] =
+        useContext<any>(Web3Context);
     const [{ currentFilterTerm, filteredRankings, filterLength }, setFilter] = useState<IListFilter>({
         currentFilterTerm: '',
         filterLength: 0,
@@ -104,10 +106,23 @@ export default function ListContainer() {
         const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.name === name && _ranking.rank === rank);
 
         setSelectedRank(_selectedRank ?? INITIAL_SELECTED_RANK);
+        addStake(_selectedRank)
+            .then(result => {})
+            .catch(err => {
+                // set error
+            });
     };
 
     const closeModal = () => {
         setModalState(false);
+    };
+
+    const addStake = async (_selectedRank: IRanking) => {
+        const addStakeTx = await contract.addStake(_selectedRank.id, _selectedRank.name, {
+            value: BigNumber.from(ethers.utils.parseEther('0.5')).add('0.0025'),
+            gasLimit: gasLimit,
+            gasPrice: gasPrice
+        });
     };
 
     return (
