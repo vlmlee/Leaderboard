@@ -13,7 +13,8 @@ import { useCountdown } from './hooks/useCountDown';
 export const Web3Context = React.createContext<any>({
     account: null,
     contract: {},
-    etherPriceUSD: 0
+    etherPriceUSD: 0,
+    rankings: []
 });
 
 function App() {
@@ -27,7 +28,8 @@ function App() {
     const [{ account, contract, etherPriceUSD }, setContext] = useState<IWeb3Context>({
         account: null,
         contract: {},
-        etherPriceUSD: 0
+        etherPriceUSD: 0,
+        rankings: []
     });
     const [isModalOpen, setModalState] = useState<boolean>(false);
     const [endTime, setEndTime] = useState<Date>(new Date(''));
@@ -47,13 +49,23 @@ function App() {
 
     const loadContract = async (signer: any) => {
         const _contract = new ethers.Contract(LeaderboardAddress.address, LeaderboardAbi.abi, signer);
-        setContext(prev => ({
-            ...prev,
-            contract: _contract
-        }));
 
         const endTime = await _contract.endTime();
         setEndTime(endTime.toNumber());
+
+        let _ranks: any = [];
+
+        // for (let i = 1; i < 20; i++) {
+        //     const rankings = await _contract.getRankingByRank(i);
+        //     console.log(rankings);
+        //     _ranks.push(rankings);
+        // }
+
+        setContext(prev => ({
+            ...prev,
+            contract: _contract,
+            rankings: _ranks
+        }));
     };
 
     const allocateRewards = () => {

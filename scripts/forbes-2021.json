@@ -1,0 +1,5756 @@
+{
+  "personLists": [
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "jeff-bezos",
+      "rank": 1,
+      "listUri": "billionaires",
+      "finalWorth": 177000,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Jeff Bezos",
+      "age": 57,
+      "country": "United States",
+      "state": "Washington",
+      "city": "Seattle",
+      "source": "Amazon",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Amazon",
+      "timestamp": 1645208690257,
+      "version": 30,
+      "naturalId": "faris/5/2021/6713",
+      "position": 1,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -188438400000,
+      "lastName": "Bezos",
+      "firstName": "Jeff",
+      "listDescription": "The World's Billionaires",
+      "title": "Entrepreneur",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5bb22ae84bbe6f67d2e82e05/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "Seattle-Tacoma-Bellevue, WA",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5bb22ae84bbe6f67d2e82e05/416x416.jpg?background=000000&cropX1=627&cropX2=1639&cropY1=129&cropY2=1142",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "qas": [
+        "Array"
+      ],
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "elon-musk",
+      "rank": 2,
+      "listUri": "billionaires",
+      "finalWorth": 151000,
+      "category": "Automotive",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Elon Musk",
+      "age": 49,
+      "country": "United States",
+      "state": "Texas",
+      "city": "Austin",
+      "source": "Tesla, SpaceX",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Tesla",
+      "timestamp": 1646931240551,
+      "version": 7,
+      "naturalId": "faris/5/2021/14117",
+      "position": 2,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 46915200000,
+      "lastName": "Musk",
+      "firstName": "Elon",
+      "listDescription": "The World's Billionaires",
+      "title": "CEO and Chairman",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/62d700cd6094d2c180f269b9/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "South",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/62d700cd6094d2c180f269b9/416x416.jpg?background=000000&cropX1=0&cropX2=959&cropY1=0&cropY2=959",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "qas": [
+        "Array"
+      ],
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "bernard-arnault",
+      "rank": 3,
+      "listUri": "billionaires",
+      "finalWorth": 150000,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Bernard Arnault & family",
+      "age": 72,
+      "country": "France",
+      "city": "Paris",
+      "source": "LVMH",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "France",
+      "organization": "LVMH Moet Hennessy Louis Vuitton",
+      "timestamp": 1649136423045,
+      "version": 4,
+      "naturalId": "faris/5/2021/4800",
+      "position": 3,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -657244800000,
+      "lastName": "Arnault",
+      "firstName": "Bernard",
+      "listDescription": "The World's Billionaires",
+      "title": "Chairman and CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5dc05518ca425400079c659f/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5dc05518ca425400079c659f/416x416.jpg?background=000000&cropX1=0&cropX2=4000&cropY1=1209&cropY2=5212",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "bill-gates",
+      "rank": 4,
+      "listUri": "billionaires",
+      "finalWorth": 124000,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Bill Gates",
+      "age": 65,
+      "country": "United States",
+      "state": "Washington",
+      "city": "Medina",
+      "source": "Microsoft",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Bill & Melinda Gates Foundation",
+      "timestamp": 1643829917246,
+      "version": 6,
+      "naturalId": "faris/5/2021/5772",
+      "position": 4,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -447465600000,
+      "lastName": "Gates",
+      "firstName": "Bill",
+      "listDescription": "The World's Billionaires",
+      "title": "Cofounder",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/62d599ede3ff49f348f9b9b4/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "Seattle-Tacoma-Bellevue, WA",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/62d599ede3ff49f348f9b9b4/416x416.jpg?background=000000&cropX1=155&cropX2=976&cropY1=340&cropY2=1161",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 4,
+      "impactInvestor": true
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "mark-zuckerberg",
+      "bio": "At the age of 27, his company dominates social media. And he was the subject of an Oscar-winning film.",
+      "rank": 5,
+      "listUri": "billionaires",
+      "finalWorth": 97000,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Mark Zuckerberg",
+      "age": 36,
+      "country": "United States",
+      "state": "California",
+      "city": "Palo Alto",
+      "source": "Facebook",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Facebook",
+      "timestamp": 1633608838384,
+      "version": 4,
+      "naturalId": "faris/5/2021/8047",
+      "position": 5,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 453340800000,
+      "lastName": "Zuckerberg",
+      "firstName": "Mark",
+      "listDescription": "The World's Billionaires",
+      "title": "Entrepreneur",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c76b7d331358e35dd2773a9/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "San Jose, CA",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c76b7d331358e35dd2773a9/416x416.jpg?background=000000&cropX1=0&cropX2=4401&cropY1=0&cropY2=4401",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "qas": [
+        "Array"
+      ],
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 2,
+      "impactInvestor": true,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "warren-buffett",
+      "rank": 6,
+      "listUri": "billionaires",
+      "finalWorth": 96000,
+      "category": "Finance & Investments",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Warren Buffett",
+      "age": 90,
+      "country": "United States",
+      "state": "Nebraska",
+      "city": "Omaha",
+      "source": "Berkshire Hathaway",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Berkshire Hathaway Inc. (Cl A)",
+      "timestamp": 1639175665404,
+      "version": 4,
+      "naturalId": "faris/5/2021/5381",
+      "position": 6,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1241481600000,
+      "lastName": "Buffett",
+      "firstName": "Warren",
+      "listDescription": "The World's Billionaires",
+      "title": "CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5babb7f1a7ea4342a948b79a/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Midwest",
+      "residenceMsa": "Omaha, NE",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5babb7f1a7ea4342a948b79a/416x416.jpg?background=000000&cropX1=748&cropX2=3075&cropY1=1753&cropY2=4082",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 5,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "larry-ellison",
+      "rank": 7,
+      "listUri": "billionaires",
+      "finalWorth": 93000,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Larry Ellison",
+      "age": 76,
+      "country": "United States",
+      "state": "Hawaii",
+      "city": "Lanai",
+      "source": "software",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Oracle Corp.",
+      "timestamp": 1639175663696,
+      "version": 5,
+      "naturalId": "faris/5/2021/5574",
+      "position": 7,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -800755200000,
+      "lastName": "Ellison",
+      "firstName": "Larry",
+      "listDescription": "The World's Billionaires",
+      "title": "CTO and Founder",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 9,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e8b62cfc095010007bffea0/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e8b62cfc095010007bffea0/416x416.jpg?background=000000&cropX1=0&cropX2=4529&cropY1=652&cropY2=5184",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "larry-page",
+      "rank": 8,
+      "listUri": "billionaires",
+      "finalWorth": 91500,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Larry Page",
+      "age": 48,
+      "country": "United States",
+      "state": "California",
+      "city": "Palo Alto",
+      "source": "Google",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Alphabet",
+      "timestamp": 1639175660340,
+      "version": 4,
+      "naturalId": "faris/5/2021/7441",
+      "position": 8,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 101952000000,
+      "lastName": "Page",
+      "firstName": "Larry",
+      "listDescription": "The World's Billionaires",
+      "title": "Entrepreneur",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c76bcaaa7ea43100043c836/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "San Jose, CA",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c76bcaaa7ea43100043c836/416x416.jpg?background=000000&cropX1=227&cropX2=2022&cropY1=22&cropY2=1817",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "sergey-brin",
+      "rank": 9,
+      "listUri": "billionaires",
+      "finalWorth": 89000,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Sergey Brin",
+      "age": 47,
+      "country": "United States",
+      "state": "California",
+      "city": "Los Altos",
+      "source": "Google",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Alphabet",
+      "timestamp": 1639175661906,
+      "version": 4,
+      "naturalId": "faris/5/2021/7442",
+      "position": 9,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 114739200000,
+      "lastName": "Brin",
+      "firstName": "Sergey",
+      "listDescription": "The World's Billionaires",
+      "title": "Cofounder and board member",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 9,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c7d7c254bbe6f78090d831f/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "San Jose, CA",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c7d7c254bbe6f78090d831f/416x416.jpg?background=000000&cropX1=475&cropX2=2887&cropY1=168&cropY2=2582",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "mukesh-ambani",
+      "rank": 10,
+      "listUri": "billionaires",
+      "finalWorth": 84500,
+      "category": "Diversified",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Mukesh Ambani",
+      "age": 63,
+      "country": "India",
+      "city": "Mumbai",
+      "source": "diversified",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "India",
+      "organization": "Reliance Industries Ltd.",
+      "timestamp": 1633621549690,
+      "version": 6,
+      "naturalId": "faris/5/2021/7409",
+      "position": 10,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -400896000000,
+      "lastName": "Ambani",
+      "firstName": "Mukesh",
+      "listDescription": "The World's Billionaires",
+      "title": "Founder and Chairman",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c7d7829a7ea434b351ba0b6/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c7d7829a7ea434b351ba0b6/416x416.jpg?background=000000&cropX1=206&cropX2=2043&cropY1=250&cropY2=2089",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "amancio-ortega",
+      "rank": 11,
+      "listUri": "billionaires",
+      "finalWorth": 77000,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Amancio Ortega",
+      "age": 85,
+      "country": "Spain",
+      "city": "La Coruna",
+      "source": "Zara",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Spain",
+      "timestamp": 1649102190360,
+      "version": 5,
+      "naturalId": "faris/5/2021/7034",
+      "position": 11,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1065484800000,
+      "lastName": "Ortega",
+      "firstName": "Amancio",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c76b94131358e35dd27748e/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c76b94131358e35dd27748e/416x416.jpg?background=000000&cropX1=179&cropX2=2232&cropY1=216&cropY2=2269",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "francoise-bettencourt-meyers",
+      "rank": 12,
+      "listUri": "billionaires",
+      "finalWorth": 73600,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Francoise Bettencourt Meyers & family",
+      "age": 67,
+      "country": "France",
+      "city": "Paris",
+      "source": "L'Oréal",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "France",
+      "timestamp": 1649102175987,
+      "version": 5,
+      "naturalId": "faris/5/2021/203905",
+      "position": 12,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "U",
+      "gender": "F",
+      "birthDate": -520041600000,
+      "lastName": "Bettencourt Meyers",
+      "firstName": "Francoise",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/605e26e3c65f7c2596bd3e15/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/605e26e3c65f7c2596bd3e15/416x416.jpg?background=000000&cropX1=0&cropX2=1080&cropY1=0&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "zhong-shanshan",
+      "rank": 13,
+      "listUri": "billionaires",
+      "finalWorth": 68900,
+      "category": "Food & Beverage",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Zhong Shanshan",
+      "age": 66,
+      "country": "China",
+      "city": "Hangzhou",
+      "source": "beverages, pharmaceuticals",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635965585750,
+      "version": 4,
+      "naturalId": "faris/5/2021/219528",
+      "position": 13,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -476064000000,
+      "lastName": "Zhong",
+      "firstName": "Shanshan",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/60380e390357bc1fbfc0bc32/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/60380e390357bc1fbfc0bc32/416x416.jpg?background=000000&cropX1=116&cropX2=1327&cropY1=201&cropY2=1413",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "steve-ballmer",
+      "rank": 14,
+      "listUri": "billionaires",
+      "finalWorth": 68700,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Steve Ballmer",
+      "age": 65,
+      "country": "United States",
+      "state": "Washington",
+      "city": "Hunts Point",
+      "source": "Microsoft",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Los Angeles Clippers",
+      "timestamp": 1639175667078,
+      "version": 5,
+      "naturalId": "faris/5/2021/5671",
+      "position": 14,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -434678400000,
+      "lastName": "Ballmer",
+      "firstName": "Steve",
+      "listDescription": "The World's Billionaires",
+      "title": "Owner",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 6,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/59d50c47a7ea436b47b36d66/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "Seattle-Tacoma-Bellevue, WA",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/59d50c47a7ea436b47b36d66/416x416.jpg?background=000000&cropX1=553&cropX2=2940&cropY1=322&cropY2=2708",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 2,
+      "impactInvestor": true,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "ma-huateng",
+      "rank": 15,
+      "listUri": "billionaires",
+      "finalWorth": 65800,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Ma Huateng",
+      "age": 49,
+      "country": "China",
+      "city": "Shenzhen",
+      "source": "internet media",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "organization": "Tencent",
+      "timestamp": 1645572378682,
+      "version": 5,
+      "naturalId": "faris/5/2021/40",
+      "position": 15,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 57542400000,
+      "lastName": "Ma",
+      "firstName": "Huateng",
+      "listDescription": "The World's Billionaires",
+      "title": "Chairman and CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/605e23c0f0986f688fbd3e15/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/605e23c0f0986f688fbd3e15/416x416.jpg?background=000000&cropX1=0&cropX2=1080&cropY1=0&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "carlos-slim-helu",
+      "rank": 16,
+      "listUri": "billionaires",
+      "finalWorth": 62800,
+      "category": "Telecom",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Carlos Slim Helu & family",
+      "age": 81,
+      "country": "Mexico",
+      "city": "Mexico City",
+      "source": "telecom",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Mexico",
+      "organization": "America Movil SAB de CV (ADR)",
+      "timestamp": 1649102174416,
+      "version": 5,
+      "naturalId": "faris/5/2021/4466",
+      "position": 16,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -944438400000,
+      "lastName": "Slim Helu",
+      "firstName": "Carlos",
+      "listDescription": "The World's Billionaires",
+      "title": "Honorary Chairman",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c76ba144bbe6f24ad99c613/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c76ba144bbe6f24ad99c613/416x416.jpg?background=000000&cropX1=0&cropX2=3005&cropY1=389&cropY2=3395",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "alice-walton",
+      "rank": 17,
+      "listUri": "billionaires",
+      "finalWorth": 61800,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Alice Walton",
+      "age": 71,
+      "country": "United States",
+      "state": "Texas",
+      "city": "Fort Worth",
+      "source": "Walmart",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Crystal Bridges Museum of American Art",
+      "timestamp": 1639175671732,
+      "version": 5,
+      "naturalId": "faris/5/2021/5722",
+      "position": 17,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "F",
+      "birthDate": -638582400000,
+      "lastName": "Walton",
+      "firstName": "Alice",
+      "listDescription": "The World's Billionaires",
+      "title": "Philanthropist",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 1,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c7ef270a7ea434b351bca52/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "South",
+      "residenceMsa": "Dallas-Fort Worth-Arlington, TX",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c7ef270a7ea434b351bca52/416x416.jpg?background=000000&cropX1=232&cropX2=998&cropY1=222&cropY2=988",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 2,
+      "impactInvestor": true,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "jim-walton",
+      "rank": 18,
+      "listUri": "billionaires",
+      "finalWorth": 60200,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Jim Walton",
+      "age": 72,
+      "country": "United States",
+      "state": "Arkansas",
+      "city": "Bentonville",
+      "source": "Walmart",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Arvest Bank Group, Inc.",
+      "timestamp": 1639175670104,
+      "version": 4,
+      "naturalId": "faris/5/2021/5720",
+      "position": 18,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -680659200000,
+      "lastName": "Walton",
+      "firstName": "Jim",
+      "listDescription": "The World's Billionaires",
+      "title": "Chairman and CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 2,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c7ef2fea7ea434b351bca5a/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "South",
+      "residenceMsa": "Fayetteville, AR",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c7ef2fea7ea434b351bca5a/416x416.jpg?background=000000&cropX1=49&cropX2=934&cropY1=65&cropY2=951",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1,
+      "impactInvestor": true,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "rob-walton",
+      "rank": 19,
+      "listUri": "billionaires",
+      "finalWorth": 59500,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Rob Walton",
+      "age": 76,
+      "country": "United States",
+      "state": "Arkansas",
+      "city": "Bentonville",
+      "source": "Walmart",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Walmart Inc.",
+      "timestamp": 1639175673281,
+      "version": 5,
+      "naturalId": "faris/5/2021/5716",
+      "position": 19,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -794620800000,
+      "lastName": "Walton",
+      "firstName": "Rob",
+      "listDescription": "The World's Billionaires",
+      "title": "Director",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 4,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/59d50a9e4bbe6f37dd9ff712/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "South",
+      "residenceMsa": "Fayetteville, AR",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/59d50a9e4bbe6f37dd9ff712/416x416.jpg?background=000000&cropX1=244&cropX2=1841&cropY1=60&cropY2=1658",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "michael-bloomberg",
+      "rank": 20,
+      "listUri": "billionaires",
+      "finalWorth": 59000,
+      "category": "Media & Entertainment",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Michael Bloomberg",
+      "age": 79,
+      "country": "United States",
+      "state": "New York",
+      "city": "New York",
+      "source": "Bloomberg LP",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Bloomberg L.P.",
+      "timestamp": 1639175668448,
+      "version": 5,
+      "naturalId": "faris/5/2021/5640",
+      "position": 20,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -879811200000,
+      "lastName": "Bloomberg",
+      "firstName": "Michael",
+      "listDescription": "The World's Billionaires",
+      "title": "CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c76b4104bbe6f24ad99c35d/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Northeast",
+      "residenceMsa": "New York, NY",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c76b4104bbe6f24ad99c35d/416x416.jpg?background=000000&cropX1=165&cropX2=5613&cropY1=321&cropY2=5769",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 4,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "colin-zheng-huang",
+      "rank": 21,
+      "listUri": "billionaires",
+      "finalWorth": 55300,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Colin Zheng Huang",
+      "age": 41,
+      "country": "China",
+      "city": "Shanghai",
+      "source": "e-commerce",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635965592331,
+      "version": 4,
+      "naturalId": "faris/5/2021/217981",
+      "position": 21,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 318297600000,
+      "lastName": "Huang",
+      "firstName": "Colin Zheng",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e75028b10380d0006bdc142/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5e75028b10380d0006bdc142/416x416.jpg?background=000000&cropX1=834&cropX2=2330&cropY1=160&cropY2=1656",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "mackenzie-scott",
+      "rank": 22,
+      "listUri": "billionaires",
+      "finalWorth": 53000,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "MacKenzie Scott",
+      "age": 50,
+      "country": "United States",
+      "state": "Washington",
+      "city": "Seattle",
+      "source": "Amazon",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "timestamp": 1633404181905,
+      "version": 9,
+      "naturalId": "faris/5/2021/223808",
+      "position": 22,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "U",
+      "gender": "F",
+      "birthDate": 8294400000,
+      "lastName": "Scott",
+      "firstName": "MacKenzie",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 3,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/63325f33de0e387de2dd5389/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "Seattle-Tacoma-Bellevue, WA",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/63325f33de0e387de2dd5389/416x416.jpg?background=000000&cropX1=0&cropX2=1080&cropY1=0&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 2,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "daniel-gilbert",
+      "rank": 23,
+      "listUri": "billionaires",
+      "finalWorth": 51900,
+      "category": "Finance & Investments",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Daniel Gilbert",
+      "age": 59,
+      "country": "United States",
+      "state": "Michigan",
+      "city": "Franklin",
+      "source": "Quicken Loans",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "timestamp": 1639175688917,
+      "version": 4,
+      "naturalId": "faris/5/2021/7768",
+      "position": 23,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -251078400000,
+      "lastName": "Gilbert",
+      "firstName": "Daniel",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e444fcb112160000621ed4c/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Midwest",
+      "residenceMsa": "Detroit-Warren-Livonia, MI",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e444fcb112160000621ed4c/416x416.jpg?background=000000&cropX1=0&cropX2=2000&cropY1=307&cropY2=2307",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1,
+      "impactInvestor": true,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "gautam-adani-1",
+      "rank": 24,
+      "listUri": "billionaires",
+      "finalWorth": 50500,
+      "category": "Diversified",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Gautam Adani",
+      "age": 58,
+      "country": "India",
+      "city": "Ahmedabad",
+      "source": "infrastructure, commodities",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "India",
+      "timestamp": 1665627194936,
+      "version": 13,
+      "naturalId": "faris/5/2021/199925",
+      "position": 24,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -237427200000,
+      "lastName": "Adani",
+      "firstName": "Gautam",
+      "listDescription": "The World's Billionaires",
+      "date": 1617685260000,
+      "wealthList": false,
+      "familyList": false,
+      "numberOfSiblings": 7,
+      "numberOfSiblingsEst": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6345ac3b833e07cd89aa314c/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6345ac3b833e07cd89aa314c/416x416.jpg?background=000000&cropX1=473&cropX2=2286&cropY1=95&cropY2=1910",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "phil-knight",
+      "rank": 25,
+      "listUri": "billionaires",
+      "finalWorth": 49900,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Phil Knight & family",
+      "age": 83,
+      "country": "United States",
+      "state": "Oregon",
+      "city": "Hillsboro",
+      "source": "Nike",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Nike",
+      "timestamp": 1639175674903,
+      "version": 4,
+      "naturalId": "faris/5/2021/5307",
+      "position": 25,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1005177600000,
+      "lastName": "Knight",
+      "firstName": "Phil",
+      "listDescription": "The World's Billionaires",
+      "title": "Chairman",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5a8d930431358e4955adf1bb/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "Portland, OR",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5a8d930431358e4955adf1bb/416x416.jpg?background=000000&cropX1=1457&cropX2=2405&cropY1=17&cropY2=966",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 2,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "jack-ma",
+      "rank": 26,
+      "listUri": "billionaires",
+      "finalWorth": 48400,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Jack Ma",
+      "age": 56,
+      "country": "China",
+      "city": "Hangzhou",
+      "source": "e-commerce",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "organization": "Alibaba Group",
+      "timestamp": 1635965591237,
+      "version": 4,
+      "naturalId": "faris/5/2021/175",
+      "position": 26,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -167529600000,
+      "lastName": "Ma",
+      "firstName": "Jack",
+      "listDescription": "The World's Billionaires",
+      "title": "Founder and Executive Chairman",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/605e22fe6df966b3fcbd3e15/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/605e22fe6df966b3fcbd3e15/416x416.jpg?background=000000&cropX1=0&cropX2=1080&cropY1=0&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "charles-koch",
+      "rank": 27,
+      "listUri": "billionaires",
+      "finalWorth": 46400,
+      "category": "Diversified",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Charles Koch",
+      "age": 85,
+      "country": "United States",
+      "state": "Kansas",
+      "city": "Wichita",
+      "source": "Koch Industries",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Koch Industries, Inc.",
+      "timestamp": 1639175678151,
+      "version": 5,
+      "naturalId": "faris/5/2021/5209",
+      "position": 27,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1078272000000,
+      "lastName": "Koch",
+      "firstName": "Charles",
+      "listDescription": "The World's Billionaires",
+      "title": "CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 5,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/615c94bd2aac2936a52682d1/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Midwest",
+      "residenceMsa": "Wichita, KS",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/615c94bd2aac2936a52682d1/416x416.jpg?background=000000&cropX1=286&cropX2=848&cropY1=110&cropY2=672",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 2,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "julia-koch",
+      "rank": 27,
+      "listUri": "billionaires",
+      "finalWorth": 46400,
+      "category": "Diversified",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Julia Koch & family",
+      "age": 58,
+      "country": "United States",
+      "state": "New York",
+      "city": "New York",
+      "source": "Koch Industries",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "timestamp": 1639175679523,
+      "version": 5,
+      "naturalId": "faris/5/2021/225795",
+      "position": 28,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "U",
+      "gender": "F",
+      "birthDate": -243734400000,
+      "lastName": "Koch",
+      "firstName": "Julia",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 1,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e7bbaaa10380d0006fc154e/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Northeast",
+      "residenceMsa": "New York, NY",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e7bbaaa10380d0006fc154e/416x416.jpg?background=000000&cropX1=0&cropX2=5196&cropY1=0&cropY2=5196",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 2,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "masayoshi-son",
+      "rank": 29,
+      "listUri": "billionaires",
+      "finalWorth": 45400,
+      "category": "Telecom",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Masayoshi Son",
+      "age": 63,
+      "country": "Japan",
+      "city": "Tokyo",
+      "source": "internet, telecom",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Japan",
+      "organization": "Softbank Corp.",
+      "timestamp": 1618923958860,
+      "version": 6,
+      "naturalId": "faris/5/2021/4605",
+      "position": 29,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -391046400000,
+      "lastName": "Son",
+      "firstName": "Masayoshi",
+      "listDescription": "The World's Billionaires",
+      "title": "CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617750000000,
+      "wealthList": false,
+      "familyList": false,
+      "numberOfSiblings": 3,
+      "numberOfSiblingsEst": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e8b632801879f000703e485/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e8b632801879f000703e485/416x416.jpg?background=000000&cropX1=0&cropX2=4500&cropY1=833&cropY2=5330",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "michael-dell",
+      "rank": 30,
+      "listUri": "billionaires",
+      "finalWorth": 45100,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Michael Dell",
+      "age": 56,
+      "country": "United States",
+      "state": "Texas",
+      "city": "Austin",
+      "source": "Dell computers",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Dell Inc.",
+      "timestamp": 1639175681034,
+      "version": 4,
+      "naturalId": "faris/5/2021/5251",
+      "position": 30,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -153187200000,
+      "lastName": "Dell",
+      "firstName": "Michael",
+      "listDescription": "The World's Billionaires",
+      "title": "Chairman and CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/615c93f9da61f2ff5b9ecf9b/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "South",
+      "residenceMsa": "Austin, TX",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/615c93f9da61f2ff5b9ecf9b/416x416.jpg?background=000000&cropX1=0&cropX2=1678&cropY1=118&cropY2=1797",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "totalCharitableDonation": 1750,
+      "charitableDonationPercentage": 3,
+      "philanthropyScore": 2,
+      "impactInvestor": true,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "tadashi-yanai",
+      "rank": 31,
+      "listUri": "billionaires",
+      "finalWorth": 44100,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Tadashi Yanai & family",
+      "age": 72,
+      "country": "Japan",
+      "city": "Tokyo",
+      "source": "fashion retail",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Japan",
+      "timestamp": 1643027139235,
+      "version": 5,
+      "naturalId": "faris/5/2021/4495",
+      "position": 31,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -659491200000,
+      "lastName": "Yanai",
+      "firstName": "Tadashi",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/629e5b3c7d9ce19405b62126/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/629e5b3c7d9ce19405b62126/416x416.jpg?background=000000&cropX1=449&cropX2=3582&cropY1=90&cropY2=3219",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "francois-pinault",
+      "rank": 32,
+      "listUri": "billionaires",
+      "finalWorth": 42300,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "François Pinault & family",
+      "age": 84,
+      "country": "France",
+      "city": "Paris",
+      "source": "luxury goods",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "France",
+      "timestamp": 1649102204863,
+      "version": 5,
+      "naturalId": "faris/5/2021/4292",
+      "position": 32,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1052870400000,
+      "lastName": "Pinault",
+      "firstName": "François",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5f1eeca8e77f92a058fb1a81/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5f1eeca8e77f92a058fb1a81/416x416.jpg?background=000000&cropX1=1806&cropX2=3901&cropY1=36&cropY2=2133",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "david-thomson",
+      "rank": 33,
+      "listUri": "billionaires",
+      "finalWorth": 41800,
+      "category": "Media & Entertainment",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "David Thomson & family",
+      "age": 63,
+      "country": "Canada",
+      "city": "Toronto",
+      "source": "media",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Canada",
+      "organization": "Thomson Reuters Corporation",
+      "timestamp": 1649102195109,
+      "version": 4,
+      "naturalId": "faris/5/2021/8292",
+      "position": 33,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -396230400000,
+      "lastName": "Thomson",
+      "firstName": "David",
+      "listDescription": "The World's Billionaires",
+      "title": "Chairman",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5a7ba72aa7ea43169012f1b4/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5a7ba72aa7ea43169012f1b4/416x416.jpg?background=000000&cropX1=1065&cropX2=3315&cropY1=60&cropY2=2310",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "beate-heister-karl-albrecht-jr",
+      "rank": 34,
+      "listUri": "billionaires",
+      "finalWorth": 39200,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Beate Heister & Karl Albrecht Jr. & family",
+      "country": "Germany",
+      "source": "supermarkets",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Germany",
+      "timestamp": 1649102209509,
+      "version": 4,
+      "naturalId": "faris/5/2021/196408",
+      "position": 34,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "U",
+      "lastName": "Albrecht Jr.",
+      "firstName": "Beate Heister & Karl",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6050f48ca1ab099ed6e290cc/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6050f48ca1ab099ed6e290cc/416x416.jpg?background=000000&cropX1=0&cropX2=800&cropY1=0&cropY2=800",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "wang-wei",
+      "rank": 35,
+      "listUri": "billionaires",
+      "finalWorth": 39000,
+      "category": "Service",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Wang Wei",
+      "age": 50,
+      "country": "China",
+      "city": "Shenzhen",
+      "source": "package delivery",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635979151391,
+      "version": 5,
+      "naturalId": "faris/5/2021/14416",
+      "position": 35,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 23587200000,
+      "lastName": "Wang",
+      "firstName": "Wei",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5dc05174b4d505000678d99e/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5dc05174b4d505000678d99e/416x416.jpg?background=000000&cropX1=879&cropX2=2088&cropY1=805&cropY2=2013",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "miriam-adelson",
+      "rank": 36,
+      "listUri": "billionaires",
+      "finalWorth": 38200,
+      "category": "Gambling & Casinos",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Miriam Adelson",
+      "age": 75,
+      "country": "United States",
+      "state": "Nevada",
+      "city": "Las Vegas",
+      "source": "casinos",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "timestamp": 1639175690253,
+      "version": 7,
+      "naturalId": "faris/5/2021/239999",
+      "position": 36,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "N",
+      "gender": "F",
+      "birthDate": -764553600000,
+      "lastName": "Adelson",
+      "firstName": "Miriam",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 2,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/605e494f800955d12c9d9142/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "Las Vegas, NV",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/605e494f800955d12c9d9142/416x416.jpg?background=000000&cropX1=0&cropX2=1080&cropY1=0&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "he-xiangjian",
+      "rank": 37,
+      "listUri": "billionaires",
+      "finalWorth": 37700,
+      "category": "Manufacturing",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "He Xiangjian",
+      "age": 78,
+      "country": "China",
+      "city": "Foshan",
+      "source": "home appliances",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635978802371,
+      "version": 4,
+      "naturalId": "faris/5/2021/73",
+      "position": 37,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -864432000000,
+      "lastName": "He",
+      "firstName": "Xiangjian",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5f88aa3c6e0f7a6ca036fc64/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5f88aa3c6e0f7a6ca036fc64/416x416.jpg?background=000000&cropX1=1462&cropX2=2567&cropY1=1200&cropY2=2305",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "dieter-schwarz",
+      "rank": 38,
+      "listUri": "billionaires",
+      "finalWorth": 36900,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Dieter Schwarz",
+      "age": 81,
+      "country": "Germany",
+      "city": "Neckarsulm",
+      "source": "retail",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Germany",
+      "timestamp": 1649102198387,
+      "version": 4,
+      "naturalId": "faris/5/2021/4720",
+      "position": 38,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -955324800000,
+      "lastName": "Schwarz",
+      "firstName": "Dieter",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6050f48ca1ab099ed6e290cc/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6050f48ca1ab099ed6e290cc/416x416.jpg?background=000000&cropX1=0&cropX2=800&cropY1=0&cropY2=800",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "zhang-yiming",
+      "rank": 39,
+      "listUri": "billionaires",
+      "finalWorth": 35600,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Zhang Yiming",
+      "age": 37,
+      "country": "China",
+      "city": "Beijing",
+      "source": "TikTok",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1636036801882,
+      "version": 21,
+      "naturalId": "faris/5/2021/199125",
+      "position": 39,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 441763200000,
+      "lastName": "Zhang",
+      "firstName": "Yiming",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/618e91e427fcd6441f93c0c6/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/618e91e427fcd6441f93c0c6/416x416.jpg?background=000000&cropX1=227&cropX2=1294&cropY1=14&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "giovanni-ferrero",
+      "rank": 40,
+      "listUri": "billionaires",
+      "finalWorth": 35100,
+      "category": "Food & Beverage",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Giovanni Ferrero",
+      "age": 56,
+      "country": "Belgium",
+      "city": "Brussels",
+      "source": "Nutella, chocolates",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Italy",
+      "timestamp": 1649102211262,
+      "version": 4,
+      "naturalId": "faris/5/2021/206387",
+      "position": 40,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -166579200000,
+      "lastName": "Ferrero",
+      "firstName": "Giovanni",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 4,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5b11bc5ca7ea436b547f29cb/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5b11bc5ca7ea436b547f29cb/416x416.jpg?background=000000&cropX1=622&cropX2=1844&cropY1=361&cropY2=1582",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "alain-wertheimer",
+      "rank": 41,
+      "listUri": "billionaires",
+      "finalWorth": 34500,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Alain Wertheimer",
+      "age": 72,
+      "country": "United States",
+      "state": "New York",
+      "city": "New York",
+      "source": "Chanel",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "France",
+      "timestamp": 1649102222095,
+      "version": 4,
+      "naturalId": "faris/5/2021/194894",
+      "position": 41,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -673574400000,
+      "lastName": "Wertheimer",
+      "firstName": "Alain",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6038217dfcc7547219c6da2b/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Northeast",
+      "residenceMsa": "New York, NY",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6038217dfcc7547219c6da2b/416x416.jpg?background=000000&cropX1=91&cropX2=1460&cropY1=172&cropY2=1541",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "gerard-wertheimer-1",
+      "rank": 41,
+      "listUri": "billionaires",
+      "finalWorth": 34500,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Gerard Wertheimer",
+      "age": 70,
+      "country": "United States",
+      "state": "New York",
+      "city": "New York",
+      "source": "Chanel",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "France",
+      "timestamp": 1649102223730,
+      "version": 4,
+      "naturalId": "faris/5/2021/4400",
+      "position": 42,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -598924800000,
+      "lastName": "Wertheimer",
+      "firstName": "Gerard",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e759fd2c7b02d000666c44e/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Northeast",
+      "residenceMsa": "New York, NY",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e759fd2c7b02d000666c44e/416x416.jpg?background=000000&cropX1=39&cropX2=1396&cropY1=18&cropY2=1375",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "li-ka-shing",
+      "rank": 43,
+      "listUri": "billionaires",
+      "finalWorth": 33700,
+      "category": "Diversified",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Li Ka-shing",
+      "age": 92,
+      "country": "Hong Kong",
+      "source": "diversified",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Hong Kong",
+      "organization": "CK Hutchison Holdings",
+      "timestamp": 1645652239210,
+      "version": 6,
+      "naturalId": "faris/5/2021/4812",
+      "position": 43,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1311292800000,
+      "lastName": "Li",
+      "firstName": "Ka-shing",
+      "listDescription": "The World's Billionaires",
+      "title": "Senior Advisor",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/60351d9a688e1407617b2595/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/60351d9a688e1407617b2595/416x416.jpg?background=000000&cropX1=1341&cropX2=2035&cropY1=411&cropY2=1105",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "qin-yinglin",
+      "rank": 44,
+      "listUri": "billionaires",
+      "finalWorth": 33500,
+      "category": "Food & Beverage",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Qin Yinglin & family",
+      "age": 55,
+      "country": "China",
+      "city": "Nanyang",
+      "source": "pig breeding",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635965599093,
+      "version": 5,
+      "naturalId": "faris/5/2021/193214",
+      "position": 44,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -148608000000,
+      "lastName": "Qin",
+      "firstName": "Yinglin",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/a3722ff48b63420aa857d7c876d5c521/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/a3722ff48b63420aa857d7c876d5c521/416x416.jpg?background=000000&cropX1=18&cropX2=744&cropY1=34&cropY2=761",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "william-lei-ding",
+      "rank": 45,
+      "listUri": "billionaires",
+      "finalWorth": 33000,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "William Lei Ding",
+      "age": 49,
+      "country": "China",
+      "city": "Hangzhou",
+      "source": "online games",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635980807205,
+      "version": 5,
+      "naturalId": "faris/5/2021/7815",
+      "position": 45,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 55123200000,
+      "lastName": "Ding",
+      "firstName": "William Lei",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e790d54c7b02d000666fa67/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e790d54c7b02d000666fa67/416x416.jpg?background=000000&cropX1=571&cropX2=4018&cropY1=0&cropY2=3445",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "len-blavatnik",
+      "rank": 46,
+      "listUri": "billionaires",
+      "finalWorth": 32000,
+      "category": "Diversified",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Len Blavatnik",
+      "age": 63,
+      "country": "United Kingdom",
+      "city": "London",
+      "source": "music, chemicals",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "timestamp": 1639175684380,
+      "version": 4,
+      "naturalId": "faris/5/2021/7490",
+      "position": 46,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -397180800000,
+      "lastName": "Blavatnik",
+      "firstName": "Len",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 9,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c745d7b4bbe6f072958dac9/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c745d7b4bbe6f072958dac9/416x416.jpg?background=000000&cropX1=473&cropX2=2103&cropY1=123&cropY2=1753",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 2,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "lee-shau-kee",
+      "rank": 47,
+      "listUri": "billionaires",
+      "finalWorth": 31700,
+      "category": "Real Estate",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Lee Shau Kee",
+      "age": 93,
+      "country": "Hong Kong",
+      "city": "Hong Kong",
+      "source": "real estate",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Hong Kong",
+      "timestamp": 1645652240885,
+      "version": 4,
+      "naturalId": "faris/5/2021/4316",
+      "position": 47,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1323043200000,
+      "lastName": "Lee",
+      "firstName": "Shau Kee",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/605e29dee450fb635e9d9140/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/605e29dee450fb635e9d9140/416x416.jpg?background=000000&cropX1=0&cropX2=1080&cropY1=0&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "jacqueline-mars",
+      "rank": 48,
+      "listUri": "billionaires",
+      "finalWorth": 31300,
+      "category": "Food & Beverage",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Jacqueline Mars",
+      "age": 81,
+      "country": "United States",
+      "state": "Virginia",
+      "city": "The Plains",
+      "source": "candy, pet food",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "timestamp": 1639175685918,
+      "version": 4,
+      "naturalId": "faris/5/2021/5783",
+      "position": 48,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "F",
+      "birthDate": -953942400000,
+      "lastName": "Mars",
+      "firstName": "Jacqueline",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 2,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/59d50d06a7ea436b47b36d84/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "South",
+      "residenceMsa": "Washington, DC",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/59d50d06a7ea436b47b36d84/416x416.jpg?background=000000&cropX1=147&cropX2=1649&cropY1=377&cropY2=1879",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "john-mars",
+      "rank": 48,
+      "listUri": "billionaires",
+      "finalWorth": 31300,
+      "category": "Food & Beverage",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "John Mars",
+      "age": 85,
+      "country": "United States",
+      "state": "Wyoming",
+      "city": "Jackson",
+      "source": "candy, pet food",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "timestamp": 1639175687409,
+      "version": 6,
+      "naturalId": "faris/5/2021/5781",
+      "position": 49,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1079740800000,
+      "lastName": "Mars",
+      "firstName": "John",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 2,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5ba41e08a7ea434e4c6948eb/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "South",
+      "residenceMsa": "Jackson, WY",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5ba41e08a7ea434e4c6948eb/416x416.jpg?background=000000&cropX1=53&cropX2=1401&cropY1=9&cropY2=1357",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "yang-huiyan",
+      "rank": 50,
+      "listUri": "billionaires",
+      "finalWorth": 29600,
+      "category": "Real Estate",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Yang Huiyan & family",
+      "age": 39,
+      "country": "China",
+      "city": "Foshan",
+      "source": "real estate",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635981008969,
+      "version": 4,
+      "naturalId": "faris/5/2021/6",
+      "position": 50,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "F",
+      "birthDate": 370396800000,
+      "lastName": "Yang",
+      "firstName": "Huiyan",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5a0b1b83a7ea436b47b558ba/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5a0b1b83a7ea436b47b558ba/416x416.jpg?background=000000&cropX1=1&cropX2=600&cropY1=3&cropY2=602",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "alexey-mordashov",
+      "rank": 51,
+      "listUri": "billionaires",
+      "finalWorth": 29100,
+      "category": "Metals & Mining",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Alexey Mordashov",
+      "age": 55,
+      "country": "Russia",
+      "city": "Moscow",
+      "source": "steel, investments",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Russia",
+      "timestamp": 1649102372924,
+      "version": 4,
+      "naturalId": "faris/5/2021/7385",
+      "position": 51,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -134611200000,
+      "lastName": "Mordashov & family",
+      "firstName": "Alexey",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e87b07fbf94c200067fcf57/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e87b07fbf94c200067fcf57/416x416.jpg?background=000000&cropX1=1002&cropX2=4157&cropY1=163&cropY2=3318",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "robin-zeng",
+      "rank": 52,
+      "listUri": "billionaires",
+      "finalWorth": 28400,
+      "category": "Automotive",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Robin Zeng",
+      "age": 52,
+      "country": "China",
+      "city": "Ningde",
+      "source": "batteries",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Hong Kong",
+      "timestamp": 1635965588539,
+      "version": 12,
+      "naturalId": "faris/5/2021/205434",
+      "position": 52,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -31536000000,
+      "lastName": "Zeng",
+      "firstName": "Robin",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6067bcb1bfd36aed75c0c223/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6067bcb1bfd36aed75c0c223/416x416.jpg?background=000000&cropX1=19&cropX2=1080&cropY1=19&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "hui-ka-yan",
+      "rank": 53,
+      "listUri": "billionaires",
+      "finalWorth": 27700,
+      "category": "Real Estate",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Hui Ka Yan",
+      "age": 62,
+      "country": "China",
+      "city": "Shenzhen",
+      "source": "real estate",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1639781164494,
+      "version": 4,
+      "naturalId": "faris/5/2021/19",
+      "position": 53,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -355104000000,
+      "lastName": "Hui",
+      "firstName": "Ka Yan",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e75457107adf00006dbbf79/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e75457107adf00006dbbf79/416x416.jpg?background=000000&cropX1=124&cropX2=1788&cropY1=564&cropY2=2229",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "susanne-klatten",
+      "rank": 53,
+      "listUri": "billionaires",
+      "finalWorth": 27700,
+      "category": "Automotive",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Susanne Klatten",
+      "age": 58,
+      "country": "Germany",
+      "city": "Bad Homburg",
+      "source": "BMW, pharmaceuticals",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Germany",
+      "timestamp": 1649102242758,
+      "version": 5,
+      "naturalId": "faris/5/2021/7343",
+      "position": 54,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "F",
+      "birthDate": -242352000000,
+      "lastName": "Klatten",
+      "firstName": "Susanne",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/605e281e4f49584f571c9c42/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/605e281e4f49584f571c9c42/416x416.jpg?background=000000&cropX1=0&cropX2=1080&cropY1=0&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "vladimir-potanin",
+      "rank": 55,
+      "listUri": "billionaires",
+      "finalWorth": 27000,
+      "category": "Metals & Mining",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Vladimir Potanin",
+      "age": 60,
+      "country": "Russia",
+      "city": "Moscow",
+      "source": "metals",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Russia",
+      "timestamp": 1649198813705,
+      "version": 4,
+      "naturalId": "faris/5/2021/4758",
+      "position": 55,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -283824000000,
+      "lastName": "Potanin",
+      "firstName": "Vladimir",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e87ae86582b5d00068ce78c/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e87ae86582b5d00068ce78c/416x416.jpg?background=000000&cropX1=1187&cropX2=4259&cropY1=272&cropY2=3347",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "dietrich-mateschitz",
+      "rank": 56,
+      "listUri": "billionaires",
+      "finalWorth": 26900,
+      "category": "Food & Beverage",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Dietrich Mateschitz",
+      "age": 76,
+      "country": "Austria",
+      "city": "Fuschl am See",
+      "source": "Red Bull",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Austria",
+      "timestamp": 1649102235002,
+      "version": 4,
+      "naturalId": "faris/5/2021/7378",
+      "position": 56,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -808444800000,
+      "lastName": "Mateschitz",
+      "firstName": "Dietrich",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e7419c910380d0006bdab6a/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e7419c910380d0006bdab6a/416x416.jpg?background=000000&cropX1=882&cropX2=3841&cropY1=6&cropY2=2966",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "pang-kang",
+      "rank": 57,
+      "listUri": "billionaires",
+      "finalWorth": 26400,
+      "category": "Food & Beverage",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Pang Kang",
+      "age": 65,
+      "country": "China",
+      "city": "Foshan",
+      "source": "soy sauce",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635965600234,
+      "version": 4,
+      "naturalId": "faris/5/2021/193211",
+      "position": 57,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -440294400000,
+      "lastName": "Pang",
+      "firstName": "Kang",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6050f48ca1ab099ed6e290cc/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6050f48ca1ab099ed6e290cc/416x416.jpg?background=000000&cropX1=0&cropX2=800&cropY1=0&cropY2=800",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "klaus-michael-kuehne",
+      "rank": 58,
+      "listUri": "billionaires",
+      "finalWorth": 26300,
+      "category": "Logistics",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Klaus-Michael Kuehne",
+      "age": 83,
+      "country": "Switzerland",
+      "city": "Schindellegi",
+      "source": "shipping",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Germany",
+      "timestamp": 1649102206345,
+      "version": 4,
+      "naturalId": "faris/5/2021/7220",
+      "position": 58,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1028246400000,
+      "lastName": "Kuehne",
+      "firstName": "Klaus-Michael",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e762e4fc7b02d000666c89b/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e762e4fc7b02d000666c89b/416x416.jpg?background=000000&cropX1=792&cropX2=4141&cropY1=0&cropY2=3347",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "vladimir-lisin",
+      "rank": 59,
+      "listUri": "billionaires",
+      "finalWorth": 26200,
+      "category": "Metals & Mining",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Vladimir Lisin",
+      "age": 64,
+      "country": "Russia",
+      "city": "Moscow",
+      "source": "steel, transport",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Russia",
+      "timestamp": 1649155674725,
+      "version": 4,
+      "naturalId": "faris/5/2021/7487",
+      "position": 59,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -430876800000,
+      "lastName": "Lisin",
+      "firstName": "Vladimir",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e77914ec7b02d000666d900/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e77914ec7b02d000666d900/416x416.jpg?background=000000&cropX1=825&cropX2=3235&cropY1=50&cropY2=2459",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "wang-xing",
+      "rank": 60,
+      "listUri": "billionaires",
+      "finalWorth": 26100,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Wang Xing",
+      "age": 42,
+      "country": "China",
+      "city": "Beijing",
+      "source": "e-commerce",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635965605815,
+      "version": 5,
+      "naturalId": "faris/5/2021/195872",
+      "position": 60,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 288144000000,
+      "lastName": "Wang",
+      "firstName": "Xing",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5dc07c6f5e338c00066231ff/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5dc07c6f5e338c00066231ff/416x416.jpg?background=000000&cropX1=1680&cropX2=3080&cropY1=97&cropY2=1497",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "german-larrea-mota-velasco",
+      "rank": 61,
+      "listUri": "billionaires",
+      "finalWorth": 25900,
+      "category": "Metals & Mining",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "German Larrea Mota Velasco & family",
+      "age": 67,
+      "country": "Mexico",
+      "city": "Mexico City",
+      "source": "mining",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Mexico",
+      "timestamp": 1649102225402,
+      "version": 5,
+      "naturalId": "faris/5/2021/4175",
+      "position": 61,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -510710400000,
+      "lastName": "Larrea Mota Velasco",
+      "firstName": "German",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/597a47174bbe6f3eb800b6b8/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/597a47174bbe6f3eb800b6b8/416x416.jpg?background=000000&cropX1=1901&cropX2=3603&cropY1=368&cropY2=2069",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "leonardo-del-vecchio",
+      "rank": 62,
+      "listUri": "billionaires",
+      "finalWorth": 25800,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Leonardo Del Vecchio & family",
+      "age": 85,
+      "country": "Italy",
+      "city": "Milan",
+      "source": "eyeglasses",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Italy",
+      "timestamp": 1656348061531,
+      "version": 4,
+      "naturalId": "faris/5/2021/4730",
+      "position": 62,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1092355200000,
+      "lastName": "Del Vecchio",
+      "firstName": "Leonardo",
+      "listDescription": "The World's Billionaires",
+      "date": 1617685260000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/605e2e8ca4f18e06b39d9142/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/605e2e8ca4f18e06b39d9142/416x416.jpg?background=000000&cropX1=0&cropX2=1384&cropY1=0&cropY2=1384",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "takemitsu-takizaki",
+      "rank": 62,
+      "listUri": "billionaires",
+      "finalWorth": 25800,
+      "category": "Manufacturing",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Takemitsu Takizaki",
+      "age": 75,
+      "country": "Japan",
+      "city": "Osaka",
+      "source": "sensors",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Japan",
+      "timestamp": 1618923959993,
+      "version": 7,
+      "naturalId": "faris/5/2021/4183",
+      "position": 63,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -775094400000,
+      "lastName": "Takizaki",
+      "firstName": "Takemitsu",
+      "listDescription": "The World's Billionaires",
+      "date": 1617750000000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5eaa4141ed706b0007e62bd7/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5eaa4141ed706b0007e62bd7/416x416.jpg?background=000000&cropX1=1310&cropX2=2754&cropY1=224&cropY2=1667",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "leonard-lauder",
+      "rank": 64,
+      "listUri": "billionaires",
+      "finalWorth": 25500,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Leonard Lauder",
+      "age": 88,
+      "country": "United States",
+      "state": "New York",
+      "city": "New York",
+      "source": "Estee Lauder",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "The Estée Lauder Companies",
+      "timestamp": 1639175692204,
+      "version": 5,
+      "naturalId": "faris/5/2021/5738",
+      "position": 64,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1160956800000,
+      "lastName": "Lauder",
+      "firstName": "Leonard",
+      "listDescription": "The World's Billionaires",
+      "title": "Chairman Emeritus ",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 5,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5d8bd6eb22254b0008e17ce3/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Northeast",
+      "residenceMsa": "New York, NY",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5d8bd6eb22254b0008e17ce3/416x416.jpg?background=000000&cropX1=1114&cropX2=1980&cropY1=107&cropY2=973",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 3,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "thomas-peterffy",
+      "rank": 65,
+      "listUri": "billionaires",
+      "finalWorth": 25000,
+      "category": "Finance & Investments",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Thomas Peterffy",
+      "age": 76,
+      "country": "United States",
+      "state": "Florida",
+      "city": "Palm Beach",
+      "source": "discount brokerage",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "timestamp": 1639175709893,
+      "version": 4,
+      "naturalId": "faris/5/2021/8602",
+      "position": 65,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -796953600000,
+      "lastName": "Peterffy",
+      "firstName": "Thomas",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 10,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5d8a5c6218444200084e6532/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "South",
+      "residenceMsa": "Miami-Fort Lauderdale-Pompano Beach, FL",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5d8a5c6218444200084e6532/416x416.jpg?background=000000&cropX1=466&cropX2=1132&cropY1=297&cropY2=962",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "vagit-alekperov",
+      "rank": 66,
+      "listUri": "billionaires",
+      "finalWorth": 24900,
+      "category": "Energy",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Vagit Alekperov",
+      "age": 70,
+      "country": "Russia",
+      "city": "Moscow",
+      "source": "oil",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Russia",
+      "timestamp": 1649124780487,
+      "version": 5,
+      "naturalId": "faris/5/2021/4371",
+      "position": 66,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -610156800000,
+      "lastName": "Alekperov",
+      "firstName": "Vagit",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/62291dbe5c22ffeaf37a7528/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/62291dbe5c22ffeaf37a7528/416x416.jpg?background=000000&cropX1=232&cropX2=1762&cropY1=83&cropY2=1614",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "leonid-mikhelson",
+      "rank": 66,
+      "listUri": "billionaires",
+      "finalWorth": 24900,
+      "category": "Energy",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Leonid Mikhelson",
+      "age": 65,
+      "country": "Russia",
+      "city": "Moscow",
+      "source": "gas, chemicals",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Russia",
+      "timestamp": 1649102359314,
+      "version": 4,
+      "naturalId": "faris/5/2021/7679",
+      "position": 67,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -454204800000,
+      "lastName": "Mikhelson",
+      "firstName": "Leonid",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6229141941920264022edc8a/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6229141941920264022edc8a/416x416.jpg?background=000000&cropX1=81&cropX2=3456&cropY1=941&cropY2=4318",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "jim-simons",
+      "rank": 68,
+      "listUri": "billionaires",
+      "finalWorth": 24600,
+      "category": "Finance & Investments",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Jim Simons",
+      "age": 82,
+      "country": "United States",
+      "state": "New York",
+      "city": "East Setauket",
+      "source": "hedge funds",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Renaissance Technologies Corp.",
+      "timestamp": 1639175696503,
+      "version": 4,
+      "naturalId": "faris/5/2021/7521",
+      "position": 68,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -999993600000,
+      "lastName": "Simons",
+      "firstName": "Jim",
+      "listDescription": "The World's Billionaires",
+      "title": "Founder",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5d8bd8326de3150009a51efb/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Northeast",
+      "residenceMsa": "New York, NY",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5d8bd8326de3150009a51efb/416x416.jpg?background=000000&cropX1=1332&cropX2=2541&cropY1=0&cropY2=1208",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 3,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "jiang-rensheng",
+      "rank": 69,
+      "listUri": "billionaires",
+      "finalWorth": 24400,
+      "category": "Healthcare",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Jiang Rensheng & family",
+      "age": 67,
+      "country": "China",
+      "city": "Chongqing",
+      "source": "vaccines",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635965610398,
+      "version": 5,
+      "naturalId": "faris/5/2021/13266",
+      "position": 69,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -512265600000,
+      "lastName": "Jiang",
+      "firstName": "Rensheng",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6182ba8fd8d8f69e121c7a9b/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6182ba8fd8d8f69e121c7a9b/416x416.jpg?background=000000&cropX1=66&cropX2=652&cropY1=266&cropY2=853",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "gina-rinehart",
+      "rank": 70,
+      "listUri": "billionaires",
+      "finalWorth": 23600,
+      "category": "Metals & Mining",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Gina Rinehart",
+      "age": 67,
+      "country": "Australia",
+      "city": "Perth",
+      "source": "mining",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Australia",
+      "organization": "Hancock Prospecting",
+      "timestamp": 1642751620749,
+      "version": 4,
+      "naturalId": "faris/5/2021/8330",
+      "position": 70,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "F",
+      "birthDate": -501552000000,
+      "lastName": "Rinehart",
+      "firstName": "Gina",
+      "listDescription": "The World's Billionaires",
+      "title": "Executive Chairman",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c794b404bbe6f659da9afee/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c794b404bbe6f659da9afee/416x416.jpg?background=000000&cropX1=231&cropX2=2298&cropY1=485&cropY2=2552",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "rupert-murdoch",
+      "rank": 71,
+      "listUri": "billionaires",
+      "finalWorth": 23500,
+      "category": "Media & Entertainment",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Rupert Murdoch & family",
+      "age": 90,
+      "country": "United States",
+      "state": "New York",
+      "city": "New York",
+      "source": "newspapers, TV network",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "News Corp Class A",
+      "timestamp": 1639175700940,
+      "version": 15,
+      "naturalId": "faris/5/2021/5638",
+      "position": 71,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1224806400000,
+      "lastName": "Murdoch",
+      "firstName": "Rupert",
+      "listDescription": "The World's Billionaires",
+      "title": "Chairman and CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 5,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6067bf2f800a3f1324d4c89c/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Northeast",
+      "residenceMsa": "New York, NY",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6067bf2f800a3f1324d4c89c/416x416.jpg?background=000000&cropX1=0&cropX2=1080&cropY1=0&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "shiv-nadar",
+      "rank": 71,
+      "listUri": "billionaires",
+      "finalWorth": 23500,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Shiv Nadar",
+      "age": 75,
+      "country": "India",
+      "city": "Delhi",
+      "source": "software services",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "India",
+      "timestamp": 1633621553107,
+      "version": 4,
+      "naturalId": "faris/5/2021/4855",
+      "position": 72,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -771811200000,
+      "lastName": "Nadar",
+      "firstName": "Shiv",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/605e2b0c7cd0a7025abd3e15/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/605e2b0c7cd0a7025abd3e15/416x416.jpg?background=000000&cropX1=0&cropX2=1080&cropY1=0&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "zhang-zhidong",
+      "rank": 73,
+      "listUri": "billionaires",
+      "finalWorth": 23400,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Zhang Zhidong",
+      "age": 49,
+      "country": "China",
+      "city": "Shenzhen",
+      "source": "internet media",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635990066160,
+      "version": 4,
+      "naturalId": "faris/5/2021/48",
+      "position": 73,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 63072000000,
+      "lastName": "Zhang",
+      "firstName": "Zhidong",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5bcf8eec31358e5b4334465b/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5bcf8eec31358e5b4334465b/416x416.jpg?background=000000&cropX1=249&cropX2=943&cropY1=98&cropY2=793",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "iris-fontbona",
+      "rank": 74,
+      "listUri": "billionaires",
+      "finalWorth": 23300,
+      "category": "Metals & Mining",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Iris Fontbona & family",
+      "age": 78,
+      "country": "Chile",
+      "city": "Santiago",
+      "source": "mining",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Chile",
+      "timestamp": 1649102259592,
+      "version": 5,
+      "naturalId": "faris/5/2021/8905",
+      "position": 74,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "U",
+      "gender": "F",
+      "birthDate": -852076800000,
+      "lastName": "Fontbona",
+      "firstName": "Iris",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c6db2974bbe6f0ec75418f0/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5c6db2974bbe6f0ec75418f0/416x416.jpg?background=000000&cropX1=124&cropX2=491&cropY1=0&cropY2=367",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "lei-jun",
+      "rank": 75,
+      "listUri": "billionaires",
+      "finalWorth": 23000,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Lei Jun",
+      "age": 51,
+      "country": "China",
+      "city": "Beijing",
+      "source": "smartphones",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "organization": "Xiaomi",
+      "timestamp": 1635965615059,
+      "version": 4,
+      "naturalId": "faris/5/2021/10488",
+      "position": 75,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1382400000,
+      "lastName": "Lei",
+      "firstName": "Jun",
+      "listDescription": "The World's Billionaires",
+      "title": "Founder and CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e7550d42a573300068feb7b/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e7550d42a573300068feb7b/416x416.jpg?background=000000&cropX1=745&cropX2=2367&cropY1=15&cropY2=1636",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "zhang-yong-1",
+      "rank": 75,
+      "listUri": "billionaires",
+      "finalWorth": 23000,
+      "category": "Food & Beverage",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Zhang Yong",
+      "age": 50,
+      "country": "Singapore",
+      "city": "Singapore",
+      "source": "restaurants",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Singapore",
+      "timestamp": 1649102980103,
+      "version": 5,
+      "naturalId": "faris/5/2021/14681",
+      "position": 76,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 15638400000,
+      "lastName": "Zhang",
+      "firstName": "Yong",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5bcf936c31358e5b433446e2/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5bcf936c31358e5b433446e2/416x416.jpg?background=000000&cropX1=1547&cropX2=3998&cropY1=313&cropY2=2762",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "richard-liu-1",
+      "rank": 77,
+      "listUri": "billionaires",
+      "finalWorth": 22400,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Richard Qiangdong Liu",
+      "age": 47,
+      "country": "China",
+      "city": "Beijing",
+      "source": "e-commerce",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635989955126,
+      "version": 4,
+      "naturalId": "faris/5/2021/4150",
+      "position": 77,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 132105600000,
+      "lastName": "Liu",
+      "firstName": "Richard Qiangdong",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5dc07d07b4d505000678de32/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5dc07d07b4d505000678de32/416x416.jpg?background=000000&cropX1=1730&cropX2=3987&cropY1=632&cropY2=2889",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "gennady-timchenko",
+      "rank": 78,
+      "listUri": "billionaires",
+      "finalWorth": 22000,
+      "category": "Energy",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Gennady Timchenko",
+      "age": 68,
+      "country": "Russia",
+      "city": "Moscow",
+      "source": "oil, gas",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Russia",
+      "timestamp": 1649127321366,
+      "version": 5,
+      "naturalId": "faris/5/2021/8752",
+      "position": 78,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -541036800000,
+      "lastName": "Timchenko",
+      "firstName": "Gennady",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/622b778d7c4aefebd5cbea11/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/622b778d7c4aefebd5cbea11/416x416.jpg?background=000000&cropX1=0&cropX2=2317&cropY1=426&cropY2=2744",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "stephen-schwarzman",
+      "rank": 79,
+      "listUri": "billionaires",
+      "finalWorth": 21900,
+      "category": "Finance & Investments",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Stephen Schwarzman",
+      "age": 74,
+      "country": "United States",
+      "state": "New York",
+      "city": "New York",
+      "source": "investments",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Blackstone Group",
+      "timestamp": 1639175682837,
+      "version": 4,
+      "naturalId": "faris/5/2021/7559",
+      "position": 79,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -722044800000,
+      "lastName": "Schwarzman",
+      "firstName": "Stephen",
+      "listDescription": "The World's Billionaires",
+      "title": "Chairman and CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "numberOfSiblings": 2,
+      "numberOfSiblingsEst": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5d89f4d318444200084e5265/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Northeast",
+      "residenceMsa": "New York, NY",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5d89f4d318444200084e5265/416x416.jpg?background=000000&cropX1=1911&cropX2=5305&cropY1=26&cropY2=3418",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 2,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "goh-cheng-liang",
+      "rank": 80,
+      "listUri": "billionaires",
+      "finalWorth": 21700,
+      "category": "Manufacturing",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Goh Cheng Liang",
+      "age": 93,
+      "country": "Singapore",
+      "city": "Singapore",
+      "source": "paints",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Singapore",
+      "timestamp": 1628734668126,
+      "version": 4,
+      "naturalId": "faris/5/2021/193570",
+      "position": 80,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1341705600000,
+      "lastName": "Goh",
+      "firstName": "Cheng Liang",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/611527c653b47989bac8d588/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/611527c653b47989bac8d588/416x416.jpg?background=000000&cropX1=0&cropX2=3937&cropY1=176&cropY2=4115",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "stefan-quandt",
+      "rank": 81,
+      "listUri": "billionaires",
+      "finalWorth": 21600,
+      "category": "Automotive",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Stefan Quandt",
+      "age": 54,
+      "country": "Germany",
+      "city": "Frankfurt",
+      "source": "BMW",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Germany",
+      "timestamp": 1649102275208,
+      "version": 4,
+      "naturalId": "faris/5/2021/7345",
+      "position": 81,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -115171200000,
+      "lastName": "Quandt",
+      "firstName": "Stefan",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/f257c2f96ce1171be43e685e6d8f9fa3/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/f257c2f96ce1171be43e685e6d8f9fa3/416x416.jpg?background=000000&cropX1=124&cropX2=725&cropY1=92&cropY2=693",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "li-xiting",
+      "rank": 82,
+      "listUri": "billionaires",
+      "finalWorth": 21500,
+      "category": "Healthcare",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Li Xiting",
+      "age": 70,
+      "country": "China",
+      "city": "Shenzhen",
+      "source": "medical devices",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Singapore",
+      "timestamp": 1628623699487,
+      "version": 4,
+      "naturalId": "faris/5/2021/246",
+      "position": 82,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -599616000000,
+      "lastName": "Li",
+      "firstName": "Xiting",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/61114d1ee2a2505345419c4e/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/61114d1ee2a2505345419c4e/416x416.jpg?background=000000&cropX1=0&cropX2=949&cropY1=0&cropY2=950",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "pierre-omidyar",
+      "rank": 83,
+      "listUri": "billionaires",
+      "finalWorth": 21400,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Pierre Omidyar",
+      "age": 53,
+      "country": "United States",
+      "state": "Hawaii",
+      "city": "Honolulu",
+      "source": "eBay, PayPal",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "eBay",
+      "timestamp": 1639175693702,
+      "version": 5,
+      "naturalId": "faris/5/2021/6786",
+      "position": 83,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -79920000000,
+      "lastName": "Omidyar",
+      "firstName": "Pierre",
+      "listDescription": "The World's Billionaires",
+      "title": "Entrepreneur",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5f11f5931c59f70008546278/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "Honolulu, HI",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5f11f5931c59f70008546278/416x416.jpg?background=000000&cropX1=317&cropX2=854&cropY1=226&cropY2=763",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 3,
+      "impactInvestor": true,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "stefan-persson",
+      "rank": 84,
+      "listUri": "billionaires",
+      "finalWorth": 21300,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Stefan Persson",
+      "age": 73,
+      "country": "Sweden",
+      "city": "Stockholm",
+      "source": "H&M",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Sweden",
+      "organization": "Hennes & Mauritz Unsponsored ADR",
+      "timestamp": 1649102303687,
+      "version": 5,
+      "naturalId": "faris/5/2021/4263",
+      "position": 84,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -702000000000,
+      "lastName": "Persson",
+      "firstName": "Stefan",
+      "listDescription": "The World's Billionaires",
+      "title": "Chairman",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c721cd64bbe6f51818ab844/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5c721cd64bbe6f51818ab844/416x416.jpg?background=000000&cropX1=1176&cropX2=2731&cropY1=522&cropY2=2076",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "abigail-johnson",
+      "rank": 85,
+      "listUri": "billionaires",
+      "finalWorth": 20900,
+      "category": "Finance & Investments",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Abigail Johnson",
+      "age": 59,
+      "country": "United States",
+      "state": "Massachusetts",
+      "city": "Milton",
+      "source": "money management",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Fidelity Investments",
+      "timestamp": 1633395561219,
+      "version": 4,
+      "naturalId": "faris/5/2021/5389",
+      "position": 85,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "F",
+      "birthDate": -253584000000,
+      "lastName": "Johnson",
+      "firstName": "Abigail",
+      "listDescription": "The World's Billionaires",
+      "title": "CEO",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 3,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6333a5b13de1fff2da377afb/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Northeast",
+      "residenceMsa": "Boston, MA",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6333a5b13de1fff2da377afb/416x416.jpg?background=000000&cropX1=0&cropX2=1077&cropY1=3&cropY2=1080",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 2,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "r-budi-hartono",
+      "rank": 86,
+      "listUri": "billionaires",
+      "finalWorth": 20500,
+      "category": "Finance & Investments",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "R. Budi Hartono",
+      "age": 80,
+      "country": "Indonesia",
+      "city": "Kudus",
+      "source": "banking, tobacco",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Indonesia",
+      "timestamp": 1649102254813,
+      "version": 4,
+      "naturalId": "faris/5/2021/4550",
+      "position": 86,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -915148800000,
+      "lastName": "Hartono",
+      "firstName": "R. Budi",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6050f48ca1ab099ed6e290cc/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6050f48ca1ab099ed6e290cc/416x416.jpg?background=000000&cropX1=0&cropX2=800&cropY1=0&cropY2=800",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "andrew-forrest",
+      "rank": 87,
+      "listUri": "billionaires",
+      "finalWorth": 20400,
+      "category": "Metals & Mining",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Andrew Forrest",
+      "age": 59,
+      "country": "Australia",
+      "city": "Perth",
+      "source": "mining",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Australia",
+      "timestamp": 1649102296129,
+      "version": 5,
+      "naturalId": "faris/5/2021/8281",
+      "position": 87,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -256262400000,
+      "lastName": "Forrest",
+      "firstName": "Andrew",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e73f1b207adf00006db9ac8/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e73f1b207adf00006db9ac8/416x416.jpg?background=000000&cropX1=451&cropX2=3063&cropY1=133&cropY2=2747",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "ray-dalio",
+      "rank": 88,
+      "listUri": "billionaires",
+      "finalWorth": 20300,
+      "category": "Finance & Investments",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Ray Dalio",
+      "age": 71,
+      "country": "United States",
+      "state": "Connecticut",
+      "city": "Greenwich",
+      "source": "hedge funds",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Bridgewater Associates",
+      "timestamp": 1639175708098,
+      "version": 4,
+      "naturalId": "faris/5/2021/8106",
+      "position": 88,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -643766400000,
+      "lastName": "Dalio",
+      "firstName": "Ray",
+      "listDescription": "The World's Billionaires",
+      "title": "Founder & Co-Chief Investment Officer",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5ac959f74bbe6f2310f1e05c/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "Northeast",
+      "residenceMsa": "Fairfield County, CT",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5ac959f74bbe6f2310f1e05c/416x416.jpg?background=000000&cropX1=657&cropX2=3206&cropY1=80&cropY2=2627",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 3,
+      "impactInvestor": true,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "michael-hartono",
+      "rank": 89,
+      "listUri": "billionaires",
+      "finalWorth": 19700,
+      "category": "Manufacturing",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Michael Hartono",
+      "age": 81,
+      "country": "Indonesia",
+      "city": "Kudus",
+      "source": "banking, tobacco",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Indonesia",
+      "timestamp": 1649102262750,
+      "version": 5,
+      "naturalId": "faris/5/2021/8689",
+      "position": 89,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -954633600000,
+      "lastName": "Hartono",
+      "firstName": "Michael",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5c70b46c4bbe6f79c5473f84/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5c70b46c4bbe6f79c5473f84/416x416.jpg?background=000000&cropX1=286&cropX2=2548&cropY1=78&cropY2=2340",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "li-shufu",
+      "rank": 89,
+      "listUri": "billionaires",
+      "finalWorth": 19700,
+      "category": "Automotive",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Li Shufu",
+      "age": 57,
+      "country": "China",
+      "city": "Hangzhou",
+      "source": "automobiles",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635965604726,
+      "version": 4,
+      "naturalId": "faris/5/2021/173",
+      "position": 90,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -207878400000,
+      "lastName": "Li",
+      "firstName": "Shufu",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5bcf84b931358e5b43344465/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5bcf84b931358e5b43344465/416x416.jpg?background=000000&cropX1=1390&cropX2=2922&cropY1=440&cropY2=1970",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "zhong-huijuan",
+      "rank": 89,
+      "listUri": "billionaires",
+      "finalWorth": 19700,
+      "category": "Healthcare",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Zhong Huijuan",
+      "age": 60,
+      "country": "China",
+      "city": "Shanghai",
+      "source": "pharmaceuticals",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1648065811732,
+      "version": 4,
+      "naturalId": "faris/5/2021/199094",
+      "position": 91,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "F",
+      "birthDate": -283996800000,
+      "lastName": "Zhong",
+      "firstName": "Huijuan",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e9f5b3df0b8cf0006295fec/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5e9f5b3df0b8cf0006295fec/416x416.jpg?background=000000&cropX1=1080&cropX2=1674&cropY1=936&cropY2=1530",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "xu-hang",
+      "rank": 92,
+      "listUri": "billionaires",
+      "finalWorth": 19500,
+      "category": "Healthcare",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Xu Hang",
+      "age": 54,
+      "country": "China",
+      "city": "Shenzhen",
+      "source": "medical devices",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Hong Kong",
+      "timestamp": 1635965611632,
+      "version": 6,
+      "naturalId": "faris/5/2021/1075",
+      "position": 92,
+      "imageExists": false,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -114048000000,
+      "lastName": "Xu",
+      "firstName": "Hang",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6182bb73ac4ca523bf1e3a2c/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6182bb73ac4ca523bf1e3a2c/416x416.jpg?background=000000&cropX1=304&cropX2=1307&cropY1=62&cropY2=1064",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "lui-che-woo",
+      "rank": 93,
+      "listUri": "billionaires",
+      "finalWorth": 19400,
+      "category": "Gambling & Casinos",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Lui Che Woo",
+      "age": 92,
+      "country": "Hong Kong",
+      "city": "Hong Kong",
+      "source": "casinos/hotels",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Hong Kong",
+      "timestamp": 1645652250512,
+      "version": 4,
+      "naturalId": "faris/5/2021/7898",
+      "position": 93,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -1286064000000,
+      "lastName": "Lui",
+      "firstName": "Che Woo",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/620d2822171566a26114ade6/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/620d2822171566a26114ade6/416x416.jpg?background=000000&cropX1=1337&cropX2=4000&cropY1=6&cropY2=2668",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "emmanuel-besnier",
+      "rank": 94,
+      "listUri": "billionaires",
+      "finalWorth": 19100,
+      "category": "Food & Beverage",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Emmanuel Besnier",
+      "age": 50,
+      "country": "France",
+      "city": "Laval",
+      "source": "cheese",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "France",
+      "timestamp": 1649102253340,
+      "version": 5,
+      "naturalId": "faris/5/2021/193456",
+      "position": 94,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 22464000000,
+      "lastName": "Besnier",
+      "firstName": "Emmanuel",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "numberOfSiblings": 2,
+      "numberOfSiblingsEst": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5e759e31c7b02d000666c445/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/5e759e31c7b02d000666c445/416x416.jpg?background=000000&cropX1=283&cropX2=1696&cropY1=1002&cropY2=2414",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "laurene-powell-jobs",
+      "rank": 95,
+      "listUri": "billionaires",
+      "finalWorth": 19000,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Laurene Powell Jobs & family",
+      "age": 57,
+      "country": "United States",
+      "state": "California",
+      "city": "Palo Alto",
+      "source": "Apple, Disney",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Emerson Collective",
+      "timestamp": 1633718556011,
+      "version": 5,
+      "naturalId": "faris/5/2021/14691",
+      "position": 95,
+      "imageExists": true,
+      "selfMade": false,
+      "status": "U",
+      "gender": "F",
+      "birthDate": -194227200000,
+      "lastName": "Powell Jobs",
+      "firstName": "Laurene",
+      "listDescription": "The World's Billionaires",
+      "title": "Investor, Philanthropist",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 2,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5d8e17856c7c8f0009907ebd/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "San Jose, CA",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5d8e17856c7c8f0009907ebd/416x416.jpg?background=000000&cropX1=217&cropX2=1524&cropY1=0&cropY2=1308",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1,
+      "impactInvestor": true,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "eric-schmidt",
+      "rank": 96,
+      "listUri": "billionaires",
+      "finalWorth": 18900,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Eric Schmidt",
+      "age": 65,
+      "country": "United States",
+      "state": "California",
+      "city": "Atherton",
+      "source": "Google",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "timestamp": 1639175699239,
+      "version": 5,
+      "naturalId": "faris/5/2021/7552",
+      "position": 96,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -463363200000,
+      "lastName": "Schmidt",
+      "firstName": "Eric",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 6,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5f4526a6f048a75b8e14e6b2/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "San Francisco-Oakland-Fremont, CA",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5f4526a6f048a75b8e14e6b2/416x416.jpg?background=000000&cropX1=0&cropX2=3235&cropY1=381&cropY2=3615",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 2,
+      "impactInvestor": true,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "sun-piaoyang",
+      "rank": 96,
+      "listUri": "billionaires",
+      "finalWorth": 18900,
+      "category": "Healthcare",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Sun Piaoyang",
+      "age": 62,
+      "country": "China",
+      "city": "Lianyungang",
+      "source": "pharmaceuticals",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "China",
+      "timestamp": 1635965603657,
+      "version": 4,
+      "naturalId": "faris/5/2021/479",
+      "position": 97,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -357696000000,
+      "lastName": "Sun",
+      "firstName": "Piaoyang",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5bcf9178a7ea43705914d65b/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5bcf9178a7ea43705914d65b/416x416.jpg?background=000000&cropX1=724&cropX2=3557&cropY1=0&cropY2=2832",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "embargo": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "theo-albrecht-jr",
+      "rank": 98,
+      "listUri": "billionaires",
+      "finalWorth": 18800,
+      "category": "Fashion & Retail",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Theo Albrecht, Jr. & family",
+      "age": 70,
+      "country": "Germany",
+      "city": "Mulheim an der Ruhr",
+      "source": "Aldi, Trader Joe's",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Germany",
+      "timestamp": 1649102288376,
+      "version": 5,
+      "naturalId": "faris/5/2021/13431",
+      "position": 98,
+      "imageExists": false,
+      "selfMade": false,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -599616000000,
+      "lastName": "Albrecht",
+      "firstName": "Theo",
+      "listDescription": "The World's Billionaires",
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/6050f48ca1ab099ed6e290cc/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/6050f48ca1ab099ed6e290cc/416x416.jpg?background=000000&cropX1=0&cropX2=800&cropY1=0&cropY2=800",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "alisher-usmanov",
+      "rank": 99,
+      "listUri": "billionaires",
+      "finalWorth": 18400,
+      "category": "Metals & Mining",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Alisher Usmanov",
+      "age": 67,
+      "country": "Russia",
+      "city": "Moscow",
+      "source": "steel, telecom, investments",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "Russia",
+      "organization": "Metalloinvest",
+      "timestamp": 1649198933474,
+      "version": 13,
+      "naturalId": "faris/5/2021/7634",
+      "position": 99,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": -514771200000,
+      "lastName": "Usmanov",
+      "firstName": "Alisher",
+      "listDescription": "The World's Billionaires",
+      "title": "Founder",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/607a044ee9910fe868a69505/280x425.jpg?fit=scale&background=000000",
+      "squareImage": "https://specials-images.forbesimg.com/imageserve/607a044ee9910fe868a69505/416x416.jpg?background=000000&cropX1=183&cropX2=812&cropY1=23&cropY2=651",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false
+    },
+    {
+      "name": "Billionaires",
+      "year": 2021,
+      "month": 4,
+      "uri": "robert-pera",
+      "rank": 100,
+      "listUri": "billionaires",
+      "finalWorth": 18300,
+      "category": "Technology",
+      "otherCompensation": 0,
+      "person": [
+        "Object"
+      ],
+      "visible": true,
+      "personName": "Robert Pera",
+      "age": 43,
+      "country": "United States",
+      "state": "California",
+      "city": "San Jose",
+      "source": "wireless networking gear",
+      "industries": [
+        "Array"
+      ],
+      "countryOfCitizenship": "United States",
+      "organization": "Ubiquiti",
+      "timestamp": 1639175711573,
+      "version": 5,
+      "naturalId": "faris/5/2021/14499",
+      "position": 100,
+      "imageExists": true,
+      "selfMade": true,
+      "status": "U",
+      "gender": "M",
+      "birthDate": 258336000000,
+      "lastName": "Pera",
+      "firstName": "Robert",
+      "listDescription": "The World's Billionaires",
+      "title": "Chief Executive Officer",
+      "employment": [
+        "Object"
+      ],
+      "date": 1617667200000,
+      "wealthList": false,
+      "familyList": false,
+      "selfMadeRank": 8,
+      "thumbnail": "http://specials-images.forbesimg.com/imageserve/5f1f2df0e0da1e7313d9879a/280x425.jpg?fit=scale&background=000000",
+      "residenceStateRegion": "West",
+      "residenceMsa": "San Jose, CA",
+      "squareImage": "//specials-images.forbesimg.com/imageserve/5f1f2df0e0da1e7313d9879a/416x416.jpg?background=000000&cropX1=217&cropX2=1125&cropY1=71&cropY2=980",
+      "bioSuppress": false,
+      "csfDisplayFields": [
+        "Array"
+      ],
+      "suppressOnProfiles": false,
+      "bios": [
+        "Array"
+      ],
+      "abouts": [
+        "Array"
+      ],
+      "parentListUri": "billionaires",
+      "premiumProfile": false,
+      "philanthropyScore": 1,
+      "embargo": false
+    }
+  ],
+  "page": {
+    "start": 0,
+    "end": 100,
+    "totalCount": 2755
+  }
+}
+

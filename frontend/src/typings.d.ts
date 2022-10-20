@@ -17,4 +17,5 @@ export interface IWeb3Context {
     account: any;
     contract: any;
     etherPriceUSD?: number | string;
+    rankings: any[];
 }
