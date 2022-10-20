@@ -22,5 +22,9 @@ export default function Chart() {
             }
         );
 
-    return <div>{createLineChart()}</div>;
+    return (
+        <div className={'charts info-sections'}>
+            <div className={'charts__content info-sections__content'}>TODO</div>
+        </div>
+    );
 }

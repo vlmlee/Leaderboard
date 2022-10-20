@@ -192,7 +192,10 @@ function App() {
                     <div>
                         <div className={'modal__title'}>Ending Contract</div>
                         <div className={'modal__description'}>
-                            <div>You are about to end this leaderboard contract.</div>
+                            <div>
+                                You are about to end this leaderboard. Terminating this contract will allocate all
+                                rewards to stakers and cause it to self-destruct.
+                            </div>
                             <div className={'modal__description__are-you-sure'}>Are you sure you want to continue?</div>
                         </div>
                     </div>
