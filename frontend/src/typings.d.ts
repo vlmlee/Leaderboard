@@ -12,6 +12,7 @@ export type IRanking = {
 
 export interface IPageIndices {
     pages: number;
+    setCurrentPage: (page: number) => void;
 }
 
 export interface IWeb3Context {

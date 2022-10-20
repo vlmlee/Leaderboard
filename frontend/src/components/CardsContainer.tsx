@@ -15,6 +15,7 @@ export default function CardsContainer() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isModalOpen, setModalState] = useState(false);
     const [selectedRank, setSelectedRank] = useState<IRanking>(INITIAL_SELECTED_RANK);
+    const [currentPage, setCurrentPage] = useState<number>(0);
 
     const generateBoxes = (numOfBoxes: number) => {
         const boxes: any = [];
@@ -32,7 +33,7 @@ export default function CardsContainer() {
     };
 
     const generateCards = () => {
-        const rankingsChunk = chunk(rankings, 4);
+        const rankingsChunk = chunk(rankings.slice(currentPage * 20, currentPage * 20 + 20), 4);
         const arr: JSX.Element[] = [];
         rankingsChunk.forEach((group: any, i: number) => {
             arr.push(
@@ -79,7 +80,7 @@ export default function CardsContainer() {
             <div className={'search-bar-container'}>
                 <SearchBar filterResults={filterResults} />
             </div>
-            <PageIndices pages={Math.ceil(rankings.length / 20)} />
+            <PageIndices pages={Math.ceil(rankings.length / 20)} setCurrentPage={setCurrentPage} />
             {generateCards()}
             {isModalOpen && (
                 <Modal closeModal={closeModal}>

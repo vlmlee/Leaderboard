@@ -1,9 +1,19 @@
 .page__indices {
-    position: relative;
+    display: flex;
+    flex-direction: row;
     text-align: center;
-    top: 15px;
+    position: relative;
+    top: 35px;
+    justify-content: center;
+    gap: 45px;
 
     p {
         color: white;
+        cursor: pointer;
+
+        &:active {
+            opacity: 0.5;
+            text-shadow: 0 0 5px 5px #fff;
+        }
     }
 }
