@@ -72,6 +72,17 @@ export default function ListContainer() {
         const _rankings = isBeingFiltered ? filteredRankings : rankings;
 
         _rankings.slice(currentPage * 5, currentPage * 5 + 5).forEach((ranking: IRanking, i: number) => {
+            const _stakes = stakes.filter((s: any[]) => s[1] === ranking.id);
+            const stakers = _stakes.length;
+            let liquidity = 0;
+
+            if (stakers) {
+                liquidity = _stakes.reduce((acc: number, cur: any) => {
+                    acc = acc + +ethers.utils.formatEther(cur[3]);
+                    return acc;
+                }, 0);
+            }
+
             arr.push(
                 <ListRow
                     key={`list__element-${i}`}
@@ -81,6 +92,8 @@ export default function ListContainer() {
                     netWorth={ranking.netWorth}
                     country={ranking.country}
                     imgUrl={ranking.imgUrl}
+                    liquidity={liquidity}
+                    stakers={stakers || '0'}
                     stakeToRanking={stakeToRanking}
                 />
             );

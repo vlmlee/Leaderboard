@@ -34,3 +34,10 @@ export interface IListFilter {
     filterLength: number;
     filteredRankings: IRanking[];
 }
+
+export interface IStake {
+    id: number;
+    name?: string;
+    address?: string;
+    liquidity?: number;
+}

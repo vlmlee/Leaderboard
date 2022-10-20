@@ -8,8 +8,8 @@ import LeaderboardAbi from './contractsData/Leaderboard.json';
 import { useFindPath } from './hooks/useFindPath';
 import Modal from './components/Modal';
 import { IWeb3Context } from './typings';
-import { useCountdown } from './hooks/useCountDown';
 import convertToRanking from './helpers/convertToRanking';
+import CountDownTimer from './components/CountDownTimer';
 
 export const Web3Context = React.createContext<any>({
     account: null,
@@ -63,7 +63,6 @@ function App() {
     });
     const [isModalOpen, setModalState] = useState<boolean>(false);
     const [endTime, setEndTime] = useState<Date>(new Date(''));
-    const [days, hours, minutes, seconds] = useCountdown(endTime);
 
     const web3Handler = async () => {
         const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
@@ -191,17 +190,7 @@ function App() {
                 <NavLink className={'App__header__logo'} to={'/'}>
                     DeLeaderboards
                 </NavLink>
-                {!isNaN(days) && (
-                    <div className={'App__staking-countdown fade-in'}>
-                        <div className={'App__staking-countdown__warning'}>Staking ends in:</div>
-                        <div className={'App__staking-countdown__timer'}>
-                            {days}:{hours < 10 && '0'}
-                            {hours}:{minutes < 10 && '0'}
-                            {minutes}:{seconds < 10 && '0'}
-                            {seconds}
-                        </div>
-                    </div>
-                )}
+                <CountDownTimer endTime={endTime} />
             </header>
             <div className={'App__title'}>
                 <h1>

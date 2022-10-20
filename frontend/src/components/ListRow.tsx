@@ -5,9 +5,19 @@ import { Web3Context } from '../App';
 
 interface IListRow extends IRanking {
     stakeToRanking: (rank: number, name: string) => void;
+    liquidity: string | number;
 }
 
-export default function ListRow({ rank, name, netWorth, country, imgUrl, stakers, stakeToRanking }: IListRow) {
+export default function ListRow({
+    rank,
+    name,
+    netWorth,
+    country,
+    imgUrl,
+    stakers,
+    liquidity,
+    stakeToRanking
+}: IListRow) {
     const [{ stakes }] = useContext(Web3Context);
 
     return (
@@ -34,7 +44,7 @@ export default function ListRow({ rank, name, netWorth, country, imgUrl, stakers
             </div>
             <div className={'list__element'}>
                 <span className={'list__element--total-value-locked'}>
-                    <span className={'list__element--total-value-locked--none'}>{'---'}</span> eth
+                    {liquidity || <span className={'list__element--total-value-locked--none'}>{'---'}</span>} ETH
                 </span>
             </div>
         </div>
