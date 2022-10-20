@@ -99,7 +99,7 @@ function App() {
         setContext(prev => ({
             ...prev,
             gasPrice: +ethers.utils.formatUnits(feeData.gasPrice, 'wei'),
-            gasLimit: 150000,
+            gasLimit: 15000000,
             maxFeePerGas: +ethers.utils.formatUnits(feeData.maxFeePerGas, 'wei'),
             provider: _provider,
             contract: _contract,
@@ -239,7 +239,7 @@ function App() {
                 <Outlet />
             </Web3Context.Provider>
             {isModalOpen && (
-                <Modal closeModal={() => setModalState(false)}>
+                <Modal closeModal={() => setModalState(false)} onAccept={() => {}}>
                     <div>
                         <div className={'modal__title'}>Ending Contract</div>
                         <div className={'modal__description'}>

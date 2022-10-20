@@ -133,7 +133,7 @@ export default function CardsContainer() {
             />
             {generateCards()}
             {isModalOpen && (
-                <Modal closeModal={closeModal}>
+                <Modal closeModal={closeModal} onAccept={() => {}}>
                     <div>
                         <div className={'modal__title'}>Stake to {selectedRank.name}</div>
                         <div className={'modal__description'}>
