@@ -2,6 +2,7 @@ import { IRanking } from '../typings';
 
 export const DEFAULT_RANKINGS: Array<IRanking> = [
     {
+        id: 0,
         rank: 1,
         name: 'Elon Musk',
         netWorth: '$219 B',
@@ -9,6 +10,7 @@ export const DEFAULT_RANKINGS: Array<IRanking> = [
         imgUrl: ''
     },
     {
+        id: 1,
         rank: 2,
         name: 'Jeff Bezos',
         netWorth: '$171 B',
@@ -16,6 +18,7 @@ export const DEFAULT_RANKINGS: Array<IRanking> = [
         imgUrl: ''
     },
     {
+        id: 2,
         rank: 3,
         name: 'Bernard Arnault',
         netWorth: '$151 B',
@@ -23,6 +26,7 @@ export const DEFAULT_RANKINGS: Array<IRanking> = [
         imgUrl: ''
     },
     {
+        id: 3,
         rank: 4,
         name: 'Bill Gates',
         netWorth: '$129 B',
@@ -30,6 +34,7 @@ export const DEFAULT_RANKINGS: Array<IRanking> = [
         imgUrl: ''
     },
     {
+        id: 4,
         rank: 5,
         name: 'Warren Buffet',
         netWorth: '$118 B',
@@ -37,6 +42,7 @@ export const DEFAULT_RANKINGS: Array<IRanking> = [
         imgUrl: ''
     },
     {
+        id: 5,
         rank: 6,
         name: 'Larry Page',
         netWorth: '$111 B',
@@ -44,6 +50,7 @@ export const DEFAULT_RANKINGS: Array<IRanking> = [
         imgUrl: ''
     },
     {
+        id: 6,
         rank: 7,
         name: 'Sergey Brin',
         netWorth: '$107 B',
@@ -51,6 +58,7 @@ export const DEFAULT_RANKINGS: Array<IRanking> = [
         imgUrl: ''
     },
     {
+        id: 7,
         rank: 8,
         name: 'Larry Ellison',
         netWorth: '$106 B',
@@ -58,6 +66,7 @@ export const DEFAULT_RANKINGS: Array<IRanking> = [
         imgUrl: ''
     },
     {
+        id: 8,
         rank: 9,
         name: 'Steve Ballmer',
         netWorth: '$91.4 B',
@@ -65,6 +74,7 @@ export const DEFAULT_RANKINGS: Array<IRanking> = [
         imgUrl: ''
     },
     {
+        id: 9,
         rank: 10,
         name: 'Mukesh Ambani',
         netWorth: '$90.7 B',
@@ -74,6 +84,7 @@ export const DEFAULT_RANKINGS: Array<IRanking> = [
 ];
 
 export const INITIAL_SELECTED_RANK = {
+    id: 0,
     name: '',
     rank: 0,
     netWorth: '',

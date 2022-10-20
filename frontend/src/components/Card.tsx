@@ -2,7 +2,7 @@ import React from 'react';
 import '../stylesheets/Card.scss';
 import { IRanking } from '../typings';
 
-const Card: React.FC<IRanking> = ({ rank, name, netWorth, country, imgUrl, isLoading, classes }: IRanking) => {
+const Card: React.FC<IRanking> = ({ id, rank, name, netWorth, country, imgUrl, isLoading, classes }: IRanking) => {
     return (
         <div className={'card__element card__element--' + classes}>
             {isLoading && (

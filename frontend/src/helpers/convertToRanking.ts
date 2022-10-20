@@ -6,10 +6,15 @@ export default function convertToRanking(_ranking: any): IRanking {
     const data = new TextDecoder().decode(_data);
     const dataObj = JSON.parse(data);
 
+    let imgUrl = '';
+    if (!dataObj.imgUrl.startsWith('https:')) imgUrl = 'https:' + dataObj.imgUrl;
+    else imgUrl = dataObj.imgUrl;
+
     return {
+        id: _ranking.id,
         rank: _ranking.rank,
         name: ethers.utils.parseBytes32String(_ranking.name),
-        imgUrl: 'https:' + dataObj.imgUrl,
+        imgUrl: imgUrl,
         netWorth: dataObj.netWorth,
         country: dataObj.country
     };

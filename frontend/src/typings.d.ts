@@ -1,4 +1,5 @@
 export type IRanking = {
+    id: number;
     rank: number;
     name: string;
     netWorth: string;

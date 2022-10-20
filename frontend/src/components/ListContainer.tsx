@@ -9,10 +9,11 @@ import Modal from './Modal';
 import { Web3Context } from '../App';
 
 export default function ListContainer() {
-    const [rankings, setRankings] = useState(DEFAULT_RANKINGS);
+    const [rankings, setRankings] = useState<IRanking[]>(DEFAULT_RANKINGS);
     const [currentPage, setCurrentPage] = useState(0);
     const [isModalOpen, setModalState] = useState(false);
     const [selectedRank, setSelectedRank] = useState<IRanking>({
+        id: 0,
         name: '',
         rank: 0,
         netWorth: '',
@@ -29,6 +30,7 @@ export default function ListContainer() {
             arr.push(
                 <ListRow
                     key={`list__element-${i}`}
+                    id={ranking.id}
                     rank={ranking.rank}
                     name={ranking.name}
                     netWorth={ranking.netWorth}

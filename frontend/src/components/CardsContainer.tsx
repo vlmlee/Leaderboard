@@ -50,6 +50,7 @@ export default function CardsContainer() {
                         {group.map((ranking: IRanking, j: number) => (
                             <Card
                                 key={`card-${j}`}
+                                id={ranking.id}
                                 classes={j % 2 === 0 ? 'blue' : 'red'}
                                 isLoading={isLoading}
                                 rank={ranking.rank}
