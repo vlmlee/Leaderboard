@@ -6,11 +6,15 @@ import { IRanking } from '../typings';
 import SearchBar from './SearchBar';
 import PageIndices from './PageIndices';
 import { Web3Context } from '../App';
+import Modal from './Modal';
+import { INITIAL_SELECTED_RANK } from '../helpers/Constants';
 
 export default function CardsContainer() {
-    const [{ rankings, contract }, setContext] = useContext<any>(Web3Context);
+    const [{ rankings, contract, etherPriceUSD }, setContext] = useContext<any>(Web3Context);
     // const [rankings, setRankings] = useState<IRanking[]>(DEFAULT_RANKINGS);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isModalOpen, setModalState] = useState(false);
+    const [selectedRank, setSelectedRank] = useState<IRanking>(INITIAL_SELECTED_RANK);
 
     const generateBoxes = (numOfBoxes: number) => {
         const boxes: any = [];
@@ -18,6 +22,13 @@ export default function CardsContainer() {
             boxes.push(<div id={`generated-box-${i}`} className={'box-push-left'}></div>);
         }
         return boxes;
+    };
+
+    const stakeToRanking = (rank: number, name: string) => {
+        setModalState(true);
+        const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.name === name && _ranking.rank === rank);
+
+        setSelectedRank(_selectedRank ?? INITIAL_SELECTED_RANK);
     };
 
     const generateCards = () => {
@@ -38,6 +49,7 @@ export default function CardsContainer() {
                                 netWorth={ranking.netWorth}
                                 country={ranking.country}
                                 imgUrl={ranking.imgUrl}
+                                stakeToRanking={stakeToRanking}
                             />
                         ))}
                         {group.length < 4 ? generateBoxes(4 - group.length) : null}
@@ -58,6 +70,10 @@ export default function CardsContainer() {
         // }
     };
 
+    const closeModal = () => {
+        setModalState(false);
+    };
+
     return (
         <div className={'card__container'}>
             <div className={'search-bar-container'}>
@@ -65,6 +81,23 @@ export default function CardsContainer() {
             </div>
             <PageIndices pages={Math.ceil(rankings.length / 20)} />
             {generateCards()}
+            {isModalOpen && (
+                <Modal closeModal={closeModal}>
+                    <div>
+                        <div className={'modal__title'}>Stake to {selectedRank.name}</div>
+                        <div className={'modal__description'}>
+                            <div>
+                                You are attempting to stake to {selectedRank.name}, who is currently ranked #
+                                {selectedRank.rank}.
+                            </div>
+                            <div className={'modal__description__are-you-sure'}>Are you sure you want to continue?</div>
+                            <div className={'modal__description__fee-notice'}>
+                                Notice: There is a 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)}) commission fee.
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
+            )}
         </div>
     );
 }

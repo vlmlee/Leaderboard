@@ -102,8 +102,8 @@ export default function ListContainer() {
         setSelectedRank(_selectedRank ?? INITIAL_SELECTED_RANK);
     };
 
-    const closeModal = (state: boolean) => {
-        setModalState(state);
+    const closeModal = () => {
+        setModalState(false);
     };
 
     return (
@@ -148,13 +148,16 @@ export default function ListContainer() {
             {isModalOpen && (
                 <Modal closeModal={closeModal}>
                     <div>
-                        <div>
-                            You are attempting to stake to {selectedRank.name}, ranked {selectedRank.rank}.
-                        </div>
-                        <div>Are you sure you want to stake? There is a 0.0025 ETH commission fee.</div>
-                        <div>
-                            <button onClick={() => {}}>yes</button>
-                            <button onClick={() => setModalState(false)}>cancel</button>
+                        <div className={'modal__title'}>Stake to {selectedRank.name}</div>
+                        <div className={'modal__description'}>
+                            <div>
+                                You are attempting to stake to {selectedRank.name}, who is currently ranked #
+                                {selectedRank.rank}.
+                            </div>
+                            <div className={'modal__description__are-you-sure'}>Are you sure you want to continue?</div>
+                            <div className={'modal__description__fee-notice'}>
+                                Notice: There is a 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)}) commission fee.
+                            </div>
                         </div>
                     </div>
                 </Modal>

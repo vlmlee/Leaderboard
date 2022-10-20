@@ -2,7 +2,21 @@ import React from 'react';
 import '../stylesheets/Card.scss';
 import { IRanking } from '../typings';
 
-const Card: React.FC<IRanking> = ({ id, rank, name, netWorth, country, imgUrl, isLoading, classes }: IRanking) => {
+interface ICard extends IRanking {
+    stakeToRanking: (rank: number, name: string) => void;
+}
+
+const Card: React.FC<ICard> = ({
+    id,
+    rank,
+    name,
+    netWorth,
+    country,
+    imgUrl,
+    isLoading,
+    classes,
+    stakeToRanking
+}: ICard) => {
     return (
         <div className={'card__element card__element--' + classes}>
             {isLoading && (
@@ -19,14 +33,14 @@ const Card: React.FC<IRanking> = ({ id, rank, name, netWorth, country, imgUrl, i
                         <div className={'card__element-info--net-worth'}>
                             <span style={{ fontSize: '14px' }}>Net Worth</span>
                             <br />
-                            <span style={{ color: '#52b788' }}>{netWorth}</span>
+                            <span style={{ color: '#52b788' }}>{'$' + +netWorth / 1000 + ' B'}</span>
                         </div>
                         <div className={'card__element-info--country'}>{country}</div>
                     </div>
                 </div>
             )}
             <div className={'card__element__stake-button'}>
-                <button>Stake</button>
+                <button onClick={() => stakeToRanking(rank, name)}>Stake</button>
             </div>
         </div>
     );

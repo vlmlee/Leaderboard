@@ -190,11 +190,10 @@ function App() {
             {isModalOpen && (
                 <Modal closeModal={() => setModalState(false)}>
                     <div>
-                        <div>You are about to end this leaderboard contract.</div>
-                        <div>Are you sure you want to continue?</div>
-                        <div>
-                            <button>Yes</button>
-                            <button onClick={() => setModalState(false)}>No</button>
+                        <div className={'modal__title'}>Ending Contract</div>
+                        <div className={'modal__description'}>
+                            <div>You are about to end this leaderboard contract.</div>
+                            <div className={'modal__description__are-you-sure'}>Are you sure you want to continue?</div>
                         </div>
                     </div>
                 </Modal>

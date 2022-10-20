@@ -5,14 +5,70 @@
     transform: translate(-50%, -50%);
     z-index: 1001;
     background-color: white;
-    height: 600px;
+    height: 500px;
     width: 400px;
     border: 3px solid #5851db;
     box-shadow: 0 0 60px #00000095;
     border-radius: 15px;
+    padding: 45px;
 
-    > div {
-        padding: 45px;
+    &__buttons {
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - 90px);
+
+        > button {
+            outline: none;
+            font-size: 14px;
+            padding: 6px 20px;
+            border-radius: 0 0 3px 3px;
+            background-color: white;
+            box-shadow: 0px 4px 0px -2px #5851db;
+            letter-spacing: 1px;
+            transition: 0.15s transform ease-in-out;
+            will-change: transform;
+            border: 2px solid #5851db;
+
+            &:active {
+                transform: translateY(3px);
+                outline: inherit;
+            }
+        }
+
+        &--yes {
+            position: absolute;
+            right: 45px;
+            bottom: 45px;
+        }
+
+        &--cancel {
+            position: absolute;
+            left: 45px;
+            bottom: 45px;
+        }
+    }
+
+    &__description {
+        color: #46484a;
+        font-size: 18px;
+        margin-top: 45px;
+        text-align: center;
+
+        &__are-you-sure {
+            font-size: 22px;
+            color: red;
+            margin: 45px 0;
+            text-align: center;
+        }
+
+        &__fee-notice {
+            color: #777;
+            font-size: 12px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 120px;
+        }
     }
 }
 
@@ -25,4 +81,14 @@
     bottom: 0;
     background: #000000;
     opacity: 30%;
+}
+
+.modal__title {
+    text-align: center;
+    font-size: 36px;
+    font-family: 'Luxora-Grotesk-Bold', 'Luxora-Grotesk-Regular', 'SF Pro Display', serif;
+    color: #46484a;
+    text-shadow: 2px 1px 0 #1da1f2, -1px 0 0 #c13584, 1px 0 0 #3b5990, 0 1px 0 #fd1d1d, 1px 1px 0 #833ab4;
+    border: 5px double #5851db;
+    padding: 30px;
 }
