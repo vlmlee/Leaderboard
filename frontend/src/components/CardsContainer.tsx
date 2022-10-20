@@ -89,20 +89,22 @@ export default function CardsContainer() {
     useEffect(() => {
         async function retrieveSectionRankings() {
             if (!isEmpty(contract) && currentFilterTerm === '') {
-                // Check next page index and what rankings are supposed to be there
                 const indicesToRetrieve = currentPage * 20 + 1;
                 const isRankingAlreadyAdded = rankings.findIndex((r: IRanking) => r.rank === indicesToRetrieve) !== -1;
 
                 if (!isRankingAlreadyAdded && indicesToRetrieve < maxLength) {
                     let _rankings: any[] = [];
                     setIsLoading(true);
-                    // Get the next 5 rankings
                     for (let i = rankings.length; i < indicesToRetrieve + 20; i++) {
                         const _ranks = await contract.getRankingByRank(i);
                         _rankings.push(convertToRanking(_ranks));
                     }
 
-                    return rankings.concat(_rankings);
+                    const onlyUnique = (_rank: any, index: number, self: any) => {
+                        return self.findIndex((_r: any) => _r.id === _rank.id) === index;
+                    };
+
+                    return rankings.concat(_rankings).filter(onlyUnique); // make sure we don't duplicate from the list side
                 }
             }
         }
