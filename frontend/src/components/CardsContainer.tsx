@@ -1,21 +1,32 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Card from './Card';
 import '../stylesheets/CardsContainer.scss';
-import { chunk } from 'lodash';
+import { chunk, isEmpty } from 'lodash';
 import { IRanking } from '../typings';
 import SearchBar from './SearchBar';
 import PageIndices from './PageIndices';
 import { Web3Context } from '../App';
 import Modal from './Modal';
 import { INITIAL_SELECTED_RANK } from '../helpers/Constants';
+import convertToRanking from '../helpers/convertToRanking';
 
 export default function CardsContainer() {
-    const [{ rankings, contract, etherPriceUSD }, setContext] = useContext<any>(Web3Context);
-    // const [rankings, setRankings] = useState<IRanking[]>(DEFAULT_RANKINGS);
+    const [{ rankings, contract, etherPriceUSD, maxLength }, setContext] = useContext<any>(Web3Context);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isModalOpen, setModalState] = useState(false);
     const [selectedRank, setSelectedRank] = useState<IRanking>(INITIAL_SELECTED_RANK);
     const [currentPage, setCurrentPage] = useState<number>(0);
+    const [{ currentFilterTerm, filteredRankings, filterLength }, setFilters] = useState<{
+        currentFilterTerm: '';
+        filteredRankings: IRanking[];
+        filterLength: number;
+    }>({
+        currentFilterTerm: '',
+        filterLength: 0,
+        filteredRankings: []
+    });
+
+    const isBeingFiltered = currentFilterTerm !== '';
 
     const generateBoxes = (numOfBoxes: number) => {
         const boxes: any = [];
@@ -75,12 +86,49 @@ export default function CardsContainer() {
         setModalState(false);
     };
 
+    useEffect(() => {
+        async function retrieveSectionRankings() {
+            if (!isEmpty(contract) && currentFilterTerm === '') {
+                // Check next page index and what rankings are supposed to be there
+                const indicesToRetrieve = currentPage * 20 + 1;
+                const isRankingAlreadyAdded = rankings.findIndex((r: IRanking) => r.rank === indicesToRetrieve) !== -1;
+
+                if (!isRankingAlreadyAdded && indicesToRetrieve < maxLength) {
+                    let _rankings: any[] = [];
+                    setIsLoading(true);
+                    // Get the next 5 rankings
+                    for (let i = rankings.length; i < indicesToRetrieve + 20; i++) {
+                        const _ranks = await contract.getRankingByRank(i);
+                        _rankings.push(convertToRanking(_ranks));
+                    }
+
+                    return rankings.concat(_rankings);
+                }
+            }
+        }
+
+        retrieveSectionRankings().then(newRankings => {
+            if (newRankings && newRankings.length) {
+                setContext((prev: any) => {
+                    return {
+                        ...prev,
+                        rankings: newRankings
+                    };
+                });
+                setIsLoading(false);
+            }
+        });
+    }, [currentPage]);
+
     return (
         <div className={'card__container'}>
             <div className={'search-bar-container'}>
                 <SearchBar filterResults={filterResults} />
             </div>
-            <PageIndices pages={Math.ceil(rankings.length / 20)} setCurrentPage={setCurrentPage} />
+            <PageIndices
+                pages={isBeingFiltered ? Math.ceil(filteredRankings.length / 20) : 5}
+                setCurrentPage={setCurrentPage}
+            />
             {generateCards()}
             {isModalOpen && (
                 <Modal closeModal={closeModal}>
