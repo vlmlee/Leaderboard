@@ -1,4 +1,7 @@
 .rewards {
     &__content {
+        > div {
+            margin: 0 0 30px;
+        }
     }
 }
