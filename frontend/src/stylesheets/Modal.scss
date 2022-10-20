@@ -10,7 +10,7 @@
     border: 3px solid #5851db;
     box-shadow: 0 0 60px #00000095;
     border-radius: 15px;
-    padding: 45px;
+    padding: 45px 45px 60px;
 
     &__buttons {
         position: absolute;
@@ -38,13 +38,13 @@
         &--yes {
             position: absolute;
             right: 45px;
-            bottom: 45px;
+            bottom: 80px;
         }
 
         &--cancel {
             position: absolute;
             left: 45px;
-            bottom: 45px;
+            bottom: 80px;
         }
     }
 
@@ -67,7 +67,7 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            bottom: 120px;
+            bottom: 15px;
         }
     }
 }
