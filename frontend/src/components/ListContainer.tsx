@@ -9,6 +9,7 @@ import Modal from './Modal';
 import { Web3Context } from '../App';
 
 export default function ListContainer() {
+    const [{ stakes }] = useContext(Web3Context);
     const [rankings, setRankings] = useState<IRanking[]>(DEFAULT_RANKINGS);
     const [currentPage, setCurrentPage] = useState(0);
     const [isModalOpen, setModalState] = useState(false);

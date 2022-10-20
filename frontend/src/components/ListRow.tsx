@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { IRanking } from '../typings';
 import '../stylesheets/ListRow.scss';
+import { Web3Context } from '../App';
 
 interface IListRow extends IRanking {
     stakeToRanking: (rank: number, name: string) => void;
 }
 
 export default function ListRow({ rank, name, netWorth, country, imgUrl, stakers, stakeToRanking }: IListRow) {
+    const [{ stakes }] = useContext(Web3Context);
+
     return (
         <div className={'list__row'}>
             <div className={'list__element'}>
@@ -25,7 +28,9 @@ export default function ListRow({ rank, name, netWorth, country, imgUrl, stakers
                 </button>
             </div>
             <div className={'list__element'}>
-                <span className={'list__element--stakers'}>{stakers} / total stakers </span>
+                <span className={'list__element--stakers'}>
+                    {stakers} / {(stakes && stakes.length) ?? 0}{' '}
+                </span>
             </div>
             <div className={'list__element'}>
                 <span className={'list__element--total-value-locked'}>

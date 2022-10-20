@@ -30,7 +30,8 @@ function App() {
         account: null,
         contract: {},
         etherPriceUSD: 0,
-        rankings: []
+        rankings: [],
+        stakes: []
     });
     const [isModalOpen, setModalState] = useState<boolean>(false);
     const [endTime, setEndTime] = useState<Date>(new Date(''));
@@ -61,10 +62,13 @@ function App() {
             _ranks.push(convertToRanking(_rankings));
         }
 
+        const _stakes = await _contract.getUserStakes();
+
         setContext(prev => ({
             ...prev,
             contract: _contract,
-            rankings: _ranks
+            rankings: _ranks,
+            stakes: _stakes
         }));
     };
 
