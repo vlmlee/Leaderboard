@@ -69,6 +69,10 @@
             text-align: left;
             font-size: 18px;
             float: left;
+            text-overflow: ellipsis;
+            width: 185px;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         &--net-worth {

@@ -1,36 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Card from './Card';
 import '../stylesheets/CardsContainer.scss';
 import { chunk } from 'lodash';
 import { IRanking } from '../typings';
 import SearchBar from './SearchBar';
-import getPhoto from '../helpers/getPhoto';
 import PageIndices from './PageIndices';
-import { DEFAULT_RANKINGS } from '../helpers/Constants';
+import { Web3Context } from '../App';
 
 export default function CardsContainer() {
-    const [rankings, setRankings] = useState<IRanking[]>(DEFAULT_RANKINGS);
+    const [{ rankings, contract }, setContext] = useContext<any>(Web3Context);
+    // const [rankings, setRankings] = useState<IRanking[]>(DEFAULT_RANKINGS);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    useEffect(() => {
-        let isCancelled = false;
-        Promise.all(rankings.map((r: IRanking) => getPhoto(r.name))).then(res => {
-            if (!isCancelled) {
-                setRankings(
-                    rankings.map((s: any, index: number) => {
-                        return {
-                            ...s,
-                            imgUrl: res[index]
-                        };
-                    })
-                );
-            }
-        });
-
-        return () => {
-            isCancelled = true;
-        };
-    }, []);
 
     const generateBoxes = (numOfBoxes: number) => {
         const boxes: any = [];
@@ -43,7 +23,7 @@ export default function CardsContainer() {
     const generateCards = () => {
         const rankingsChunk = chunk(rankings, 4);
         const arr: JSX.Element[] = [];
-        rankingsChunk.forEach((group: Array<IRanking>, i: number) => {
+        rankingsChunk.forEach((group: any, i: number) => {
             arr.push(
                 <div key={`card__container__group-${i}`} className={'card__container__group'}>
                     <>
@@ -69,13 +49,13 @@ export default function CardsContainer() {
     };
 
     const filterResults = (searchTerm: string) => {
-        if (searchTerm !== '') {
-            setRankings((state: IRanking[]) => {
-                return DEFAULT_RANKINGS.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
-            });
-        } else {
-            setRankings((state: IRanking[]) => DEFAULT_RANKINGS);
-        }
+        // if (searchTerm !== '') {
+        //     setRankings((state: IRanking[]) => {
+        //         return DEFAULT_RANKINGS.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
+        //     });
+        // } else {
+        //     setRankings((state: IRanking[]) => DEFAULT_RANKINGS);
+        // }
     };
 
     return (
