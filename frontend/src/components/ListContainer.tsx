@@ -4,25 +4,29 @@ import '../stylesheets/ListContainer.scss';
 import SearchBar from './SearchBar';
 import PaginationButtons from './PaginationButtons';
 import { INITIAL_SELECTED_RANK } from '../helpers/Constants';
-import { IRanking } from '../typings';
+import { IListFilter, IRanking } from '../typings';
 import Modal from './Modal';
 import { Web3Context } from '../App';
 import convertToRanking from '../helpers/convertToRanking';
 import { isEmpty } from 'lodash';
 
 export default function ListContainer() {
-    const [{ contract, stakes, rankings, maxLength }, setContext] = useContext<any>(Web3Context);
-    const [currentFilterTerm, setFilter] = useState<string>('');
+    const [{ contract, stakes, rankings, maxLength, etherPriceUSD }, setContext] = useContext<any>(Web3Context);
+    const [{ currentFilterTerm, filteredRankings, filterLength }, setFilter] = useState<IListFilter>({
+        currentFilterTerm: '',
+        filterLength: 0,
+        filteredRankings: []
+    });
     const [currentPage, setCurrentPage] = useState(0);
     const [isModalOpen, setModalState] = useState(false);
     const [selectedRank, setSelectedRank] = useState<IRanking>(INITIAL_SELECTED_RANK);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [{ etherPriceUSD }] = useContext(Web3Context);
+    const isBeingFiltered = currentFilterTerm !== '';
 
     useEffect(() => {
         async function retrieveNextPageRankings() {
-            if (!isEmpty(contract)) {
+            if (!isEmpty(contract) && currentFilterTerm === '') {
                 // Check next page index and what rankings are supposed to be there
                 const rankingsIndexToCheck = currentPage * 5 + 6;
 
@@ -56,32 +60,35 @@ export default function ListContainer() {
         });
     }, [currentPage]);
 
-    const generateList = (_rankings: IRanking[]) => {
+    const generateList = () => {
         const arr: any = [];
-        _rankings
-            .slice(currentPage * 5, currentPage * 5 + 5)
-            .filter((ranking: IRanking) => {
-                return ranking.name.toLowerCase().includes(currentFilterTerm);
-            })
-            .forEach((ranking: IRanking, i: number) => {
-                arr.push(
-                    <ListRow
-                        key={`list__element-${i}`}
-                        id={ranking.id}
-                        rank={ranking.rank}
-                        name={ranking.name}
-                        netWorth={ranking.netWorth}
-                        country={ranking.country}
-                        imgUrl={ranking.imgUrl}
-                        stakeToRanking={stakeToRanking}
-                    />
-                );
-            });
+        const _rankings = isBeingFiltered ? filteredRankings : rankings;
+
+        _rankings.slice(currentPage * 5, currentPage * 5 + 5).forEach((ranking: IRanking, i: number) => {
+            arr.push(
+                <ListRow
+                    key={`list__element-${i}`}
+                    id={ranking.id}
+                    rank={ranking.rank}
+                    name={ranking.name}
+                    netWorth={ranking.netWorth}
+                    country={ranking.country}
+                    imgUrl={ranking.imgUrl}
+                    stakeToRanking={stakeToRanking}
+                />
+            );
+        });
         return arr;
     };
 
     const filterResults = (searchTerm: string) => {
-        setFilter(searchTerm);
+        const filteredRankings = rankings.filter((ranking: IRanking) => {
+            return ranking.name.toLowerCase().includes(currentFilterTerm);
+        });
+
+        const filterLength = filteredRankings.length;
+        setFilter({ currentFilterTerm: searchTerm, filterLength: filterLength, filteredRankings: filteredRankings });
+        setCurrentPage(0);
     };
 
     const paginate = (page: number) => {
@@ -126,7 +133,7 @@ export default function ListContainer() {
                         <span className={'list__header--element--total-value-locked'}>Total Value Locked</span>
                     </div>
                 </div>
-                {generateList(rankings)}
+                {generateList()}
             </div>
             <div className={'App__fee-notice'}>
                 <div>The commission fee for staking is: 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)})</div>
@@ -134,9 +141,9 @@ export default function ListContainer() {
             <PaginationButtons
                 paginate={paginate}
                 currentPage={currentPage}
-                resultsLength={rankings.length}
+                resultsLength={isBeingFiltered ? filterLength : rankings.length}
                 isLoading={isLoading}
-                maxLength={maxLength}
+                maxLength={isBeingFiltered ? filterLength : maxLength}
             />
             {isModalOpen && (
                 <Modal closeModal={closeModal}>

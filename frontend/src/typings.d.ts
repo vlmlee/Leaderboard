@@ -22,3 +22,9 @@ export interface IWeb3Context {
     stakes: any[];
     maxLength: 100;
 }
+
+export interface IListFilter {
+    currentFilterTerm: string;
+    filterLength: number;
+    filteredRankings: IRanking[];
+}
