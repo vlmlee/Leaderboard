@@ -23,6 +23,7 @@ const Rewards = ({}) => {
         <div className={'rewards info-sections'}>
             <div className={'rewards__content info-sections__content'}>
                 <div>Current reward pool: {rewardPool && rewardPool + ' ETH'}</div>
+                <div>Current payouts:</div>
             </div>
         </div>
     );

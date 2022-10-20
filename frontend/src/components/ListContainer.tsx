@@ -12,7 +12,7 @@ import { isEmpty } from 'lodash';
 import { BigNumber, ethers } from 'ethers';
 
 export default function ListContainer() {
-    const [{ contract, stakes, rankings, maxLength, etherPriceUSD, gasLimit, gasPrice }, setContext] =
+    const [{ account, contract, stakes, rankings, maxLength, etherPriceUSD, gasLimit, gasPrice }, setContext] =
         useContext<any>(Web3Context);
     const [{ currentFilterTerm, filteredRankings, filterLength }, setFilter] = useState<IListFilter>({
         currentFilterTerm: '',
@@ -75,12 +75,15 @@ export default function ListContainer() {
             const _stakes = stakes.filter((s: any[]) => s[1] === ranking.id);
             const stakers = _stakes.length;
             let liquidity = 0;
+            let isStaker = false;
 
             if (stakers) {
                 liquidity = _stakes.reduce((acc: number, cur: any) => {
                     acc = acc + +ethers.utils.formatEther(cur[3]);
                     return acc;
                 }, 0);
+
+                isStaker = _stakes[0][0].toLowerCase() === account.toLowerCase();
             }
 
             arr.push(
@@ -95,6 +98,8 @@ export default function ListContainer() {
                     liquidity={liquidity}
                     stakers={stakers || '0'}
                     stakeToRanking={stakeToRanking}
+                    isStaker={isStaker}
+                    withdrawStake={withdrawStake}
                 />
             );
         });
@@ -176,6 +181,17 @@ export default function ListContainer() {
             }
         },
         [amountToStake]
+    );
+
+    const withdrawStake = useCallback(
+        async (id: number) => {
+            try {
+                const withdrawStakeTx = await contract.withdrawStake(account, id);
+                await withdrawStakeTx.wait();
+                closeModal();
+            } catch {}
+        },
+        [account]
     );
 
     return (

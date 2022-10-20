@@ -5,10 +5,13 @@ import { Web3Context } from '../App';
 
 interface IListRow extends IRanking {
     stakeToRanking: (rank: number, name: string) => void;
+    withdrawStake: (id: number) => void;
+    isStaker?: boolean;
     liquidity: string | number;
 }
 
 export default function ListRow({
+    id,
     rank,
     name,
     netWorth,
@@ -16,7 +19,9 @@ export default function ListRow({
     imgUrl,
     stakers,
     liquidity,
-    stakeToRanking
+    isStaker,
+    stakeToRanking,
+    withdrawStake
 }: IListRow) {
     const [{ stakes }] = useContext(Web3Context);
 
@@ -33,9 +38,16 @@ export default function ListRow({
             </div>
             <div className={'list__element'}>{country}</div>
             <div className={'list__element'}>
-                <button className={'list__element--stake-button'} onClick={() => stakeToRanking(rank, name)}>
-                    Stake
-                </button>
+                {!isStaker && (
+                    <button className={'list__element--stake-button'} onClick={() => stakeToRanking(rank, name)}>
+                        Stake
+                    </button>
+                )}
+                {isStaker && (
+                    <button className={'list__element--withdraw-button'} onClick={() => withdrawStake(id)}>
+                        Withdraw
+                    </button>
+                )}
             </div>
             <div className={'list__element'}>
                 <span className={'list__element--stakers'}>
