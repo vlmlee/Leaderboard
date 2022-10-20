@@ -1,33 +1,31 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ListRow from './ListRow';
 import '../stylesheets/ListContainer.scss';
 import SearchBar from './SearchBar';
 import PaginationButtons from './PaginationButtons';
-import { DEFAULT_RANKINGS, INITIAL_SELECTED_RANK } from '../helpers/Constants';
+import { INITIAL_SELECTED_RANK } from '../helpers/Constants';
 import { IRanking } from '../typings';
 import Modal from './Modal';
 import { Web3Context } from '../App';
 
 export default function ListContainer() {
-    const [{ stakes }] = useContext(Web3Context);
-    const [rankings, setRankings] = useState<IRanking[]>(DEFAULT_RANKINGS);
+    const [{ contract, stakes, rankings }] = useContext(Web3Context);
+    const [currentRankings, setCurrentRankings] = useState<IRanking[]>(rankings);
     const [currentPage, setCurrentPage] = useState(0);
     const [isModalOpen, setModalState] = useState(false);
-    const [selectedRank, setSelectedRank] = useState<IRanking>({
-        id: 0,
-        name: '',
-        rank: 0,
-        netWorth: '',
-        country: '',
-        imgUrl: '',
-        classes: ''
-    });
+    const [selectedRank, setSelectedRank] = useState<IRanking>(INITIAL_SELECTED_RANK);
 
     const [{ etherPriceUSD }] = useContext(Web3Context);
 
-    const generateList = () => {
+    const fetchNextPage = async () => {};
+
+    useEffect(() => {
+        setCurrentRankings(rankings);
+    }, [rankings]);
+
+    const generateList = (_rankings: IRanking[]) => {
         const arr: any = [];
-        rankings.slice(currentPage * 5, currentPage * 5 + 5).forEach((ranking: IRanking, i: number) => {
+        _rankings.slice(currentPage * 5, currentPage * 5 + 5).forEach((ranking: IRanking, i: number) => {
             arr.push(
                 <ListRow
                     key={`list__element-${i}`}
@@ -45,8 +43,8 @@ export default function ListContainer() {
     };
 
     const filterResults = (searchTerm: string) => {
-        setRankings(state => {
-            return DEFAULT_RANKINGS.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
+        setCurrentRankings(state => {
+            return rankings.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
         });
     };
 
@@ -92,12 +90,17 @@ export default function ListContainer() {
                         <span className={'list__header--element--total-value-locked'}>Total Value Locked</span>
                     </div>
                 </div>
-                {generateList()}
+                {generateList(currentRankings)}
             </div>
             <div className={'App__fee-notice'}>
                 <div>The commission fee for staking is: 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)})</div>
             </div>
-            <PaginationButtons paginate={paginate} currentPage={currentPage} resultsLength={rankings.length} />
+            <PaginationButtons
+                paginate={paginate}
+                currentPage={currentPage}
+                resultsLength={rankings.length}
+                maxLength={100}
+            />
             {isModalOpen && (
                 <Modal closeModal={closeModal}>
                     <div>

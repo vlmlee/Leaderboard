@@ -52,7 +52,7 @@ async function rankingsData() {
         const _name =
             person.firstName.length > 16
                 ? person.firstName[0] + '. ' + person.lastName
-                : person.firstName + person.lastName;
+                : person.firstName + ' ' + person.lastName;
 
         const name = ethers.utils.formatBytes32String(_name);
         const rank = person.position;

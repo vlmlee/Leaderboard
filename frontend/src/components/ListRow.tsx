@@ -19,7 +19,7 @@ export default function ListRow({ rank, name, netWorth, country, imgUrl, stakers
                 <span className={'list__element--name'}>{name}</span>
             </div>
             <div className={'list__element'}>
-                <span className={'list__element--net-worth'}>{netWorth}</span>
+                <span className={'list__element--net-worth'}>{'$' + +netWorth / 1000 + ' B'}</span>
             </div>
             <div className={'list__element'}>{country}</div>
             <div className={'list__element'}>

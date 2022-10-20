@@ -4,11 +4,13 @@ import '../stylesheets/PaginationButtons.scss';
 export default function PaginationButtons({
     paginate,
     currentPage,
-    resultsLength
+    resultsLength,
+    maxLength
 }: {
     paginate: Function;
     currentPage: number;
     resultsLength: number;
+    maxLength: number;
 }) {
     return (
         <div className={'pagination-button'}>
@@ -17,7 +19,7 @@ export default function PaginationButtons({
                     <span>
                         {currentPage * 5 + 1}-
                         {resultsLength > currentPage * 5 + 5 ? currentPage * 5 + 5 : resultsLength > 1 && resultsLength}{' '}
-                        {resultsLength > 5 && <>of {resultsLength}</>}
+                        {resultsLength > 5 && <>of {maxLength || ''}</>}
                     </span>
                 </div>
             ) : null}

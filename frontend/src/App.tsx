@@ -26,7 +26,7 @@ function App() {
 
     const isHomePage = useFindPath() === '/';
 
-    const [{ account, contract, etherPriceUSD }, setContext] = useState<IWeb3Context>({
+    const [{ account, contract, etherPriceUSD, rankings, stakes }, setContext] = useState<IWeb3Context>({
         account: null,
         contract: {},
         etherPriceUSD: 0,
@@ -57,7 +57,7 @@ function App() {
 
         let _ranks: any = [];
 
-        for (let i = 1; i < 20; i++) {
+        for (let i = 1; i < 21; i++) {
             const _rankings = await _contract.getRankingByRank(i);
             _ranks.push(convertToRanking(_rankings));
         }
@@ -180,7 +180,7 @@ function App() {
                 </h1>
                 <h2>by Forbes</h2>
             </div>
-            <Web3Context.Provider value={[{ contract, account, etherPriceUSD }, setContext]}>
+            <Web3Context.Provider value={[{ contract, account, etherPriceUSD, rankings, stakes }, setContext]}>
                 <Outlet />
             </Web3Context.Provider>
             {isModalOpen && (
