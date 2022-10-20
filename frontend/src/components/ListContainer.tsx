@@ -25,8 +25,11 @@ export default function ListContainer() {
     const [isLoading, setIsLoading] = useState(false);
     const [acceptedRisk, setAcceptedRisk] = useState(false);
     const [amountToStake, setAmountToStake] = useState<string>('0');
+    const [isStaking, setIsStaking] = useState(false);
+    const [isWithdrawing, setIsWithdrawing] = useState(false);
     const [errors, setErrors] = useState({
-        userHasAlreadyStaked: false
+        userHasAlreadyStaked: false,
+        errorWithdrawingStake: false
     });
 
     const isBeingFiltered = currentFilterTerm !== '';
@@ -97,9 +100,9 @@ export default function ListContainer() {
                     imgUrl={ranking.imgUrl}
                     liquidity={liquidity}
                     stakers={stakers || '0'}
-                    stakeToRanking={stakeToRanking}
+                    stakeToRanking={openStakeModal}
                     isStaker={isStaker}
-                    withdrawStake={withdrawStake}
+                    withdrawStake={openWithdrawModal}
                 />
             );
         });
@@ -124,52 +127,57 @@ export default function ListContainer() {
         setCurrentPage(page);
     };
 
-    const stakeToRanking = (rank: number, name: string) => {
-        setModalState(true);
-        const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.name === name && _ranking.rank === rank);
-
-        setSelectedRank(_selectedRank ?? INITIAL_SELECTED_RANK);
-    };
-
     const closeModal = () => {
         setModalState(false);
         setAcceptedRisk(false);
-        setErrors(() => {
+        setErrors((prev: any) => {
             return {
+                errorWithdrawingStake: false,
                 userHasAlreadyStaked: false
             };
         });
+        setIsStaking(false);
+        setIsWithdrawing(false);
     };
 
     const acceptRisk = () => {
         setAcceptedRisk(true);
     };
 
+    const openStakeModal = (rank: number, name: string) => {
+        setModalState(true);
+        setIsStaking(true);
+        const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.name === name && _ranking.rank === rank);
+
+        setSelectedRank(_selectedRank ?? INITIAL_SELECTED_RANK);
+    };
+
     const addStake = useCallback(
         async (_selectedRank: IRanking) => {
             try {
-                const addStakeTx = await contract.addStake(
-                    _selectedRank.id,
-                    ethers.utils.formatBytes32String(_selectedRank.name),
-                    {
-                        value: BigNumber.from(ethers.utils.parseEther(amountToStake)).add(
-                            ethers.utils.parseEther('0.0025')
-                        ),
-                        gasLimit: gasLimit,
-                        gasPrice: gasPrice
-                    }
-                );
-                const addStakeTxReceipt = await addStakeTx.wait();
+                if (isStaking) {
+                    const addStakeTx = await contract.addStake(
+                        _selectedRank.id,
+                        ethers.utils.formatBytes32String(_selectedRank.name),
+                        {
+                            value: BigNumber.from(ethers.utils.parseEther(amountToStake)).add(
+                                ethers.utils.parseEther('0.0025')
+                            ),
+                            gasLimit: gasLimit,
+                            gasPrice: gasPrice
+                        }
+                    );
+                    const addStakeTxReceipt = await addStakeTx.wait();
 
-                const stakes = await contract.getUserStakes();
+                    const stakes = await contract.getUserStakes();
 
-                setContext((prev: any) => {
-                    return {
-                        ...prev,
-                        stakes: stakes
-                    };
-                });
-
+                    setContext((prev: any) => {
+                        return {
+                            ...prev,
+                            stakes: stakes
+                        };
+                    });
+                }
                 await closeModal();
             } catch (err) {
                 setErrors(prev => {
@@ -180,18 +188,44 @@ export default function ListContainer() {
                 });
             }
         },
-        [amountToStake]
+        [amountToStake, isStaking]
     );
 
+    const openWithdrawModal = (id: number) => {
+        setModalState(true);
+        setIsWithdrawing(true);
+        const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.id === id);
+
+        setSelectedRank(_selectedRank ?? INITIAL_SELECTED_RANK);
+    };
+
     const withdrawStake = useCallback(
-        async (id: number) => {
+        async (_selectedRank: IRanking) => {
             try {
-                const withdrawStakeTx = await contract.withdrawStake(account, id);
-                await withdrawStakeTx.wait();
+                if (isWithdrawing) {
+                    const withdrawStakeTx = await contract.withdrawStake(account, _selectedRank.id);
+                    await withdrawStakeTx.wait();
+
+                    const stakes = await contract.getUserStakes();
+
+                    setContext((prev: any) => {
+                        return {
+                            ...prev,
+                            stakes: stakes
+                        };
+                    });
+                }
                 closeModal();
-            } catch {}
+            } catch (err) {
+                setErrors((prev: any) => {
+                    return {
+                        ...prev,
+                        errorWithdrawingStake: true
+                    };
+                });
+            }
         },
-        [account]
+        [isWithdrawing]
     );
 
     return (
@@ -236,44 +270,78 @@ export default function ListContainer() {
             {isModalOpen && (
                 <Modal
                     closeModal={closeModal}
-                    onAccept={() => (acceptedRisk ? addStake(selectedRank) : acceptRisk())}
-                    altText={acceptedRisk ? 'stake' : ''}>
-                    <div>
-                        <div className={'modal__title'}>Stake to {selectedRank.name}</div>
-                        <div className={'modal__description'}>
-                            {!acceptedRisk && (
-                                <>
-                                    <div>
-                                        You are attempting to stake to {selectedRank.name}, who is currently ranked #
-                                        {selectedRank.rank}.
-                                    </div>
-                                    <div className={'modal__description__are-you-sure'}>
-                                        Are you sure you want to continue?
-                                    </div>
-                                    <div className={'modal__description__fee-notice'}>
-                                        Notice: There is a 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)})
-                                        commission fee.
-                                    </div>
-                                </>
-                            )}
-                            {acceptedRisk && (
-                                <>
-                                    <div>Select an amount to stake to {selectedRank.name} (in ETH).</div>
-                                    <input
-                                        className={'modal__description__input'}
-                                        type="number"
-                                        onChange={e => setAmountToStake(e.target.value)}
-                                    />
-                                </>
-                            )}
-                            {errors && errors.userHasAlreadyStaked && (
-                                <div className={'modal__error--already-staked'}>
-                                    You've already staked to {selectedRank.name}. Please unstake first or choose a
-                                    different person.
+                    onAccept={() =>
+                        acceptedRisk ? (isStaking ? addStake(selectedRank) : withdrawStake(selectedRank)) : acceptRisk()
+                    }
+                    altText={acceptedRisk ? (isStaking ? 'stake' : 'withdraw') : ''}>
+                    <>
+                        {isStaking && (
+                            <div>
+                                <div className={'modal__title'}>Stake to {selectedRank.name}</div>
+                                <div className={'modal__description'}>
+                                    {!acceptedRisk && (
+                                        <>
+                                            <div>
+                                                You are attempting to stake to {selectedRank.name}, who is currently
+                                                ranked #{selectedRank.rank}.
+                                            </div>
+                                            <div className={'modal__description__are-you-sure'}>
+                                                Are you sure you want to continue?
+                                            </div>
+                                            <div className={'modal__description__fee-notice'}>
+                                                Notice: There is a 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)})
+                                                commission fee.
+                                            </div>
+                                        </>
+                                    )}
+                                    {acceptedRisk && (
+                                        <>
+                                            <div>Select an amount to stake to {selectedRank.name} (in ETH).</div>
+                                            <input
+                                                className={'modal__description__input'}
+                                                type="number"
+                                                onChange={e => setAmountToStake(e.target.value)}
+                                            />
+                                        </>
+                                    )}
+                                    {errors && errors.userHasAlreadyStaked && (
+                                        <div className={'modal__error--already-staked'}>
+                                            You've already staked to {selectedRank.name}. Please unstake first or choose
+                                            a different person.
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-                    </div>
+                            </div>
+                        )}
+                        {isWithdrawing && (
+                            <div>
+                                <div className={'modal__title'}>Withdraw Stake from {selectedRank.name}</div>
+                                <div className={'modal__description'}>
+                                    {!acceptedRisk && (
+                                        <>
+                                            <div>
+                                                You are attempting to withdraw your stake from {selectedRank.name}, who
+                                                is currently ranked #{selectedRank.rank}.
+                                            </div>
+                                            <div className={'modal__description__are-you-sure'}>
+                                                Are you sure you want to continue?
+                                            </div>
+                                        </>
+                                    )}
+                                    {acceptedRisk && (
+                                        <>
+                                            <div>You may withdraw your stake now.</div>
+                                        </>
+                                    )}
+                                    {errors && errors.errorWithdrawingStake && (
+                                        <div className={'modal__error--already-staked'}>
+                                            Something went wrong. Please try again.
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </>
                 </Modal>
             )}
             <footer className={'App__credit'}>

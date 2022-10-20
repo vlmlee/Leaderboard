@@ -192,41 +192,46 @@ function App() {
                 </NavLink>
                 <CountDownTimer endTime={endTime} />
             </header>
-            <div className={'App__title'}>
-                <h1>
-                    <div className={'emoji__container'} role={'img'}>
-                        <div className={'emoji'}>💸</div>
-                        <div className={'emoji'}>🏆</div>
-                        <div className={'emoji'}>💵</div>
-                    </div>{' '}
-                    World's Richest People{' '}
-                    <div className={'emoji__container'} role={'img'}>
-                        <div className={'emoji'}>💵</div>
-                        <div className={'emoji'}>🏆</div>
-                        <div className={'emoji'}>💸</div>
-                    </div>
-                </h1>
-                <h2>by Forbes</h2>
-            </div>
-            <Web3Context.Provider
-                value={[
-                    {
-                        provider,
-                        contract,
-                        account,
-                        etherPriceUSD,
-                        rankings,
-                        stakes,
-                        maxLength,
-                        isFacilitator,
-                        gasPrice,
-                        gasLimit,
-                        maxFeePerGas
-                    },
-                    setContext
-                ]}>
-                <Outlet />
-            </Web3Context.Provider>
+            {account && (
+                <div className={'App__title'}>
+                    <h1>
+                        <div className={'emoji__container'} role={'img'}>
+                            <div className={'emoji'}>💸</div>
+                            <div className={'emoji'}>🏆</div>
+                            <div className={'emoji'}>💵</div>
+                        </div>{' '}
+                        World's Richest People{' '}
+                        <div className={'emoji__container'} role={'img'}>
+                            <div className={'emoji'}>💵</div>
+                            <div className={'emoji'}>🏆</div>
+                            <div className={'emoji'}>💸</div>
+                        </div>
+                    </h1>
+                    <h2>by Forbes</h2>
+                </div>
+            )}
+            {!account && <div className={'shimmer App__connect-message'}>Connect to your wallet to get started</div>}
+            {account && (
+                <Web3Context.Provider
+                    value={[
+                        {
+                            provider,
+                            contract,
+                            account,
+                            etherPriceUSD,
+                            rankings,
+                            stakes,
+                            maxLength,
+                            isFacilitator,
+                            gasPrice,
+                            gasLimit,
+                            maxFeePerGas
+                        },
+                        setContext
+                    ]}>
+                    <Outlet />
+                </Web3Context.Provider>
+            )}
             {isModalOpen && (
                 <Modal closeModal={() => setModalState(false)} onAccept={() => {}}>
                     <div>
