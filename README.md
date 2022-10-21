@@ -21,4 +21,13 @@ You can then run the npm script:
 npm run update-rankings
 ```
 
-To simulate ranking changes to see how players will receive rewards for staking. 
+To simulate ranking changes to see how players will receive rewards for staking.
+
+## Tests
+
+To run the hardhat+waffle+chai unit and integration tests, use:
+
+```shell
+npm test
+```
+
