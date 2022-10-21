@@ -54,9 +54,10 @@
     &__reward-pool {
         font-size: 32px;
 
-        span {
+        &__amount {
             color: #4ade80;
             float: right;
+            text-decoration: underline;
         }
     }
 

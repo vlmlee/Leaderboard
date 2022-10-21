@@ -93,7 +93,8 @@ const Rewards = ({}) => {
         <div className={'rewards info-sections'}>
             <div className={'rewards__content info-sections__content'}>
                 <div className={'rewards__reward-pool'}>
-                    Reward pool: <span>{rewardPool && rewardPool + ' ETH'}</span>
+                    <span className={'rewards__reward-pool__label'}>Reward pool:</span>{' '}
+                    <span className={'rewards__reward-pool__amount'}>{rewardPool && rewardPool + ' ETH'}</span>
                 </div>
                 <div className={'rewards__current-payouts'}>Current payouts:</div>
                 <div className={'rewards__table-header'}>
