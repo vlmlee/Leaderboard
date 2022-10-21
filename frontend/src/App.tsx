@@ -115,6 +115,11 @@ function App() {
     const closeModal = () => {
         setModalState(false);
         setAcceptedRisk(false);
+        setErrors((prev: any) => {
+            return {
+                errorAllocatingStakes: false
+            };
+        });
     };
 
     const acceptRisk = () => {
@@ -135,7 +140,7 @@ function App() {
                     stakes: stakes
                 };
             });
-            
+
             closeModal();
         } catch (err) {
             setErrors(prev => ({
