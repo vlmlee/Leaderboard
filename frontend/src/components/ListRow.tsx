@@ -21,7 +21,8 @@ export default function ListRow({
     liquidity,
     isStaker,
     stakeToRanking,
-    withdrawStake
+    withdrawStake,
+    startingRank
 }: IListRow) {
     const [{ stakes }] = useContext(Web3Context);
 

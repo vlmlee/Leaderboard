@@ -94,6 +94,7 @@ export default function ListContainer() {
                     key={`list__element-${i}`}
                     id={ranking.id}
                     rank={ranking.rank}
+                    startingRank={ranking.startingRank}
                     name={ranking.name}
                     netWorth={ranking.netWorth}
                     country={ranking.country}

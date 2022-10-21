@@ -17,6 +17,7 @@ export default function convertToRanking(_ranking: any): IRanking {
     return {
         id: _ranking.id,
         rank: _ranking.rank,
+        startingRank: _ranking.startingRank,
         name: ethers.utils.parseBytes32String(_ranking.name),
         imgUrl: imgUrl,
         netWorth: dataObj.netWorth,

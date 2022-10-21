@@ -19,7 +19,8 @@ const Card: React.FC<ICard> = ({
     classes,
     stakeToRanking,
     isStaker,
-    withdrawStake
+    withdrawStake,
+    startingRank
 }: ICard) => {
     return (
         <div className={'card__element card__element--' + classes}>

@@ -1,6 +1,7 @@
 export type IRanking = {
     id: number;
     rank: number;
+    startingRank: number;
     name: string;
     netWorth: string;
     country: string;

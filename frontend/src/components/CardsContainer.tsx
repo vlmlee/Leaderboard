@@ -86,6 +86,7 @@ export default function CardsContainer() {
                                     classes={j % 2 === 0 ? 'blue' : 'red'}
                                     isLoading={isLoading}
                                     rank={ranking.rank}
+                                    startingRank={ranking.startingRank}
                                     name={ranking.name}
                                     netWorth={ranking.netWorth}
                                     country={ranking.country}

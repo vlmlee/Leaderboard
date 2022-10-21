@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 import { isEmpty } from 'lodash';
 
 const Rewards = ({}) => {
-    const [{ contract }] = useContext(Web3Context);
+    const [{ contract, stakes, rankings }] = useContext(Web3Context);
     const [rewardPool, setRewardPool] = useState<string>('');
 
     useEffect(() => {
@@ -24,6 +24,11 @@ const Rewards = ({}) => {
             <div className={'rewards__content info-sections__content'}>
                 <div>Current reward pool: {rewardPool && rewardPool + ' ETH'}</div>
                 <div>Current payouts:</div>
+                <div>
+                    <div>Original Stake</div>
+                    <div>Expected Reward</div>
+                    <div>Percentage Gain/Loss</div>
+                </div>
             </div>
         </div>
     );
