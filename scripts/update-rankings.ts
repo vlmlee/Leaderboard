@@ -23,14 +23,12 @@ async function randomlySwapRanks() {
         if (randomRanksArray[i] !== randomRanksArray[i + 1]) {
             const rankingFrom = await instance.getRankingById(randomRanksArray[i]);
             const rankingTo = await instance.getRankingById(randomRanksArray[i + 1]);
-            // console.log(rankingFrom);
-            // console.log(rankingTo);
 
             const updateRankingTx = await instance.swapRank(
-                randomRanksArray[i] - 1,
-                randomRanksArray[i],
-                randomRanksArray[i + 1] - 1,
-                randomRanksArray[i + 1],
+                rankingFrom.id,
+                rankingFrom.rank,
+                rankingTo.id,
+                rankingTo.rank,
                 {
                     gasLimit: 30000000
                 }
