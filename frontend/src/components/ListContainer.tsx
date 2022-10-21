@@ -86,7 +86,7 @@ export default function ListContainer() {
                     return acc;
                 }, 0);
 
-                isStaker = _stakes[0][0].toLowerCase() === account.toLowerCase();
+                isStaker = _stakes.findIndex((_stake: any) => _stake[0].toLowerCase() === account.toLowerCase()) > -1;
             }
 
             arr.push(

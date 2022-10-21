@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './stylesheets/App.scss';
 import { NavLink, Outlet } from 'react-router-dom';
 import { ethers } from 'ethers';
@@ -63,6 +63,10 @@ function App() {
     });
     const [isModalOpen, setModalState] = useState<boolean>(false);
     const [endTime, setEndTime] = useState<Date>(new Date(''));
+    const [acceptedRisk, setAcceptedRisk] = useState(false);
+    const [errors, setErrors] = useState({
+        errorAllocatingStakes: false
+    });
 
     const web3Handler = async () => {
         const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
@@ -108,10 +112,38 @@ function App() {
         }));
     };
 
-    const allocateRewards = () => {
-        setModalState(true);
-        // do stuff
+    const closeModal = () => {
+        setModalState(false);
+        setAcceptedRisk(false);
     };
+
+    const acceptRisk = () => {
+        setModalState(true);
+        setAcceptedRisk(true);
+    };
+
+    const allocateRewards = useCallback(async () => {
+        try {
+            const allocateRewardsTx = await contract.allocateRewards();
+            const allocateRewardsTxReceipt = await allocateRewardsTx.wait();
+
+            const stakes = await contract.getUserStakes();
+
+            setContext((prev: any) => {
+                return {
+                    ...prev,
+                    stakes: stakes
+                };
+            });
+            
+            closeModal();
+        } catch (err) {
+            setErrors(prev => ({
+                ...prev,
+                errorAllocatingStakes: true
+            }));
+        }
+    }, [contract]);
 
     useEffect(() => {
         fetch('https://api.coinbase.com/v2/exchange-rates?currency=ETH', { mode: 'cors', method: 'GET' })
@@ -143,7 +175,7 @@ function App() {
                             {account?.slice(account.length - 4)}
                         </a>
                         {isFacilitator && (
-                            <button className="App__header__allocate-rewards" onClick={allocateRewards}>
+                            <button className="App__header__allocate-rewards" onClick={() => setModalState(true)}>
                                 Allocate Rewards
                             </button>
                         )}
@@ -233,16 +265,35 @@ function App() {
                 </Web3Context.Provider>
             )}
             {isModalOpen && (
-                <Modal closeModal={() => setModalState(false)} onAccept={() => {}}>
+                <Modal
+                    closeModal={() => setModalState(false)}
+                    onAccept={() => {
+                        acceptedRisk ? allocateRewards() : acceptRisk();
+                    }}
+                    altText={acceptedRisk ? 'allocate' : 'yes'}>
                     <div>
                         <div className={'modal__title'}>Ending Contract</div>
-                        <div className={'modal__description'}>
-                            <div>
-                                You are about to end this leaderboard. Terminating this contract will allocate all
-                                rewards to stakers and cause it to self-destruct.
+                        {!acceptedRisk && (
+                            <div className={'modal__description'}>
+                                <div>
+                                    You are about to end this leaderboard. Terminating this contract will allocate all
+                                    rewards to stakers and cause it to self-destruct.
+                                </div>
+                                <div className={'modal__description__are-you-sure'}>
+                                    Are you sure you want to continue?
+                                </div>
                             </div>
-                            <div className={'modal__description__are-you-sure'}>Are you sure you want to continue?</div>
-                        </div>
+                        )}
+                        {acceptedRisk && (
+                            <div className={'modal__description'}>
+                                <div>You may allocate rewards now.</div>
+                            </div>
+                        )}
+                        {errors && errors.errorAllocatingStakes && (
+                            <div className={'modal__error--already-staked'}>
+                                Something went wrong. Please try again.
+                            </div>
+                        )}
                     </div>
                 </Modal>
             )}

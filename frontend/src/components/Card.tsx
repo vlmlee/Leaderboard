@@ -4,6 +4,8 @@ import { IRanking } from '../typings';
 
 interface ICard extends IRanking {
     stakeToRanking: (rank: number, name: string) => void;
+    isStaker: boolean;
+    withdrawStake: (id: number) => void;
 }
 
 const Card: React.FC<ICard> = ({
@@ -15,7 +17,9 @@ const Card: React.FC<ICard> = ({
     imgUrl,
     isLoading,
     classes,
-    stakeToRanking
+    stakeToRanking,
+    isStaker,
+    withdrawStake
 }: ICard) => {
     return (
         <div className={'card__element card__element--' + classes}>
@@ -39,9 +43,16 @@ const Card: React.FC<ICard> = ({
                     </div>
                 </div>
             )}
-            <div className={'card__element__stake-button'}>
-                <button onClick={() => stakeToRanking(rank, name)}>Stake</button>
-            </div>
+            {!isStaker && (
+                <div className={'card__element__stake-button'}>
+                    <button onClick={() => stakeToRanking(rank, name)}>Stake</button>
+                </div>
+            )}
+            {isStaker && (
+                <div className={'card__element__withdraw-button'}>
+                    <button onClick={() => withdrawStake(id)}>Withdraw</button>
+                </div>
+            )}
         </div>
     );
 };

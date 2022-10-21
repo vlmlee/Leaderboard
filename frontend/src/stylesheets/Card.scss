@@ -26,7 +26,8 @@
         font-weight: 500;
     }
 
-    &__stake-button {
+    &__stake-button,
+    &__withdraw-button {
         position: absolute;
         display: inline-block;
         bottom: -60px;
@@ -48,6 +49,12 @@
                 transform: translateY(3px);
                 outline: inherit;
             }
+        }
+    }
+
+    &__withdraw-button {
+        button {
+            box-shadow: 0px 4px 0px -2px #fd1d1d;
         }
     }
 

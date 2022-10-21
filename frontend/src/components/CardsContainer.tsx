@@ -12,7 +12,7 @@ import convertToRanking from '../helpers/convertToRanking';
 import { BigNumber, ethers } from 'ethers';
 
 export default function CardsContainer() {
-    const [{ rankings, contract, etherPriceUSD, maxLength, gasPrice, gasLimit }, setContext] =
+    const [{ account, rankings, contract, etherPriceUSD, maxLength, gasPrice, gasLimit, stakes }, setContext] =
         useContext<any>(Web3Context);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isModalOpen, setModalState] = useState(false);
@@ -32,6 +32,8 @@ export default function CardsContainer() {
     const [errors, setErrors] = useState({
         userHasAlreadyStaked: false
     });
+    const [isStaking, setIsStaking] = useState(false);
+    const [isWithdrawing, setIsWithdrawing] = useState(false);
 
     const isBeingFiltered = currentFilterTerm !== '';
 
@@ -43,9 +45,18 @@ export default function CardsContainer() {
         return boxes;
     };
 
-    const stakeToRanking = (rank: number, name: string) => {
+    const openStakeModal = (rank: number, name: string) => {
+        setIsStaking(true);
         setModalState(true);
         const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.name === name && _ranking.rank === rank);
+
+        setSelectedRank(_selectedRank ?? INITIAL_SELECTED_RANK);
+    };
+
+    const openWithdrawModal = (id: number) => {
+        setIsStaking(true);
+        setModalState(true);
+        const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.id === id);
 
         setSelectedRank(_selectedRank ?? INITIAL_SELECTED_RANK);
     };
@@ -57,20 +68,33 @@ export default function CardsContainer() {
             arr.push(
                 <div key={`card__container__group-${i}`} className={'card__container__group'}>
                     <>
-                        {group.map((ranking: IRanking, j: number) => (
-                            <Card
-                                key={`card-${j}`}
-                                id={ranking.id}
-                                classes={j % 2 === 0 ? 'blue' : 'red'}
-                                isLoading={isLoading}
-                                rank={ranking.rank}
-                                name={ranking.name}
-                                netWorth={ranking.netWorth}
-                                country={ranking.country}
-                                imgUrl={ranking.imgUrl}
-                                stakeToRanking={stakeToRanking}
-                            />
-                        ))}
+                        {group.map((ranking: IRanking, j: number) => {
+                            const _stakes = stakes.filter((s: any) => s[1] === ranking.id);
+                            let isStaker = false;
+                            if (_stakes.length) {
+                                isStaker =
+                                    _stakes.findIndex(
+                                        (_stake: any) => _stake[0].toLowerCase() === account.toLowerCase()
+                                    ) > -1;
+                            }
+
+                            return (
+                                <Card
+                                    key={`card-${j}`}
+                                    id={ranking.id}
+                                    classes={j % 2 === 0 ? 'blue' : 'red'}
+                                    isLoading={isLoading}
+                                    rank={ranking.rank}
+                                    name={ranking.name}
+                                    netWorth={ranking.netWorth}
+                                    country={ranking.country}
+                                    imgUrl={ranking.imgUrl}
+                                    isStaker={isStaker}
+                                    stakeToRanking={openStakeModal}
+                                    withdrawStake={openWithdrawModal}
+                                />
+                            );
+                        })}
                         {group.length < 4 ? generateBoxes(4 - group.length) : null}
                     </>
                 </div>
@@ -92,6 +116,9 @@ export default function CardsContainer() {
     const closeModal = () => {
         setModalState(false);
         setAcceptedRisk(false);
+        setIsStaking(false);
+        setIsWithdrawing(false);
+        setIsLoading(false);
         setErrors(() => {
             return {
                 userHasAlreadyStaked: false
@@ -138,27 +165,30 @@ export default function CardsContainer() {
     const addStake = useCallback(
         async (_selectedRank: IRanking) => {
             try {
-                const addStakeTx = await contract.addStake(
-                    _selectedRank.id,
-                    ethers.utils.formatBytes32String(_selectedRank.name),
-                    {
-                        value: BigNumber.from(ethers.utils.parseEther(amountToStake)).add(
-                            ethers.utils.parseEther('0.0025')
-                        ),
-                        gasLimit: gasLimit,
-                        gasPrice: gasPrice
-                    }
-                );
-                const addStakeTxReceipt = await addStakeTx.wait();
+                if (isStaking) {
+                    setIsLoading(true);
+                    const addStakeTx = await contract.addStake(
+                        _selectedRank.id,
+                        ethers.utils.formatBytes32String(_selectedRank.name),
+                        {
+                            value: BigNumber.from(ethers.utils.parseEther(amountToStake)).add(
+                                ethers.utils.parseEther('0.0025')
+                            ),
+                            gasLimit: gasLimit,
+                            gasPrice: gasPrice
+                        }
+                    );
+                    const addStakeTxReceipt = await addStakeTx.wait();
 
-                const stakes = await contract.getUserStakes();
+                    const stakes = await contract.getUserStakes();
 
-                setContext((prev: any) => {
-                    return {
-                        ...prev,
-                        stakes: stakes
-                    };
-                });
+                    setContext((prev: any) => {
+                        return {
+                            ...prev,
+                            stakes: stakes
+                        };
+                    });
+                }
 
                 await closeModal();
             } catch (err) {
@@ -170,7 +200,38 @@ export default function CardsContainer() {
                 });
             }
         },
-        [amountToStake]
+        [amountToStake, isStaking]
+    );
+
+    const withdrawStake = useCallback(
+        async (_selectedRank: IRanking) => {
+            try {
+                if (isWithdrawing) {
+                    setIsLoading(true);
+
+                    const withdrawStakeTx = await contract.withdrawStake(account, _selectedRank.id);
+                    await withdrawStakeTx.wait();
+
+                    const stakes = await contract.getUserStakes();
+
+                    setContext((prev: any) => {
+                        return {
+                            ...prev,
+                            stakes: stakes
+                        };
+                    });
+                }
+                closeModal();
+            } catch (err) {
+                setErrors((prev: any) => {
+                    return {
+                        ...prev,
+                        errorWithdrawingStake: true
+                    };
+                });
+            }
+        },
+        [isWithdrawing]
     );
 
     const acceptRisk = () => {
@@ -199,7 +260,9 @@ export default function CardsContainer() {
             {isModalOpen && (
                 <Modal
                     closeModal={closeModal}
-                    onAccept={() => (acceptedRisk ? addStake(selectedRank) : acceptRisk())}
+                    onAccept={() =>
+                        acceptedRisk ? (isStaking ? addStake(selectedRank) : withdrawStake(selectedRank)) : acceptRisk()
+                    }
                     altText={acceptedRisk ? 'stake' : ''}>
                     <div>
                         <div className={'modal__title'}>Stake to {selectedRank.name}</div>
