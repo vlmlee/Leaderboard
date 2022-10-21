@@ -4,7 +4,8 @@ Check it out live [here](https://master.d3g1nzgxr2hsak.amplifyapp.com/).
 
 ## Running Locally
 
-To run locally, in the terminal use the npm scripts at the root of the project:
+Adding rankings into this contract takes a lot of gas and confirmation blocks, so it is not advisable to run this
+contract on a public testnet. To run locally, in the terminal use the npm scripts at the root of the project:
 
 ```shell
 npm run node
