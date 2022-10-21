@@ -43,7 +43,7 @@ async function randomlySwapRanks() {
 }
 
 function generateArrayOfRandomNumbers() {
-    return Array.from({ length: 30 }, () => Math.ceil(Math.random() * 100));
+    return Array.from({ length: 30 }, () => Math.ceil(Math.random() * 98 + 1));
 }
 
 randomlySwapRanks()
