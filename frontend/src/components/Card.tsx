@@ -25,7 +25,10 @@ const Card: React.FC<ICard> = ({
     return (
         <div className={'card__element card__element--' + classes}>
             <div className={'card__element--ready'}>
-                <div className={'card__element__rank'}>No. {rank}</div>
+                <div className={'card__element__rank'}>
+                    {startingRank > rank && <span className={'card__element__rank--increased'}>↑</span>} No. {rank}
+                    {startingRank < rank && <span className={'card__element__rank--decreased'}>↓</span>}
+                </div>
                 <img className="card__element__photo" src={imgUrl} alt={'...'} />
                 <div className={'card__element-info'}>
                     <div className={'card__element-info--name'}>{name}</div>

@@ -24,6 +24,16 @@
         font-family: 'Helvetica Neue';
         font-variant: small-caps;
         font-weight: 500;
+
+        &--increased {
+            color: #84cc16;
+            font-weight: 800;
+        }
+
+        &--decreased {
+            color: #dc2626;
+            font-weight: 800;
+        }
     }
 
     &__stake-button,
