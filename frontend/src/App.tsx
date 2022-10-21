@@ -280,7 +280,7 @@ function App() {
             )}
             {isModalOpen && (
                 <Modal
-                    closeModal={() => setModalState(false)}
+                    closeModal={closeModal}
                     onAccept={() => {
                         acceptedRisk ? allocateRewards() : acceptRisk();
                     }}
