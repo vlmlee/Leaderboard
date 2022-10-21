@@ -274,7 +274,7 @@ function App() {
                     <h2>by Forbes</h2>
                 </div>
             )}
-            {!account && <div className={'shimmer App__connect-message'}>Connect to your wallet to get started</div>}
+            {!account && <div className={'shimmer App__connect-message'}>Connect your wallet to get started</div>}
             {account && (
                 <Web3Context.Provider
                     value={[
