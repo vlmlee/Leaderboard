@@ -115,12 +115,16 @@ function App() {
 
     window.ethereum.on('accountsChanged', ([newAddress]: any) => {
         if (newAddress !== undefined) {
+            const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+
+            const signer = provider.getSigner();
             setContext((prev: any) => {
                 return {
                     ...prev,
                     account: newAddress
                 };
             });
+            loadContract(signer, provider, newAddress);
         } else {
             setContext((prev: any) => {
                 return {
