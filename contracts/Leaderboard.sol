@@ -374,7 +374,7 @@ contract Leaderboard {
         // Then calculate the reward for winners from the initial funding amount.
         allocateInitialFundingReward();
         // Destroy contract (only set in prod)
-        destroyContract();
+        //        destroyContract();
     }
 
     function returnStakesForUnchangedRankings() public virtual
