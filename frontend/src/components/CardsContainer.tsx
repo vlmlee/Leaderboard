@@ -30,7 +30,8 @@ export default function CardsContainer() {
     const [acceptedRisk, setAcceptedRisk] = useState(false);
     const [amountToStake, setAmountToStake] = useState<string>('0');
     const [errors, setErrors] = useState({
-        userHasAlreadyStaked: false
+        userHasAlreadyStaked: false,
+        errorWithdrawingStake: false
     });
     const [isStaking, setIsStaking] = useState(false);
     const [isWithdrawing, setIsWithdrawing] = useState(false);
@@ -54,7 +55,7 @@ export default function CardsContainer() {
     };
 
     const openWithdrawModal = (id: number) => {
-        setIsStaking(true);
+        setIsWithdrawing(true);
         setModalState(true);
         const _selectedRank = rankings.find((_ranking: IRanking) => _ranking.id === id);
 
@@ -121,7 +122,8 @@ export default function CardsContainer() {
         setIsLoading(false);
         setErrors(() => {
             return {
-                userHasAlreadyStaked: false
+                userHasAlreadyStaked: false,
+                errorWithdrawingStake: false
             };
         });
     };
@@ -263,43 +265,77 @@ export default function CardsContainer() {
                     onAccept={() =>
                         acceptedRisk ? (isStaking ? addStake(selectedRank) : withdrawStake(selectedRank)) : acceptRisk()
                     }
-                    altText={acceptedRisk ? 'stake' : ''}>
-                    <div>
-                        <div className={'modal__title'}>Stake to {selectedRank.name}</div>
-                        <div className={'modal__description'}>
-                            {!acceptedRisk && (
-                                <>
-                                    <div>
-                                        You are attempting to stake to {selectedRank.name}, who is currently ranked #
-                                        {selectedRank.rank}.
-                                    </div>
-                                    <div className={'modal__description__are-you-sure'}>
-                                        Are you sure you want to continue?
-                                    </div>
-                                    <div className={'modal__description__fee-notice'}>
-                                        Notice: There is a 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)})
-                                        commission fee.
-                                    </div>
-                                </>
-                            )}
-                            {acceptedRisk && (
-                                <>
-                                    <div>Select an amount to stake to {selectedRank.name} (in ETH).</div>
-                                    <input
-                                        className={'modal__description__input'}
-                                        type="number"
-                                        onChange={e => setAmountToStake(e.target.value)}
-                                    />
-                                </>
-                            )}
-                            {errors && errors.userHasAlreadyStaked && (
-                                <div className={'modal__error--already-staked'}>
-                                    You've already staked to {selectedRank.name}. Please unstake first or choose a
-                                    different person.
+                    altText={acceptedRisk ? (isStaking ? 'stake' : 'withdraw') : ''}>
+                    <>
+                        {isStaking && (
+                            <div>
+                                <div className={'modal__title'}>Stake to {selectedRank.name}</div>
+                                <div className={'modal__description'}>
+                                    {!acceptedRisk && (
+                                        <>
+                                            <div>
+                                                You are attempting to stake to {selectedRank.name}, who is currently
+                                                ranked #{selectedRank.rank}.
+                                            </div>
+                                            <div className={'modal__description__are-you-sure'}>
+                                                Are you sure you want to continue?
+                                            </div>
+                                            <div className={'modal__description__fee-notice'}>
+                                                Notice: There is a 0.0025 ETH (${(+etherPriceUSD * 0.0025).toFixed(2)})
+                                                commission fee.
+                                            </div>
+                                        </>
+                                    )}
+                                    {acceptedRisk && (
+                                        <>
+                                            <div>Select an amount to stake to {selectedRank.name} (in ETH).</div>
+                                            <input
+                                                className={'modal__description__input'}
+                                                type="number"
+                                                onChange={e => setAmountToStake(e.target.value)}
+                                            />
+                                        </>
+                                    )}
+                                    {errors && errors.userHasAlreadyStaked && (
+                                        <div className={'modal__error--already-staked'}>
+                                            You've already staked to {selectedRank.name}. Please unstake first or choose
+                                            a different person.
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-                    </div>
+                            </div>
+                        )}
+                        {isWithdrawing && (
+                            <div>
+                                <div className={'modal__title'}>Withdraw Stake from {selectedRank.name}</div>
+                                <div className={'modal__description'}>
+                                    {!acceptedRisk && (
+                                        <>
+                                            <div>
+                                                You are attempting to withdraw your stake from {selectedRank.name}, who
+                                                is currently ranked #{selectedRank.rank}.
+                                            </div>
+                                            <div className={'modal__description__are-you-sure'}>
+                                                Are you sure you want to continue?
+                                            </div>
+                                        </>
+                                    )}
+                                    {acceptedRisk && (
+                                        <>
+                                            <div>You may withdraw your stake now.</div>
+                                            <br />
+                                            <div>There is no commission fee for withdrawing.</div>
+                                        </>
+                                    )}
+                                    {errors && errors.errorWithdrawingStake && (
+                                        <div className={'modal__error--already-staked'}>
+                                            Something went wrong. Please try again.
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </>
                 </Modal>
             )}
         </div>
