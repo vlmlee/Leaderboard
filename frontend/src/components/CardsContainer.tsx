@@ -41,7 +41,7 @@ export default function CardsContainer() {
     const generateBoxes = (numOfBoxes: number) => {
         const boxes: any = [];
         for (let i = 0; i < numOfBoxes; i++) {
-            boxes.push(<div id={`generated-box-${i}`} className={'box-push-left'}></div>);
+            boxes.push(<div key={`generated-box-${i}`} className={'box-push-left'}></div>);
         }
         return boxes;
     };
