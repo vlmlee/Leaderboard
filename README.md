@@ -4,7 +4,7 @@ Check it out live [here](https://master.d3g1nzgxr2hsak.amplifyapp.com/).
 
 ## Running Locally
 
-To run locally, in the terminal use the npm scripts:
+To run locally, in the terminal use the npm scripts at the root of the project:
 
 ```shell
 npm run node
