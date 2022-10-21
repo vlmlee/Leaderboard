@@ -31,3 +31,4 @@ To run the hardhat+waffle+chai unit and integration tests, use:
 npm test
 ```
 
+This dApp has not been audited. ***Do not use real ETH when interacting with it.***
