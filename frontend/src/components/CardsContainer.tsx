@@ -19,7 +19,7 @@ export default function CardsContainer() {
     const [selectedRank, setSelectedRank] = useState<IRanking>(INITIAL_SELECTED_RANK);
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [{ currentFilterTerm, filteredRankings, filterLength }, setFilters] = useState<{
-        currentFilterTerm: '';
+        currentFilterTerm: string;
         filteredRankings: IRanking[];
         filterLength: number;
     }>({
@@ -63,7 +63,9 @@ export default function CardsContainer() {
     };
 
     const generateCards = () => {
-        const rankingsChunk = chunk(rankings.slice(currentPage * 20, currentPage * 20 + 20), 4);
+        const _rankings = isBeingFiltered ? filteredRankings : rankings;
+
+        const rankingsChunk = chunk(_rankings.slice(currentPage * 20, currentPage * 20 + 20), 4);
         const arr: JSX.Element[] = [];
         rankingsChunk.forEach((group: any, i: number) => {
             arr.push(
@@ -106,13 +108,17 @@ export default function CardsContainer() {
     };
 
     const filterResults = (searchTerm: string) => {
-        // if (searchTerm !== '') {
-        //     setRankings((state: IRanking[]) => {
-        //         return DEFAULT_RANKINGS.filter((ranking: IRanking) => ranking.name.toLowerCase().includes(searchTerm));
-        //     });
-        // } else {
-        //     setRankings((state: IRanking[]) => DEFAULT_RANKINGS);
-        // }
+        const filteredRankings = rankings.filter((ranking: IRanking) => {
+            return ranking.name.toLowerCase().includes(searchTerm);
+        });
+
+        const filterLength = filteredRankings.length;
+        setFilters(() => ({
+            currentFilterTerm: searchTerm,
+            filterLength: filterLength,
+            filteredRankings: filteredRankings
+        }));
+        setCurrentPage(0);
     };
 
     const closeModal = () => {
