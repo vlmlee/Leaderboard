@@ -3,5 +3,11 @@
         > div {
             margin: 0 0 30px;
         }
+
+        .rewards__table-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
     }
 }

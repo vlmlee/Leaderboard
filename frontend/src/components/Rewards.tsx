@@ -19,16 +19,22 @@ const Rewards = ({}) => {
         getRewardPool();
     }, [contract]);
 
+    const generateTableBody = () => {
+        return <div></div>;
+    };
+
     return (
         <div className={'rewards info-sections'}>
             <div className={'rewards__content info-sections__content'}>
                 <div>Current reward pool: {rewardPool && rewardPool + ' ETH'}</div>
                 <div>Current payouts:</div>
-                <div>
+                <div className={'rewards__table-header'}>
+                    <div>Address</div>
                     <div>Original Stake</div>
                     <div>Expected Reward</div>
                     <div>Percentage Gain/Loss</div>
                 </div>
+                <div className={'rewards__table-body'}>{generateTableBody()}</div>
             </div>
         </div>
     );
