@@ -24,7 +24,6 @@ const Card: React.FC<ICard> = ({
 }: ICard) => {
     return (
         <div className={'card__element card__element--' + classes}>
-            (
             <div className={'card__element--ready'}>
                 <div className={'card__element__rank'}>No. {rank}</div>
                 <img className="card__element__photo" src={imgUrl} alt={'...'} />
@@ -38,7 +37,6 @@ const Card: React.FC<ICard> = ({
                     <div className={'card__element-info--country'}>{country}</div>
                 </div>
             </div>
-            )
             {!isStaker && (
                 <div className={'card__element__stake-button'}>
                     <button onClick={() => stakeToRanking(rank, name)}>Stake</button>
