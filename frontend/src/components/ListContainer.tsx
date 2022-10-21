@@ -112,7 +112,7 @@ export default function ListContainer() {
 
     const filterResults = (searchTerm: string) => {
         const filteredRankings = rankings.filter((ranking: IRanking) => {
-            return ranking.name.toLowerCase().includes(currentFilterTerm);
+            return ranking.name.toLowerCase().includes(searchTerm);
         });
 
         const filterLength = filteredRankings.length;
