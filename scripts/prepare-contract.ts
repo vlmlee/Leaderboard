@@ -7,14 +7,7 @@ const forbesListJSON = require('./forbes-2022.json');
 
 require('dotenv').config();
 
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function sleep(fn, ...args) {
-    await timeout(500);
-    return fn(...args);
-}
+const { sleep } = require('./helpers.ts');
 
 async function prepareContract() {
     let provider, wallet;

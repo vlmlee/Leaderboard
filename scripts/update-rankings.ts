@@ -3,6 +3,8 @@ const ethers = require('ethers');
 const WordleAddress = require('../frontend/src/contractsData/Leaderboard-address.json');
 const WordleABI = require('../frontend/src/contractsData/Leaderboard.json');
 
+const { sleep } = require('./helpers.ts');
+
 async function randomlySwapRanks() {
     let provider, wallet;
 
@@ -18,15 +20,39 @@ async function randomlySwapRanks() {
     const randomRanksArray = generateArrayOfRandomNumbers();
 
     for (let i = 0; i < randomRanksArray.length; i = i + 2) {
-        const updateRankingTx = await instance.swapRank(
-            randomRanksArray[i] - 1,
-            randomRanksArray[i],
-            randomRanksArray[i + 1] - 1,
-            randomRanksArray[i + 1]
-        );
+        if (randomRanksArray[i] !== randomRanksArray[i + 1]) {
+            const rankingFrom = await instance.getRankingById(randomRanksArray[i]);
+            const rankingTo = await instance.getRankingById(randomRanksArray[i + 1]);
+            // console.log(rankingFrom);
+            // console.log(rankingTo);
+
+            const updateRankingTx = await instance.swapRank(
+                randomRanksArray[i] - 1,
+                randomRanksArray[i],
+                randomRanksArray[i + 1] - 1,
+                randomRanksArray[i + 1],
+                {
+                    gasLimit: 30000000
+                }
+            );
+            await updateRankingTx.wait();
+            await sleep(() => {
+                console.log('Delay for 0.25 second.');
+            });
+            console.log('Swapping rank ', randomRanksArray[i], ' and rank ', randomRanksArray[i + 1]);
+        }
     }
 }
 
 function generateArrayOfRandomNumbers() {
     return Array.from({ length: 30 }, () => Math.ceil(Math.random() * 100));
 }
+
+randomlySwapRanks()
+    .then(() => {
+        process.exit(0);
+    })
+    .catch(err => {
+        console.log('Error: ', err);
+        process.exit(0);
+    });
