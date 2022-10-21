@@ -1,9 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import '../stylesheets/Rewards.scss';
 import { Web3Context } from '../App';
 import { ethers } from 'ethers';
 import { isEmpty } from 'lodash';
-import { calculateWeightsForPool, convertStakeArrayToMap, getOriginalStakedAmount } from '../helpers/stakesHelpers';
+import {
+    calculatePercentageChanged,
+    convertStakeArrayToMap,
+    getOriginalStakedAmount,
+    getTotalReturnValues
+} from '../helpers/stakesHelpers';
 import convertToRanking from '../helpers/convertToRanking';
 import { IRanking } from '../typings';
 
@@ -18,7 +23,7 @@ const Rewards = ({}) => {
                 const _rewardPool = await contract.rewardPool();
                 setRewardPool(ethers.utils.formatEther(_rewardPool));
                 const _initialFunding = await contract.initialFunding();
-                setInitialFunding(_initialFunding);
+                setInitialFunding(ethers.utils.formatEther(_initialFunding));
             }
         }
 
@@ -43,31 +48,46 @@ const Rewards = ({}) => {
         getAllRankings();
     }, [contract]);
 
-    const generateTableBody = () => {
+    const generateTableBody = useCallback(() => {
         let stakesMap = [];
         let originalStakes: any = {};
+        let totalReturns: any = {
+            totalReturnValues: {}
+        };
 
         if (stakes && stakes.length) {
             stakesMap = convertStakeArrayToMap(stakes);
             originalStakes = getOriginalStakedAmount(stakesMap);
-            const weights = calculateWeightsForPool(rewardPool, rankings, stakes);
+
+            const rankingChangedForId: any = Object.assign(
+                {},
+                ...rankings.map((_ranking: IRanking) => {
+                    return {
+                        [_ranking.id]: _ranking.startingRank - _ranking.rank
+                    };
+                })
+            );
+
+            totalReturns = getTotalReturnValues(rankingChangedForId, stakes, +rewardPool, +initialFunding);
         }
 
         return (
             <div className={'rewards__table-row'}>
-                {Object.keys(originalStakes).map((key: string, index: number) => (
-                    <div className={'rewards__table-element'}>
+                {Object.keys(totalReturns.totalReturnValues).map((key: string, index: number) => (
+                    <div key={`rewards__table-row--${index}`} className={'rewards__table-element'}>
                         <div>
-                            {key.slice(0, 6)}...{key.slice(key.length - 8)}
+                            {key.slice(0, 6)}...{key.slice(key.length - 4)}
                         </div>
-                        <div>{originalStakes[key]}</div>
-                        <div>12</div>
-                        <div>13%</div>
+                        <div>{originalStakes[key]} ETH</div>
+                        <div>{totalReturns.totalReturnValues[key]} ETH</div>
+                        <div>
+                            {calculatePercentageChanged(originalStakes[key], totalReturns.totalReturnValues[key])}%
+                        </div>
                     </div>
                 ))}
             </div>
         );
-    };
+    }, [rewardPool, rankings, stakes, initialFunding]);
 
     return (
         <div className={'rewards info-sections'}>
