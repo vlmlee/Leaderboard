@@ -131,6 +131,15 @@ contract Leaderboard {
         if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
     }
 
+    function getAllRankings() public view returns (Ranking[] memory _rankings) {
+        _rankings = new Ranking[](rankingsSize);
+        for (uint8 i = 0; i < rankingsSize; i++) {
+            _rankings[i] = rankings[i];
+        }
+
+        return _rankings;
+    }
+
     function getStakeRewardsToCalculate() public view OnlyFacilitator returns (Stake[] memory) {
         return stakeRewardsToCalculate;
     }
