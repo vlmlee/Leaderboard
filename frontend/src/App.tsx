@@ -113,6 +113,24 @@ function App() {
         }));
     };
 
+    window.ethereum.on('accountsChanged', ([newAddress]: any) => {
+        if (newAddress !== undefined) {
+            setContext((prev: any) => {
+                return {
+                    ...prev,
+                    account: newAddress
+                };
+            });
+        } else {
+            setContext((prev: any) => {
+                return {
+                    ...prev,
+                    account: ''
+                };
+            });
+        }
+    });
+
     const closeModal = () => {
         setModalState(false);
         setAcceptedRisk(false);
