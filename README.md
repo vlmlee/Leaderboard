@@ -33,4 +33,4 @@ npm test
 
 ## Disclaimer
 
-This dApp has not been audited. **Do not use real ETH when interacting with it.**
+This dApp has not been audited. **Be careful not to use real ETH when interacting with it.**
