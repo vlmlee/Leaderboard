@@ -29,7 +29,11 @@ export default function ListRow({
     return (
         <div className={'list__row'}>
             <div className={'list__element'}>
-                <span className={'list__element--rank'}>{rank}</span>
+                <span className={'list__element--rank'}>
+                    {startingRank > rank && <span className={'list__element--rank--increased'}>↑</span>}
+                    {rank}
+                    {startingRank < rank && <span className={'list__element--rank--decreased'}>↓</span>}
+                </span>
             </div>
             <div className={'list__element'}>
                 <span className={'list__element--name'}>{name}</span>

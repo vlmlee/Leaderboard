@@ -27,6 +27,15 @@
         color: #46484a;
 
         &--rank {
+            &--increased {
+                color: #84cc16;
+                font-weight: 800;
+            }
+
+            &--decreased {
+                color: #dc2626;
+                font-weight: 800;
+            }
         }
 
         &--stake-button {
