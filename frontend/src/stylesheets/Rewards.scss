@@ -3,11 +3,64 @@
         > div {
             margin: 0 0 30px;
         }
+    }
 
-        .rewards__table-header {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+    &__table-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        > div:first-of-type {
+            text-align: left;
         }
+
+        > div {
+            flex-basis: 25%;
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        > div:last-of-type {
+            text-align: right;
+        }
+    }
+
+    &__table-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 15px 0;
+    }
+
+    &__table-element {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        > div:first-of-type {
+            text-align: left;
+        }
+
+        > div {
+            flex-basis: 25%;
+            text-align: center;
+        }
+
+        > div:last-of-type {
+            text-align: right;
+        }
+    }
+
+    &__reward-pool {
+        font-size: 32px;
+
+        span {
+            color: #4ade80;
+            float: right;
+        }
+    }
+
+    &__current-payouts {
+        font-size: 28px;
     }
 }
