@@ -12,6 +12,7 @@ export type IRanking = {
 };
 
 export interface IPageIndices {
+    currentPage: number;
     pages: number;
     setCurrentPage: (page: number) => void;
 }

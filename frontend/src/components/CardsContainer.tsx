@@ -240,13 +240,14 @@ export default function CardsContainer() {
             }
         });
     }, [currentPage]);
-    
+
     return (
         <div className={'card__container'}>
             <div className={'search-bar-container'}>
                 <SearchBar filterResults={filterResults} />
             </div>
             <PageIndices
+                currentPage={currentPage}
                 pages={isBeingFiltered ? Math.ceil(filteredRankings.length / 20) : 5}
                 setCurrentPage={setCurrentPage}
             />
@@ -260,6 +261,13 @@ export default function CardsContainer() {
                 </div>
             )}
             {generateCards()}
+            {!isLoading && (
+                <PageIndices
+                    currentPage={currentPage}
+                    pages={isBeingFiltered ? Math.ceil(filteredRankings.length / 20) : 5}
+                    setCurrentPage={setCurrentPage}
+                />
+            )}
             {isModalOpen && (
                 <Modal
                     closeModal={closeModal}
