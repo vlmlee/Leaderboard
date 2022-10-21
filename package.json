@@ -30,7 +30,8 @@
     "frontend": "cd frontend && npm run start",
     "deploy": "npx hardhat run --network localhost scripts/deploy.ts",
     "deploy-sepolia": "npx hardhat run --network sepolia scripts/deploy.ts",
-    "prepare-contract": "npx hardhat run --network localhost scripts/deploy.ts && node scripts/prepare-contract.ts"
+    "prepare-contract": "npx hardhat run --network localhost scripts/deploy.ts && node scripts/prepare-contract.ts",
+    "update-rankings": "node scripts/update-rankings.ts"
   },
   "repository": {
     "type": "git",
