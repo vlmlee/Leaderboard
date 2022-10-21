@@ -14,6 +14,11 @@ export default function About() {
                 <br />
                 Come see the source code on <a href={'https://github.com/vlmlee/Leaderboard'}>github</a>.
             </div>
+            <footer className={'App__credit'}>
+                <a className={'App__credit-link'} href={'https://www.mlee.app'}>
+                    -created by mlee <span>👀</span>
+                </a>{' '}
+            </footer>
         </div>
     );
 }

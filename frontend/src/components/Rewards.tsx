@@ -36,6 +36,11 @@ const Rewards = ({}) => {
                 </div>
                 <div className={'rewards__table-body'}>{generateTableBody()}</div>
             </div>
+            <footer className={'App__credit'}>
+                <a className={'App__credit-link'} href={'https://www.mlee.app'}>
+                    -created by mlee <span>👀</span>
+                </a>{' '}
+            </footer>
         </div>
     );
 };

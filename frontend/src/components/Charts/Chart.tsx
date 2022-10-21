@@ -25,6 +25,11 @@ export default function Chart() {
     return (
         <div className={'charts info-sections'}>
             <div className={'charts__content info-sections__content'}>TODO</div>
+            <footer className={'App__credit'}>
+                <a className={'App__credit-link'} href={'https://www.mlee.app'}>
+                    -created by mlee <span>👀</span>
+                </a>{' '}
+            </footer>
         </div>
     );
 }
