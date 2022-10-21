@@ -373,6 +373,8 @@ contract Leaderboard {
         allocateStakeRewards();
         // Then calculate the reward for winners from the initial funding amount.
         allocateInitialFundingReward();
+        // Destroy contract (only set in prod)
+        destroyContract();
     }
 
     function returnStakesForUnchangedRankings() public virtual
@@ -507,7 +509,7 @@ contract Leaderboard {
         }
     }
 
-    function destroyContract() external OnlyFacilitator {
+    function destroyContract() public OnlyFacilitator {
         uint8 i = 0;
 
         while (userStakesSize > 0 && i <= rankingsCurrentId) {
