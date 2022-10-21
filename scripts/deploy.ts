@@ -22,7 +22,7 @@ async function main() {
         new Date('12/12/2022').getTime(),
         ethers.utils.parseEther('0.0025'),
         {
-            value: ethers.utils.parseEther('2.0'),
+            value: ethers.utils.parseEther('0.10'),
             gasPrice: 8000000000,
             gasLimit: 10000000
         }
