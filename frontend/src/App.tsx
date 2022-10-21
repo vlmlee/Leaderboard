@@ -65,7 +65,8 @@ function App() {
     const [endTime, setEndTime] = useState<Date>(new Date(''));
     const [acceptedRisk, setAcceptedRisk] = useState(false);
     const [errors, setErrors] = useState({
-        errorAllocatingStakes: false
+        errorAllocatingStakes: false,
+        noStakesAddedYet: false
     });
 
     const web3Handler = async () => {
@@ -117,7 +118,8 @@ function App() {
         setAcceptedRisk(false);
         setErrors((prev: any) => {
             return {
-                errorAllocatingStakes: false
+                errorAllocatingStakes: false,
+                noStakesAddedYet: false
             };
         });
     };
@@ -143,10 +145,17 @@ function App() {
 
             closeModal();
         } catch (err) {
-            setErrors(prev => ({
-                ...prev,
-                errorAllocatingStakes: true
-            }));
+            if (stakes.length === 0) {
+                setErrors(prev => ({
+                    ...prev,
+                    noStakesAddedYet: true
+                }));
+            } else {
+                setErrors(prev => ({
+                    ...prev,
+                    errorAllocatingStakes: true
+                }));
+            }
         }
     }, [contract]);
 
@@ -297,6 +306,11 @@ function App() {
                         {errors && errors.errorAllocatingStakes && (
                             <div className={'modal__error--already-staked'}>
                                 Something went wrong. Please try again.
+                            </div>
+                        )}
+                        {errors && errors.noStakesAddedYet && (
+                            <div className={'modal__error--already-staked'}>
+                                No stakes added yet. Cannot allocate rewards.
                             </div>
                         )}
                     </div>

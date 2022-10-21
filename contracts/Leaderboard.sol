@@ -512,9 +512,11 @@ contract Leaderboard {
     function destroyContract() public OnlyFacilitator {
         uint8 i = 0;
 
-        while (userStakesSize > 0 && i <= rankingsCurrentId) {
-            returnStakes(i);
-            i++;
+        if (userStakesSize > 0) {
+            while (userStakesSize > 0 && i <= rankingsCurrentId) {
+                returnStakes(i);
+                i++;
+            }
         }
 
         emit ContractDestroyed();
