@@ -3,7 +3,7 @@ function timeout(ms) {
 }
 
 async function sleep(fn, ...args) {
-    await timeout(500);
+    await timeout(1000);
     return fn(...args);
 }
 

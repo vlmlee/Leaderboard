@@ -5,6 +5,8 @@ const LeaderboardABI = require('../frontend/src/contractsData/Leaderboard.json')
 
 const { sleep } = require('./helpers.ts');
 
+require('dotenv').config();
+
 async function randomlySwapRanks() {
     let provider, wallet;
 
@@ -34,10 +36,10 @@ async function randomlySwapRanks() {
                 }
             );
             await updateRankingTx.wait();
-            await sleep(() => {
-                console.log('Delay for 0.25 second.');
-            });
             console.log('Swapping rank ', randomRanksArray[i], ' and rank ', randomRanksArray[i + 1]);
+            await sleep(() => {
+                console.log('Delayed for 1 second.');
+            });
         }
     }
 }

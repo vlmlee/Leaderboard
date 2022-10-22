@@ -12,9 +12,9 @@ const { sleep } = require('./helpers.ts');
 async function prepareContract() {
     let provider, wallet;
 
-    // provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
+    // provider = new ethers.providers.JsonRpcProvider('http://138.0.0.1:8545/');
     // // hardhat account #0
-    // wallet = new ethers.Wallet(`0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`, provider);
+    // wallet = new ethers.Wallet(`0xac0984bec39a18e36ba4a6b4d238ff944bacb488cbed5efcae884d8bf4f2ff80`, provider);
 
     provider = new ethers.providers.JsonRpcProvider(`${process.env.INFURA_URL + process.env.INFURA_API_KEY}`);
     wallet = new ethers.Wallet(`${process.env.PRIVATE_KEY}`, provider);
@@ -23,19 +23,20 @@ async function prepareContract() {
 
     const rankings = await rankingsData();
 
-    // for (let i = 1; i < 2; i++) {
-    const addRankingTx = await instance.addRanking(rankings[1].rank, rankings[1].name, rankings[1].data, {
-        gasLimit: 30000000
-    });
-    const addRankingTxReceipt = await addRankingTx.wait();
-    await sleep(() => {
-        console.log('Delay for 0.25 second.');
-    });
-    console.log(
-        `Added ranking ${rankings[1].rank}:${rankings[1].name} with txHash:`,
-        addRankingTxReceipt.transactionHash
-    );
-    // }
+    for (let i = 0; i < rankings.length; i++) {
+        const addRankingTx = await instance.addRanking(rankings[i].rank, rankings[i].name, rankings[i].data, {
+            gasLimit: 30000000
+        });
+        const addRankingTxReceipt = await addRankingTx.wait();
+        console.log(
+            `Added ranking ${rankings[i].rank}:${rankings[i].name} with txHash:`,
+            addRankingTxReceipt.transactionHash
+        );
+        console.log('Waiting for transaction to mine.');
+        await sleep(() => {
+            console.log('Delay for 60 second. Change this if you are running a local node.');
+        });
+    }
 
     console.log('Done.');
 }
