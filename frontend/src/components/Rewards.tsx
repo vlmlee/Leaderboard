@@ -78,8 +78,8 @@ const Rewards = ({}) => {
                         <div>
                             {key.slice(0, 6)}...{key.slice(key.length - 4)}
                         </div>
-                        <div>{originalStakes[key].toFixed(2)} ETH</div>
-                        <div>{totalReturns.totalReturnValues[key].toFixed(2)} ETH</div>
+                        <div>{originalStakes[key].toFixed(3)} ETH</div>
+                        <div>{totalReturns.totalReturnValues[key].toFixed(3)} ETH</div>
                         <div>
                             {calculatePercentageChanged(
                                 originalStakes[key],
