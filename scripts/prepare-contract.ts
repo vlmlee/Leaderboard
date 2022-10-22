@@ -12,12 +12,12 @@ const { sleep } = require('./helpers.ts');
 async function prepareContract() {
     let provider, wallet;
 
-    // provider = new ethers.providers.JsonRpcProvider('http://138.0.0.1:8545/');
-    // // hardhat account #0
-    // wallet = new ethers.Wallet(`0xac0984bec39a18e36ba4a6b4d238ff944bacb488cbed5efcae884d8bf4f2ff80`, provider);
+    provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
+    // hardhat account #0
+    wallet = new ethers.Wallet(`0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`, provider);
 
-    provider = new ethers.providers.JsonRpcProvider(`${process.env.INFURA_URL + process.env.INFURA_API_KEY}`);
-    wallet = new ethers.Wallet(`${process.env.PRIVATE_KEY}`, provider);
+    // provider = new ethers.providers.JsonRpcProvider(`${process.env.INFURA_URL + process.env.INFURA_API_KEY}`);
+    // wallet = new ethers.Wallet(`${process.env.PRIVATE_KEY}`, provider);
 
     const instance = new ethers.Contract(LeaderboardAddress.address, LeaderboardABI.abi, wallet);
 
