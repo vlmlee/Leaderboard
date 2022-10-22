@@ -22,7 +22,8 @@ export const Web3Context = React.createContext<any>({
     provider: {},
     gasPrice: 0,
     gasLimit: 0,
-    maxFeePerGas: 0
+    maxFeePerGas: 0,
+    minimumStake: ethers.utils.formatEther(5000000000)
 });
 
 function App() {
@@ -45,7 +46,8 @@ function App() {
             isFacilitator,
             gasPrice,
             gasLimit,
-            maxFeePerGas
+            maxFeePerGas,
+            minimumStake
         },
         setContext
     ] = useState<IWeb3Context>({
@@ -59,7 +61,8 @@ function App() {
         isFacilitator: false,
         gasPrice: 0,
         gasLimit: 0,
-        maxFeePerGas: 0
+        maxFeePerGas: 0,
+        minimumStake: ethers.utils.formatEther(5000000000)
     });
     const [isModalOpen, setModalState] = useState<boolean>(false);
     const [endTime, setEndTime] = useState<Date>(new Date(''));
@@ -97,6 +100,7 @@ function App() {
 
         const _stakes = await _contract.getUserStakes();
         const facilitator = await _contract.facilitator();
+        const minimumStake = await _contract.MINIMUM_STAKE();
 
         const feeData = await _provider.getFeeData();
 
@@ -109,7 +113,8 @@ function App() {
             contract: _contract,
             rankings: _ranks,
             stakes: _stakes,
-            isFacilitator: facilitator.toLowerCase() === account.toLowerCase()
+            isFacilitator: facilitator.toLowerCase() === account.toLowerCase(),
+            minimumStake: ethers.utils.formatEther(minimumStake)
         }));
     };
 
@@ -293,7 +298,8 @@ function App() {
                             isFacilitator,
                             gasPrice,
                             gasLimit,
-                            maxFeePerGas
+                            maxFeePerGas,
+                            minimumStake
                         },
                         setContext
                     ]}>

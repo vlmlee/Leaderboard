@@ -12,8 +12,10 @@ import convertToRanking from '../helpers/convertToRanking';
 import { BigNumber, ethers } from 'ethers';
 
 export default function CardsContainer() {
-    const [{ account, rankings, contract, etherPriceUSD, maxLength, gasPrice, gasLimit, stakes }, setContext] =
-        useContext<any>(Web3Context);
+    const [
+        { account, rankings, contract, etherPriceUSD, maxLength, gasPrice, gasLimit, stakes, minimumStake },
+        setContext
+    ] = useContext<any>(Web3Context);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isModalOpen, setModalState] = useState(false);
     const [selectedRank, setSelectedRank] = useState<IRanking>(INITIAL_SELECTED_RANK);
@@ -290,7 +292,8 @@ export default function CardsContainer() {
                                         <>
                                             <div>
                                                 You are attempting to stake to {selectedRank.name}, who is currently
-                                                ranked #{selectedRank.rank}.
+                                                ranked #{selectedRank.rank}. The minimum amount you can stake is{' '}
+                                                {minimumStake} ETH.
                                             </div>
                                             <div className={'modal__description__are-you-sure'}>
                                                 Are you sure you want to continue?
@@ -327,7 +330,8 @@ export default function CardsContainer() {
                                         <>
                                             <div>
                                                 You are attempting to withdraw your stake from {selectedRank.name}, who
-                                                is currently ranked #{selectedRank.rank}.
+                                                is currently ranked #{selectedRank.rank}. The minimum amount you can
+                                                stake is {minimumStake}ETH.
                                             </div>
                                             <div className={'modal__description__are-you-sure'}>
                                                 Are you sure you want to continue?

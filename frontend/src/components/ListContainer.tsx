@@ -12,8 +12,10 @@ import { isEmpty } from 'lodash';
 import { BigNumber, ethers } from 'ethers';
 
 export default function ListContainer() {
-    const [{ account, contract, stakes, rankings, maxLength, etherPriceUSD, gasLimit, gasPrice }, setContext] =
-        useContext<any>(Web3Context);
+    const [
+        { account, contract, stakes, rankings, maxLength, etherPriceUSD, gasLimit, gasPrice, minimumStake },
+        setContext
+    ] = useContext<any>(Web3Context);
     const [{ currentFilterTerm, filteredRankings, filterLength }, setFilter] = useState<IListFilter>({
         currentFilterTerm: '',
         filterLength: 0,
@@ -284,7 +286,8 @@ export default function ListContainer() {
                                         <>
                                             <div>
                                                 You are attempting to stake to {selectedRank.name}, who is currently
-                                                ranked #{selectedRank.rank}.
+                                                ranked #{selectedRank.rank}. The minimum amount you can stake is{' '}
+                                                {minimumStake} ETH.
                                             </div>
                                             <div className={'modal__description__are-you-sure'}>
                                                 Are you sure you want to continue?

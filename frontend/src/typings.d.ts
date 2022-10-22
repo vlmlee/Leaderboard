@@ -37,6 +37,7 @@ export interface IWeb3Context {
     gasPrice: number;
     gasLimit: number;
     maxFeePerGas: number;
+    minimumStake: number | string;
 }
 
 export interface IListFilter {
