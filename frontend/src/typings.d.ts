@@ -1,3 +1,11 @@
+import { MetaMaskInpageProvider } from '@metamask/providers';
+
+declare global {
+    interface Window {
+        ethereum: MetaMaskInpageProvider;
+    }
+}
+
 export type IRanking = {
     id: number;
     rank: number;
@@ -42,4 +50,11 @@ export interface IStake {
     name?: string;
     address?: string;
     liquidity?: number;
+}
+
+interface Window {
+    // pick one
+    ethereum: EthereumProvider;
+    // ethereum: ExternalProvider
+    // ethereum: AbstractProvider
 }
