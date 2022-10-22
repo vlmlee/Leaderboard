@@ -16,13 +16,11 @@ npm run frontend
 This will populate the smart contract with some rankings and start the React app that lets you interact with the
 deployed contract. You will need Metamask or another wallet provider to use the app.
 
-You can then run the npm script:
+You can then run the npm script below to simulate ranking changes to see how players will receive rewards.
 
 ```shell
 npm run update-rankings
 ```
-
-To simulate ranking changes to see how players will receive rewards for staking.
 
 ## Tests
 
