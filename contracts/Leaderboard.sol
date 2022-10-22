@@ -361,11 +361,11 @@ contract Leaderboard {
      * eth into the reward pool where it will be reallocated to the rank gained players.
      *
      * The incentive to stake is the initial balance funded by the contract creator which will
-     * only be reallocated to players who have staked onto rank gainers. Users who have staked
+     * only be reallocated to players who have staked onto rank gainers. Stakes that are staked
      * onto rank losers will not partake in this reward.
      *
      * The contract creator/facilitator will gain a commission for every stake. Hence, the break
-     * even for the contract will be if: userStakesSize * commissionFee > initialFunding.
+     * even for the contract will be if: userStakesSize * commissionFee > initialFunding + gas fees.
      */
     function allocateRewards() public virtual
     OnlyFacilitator
