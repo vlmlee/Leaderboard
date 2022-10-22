@@ -107,7 +107,7 @@ function App() {
         setContext(prev => ({
             ...prev,
             gasPrice: +ethers.utils.formatUnits(feeData.gasPrice, 'wei'),
-            gasLimit: 1500000,
+            gasLimit: 200000,
             maxFeePerGas: +ethers.utils.formatUnits(feeData.maxFeePerGas, 'wei'),
             provider: _provider,
             contract: _contract,
