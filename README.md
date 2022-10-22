@@ -1,6 +1,6 @@
 # DeLeaderboard
 
-Check it out live [here](https://master.d3g1nzgxr2hsak.amplifyapp.com/).
+Check it out live [here](https://master.d3g1nzgxr2hsak.amplifyapp.com/) on the Sepolia testnet.
 
 ## Running Locally
 
