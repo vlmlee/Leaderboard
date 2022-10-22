@@ -29,6 +29,7 @@ export default function ListContainer() {
     const [amountToStake, setAmountToStake] = useState<string>('0');
     const [isStaking, setIsStaking] = useState(false);
     const [isWithdrawing, setIsWithdrawing] = useState(false);
+    const [isMining, setIsMining] = useState<boolean>(false);
     const [errors, setErrors] = useState({
         userHasAlreadyStaked: false,
         errorWithdrawingStake: false
@@ -141,6 +142,7 @@ export default function ListContainer() {
         });
         setIsStaking(false);
         setIsWithdrawing(false);
+        setIsMining(false);
     };
 
     const acceptRisk = () => {
@@ -170,6 +172,7 @@ export default function ListContainer() {
                             gasPrice: gasPrice
                         }
                     );
+                    setIsMining(true);
                     await addStakeTx.wait();
 
                     const stakes = await contract.getUserStakes();
@@ -207,6 +210,7 @@ export default function ListContainer() {
             try {
                 if (isWithdrawing) {
                     const withdrawStakeTx = await contract.withdrawStake(account, _selectedRank.id);
+                    setIsMining(true);
                     await withdrawStakeTx.wait();
 
                     const stakes = await contract.getUserStakes();
@@ -300,12 +304,26 @@ export default function ListContainer() {
                                     )}
                                     {acceptedRisk && (
                                         <>
-                                            <div>Select an amount to stake to {selectedRank.name} (in ETH).</div>
-                                            <input
-                                                className={'modal__description__input'}
-                                                type="number"
-                                                onChange={e => setAmountToStake(e.target.value)}
-                                            />
+                                            {!isMining && (
+                                                <>
+                                                    <div>
+                                                        Select an amount to stake to {selectedRank.name} (in ETH).
+                                                    </div>
+                                                    <input
+                                                        className={'modal__description__input'}
+                                                        type="number"
+                                                        onChange={e => setAmountToStake(e.target.value)}
+                                                    />
+                                                </>
+                                            )}
+                                            {isMining && (
+                                                <>
+                                                    <div>
+                                                        Transaction is now mining. You can look around while it
+                                                        completes and the app will update accordingly.
+                                                    </div>
+                                                </>
+                                            )}
                                         </>
                                     )}
                                     {errors && errors.userHasAlreadyStaked && (
@@ -333,9 +351,21 @@ export default function ListContainer() {
                                     )}
                                     {acceptedRisk && (
                                         <>
-                                            <div>You may withdraw your stake now.</div>
-                                            <br />
-                                            <div>There is no commission fee for withdrawing.</div>
+                                            {!isMining && (
+                                                <>
+                                                    <div>You may withdraw your stake now.</div>
+                                                    <br />
+                                                    <div>There is no commission fee for withdrawing.</div>
+                                                </>
+                                            )}
+                                            {isMining && (
+                                                <>
+                                                    <div>
+                                                        Transaction is now mining. You can look around while it
+                                                        completes and the app will update accordingly.
+                                                    </div>
+                                                </>
+                                            )}
                                         </>
                                     )}
                                     {errors && errors.errorWithdrawingStake && (
