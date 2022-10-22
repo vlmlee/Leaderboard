@@ -171,7 +171,7 @@ function getTotalReturnValues(rankingChangedForId: any, stakes: any, rewardPool:
             );
 
             return {
-                [addr]: rewardAmounts + returnValuesForReward.refunds[addr]
+                [addr]: rewardAmounts + (returnValuesForReward.refunds[addr] ?? 0)
             };
         })
     );
