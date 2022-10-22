@@ -203,7 +203,7 @@ function App() {
                     <>
                         <a
                             className="App__header__connect-wallet"
-                            href={`https://etherscan.io/address/${account}`}
+                            href={`https://sepolia.etherscan.io/address/${account}`}
                             target="_blank"
                             rel="noopener noreferrer">
                             <span className={'App__header__connect-wallet__emoji'}>🔗</span>Address:{' '}
