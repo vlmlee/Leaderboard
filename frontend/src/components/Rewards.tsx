@@ -12,7 +12,7 @@ import {
 import convertToRanking from '../helpers/convertToRanking';
 import { IRanking } from '../typings';
 
-const Rewards = ({}) => {
+const Rewards = () => {
     const [{ contract, stakes, rankings, maxLength }, setContext] = useContext(Web3Context);
     const [rewardPool, setRewardPool] = useState<string>('');
     const [initialFunding, setInitialFunding] = useState<string>('');
@@ -46,7 +46,7 @@ const Rewards = ({}) => {
         }
 
         getAllRankings();
-    }, [contract]);
+    }, [contract, maxLength, rankings.length, setContext]);
 
     const generateTableBody = useCallback(() => {
         let stakesMap = [];
@@ -111,7 +111,10 @@ const Rewards = ({}) => {
             </div>
             <footer className={'App__credit'}>
                 <a className={'App__credit-link'} href={'https://www.mlee.app'}>
-                    -created by mlee <span>👀</span>
+                    -created by mlee{' '}
+                    <span role={'img'} aria-label={'eyes'}>
+                        👀
+                    </span>
                 </a>{' '}
             </footer>
         </div>

@@ -20,7 +20,7 @@ export default function CardsContainer() {
     const [isModalOpen, setModalState] = useState(false);
     const [selectedRank, setSelectedRank] = useState<IRanking>(INITIAL_SELECTED_RANK);
     const [currentPage, setCurrentPage] = useState<number>(0);
-    const [{ currentFilterTerm, filteredRankings, filterLength }, setFilters] = useState<{
+    const [{ currentFilterTerm, filteredRankings }, setFilters] = useState<{
         currentFilterTerm: string;
         filteredRankings: IRanking[];
         filterLength: number;
@@ -153,7 +153,7 @@ export default function CardsContainer() {
                             gasPrice: gasPrice
                         }
                     );
-                    const addStakeTxReceipt = await addStakeTx.wait();
+                    await addStakeTx.wait();
 
                     const stakes = await contract.getUserStakes();
 
@@ -175,7 +175,7 @@ export default function CardsContainer() {
                 });
             }
         },
-        [amountToStake, isStaking]
+        [amountToStake, isStaking, contract, errors, gasLimit, gasPrice, setContext]
     );
 
     const withdrawStake = useCallback(
@@ -206,7 +206,7 @@ export default function CardsContainer() {
                 });
             }
         },
-        [isWithdrawing]
+        [isWithdrawing, account, contract, setContext]
     );
 
     const acceptRisk = () => {
@@ -247,7 +247,7 @@ export default function CardsContainer() {
                 setIsLoading(false);
             }
         });
-    }, [currentPage]);
+    }, [currentPage, contract, currentFilterTerm, maxLength, rankings, setContext]);
 
     return (
         <div className={'card__container'}>

@@ -16,7 +16,10 @@ export default function About() {
             </div>
             <footer className={'App__credit'}>
                 <a className={'App__credit-link'} href={'https://www.mlee.app'}>
-                    -created by mlee <span>👀</span>
+                    -created by mlee{' '}
+                    <span role={'img'} aria-label={'eyes'}>
+                        👀
+                    </span>
                 </a>{' '}
             </footer>
         </div>

@@ -70,7 +70,7 @@ export default function ListContainer() {
                 setIsLoading(false);
             }
         });
-    }, [currentPage]);
+    }, [currentPage, contract, currentFilterTerm, maxLength, rankings, setContext]);
 
     const generateList = () => {
         const arr: any = [];
@@ -170,7 +170,7 @@ export default function ListContainer() {
                             gasPrice: gasPrice
                         }
                     );
-                    const addStakeTxReceipt = await addStakeTx.wait();
+                    await addStakeTx.wait();
 
                     const stakes = await contract.getUserStakes();
 
@@ -191,7 +191,7 @@ export default function ListContainer() {
                 });
             }
         },
-        [amountToStake, isStaking]
+        [amountToStake, isStaking, contract, errors, gasLimit, gasPrice, setContext]
     );
 
     const openWithdrawModal = (id: number) => {
@@ -228,7 +228,7 @@ export default function ListContainer() {
                 });
             }
         },
-        [isWithdrawing]
+        [isWithdrawing, account, contract, setContext]
     );
 
     return (
@@ -351,7 +351,10 @@ export default function ListContainer() {
             )}
             <footer className={'App__credit'}>
                 <a className={'App__credit-link'} href={'https://www.mlee.app'}>
-                    -created by mlee <span>👀</span>
+                    -created by mlee{' '}
+                    <span role={'img'} aria-label={'eyes'}>
+                        👀
+                    </span>
                 </a>{' '}
             </footer>
         </div>

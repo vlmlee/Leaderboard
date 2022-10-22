@@ -159,7 +159,7 @@ function App() {
     const allocateRewards = useCallback(async () => {
         try {
             const allocateRewardsTx = await contract.allocateRewards();
-            const allocateRewardsTxReceipt = await allocateRewardsTx.wait();
+            await allocateRewardsTx.wait();
 
             const stakes = await contract.getUserStakes();
 
@@ -184,7 +184,7 @@ function App() {
                 }));
             }
         }
-    }, [contract]);
+    }, [contract, stakes.length]);
 
     useEffect(() => {
         fetch('https://api.coinbase.com/v2/exchange-rates?currency=ETH', { mode: 'cors', method: 'GET' })
@@ -211,8 +211,10 @@ function App() {
                             href={`https://sepolia.etherscan.io/address/${account}`}
                             target="_blank"
                             rel="noopener noreferrer">
-                            <span className={'App__header__connect-wallet__emoji'}>🔗</span>Address:{' '}
-                            {account?.slice(0, 8)}...
+                            <span className={'App__header__connect-wallet__emoji'} role={'img'} aria-label={'link'}>
+                                🔗
+                            </span>
+                            Address: {account?.slice(0, 8)}...
                             {account?.slice(account.length - 4)}
                         </a>
                         {isFacilitator && (
@@ -269,15 +271,39 @@ function App() {
                 <div className={'App__title'}>
                     <h1>
                         <div className={'emoji__container'} role={'img'}>
-                            <div className={'emoji'}>💸</div>
-                            <div className={'emoji'}>🏆</div>
-                            <div className={'emoji'}>💵</div>
+                            <div className={'emoji'}>
+                                <span role={'img'} aria-label={'dollar-with-wings'}>
+                                    💸
+                                </span>
+                            </div>
+                            <div className={'emoji'}>
+                                <span role={'img'} aria-label={'trophy'}>
+                                    🏆
+                                </span>
+                            </div>
+                            <div className={'emoji'}>
+                                <span role={'img'} aria-label={'cash-stack'}>
+                                    💵
+                                </span>
+                            </div>
                         </div>{' '}
                         World's Richest People{' '}
                         <div className={'emoji__container'} role={'img'}>
-                            <div className={'emoji'}>💵</div>
-                            <div className={'emoji'}>🏆</div>
-                            <div className={'emoji'}>💸</div>
+                            <div className={'emoji'}>
+                                <span role={'img'} aria-label={'cash-stack'}>
+                                    💵
+                                </span>
+                            </div>
+                            <div className={'emoji'}>
+                                <span role={'img'} aria-label={'trophy'}>
+                                    🏆
+                                </span>
+                            </div>
+                            <div className={'emoji'}>
+                                <span role={'img'} aria-label={'dollar-with-wings'}>
+                                    💸
+                                </span>
+                            </div>
                         </div>
                     </h1>
                     <h2>by Forbes</h2>
