@@ -307,8 +307,7 @@ export default function ListContainer() {
                                     )}
                                     {errors && errors.userHasAlreadyStaked && (
                                         <div className={'modal__error--already-staked'}>
-                                            You've already staked to {selectedRank.name}. Please unstake first or choose
-                                            a different person.
+                                            Something went wrong. Please try again.
                                         </div>
                                     )}
                                 </div>
