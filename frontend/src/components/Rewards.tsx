@@ -69,8 +69,6 @@ const Rewards = ({}) => {
             );
 
             totalReturns = getTotalReturnValues(rankingChangedForId, stakes, +rewardPool, +initialFunding);
-
-            console.log(totalReturns);
         }
 
         return (
