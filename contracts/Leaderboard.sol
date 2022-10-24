@@ -112,7 +112,8 @@ contract Leaderboard {
     receive() external payable {}
 
     function getRankingByRank(uint8 _rank) public view GreaterThanOneRank(_rank) returns (Ranking memory ranking) {
-        for (uint8 i = 0; i < rankingsCurrentId; i++) {
+        uint256 _rankingsCurrentId = rankingsCurrentId;
+        for (uint8 i = 0; i < _rankingsCurrentId; i++) {
             if (rankings[i].rank == _rank) {
                 ranking = rankings[i];
             }
@@ -122,7 +123,8 @@ contract Leaderboard {
     }
 
     function getRankingById(uint8 _id) public view returns (Ranking memory ranking) {
-        for (uint8 i = 0; i < rankingsCurrentId; i++) {
+        uint256 _rankingsCurrentId = rankingsCurrentId;
+        for (uint8 i = 0; i < _rankingsCurrentId; i++) {
             if (rankings[i].id == _id) {
                 ranking = rankings[i];
             }
@@ -131,32 +133,33 @@ contract Leaderboard {
         if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
     }
 
-    function getAllRankings() public view returns (Ranking[] memory _rankings) {
+    function getAllRankings() external view returns (Ranking[] memory _rankings) {
         _rankings = new Ranking[](rankingsSize);
-        for (uint8 i = 0; i < rankingsSize; i++) {
+        uint256 _rankingsSize = rankingsSize;
+        for (uint8 i = 0; i < _rankingsSize; i++) {
             _rankings[i] = rankings[i];
         }
 
         return _rankings;
     }
 
-    function getStakeRewardsToCalculate() public view OnlyFacilitator returns (Stake[] memory) {
+    function getStakeRewardsToCalculate() external view OnlyFacilitator returns (Stake[] memory) {
         return stakeRewardsToCalculate;
     }
 
-    function getInitialFundingRewardsToCalculate() public view OnlyFacilitator returns (Stake[] memory) {
+    function getInitialFundingRewardsToCalculate() external view OnlyFacilitator returns (Stake[] memory) {
         return initialFundingRewardsToCalculate;
     }
 
-    function getStakesToReturnDueToUnchangedRankings() public view OnlyFacilitator returns (Stake[] memory stakes) {
+    function getStakesToReturnDueToUnchangedRankings() external view OnlyFacilitator returns (Stake[] memory stakes) {
         return stakesToReturnDueToUnchangedRankings;
     }
 
-    function getUserStakes() public view returns (Stake[] memory stakes) {
+    function getUserStakes() external view returns (Stake[] memory stakes) {
         stakes = new Stake[](userStakesSize);
-        uint256 currentIndex = 0;
-
-        for (uint8 i = 0; i < rankingsCurrentId; i++) {
+        uint256 currentIndex;
+        uint256 _rankingsCurrentId = rankingsCurrentId;
+        for (uint8 i = 0; i < _rankingsCurrentId; i++) {
             for (uint256 j = 0; j < userStakes[i].length; j++) {
                 stakes[currentIndex] = userStakes[i][j];
                 currentIndex++;
@@ -166,7 +169,7 @@ contract Leaderboard {
         return stakes;
     }
 
-    function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) public
+    function addRanking(uint8 _rank, bytes32 _name, bytes calldata _data) external
     OnlyFacilitator
     OnlyBeforeContractHasEnded
     GreaterThanOneRank(_rank)
@@ -174,8 +177,8 @@ contract Leaderboard {
         require(_name != 0, "A name has to be used to be added to the rankings.");
 
         Ranking storage ranking = rankings[rankingsCurrentId];
-
-        for (uint8 i = 0; i < rankingsCurrentId; i++) {
+        uint256 _rankingsCurrentId = rankingsCurrentId;
+        for (uint8 i = 0; i < _rankingsCurrentId; i++) {
             if (rankings[i].rank == _rank) {
                 revert RankingAlreadyExists(_rank);
             }
@@ -193,7 +196,7 @@ contract Leaderboard {
         emit RankingAdded(ranking);
     }
 
-    function removeRanking(uint8 _id, uint8 _rank, bytes32 _name) public
+    function removeRanking(uint8 _id, uint8 _rank, bytes32 _name) external
     OnlyFacilitator
     OnlyBeforeContractHasEnded
     GreaterThanOneRank(_rank)
@@ -214,7 +217,7 @@ contract Leaderboard {
         rankingsSize--;
     }
 
-    function swapRank(uint8 idFrom, uint8 rankFrom, uint8 idTo, uint8 rankTo) public
+    function swapRank(uint8 idFrom, uint8 rankFrom, uint8 idTo, uint8 rankTo) external
     OnlyFacilitator
     GreaterThanOneRank(rankFrom)
     GreaterThanOneRank(rankTo)
@@ -228,8 +231,7 @@ contract Leaderboard {
 
         // Only swap ranks if both queries match existing ranks.
         if (rankingFrom.rank == rankFrom && rankingTo.rank == rankTo) {
-            rankingFrom.rank = rankTo;
-            rankingTo.rank = rankFrom;
+            (rankingFrom.rank, rankingTo.rank) = (rankTo, rankFrom);
 
             emit RankingUpdatedFrom(rankingFrom);
             emit RankingUpdatedTo(rankingTo);
@@ -238,7 +240,7 @@ contract Leaderboard {
         }
     }
 
-    function updateName(uint8 _id, bytes32 _name) public OnlyFacilitator {
+    function updateName(uint8 _id, bytes32 _name) external OnlyFacilitator {
         Ranking storage ranking = rankings[_id];
 
         if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
@@ -250,7 +252,7 @@ contract Leaderboard {
         emit RankingUpdated(ranking);
     }
 
-    function updateData(uint8 _id, bytes calldata _data) public OnlyFacilitator {
+    function updateData(uint8 _id, bytes calldata _data) external OnlyFacilitator {
         Ranking storage ranking = rankings[_id];
 
         if (ranking.rank == 0) revert RankingDoesNotExist(_id, 0, bytes32(0));
@@ -262,7 +264,7 @@ contract Leaderboard {
         emit RankingUpdated(ranking);
     }
 
-    function addStake(uint8 _id, bytes32 _name) public virtual OnlyBeforeContractHasEnded payable {
+    function addStake(uint8 _id, bytes32 _name) external virtual OnlyBeforeContractHasEnded payable {
         if (_id >= rankingsCurrentId) revert RankingDoesNotExist(_id, 0, bytes32(0));
 
         Ranking memory ranking = rankings[_id];
@@ -272,7 +274,8 @@ contract Leaderboard {
 
         Stake[] storage stakes = userStakes[_id];
 
-        for (uint256 i = 0; i < stakes.length; i++) {
+        uint256 _stakesLength = stakes.length;
+        for (uint256 i = 0; i < _stakesLength; i++) {
             if (stakes[i].addr == msg.sender) {
                 revert UserAlreadyStaked("User has already staked for this choice. Withdraw your initial stake first if you want to change your stake.");
             }
@@ -303,7 +306,8 @@ contract Leaderboard {
         Stake memory stake;
         uint256 indexToRemove;
 
-        for (uint256 i = 0; i < stakes.length; i++) {
+        uint256 _stakesLength = stakes.length;
+        for (uint256 i = 0; i < _stakesLength; i++) {
             if (stakes[i].addr == _user) {
                 stake = stakes[i];
                 indexToRemove = i;
@@ -367,7 +371,7 @@ contract Leaderboard {
      * The contract creator/facilitator will gain a commission for every stake. Hence, the break
      * even for the contract will be if: userStakesSize * commissionFee > initialFunding + gas fees.
      */
-    function allocateRewards() public virtual
+    function allocateRewards() external virtual
     OnlyFacilitator
         //        OnlyAfterContractHasEnded
     {
@@ -391,8 +395,8 @@ contract Leaderboard {
         //        OnlyAfterContractHasEnded
     {
         filterStakes(stakesToReturnDueToUnchangedRankings, filterReturnStakes);
-
-        for (uint256 i = 0; i < stakesToReturnDueToUnchangedRankings.length; i++) {
+        uint256 _stakesToReturnDueToUnchangedRankingsLength = stakesToReturnDueToUnchangedRankings.length;
+        for (uint256 i = 0; i < _stakesToReturnDueToUnchangedRankingsLength; i++) {
             withdrawStake(stakesToReturnDueToUnchangedRankings[i].addr, stakesToReturnDueToUnchangedRankings[i].id);
         }
     }
@@ -406,7 +410,8 @@ contract Leaderboard {
 
         // Reward for net change in rankings where the counterparties are the other players. Negative ranking
         // changes deducts from a player's return amount and gets added into the reward pool.
-        for (uint256 i = (stakeRewardsToCalculate.length); i > 0; i--) {
+        uint256 _stakeRewardsToCalculateLength = stakeRewardsToCalculate.length;
+        for (uint256 i = _stakeRewardsToCalculateLength; i > 0; i--) {
             uint256 rankChanged = getRankChangedDeltaCoefficient(stakeRewardsToCalculate[i - 1]);
             uint256 returnedAmount = (normForStakeRewards * calculateWeight(stakeRewardsToCalculate[i - 1])) / PRECISION;
             // Needs to be divided by 1000000000 to cancel out calculateNorm and calculateWeight PRECISION padding.
@@ -448,7 +453,8 @@ contract Leaderboard {
         uint256 normForInitialFundingReward = calculateNorm(initialFundingRewardsToCalculate, initialFunding);
 
         // Reward for a net positive change in rankings where the counterparty is the contract owner/facilitator.
-        for (uint256 i = initialFundingRewardsToCalculate.length; i > 0; i--) {
+        uint256 _initialFundingRewardsToCalculateLength = initialFundingRewardsToCalculate.length;
+        for (uint256 i = _initialFundingRewardsToCalculateLength; i > 0; i--) {
             uint256 returnedAmount = (normForInitialFundingReward * calculateWeight(initialFundingRewardsToCalculate[i - 1])) / PRECISION;
 
             uint256 userStakedAmount = initialFundingRewardsToCalculate[i - 1].liquidity;
@@ -479,7 +485,8 @@ contract Leaderboard {
         uint256 weightsSum;
 
         // Sum up all the coefficients to be able to calculate the amount of wei to return to users
-        for (uint8 i = 0; i < stakesToCalculate.length; i++) {
+        uint256 _stakesToCalculateLength = stakesToCalculate.length;
+        for (uint8 i = 0; i < _stakesToCalculateLength; i++) {
             weightsSum += calculateWeight(stakesToCalculate[i]);
         }
 
@@ -519,7 +526,7 @@ contract Leaderboard {
     }
 
     function destroyContract() public OnlyFacilitator {
-        uint8 i = 0;
+        uint8 i;
 
         if (userStakesSize > 0) {
             while (userStakesSize > 0 && i <= rankingsCurrentId) {
@@ -536,10 +543,11 @@ contract Leaderboard {
     // Internal functions
 
     function filterAllStakes() internal {
-        for (uint8 i = 0; i <= rankingsCurrentId; i++) {
-            Stake[] storage stakes = userStakes[i];
-
-            for (uint8 j = 0; j < stakes.length; j++) {
+        uint256 _rankingsCurrentId = rankingsCurrentId;
+        for (uint8 i = 0; i <= _rankingsCurrentId; i++) {
+            Stake[] memory stakes = userStakes[i];
+            uint256 _stakesLength = stakes.length;
+            for (uint8 j = 0; j < _stakesLength; j++) {
                 Ranking memory _rank = getRankingById(stakes[j].id);
                 filterReturnStakes(_rank, stakes[j]);
                 filterStakeRewards(_rank, stakes[j]);
@@ -550,10 +558,11 @@ contract Leaderboard {
 
     function filterStakes(Stake[] memory arrayToFill, function (Ranking memory, Stake memory) internal condition) internal {
         if (arrayToFill.length == 0) {
-            for (uint8 i = 0; i <= rankingsCurrentId; i++) {
-                Stake[] storage stakes = userStakes[i];
-
-                for (uint8 j = 0; j < stakes.length; j++) {
+            uint256 _rankingsCurrentId = rankingsCurrentId;
+            for (uint8 i = 0; i <= _rankingsCurrentId; i++) {
+                Stake[] memory stakes = userStakes[i];
+                uint256 _stakesLength = stakes.length;
+                for (uint8 j = 0; j < _stakesLength; j++) {
                     Ranking memory _rank = getRankingById(stakes[j].id);
                     condition(_rank, stakes[j]);
                 }
@@ -576,7 +585,8 @@ contract Leaderboard {
     function deleteStakes(Stake memory stakeToRemoveFrom) internal {
         // Delete positive ranking changed stakes from userStakes
         Stake[] storage stakes = userStakes[stakeToRemoveFrom.id];
-        for (uint256 j = 0; j < stakes.length; j++) {
+        uint256 _stakesLength = stakes.length;
+        for (uint256 j = 0; j < _stakesLength; j++) {
             if (stakes[j].addr == stakeToRemoveFrom.addr) {
                 emit UserStakeFulfilled(stakes[j].addr, stakes[j]);
                 delete stakes[j];
@@ -597,11 +607,12 @@ contract Leaderboard {
     }
 
     function returnStakes(uint8 _id) internal OnlyFacilitator {
-        Stake[] storage stakes = userStakes[_id];
+        Stake[] memory stakes = userStakes[_id];
 
         // Returning all stakes for a ranking
-        for (uint256 i = 0; i < stakes.length; i++) {
-            Stake storage stake = stakes[i];
+        uint256 _stakesLength = stakes.length;
+        for (uint256 i = 0; i < _stakesLength; i++) {
+            Stake memory stake = stakes[i];
 
             require(stake.id == _id, "ID does not match.");
 
