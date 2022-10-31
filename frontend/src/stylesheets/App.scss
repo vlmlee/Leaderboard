@@ -1,20 +1,7 @@
-@font-face {
-    font-family: 'Luxora-Grotesk-Regular';
-    src: url('fonts/LuxoraGrotesk-Regular.woff') format('woff');
-}
-
-@font-face {
-    font-family: 'Luxora-Grotesk-Medium';
-    src: url('fonts/LuxoraGrotesk-Medium.woff') format('woff');
-}
-
-@font-face {
-    font-family: 'Luxora-Grotesk-Bold';
-    src: url('fonts/LuxoraGrotesk-Bold.woff') format('woff');
-}
+@import './fonts/fonts.css';
 
 .App {
-    font-family: 'Luxora-Grotesk-Regular', 'SF Pro Display', serif;
+    font-family: 'Luxora Grotesk', 'SF Pro Display', serif;
     color: #333;
     letter-spacing: 1px;
     position: absolute;
@@ -143,7 +130,8 @@
             top: 15px;
             font-size: 32px;
             text-decoration: none;
-            font-family: 'Luxora-Grotesk-Medium', 'Luxora-Grotesk-Regular', 'SF Pro Display', serif;
+            font-weight: 500;
+            font-family: 'Luxora Grotesk', 'Luxora-Grotesk-Regular', 'SF Pro Display', serif;
             color: white;
             text-shadow: 2px 1px 0 #1da1f2, -1px 0 0 #0e71c8, 1px 0 0 #3b5990, 0 1px 0 #e1306c, 1px 1px 0 #0078d7;
             transition: 2s text-shadow ease-in;
