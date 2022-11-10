@@ -73,7 +73,7 @@ function App() {
     });
 
     const web3Handler = async () => {
-        const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
+        const accounts = await (window as any).ethereum?.request({ method: 'eth_requestAccounts' });
         setContext(prev => ({
             ...prev,
             account: accounts[0]
@@ -118,7 +118,7 @@ function App() {
         }));
     };
 
-    (window as any).ethereum.on('accountsChanged', ([newAddress]: any) => {
+    (window as any).ethereum?.on('accountsChanged', ([newAddress]: any) => {
         if (newAddress !== undefined) {
             const provider = new ethers.providers.Web3Provider((window as any).ethereum);
 
