@@ -31,8 +31,9 @@ function App() {
         textDecoration: 'underline',
         fontWeight: 600
     };
-
+   
     const isHomePage = useFindPath() === '/';
+
 
     const [
         {
