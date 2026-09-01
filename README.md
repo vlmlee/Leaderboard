@@ -2,7 +2,7 @@
 
 Check it out live [here](https://master.d3g1nzgxr2hsak.amplifyapp.com/) on the Sepolia testnet.
 
-<img width="3260" height="1866" alt="CleanShot 2026-09-01 at 02 08 30@2x" src="https://github.com/user-attachments/assets/cfc8ba2c-f039-4d69-9cfc-347839000a91" />
+<img width="800" height="458" alt="CleanShot 2026-09-01 at 02 15 07" src="https://github.com/user-attachments/assets/1f635c80-75a2-4c4d-bd77-fcea999dcce3" />
 
 ## Running Locally
 
