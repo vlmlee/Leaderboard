@@ -14,6 +14,7 @@ type ChartTooltipProps = {
 };
 
 const formatBillions = (value: number) => `$${(value / 1000).toFixed(2)} B`;
+const truncateName = (name: string) => name.slice(0, 16);
 
 function ChartTooltip({ focusedDatum }: ChartTooltipProps) {
     if (!focusedDatum) {
@@ -50,6 +51,9 @@ export default function Chart() {
         (): AxisOptions<ChartDatum> => ({
             getValue: datum => datum.name,
             scaleType: 'band',
+            formatters: {
+                scale: truncateName
+            },
             tickLabelRotationDeg: -55,
             minTickPaddingForRotation: 0,
             showGrid: false,
