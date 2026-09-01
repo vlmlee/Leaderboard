@@ -3,7 +3,7 @@ const ethers = require('ethers');
 const LeaderboardAddress = require('../frontend/src/contractsData/Leaderboard-address.json');
 const LeaderboardABI = require('../frontend/src/contractsData/Leaderboard.json');
 const axios = require('axios');
-const forbesListJSON = require('./forbes-2022.json');
+const forbesListJSON = require('./forbes-2026.json');
 
 require('dotenv').config();
 
@@ -42,20 +42,17 @@ async function prepareContract() {
 }
 
 async function rankingsData() {
-    return forbesListJSON.personLists.map(person => {
-        const _name =
-            person.firstName.length > 16
-                ? person.firstName[0] + '. ' + person.lastName
-                : person.firstName + ' ' + person.lastName;
+    return forbesListJSON.map((person: any) => {
+        const _name = person.name;
 
         const name = ethers.utils.formatBytes32String(_name);
-        const rank = person.position;
+        const rank = person.rank;
         const dataObj = {
-            imgUrl: person.squareImage,
+            imgUrl: person.imageSrc,
             netWorth: person.finalWorth,
-            country: person.country
+            country: person.countryOfCitizenship
         };
-        const data = ethers.utils.hexlify(Buffer.from(JSON.stringify(dataObj)));
+        const data = ethers.utils.hexlify(ethers.utils.toUtf8Bytes(JSON.stringify(dataObj)));
 
         return {
             name,
