@@ -19,7 +19,7 @@ async function main() {
     const Leaderboard = await hre.ethers.getContractFactory('Leaderboard');
     const leaderboard = await Leaderboard.deploy(
         ethers.utils.formatBytes32String('Leaderboard'),
-        new Date('12/12/2022').getTime(),
+        new Date('12/12/2028').getTime(),
         ethers.utils.parseEther('0.0025'),
         {
             value: ethers.utils.parseEther('0.10'),
