@@ -39,7 +39,7 @@ export default function ListRow({
                 <span className={'list__element--name'}>{name}</span>
             </div>
             <div className={'list__element'}>
-                <span className={'list__element--net-worth'}>{'$' + +netWorth / 1000 + ' B'}</span>
+                <span className={'list__element--net-worth'}>{'$' + (+netWorth / 1000).toFixed(2) + ' B'}</span>
             </div>
             <div className={'list__element'}>{country}</div>
             <div className={'list__element'}>

@@ -35,7 +35,7 @@ const Card: React.FC<ICard> = ({
                     <div className={'card__element-info--net-worth'}>
                         <span style={{ fontSize: '14px' }}>Net Worth</span>
                         <br />
-                        <span style={{ color: '#52b788' }}>{'$' + +netWorth / 1000 + ' B'}</span>
+                        <span style={{ color: '#52b788' }}>{'$' + (+netWorth / 1000).toFixed(2) + ' B'}</span>
                     </div>
                     <div className={'card__element-info--country'}>{country}</div>
                 </div>
