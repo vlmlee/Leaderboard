@@ -2,6 +2,8 @@
 
 Check it out live [here](https://master.d3g1nzgxr2hsak.amplifyapp.com/) on the Sepolia testnet.
 
+<img width="3260" height="1866" alt="CleanShot 2026-09-01 at 02 08 30@2x" src="https://github.com/user-attachments/assets/cfc8ba2c-f039-4d69-9cfc-347839000a91" />
+
 ## Running Locally
 
 Adding rankings into this contract takes a lot of gas and confirmation blocks, so it is not advisable to run this
